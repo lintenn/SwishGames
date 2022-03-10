@@ -5,6 +5,7 @@
     <head>
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="css/login.css">
+        <script src="./js/Login.js"></script>
     </head>
     
     <div class="login">
@@ -13,9 +14,16 @@
             <input type="text" name="u" placeholder="Username" required="required" />
             <input type="password" name="p" placeholder="Password" required="required" />
             <nav class="botones">
-                <button type="submit" class="btn">Let me in</button>
-                <button type="submit" class="btn">Register</button>
+                <button style="margin-right: 10px" type="submit" class="btn">Login</button>
+                <button style="margin-left: 10px" type="submit" class="btn">Register</button>
             </nav>
+            <br/>
+            <nav class="remember">
+                <input style="margin-right: 5px" type="checkbox" value="lsRememberMe" id="rememberMe">
+                <label for="rememberMe">Remember me</label>
+            </nav>
+            
+            <u>Forgot your password?</u>
         </form>
     </div>
 

@@ -27,6 +27,8 @@ body {
 }
 .login { 
 	position: absolute;
+	color: #fff;
+	font-size: 14px;
 	top: 50%;
 	left: 50%;
 	margin: -150px 0 0 -150px;
@@ -35,6 +37,19 @@ body {
 }
 .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 
+.remember{
+	display: flex;
+}
+
+input[type="checkbox"] {
+	-webkit-appearance: checkbox;
+	   -moz-appearance: checkbox;
+			appearance: checkbox;
+	display: inline-block;
+	width: auto;
+  }
+  
+
 .botones{
     display: flex;
     padding: 0 10px;
@@ -42,9 +57,9 @@ body {
 
 .btn {
     background-color: transparent;
-    color: purple;
+    color: #ffc93c;
     border-radius: 5px;
-    border: 1px solid purple;
+    border: 1px solid #ffc93c;
     width: 150px;
     height: 40px;
     transition: .2s ease;    
@@ -54,8 +69,8 @@ body {
 
 
 .btn:hover {
-    background-color: purple;
-    color: white;
+    background-color: #ffc93c;
+    color: black;
     
     transition: .2s ease;
 }
