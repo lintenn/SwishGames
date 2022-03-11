@@ -4,33 +4,28 @@
 
     <head>
         <title>Login</title>
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/login.css">
+        <script src="./js/Login.js"></script>
     </head>
     
-
-<body>
-<div class="todo">
-<table class="table" >
-
-<tr>
-    <td colspan="2"><img class="logo" id="logo" src="../img/SwishGamesLogo.png"></td>
-</tr>
-
-<tr>
-    <td>Usuario:</td>
-    <td><input type="text" id="user" name="user" required
-        minlength="4" maxlength="8" size="10"></td>
-</tr>
-
-<tr>
-    <td>Contrase&ntilde;a:</td>
-    <td><input type="password" id="psw" name="psw" required
-        minlength="4" maxlength="8" size="10"></td>
-</tr>
-</table>
-</div>
-
-</body>
+    <div class="login">
+        <h1>Login</h1>
+        <form method="post">
+            <input type="text" name="u" placeholder="Username" required="required" />
+            <input type="password" name="p" placeholder="Password" required="required" />
+            <nav class="botones">
+                <button style="margin-right: 10px" type="submit" class="btn">Login</button>
+                <button style="margin-left: 10px" type="submit" class="btn">Register</button>
+            </nav>
+            <br/>
+            <nav class="remember">
+                <input style="margin-right: 5px" type="checkbox" value="lsRememberMe" id="rememberMe">
+                <label for="rememberMe">Remember me</label>
+            </nav>
+            
+            <u>Forgot your password?</u>
+        </form>
+    </div>
 
 </html>
 
