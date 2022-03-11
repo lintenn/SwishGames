@@ -58,7 +58,7 @@ body {
 .btn:hover {
     background-color: #ffc93c;
     color: black;
-    
+	cursor: pointer;
     transition: .2s ease;
 }
 
