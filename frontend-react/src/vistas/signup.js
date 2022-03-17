@@ -18,9 +18,25 @@ const Signup = () => {
 
     const store = async (e) => {
         e.preventDefault()
-        await axios.post(URI, {nombre: u, email: m, password: p})
+        if(p==rp){
+            await axios.post(URI, {nombre: u, email: m, password: p})
+            navigate('/')
+        }else
+            document.getElementById("error").classList.add("mostrar"); 
+    }
+
+    function volver() {
+    
+        document.getElementById("error").classList.remove("mostrar");
         navigate('/')
     }
+
+    function cerrar() {
+        document.getElementById("error").classList.remove("mostrar");
+    }
+
+
+    
 
     return (
         <div className="signup">
@@ -34,10 +50,14 @@ const Signup = () => {
             <nav className="botones" style={{ marginTop: '5px'}}>
                 <button style={{marginRight: '10px'}}  type="submit" className="btn">Sign Up</button>
                 <button style={{ marginLeft: '10px' }} type="submit" className="btn" 
-                    onClick={() => navigate('/') }
+                    onClick={() => volver() }
                 > Back</button>
                 
             </nav>
+            <div id="error" className="alert alert-danger ocultar" role="alert">
+                <span id="closebtn" className="closebtn" onClick={ cerrar} >&times;</span>
+                Las Contraseñas no coinciden.
+            </div>
             
         </form>
         </div>
