@@ -4,12 +4,13 @@
 
     <head>
         <title>Login</title>
-        <link rel="stylesheet" type="text/css" href="css/login.css">
-        <script src="./js/Login.js"></script>
+        <link rel="stylesheet" type="text/css" href="../src/login.css">
+        <script src="../src/login.js"></script>
+        <script src="../src/App.js"></script>
 
     </head>
     
-    <div class="login">
+    <div className="login" id="root">
         <h1>Log In</h1>
         <form method="post">
             <input type="text" name="u" placeholder="Username" required="required" />
@@ -25,9 +26,7 @@
             </nav>
             
             <section class="recovery" >
-                <a href="./recovery.html">
-                    <u>Forgot your password?</u>
-                </a>
+                <u>Forgot your password?</u>
             </section>
             
         </form>
