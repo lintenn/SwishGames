@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang='es'>
+
+    <head>
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="../src/login.css">
+        <script src="../src/login.js"></script>
+        <script src="../src/App.js"></script>
+
+    </head>
+    
+    <div className="login" id="root">
+        <h1>Log In</h1>
+        <form method="post">
+            <input type="text" name="u" placeholder="Username" required="required" />
+            <input type="password" name="p" placeholder="Password" required="required" />
+            <nav class="botones" style="margin-top: 5px">
+                <button style="margin-right: 10px"  type="submit" class="btn">Log In</button>
+                <button onclick="location.href='./signup.html'" style="margin-left: 10px" type="submit" class="btn">Register</button>
+            </nav>
+            <br/>
+            <nav class="remember">
+                <input style="margin-right: 5px" type="checkbox" value="lsRememberMe" id="remember_me">
+                <label style="margin-bottom:10px" for="rememberMe">Remember me</label>
+            </nav>
+            
+            <section class="recovery" >
+                <u>Forgot your password?</u>
+            </section>
+            
+        </form>
+    </div>
+
+</html>
+
