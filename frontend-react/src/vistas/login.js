@@ -28,7 +28,7 @@ const Login = () => {
 
     function comprobarUser(){
         users.map((user) =>{
-            if(user.nombre==u && user.password==p)
+            if(user.nombre===u && user.password===p)
                 navigate('/main')
         })
     }
