@@ -7,6 +7,7 @@ import './login.css'
 
 
 const URI = 'http://localhost:8000/users'
+//const URI = 'https://prueba-swishgame-backend.herokuapp.com/users'
 
 const Login = () => {
 
@@ -29,7 +30,7 @@ const Login = () => {
     function comprobarUser(){
         users.map((user) =>{
             if(user.nombre===u && user.password===p)
-                navigate('/main')
+                navigate('/main/main')
         })
     }
 
@@ -44,7 +45,7 @@ const Login = () => {
                     onClick={() => comprobarUser()}    
                 >Log In</button>
                 <button style={{ marginLeft: '10px' }} type="submit" className="btn" 
-                    onClick={() => navigate('/signup/') }
+                    onClick={() => navigate('/signup/signup/') }
                 > Register</button>
             </nav>
             <br/>
@@ -54,7 +55,7 @@ const Login = () => {
             </nav>
             
             <section className="recovery" >
-                <Link to={'/recovery/'} > <u>Forgot your password?</u></Link>  
+                <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>  
             </section>
             
         </form>
