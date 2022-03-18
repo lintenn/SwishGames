@@ -1,37 +1,37 @@
-import UserModel from "../models/UserModel.js";
+import ChatModel from "../models/ChatModel.js";
 
-export const getAllUsers = async (req, res) => {
+export const getAllMessages = async (req, res) => {
     try {
-        const users = await UserModel.findAll()
-        res.json(users)
+        const chats = await ChatModel.findAll()
+        res.json(chats)
     } catch(error) {
         res.json({message: error.message})
     }
 }
 
-export const getUser = async (req, res) => {
+export const getMessage = async (req, res) => {
     try {
-        const user = await UserModel.findAll({
+        const chat = await ChatModel.findAll({
             where:{ id:req.params.id }
         })
-        res = user
+        res = chat
     } catch(error) {
         res.json({message: error.message})
     }
 }
 
-export const createUser = async (req, res) => {
+export const createMessage = async (req, res) => {
     try {
-        await UserModel.create(req.body)
+        await ChatModel.create(req.body)
         res.json({"message":"¡Registro creado correctamente!"})
     } catch(error) {
         res.json({message: error.message})
     }
 }
 
-export const updateUser = async (req, res) => {
+export const updateMessage = async (req, res) => {
     try {
-        await UserModel.update(req.body, {
+        await ChatModel.update(req.body, {
             where: { id: req.params.id }
         })
         res.json({"message":"¡Registro actualizado correctamente!"})
@@ -40,9 +40,9 @@ export const updateUser = async (req, res) => {
     }
 }
 
-export const deleteUser = async (req, res) => {
+export const deleteMessage = async (req, res) => {
     try {
-        await UserModel.destroy({
+        await ChatModel.destroy({
             where: { id: req.params.id }
         })
         res.json({"message":"¡Registro borrado correctamente!"})

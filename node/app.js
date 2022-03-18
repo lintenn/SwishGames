@@ -1,13 +1,21 @@
 import express from "express"
 import cors from 'cors'
 import db from "./database/mysql.js"
-import userRoutes from './routes/routes.js'
+import userRoutes from './routes/routesUser.js'
+import chatRoutes from './routes/routesChat.js'
+import http from "http"
+import path from "path"
+import socket from "./sockets/sockets.js"
 
 const app = express()
+const server = http.createServer(app)
+
+socket(5000)
 
 app.use(cors())
 app.use(express.json())
 app.use('/users',userRoutes)
+app.use('/chats',chatRoutes)
 
 try{
     await db.authenticate()
@@ -15,6 +23,8 @@ try{
 
 }
 
-app.listen(8000, ()=>{
-    console.log('Server UP, running in http://localhost:8000/')
+app.set('port', process.env.PORT || 8000)
+
+app.listen(app.get('port'), () =>{
+    console.log('server on port', app.get('port'));
 })
