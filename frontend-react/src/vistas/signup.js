@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from "react"
 import {useNavigate } from 'react-router-dom'
+import validator from 'validator'
 import React from 'react'
 import './signup.css'
 
@@ -18,21 +19,37 @@ const Signup = () => {
 
     const store = async (e) => {
         e.preventDefault()
-        if(p==rp){
-            await axios.post(URI, {nombre: u, email: m, password: p})
-            navigate('/')
-        }else
+
+        if(!validator.isEmail(m)){
+            document.getElementById("errorm").classList.add("mostrar"); 
+        }else if(p!==rp){
             document.getElementById("error").classList.add("mostrar"); 
+        }else{
+            await axios.post(URI, {nombre: u, email: m, password: p})
+            document.getElementById("success").classList.add("mostrar");
+        }
+            
     }
 
     function volver() {
     
+        document.getElementById("errorm").classList.remove("mostrar");
         document.getElementById("error").classList.remove("mostrar");
+        document.getElementById("success").classList.remove("mostrar");
         navigate('/')
     }
 
     function cerrar() {
         document.getElementById("error").classList.remove("mostrar");
+       
+    }
+
+    function cerrars(){
+        document.getElementById("success").classList.remove("mostrar");
+    }
+
+    function cerrarm(){
+        document.getElementById("errorm").classList.remove("mostrar");
     }
 
 
@@ -58,6 +75,14 @@ const Signup = () => {
                 <span id="closebtn" className="closebtn" onClick={ cerrar} >&times;</span>
                 Las Contraseñas no coinciden.
             </div>
+            <div id="errorm" className="alert alert-danger ocultar" role="alert">
+                <span id="closebtnm" className="closebtn" onClick={ cerrarm} >&times;</span>
+                Formato de email incorrecto.
+            </div>
+            <div id="success" className="alert alert-success ocultar" role="alert">
+                <span id="closebtns" className="closebtn" onClick={ cerrars} >&times;</span>
+                Usuario creado con éxito.
+                </div>
             
         </form>
         </div>
