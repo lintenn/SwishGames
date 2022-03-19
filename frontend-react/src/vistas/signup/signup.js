@@ -8,6 +8,7 @@ import './signup.css'
 
 
 const URI = 'http://localhost:8000/users'
+//const URI = 'https://prueba-swishgame-backend.herokuapp.com/users'
 
 const Signup = () => {
 
@@ -59,10 +60,10 @@ const Signup = () => {
         <div className="signup">
         <h1>Sign Up</h1>
         <form onSubmit={store}>
-            <input type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" size='15' required="required" />
+            <input type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" minLength='6' size='15' required="required" />
             <input type="text" value={m} onChange={ (e) => setEmail(e.target.value)} placeholder="Email" size='50' required="required" />
-            <input type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" size='15' required="required" />
-            <input type="password" value={rp} onChange={ (e) => setRPassword(e.target.value)} placeholder="Repeat password" size='15' required="required" />
+            <input type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" minLength='6' size='15' required="required" />
+            <input type="password" value={rp} onChange={ (e) => setRPassword(e.target.value)} placeholder="Repeat password" minLength='6' size='15' required="required" />
 
             <nav className="botones" style={{ marginTop: '5px'}}>
                 <button style={{marginRight: '10px'}}  type="submit" className="btn">Sign Up</button>

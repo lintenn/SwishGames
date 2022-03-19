@@ -1,8 +1,9 @@
 import {useNavigate } from 'react-router-dom'
 import React from 'react'
-import './signup.css'
+import '../signup/signup.css'
 
 const URI = 'http://localhost:3000/recovery'
+//const URI = 'https://prueba-swishgame-backend.herokuapp.com/users'
 
 const Recovery = () => {
 
