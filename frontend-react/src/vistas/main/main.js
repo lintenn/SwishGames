@@ -1,7 +1,7 @@
 import {useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import './login.css'
+import '../login/login.css'
 
 const Main = () => {
     return(
