@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {useNavigate } from 'react-router-dom'
 import validator from 'validator'
 import React from 'react'
@@ -16,15 +16,53 @@ const Signup = () => {
     const [m, setEmail] = useState('');
     const [p, setPassword] = useState('');
     const [rp, setRPassword] = useState('');
-    const navigate = useNavigate()
+    const [users, setUsers] = useState('');
+    const navigate = useNavigate();
+
+    useEffect( ()=>{
+        getUsers()
+    },[])
+
+    //procedimineto para obtener todos los usuarios
+    const getUsers = async () => {
+        const res = await axios.get(URI)
+        setUsers(res.data)
+        
+    }
+
+    function comprobarUser(){
+        var esta=false;
+        users.map((user) =>{
+            if(user.nombre===u ){
+                 esta=true;
+            }   
+        })
+        return esta;
+    }
+
+    function comprobarEmail(){
+        var esta=false;
+        users.map((user) =>{
+            if(user.email===m ){
+                 esta=true;
+            }   
+        })
+        return esta;
+    }
+
 
     const store = async (e) => {
         e.preventDefault()
-
+        
+        comprobarUser()
         if(!validator.isEmail(m)){
             document.getElementById("errorm").classList.add("mostrar"); 
         }else if(p!==rp){
             document.getElementById("error").classList.add("mostrar"); 
+        }else if(comprobarUser()){
+            document.getElementById("erroru").classList.add("mostrar"); 
+        }else if(comprobarEmail()){
+            document.getElementById("errore").classList.add("mostrar"); 
         }else{
             await axios.post(URI, {nombre: u, email: m, password: p})
             document.getElementById("success").classList.add("mostrar");
@@ -35,6 +73,8 @@ const Signup = () => {
     function volver() {
     
         document.getElementById("errorm").classList.remove("mostrar");
+        document.getElementById("erroru").classList.remove("mostrar");
+        document.getElementById("errore").classList.remove("mostrar");
         document.getElementById("error").classList.remove("mostrar");
         document.getElementById("success").classList.remove("mostrar");
         navigate('/')
@@ -51,6 +91,13 @@ const Signup = () => {
 
     function cerrarm(){
         document.getElementById("errorm").classList.remove("mostrar");
+    }
+
+    function cerraru(){
+        document.getElementById("erroru").classList.remove("mostrar");
+    }
+    function cerrare(){
+        document.getElementById("errore").classList.remove("mostrar");
     }
 
 
@@ -79,6 +126,14 @@ const Signup = () => {
             <div id="errorm" className="alert alert-danger ocultar" role="alert">
                 <span id="closebtnm" className="closebtn" onClick={ cerrarm} >&times;</span>
                 Formato de email incorrecto.
+            </div>
+            <div id="erroru" className="alert alert-danger ocultar" role="alert">
+                <span id="closebtnm" className="closebtn" onClick={ cerraru} >&times;</span>
+                Usuario ya existente.
+            </div>
+            <div id="errore" className="alert alert-danger ocultar" role="alert">
+                <span id="closebtnm" className="closebtn" onClick={ cerrare} >&times;</span>
+                Email ya existente.
             </div>
             <div id="success" className="alert alert-success ocultar" role="alert">
                 <span id="closebtns" className="closebtn" onClick={ cerrars} >&times;</span>

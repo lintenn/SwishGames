@@ -46,7 +46,7 @@ body {
 	margin-top: 15px;
 }
 
-#error{
+#error,#errorm,#errore,#erroru{
 	padding: 10px;
 	background-color: #f44336; /* Red */
 	color: white;
@@ -54,16 +54,6 @@ body {
 	margin-bottom: 10px;
 	margin-top: 15px;
 }
-
-#errorm{
-	padding: 10px;
-	background-color: #f44336; /* Red */
-	color: white;
-	border-radius: 8px;
-	margin-bottom: 10px;
-	margin-top: 15px;
-}
-
 
 .closebtn {
 	margin-left: 15px;
