@@ -37,7 +37,16 @@ body {
 }
 .signup h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 
-#error{
+#success{
+	padding: 10px;
+	background-color: #00ff66; /* Green */
+	color: white;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+}
+
+#error,#errorm,#errore,#erroru{
 	padding: 10px;
 	background-color: #f44336; /* Red */
 	color: white;
@@ -55,7 +64,7 @@ body {
 	line-height: 20px;
 	cursor: pointer;
 	transition: 0.3s;
-  }
+}
 
 .ocultar {
     display: none;
