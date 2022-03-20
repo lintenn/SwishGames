@@ -1,18 +1,53 @@
 import {useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 //import '../login/login.css'
 import './main.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const Main = () => {
+const URI = 'http://localhost:8000/games/'
+//const URI = 'https://prueba-swishgame-backend.herokuapp.com/games'
 
-    const [t, setTitulo] = useState('');
-    const [d, setDescripcion] = useState('');
+const Main = () => {
     
-    const [users, setUsers] = useState('');
+    const [games, setGames] = useState([]);
     const navigate = useNavigate()
 
+
+    useEffect( ()=>{
+        getGames()
+    },[])
+
+    //procedimineto para obtener todos los usuarios
+    const getGames = async () => {
+        const res = await axios.get(URI)
+        setGames(res.data)
+        
+    }
+
+    function doGames() {
+
+        const listado = [];
+
+        games.map((game) => {
+
+            listado.push(
+                <a href="#" className="list-group-item list-group-item-action">
+                    <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{game.titulo}</h5>
+                    <small className="text-muted">Valoración: {game.valoracion}</small>
+                    </div>
+                    <p className="mb-1">{game.descripcion}</p>
+                    <small className="text-muted">Género: {game.genero}</small>
+                </a>
+            )
+
+        })
+
+        return (listado)
+
+    } 
 
     return(
         <body>
@@ -61,30 +96,7 @@ const Main = () => {
             </nav>
 
             <div className="list-group">
-                <a href="#" className="list-group-item list-group-item-action" aria-current="true">
-                    <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">Juego 1</h5>
-                    <small className="text-muted">Valoración: 3.0</small>
-                    </div>
-                    <p className="mb-1">Descripción del juego.</p>
-                    <small className="text-muted">Género: Mundo abierto</small>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">Juego 2</h5>
-                    <small className="text-muted">Valoración: 5.0</small>
-                    </div>
-                    <p className="mb-1">Descripción del juego.</p>
-                    <small className="text-muted">Género: Plataformas</small>
-                </a>
-                <a href="#" className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">Juego 3</h5>
-                    <small className="text-muted">Valoración: 9.0</small>
-                    </div>
-                    <p className="mb-1">Descripción del juego.</p>
-                    <small className="text-muted">Género: Rol</small>
-                </a>
+                {doGames()}
             </div>
         </div>
 
