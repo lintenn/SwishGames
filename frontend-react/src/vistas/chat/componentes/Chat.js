@@ -23,29 +23,18 @@ const Chat = ({nombre}) => {
     useEffect(() => {
         socket.on('mensajes', () => {
             getMensajes()
+            getUsers()
         })
 
         return () => {socket.off()}
-    }, [mensajes])
+    }, [mensajes, users])
 
     useEffect(() => {
-        socket.on('otroConectado', (nomb) => {
-            getUsers(receptor)
-        })
-
-        return () => {socket.off()}
-    }, [users])
-
-    useEffect(() => {
-        socket.on('otroDesconectado', (nomb) => {
-            getUsers(receptor)
-        })
-
-        return () => {socket.off()}
+        setConection(receptor)
     }, [users])
 
     useEffect( ()=>{
-        getUsers(receptor)
+        getUsers()
         getMensajes()
     },[])
 
@@ -57,9 +46,12 @@ const Chat = ({nombre}) => {
         setMensajesDESC(res2.data)
     }
 
-    const getUsers = async (rec) => {
+    const getUsers = async () => {
         const res = await axios.get(URIUsers)
         setUsers(res.data)
+    }
+
+    const setConection = (rec) => {
         users.map((user) => {
             if(user.nombre===rec){
                 if(user.online){
@@ -86,21 +78,13 @@ const Chat = ({nombre}) => {
         setMensaje('')
     }
 
-    /* const getMensajesOnePerson = async (rec) => {
-        if(receptor !== '') {
-            const res = await axios.get(URI+'nombre_usuario_receptor/'+rec+"/"+nombre)
-            setMensajes(res.data)
-            const res2 = await axios.get(URI+'fecha')
-            setMensajesDESC(res2.data)
-        }
-    } */
-
     async function showChat(rec){
-        getUsers(rec)
+        getUsers()
         setReceptor(rec)
         document.getElementById('labelNameUser').innerHTML=rec
         getMensajes()
         document.getElementById("panelChat").classList.add("mostrar");
+        setConection(rec)
     }
 
     function doButton(){
