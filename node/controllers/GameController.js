@@ -1,4 +1,4 @@
-import JuegoModel from "../models/JuegoModel.js";
+import JuegoModel from "../models/GameModel.js";
 
 export const getAllGames = async (req, res) => {
     try {

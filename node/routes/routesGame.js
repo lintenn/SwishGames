@@ -1,5 +1,5 @@
 import express from 'express'
-import { createGame, deleteGame, getAllGames, getGame, updateGame } from '../controllers/JuegoController.js'
+import { createGame, deleteGame, getAllGames, getGame, updateGame } from '../controllers/GameController.js'
 const router = express.Router()
 
 router.get('/', getAllGames)
