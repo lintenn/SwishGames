@@ -1,7 +1,196 @@
 .chat {
-    width: 50%;
+    width: 100%;
     min-height: 50vh;
     max-height: 50vh;
     overflow-y: scroll;
     border: 2px solid black;
+}
+.inputMessage {
+    width: 80%;
+    min-height: 5vh;
+    max-height: 5vh;
+    overflow-y: scroll;
+    border: 2px solid black;
+    margin: 10px;
+}
+.panelChat {
+    width: 78%;
+    align-content: center;
+}
+.panelPrincipal {
+    height: 100%;
+    width: 100%;
+}
+.panelUsersChat {
+    width: 18%;
+    min-height: 50vh;
+    max-height: 50vh;
+    overflow-y: scroll;
+    border: 2px solid black;
+    justify-content: center;
+}
+
+.panelUsersChat, .panelChat {
+    float: left;
+    margin: 5px;
+}
+
+.ocultar {
+    display: none;
+}
+
+.mostrar {
+    display: block;
+}
+
+.mostrarOnline {
+    display: inline-block;
+}
+
+.boton {
+    width: 80%;
+    display: block;
+    margin: 10px;
+    border-radius: 30px;
+    height: 10vh;
+    background-color: #ffc93c;
+}
+
+.boton:hover {
+    cursor:pointer;
+    cursor:hand;
+}
+
+small{
+    font-size: xx-small;
+    text-align: right;
+}
+
+.nombreMio{
+    text-align: right;
+}
+
+.nombreMio, .nombreOtro{
+    color:rgb(242, 255, 242);
+}
+
+.bloqueMensajeMio{
+    float: right;
+    width: 70%;
+    margin: 10px;
+}
+
+.bloqueMensajeOtro{
+    float: left;
+    width: 70%;
+    margin: 10px;
+}
+
+.mensajeMio{
+    background-color: #ffc93c;
+    border-radius: 20px;
+    text-align: right;
+}
+
+.mensajeMio:hover{
+    background-color: rgb(124, 225, 250);
+}
+
+.mensajeOtro{
+    background-color: rgba(242, 255, 242, 0.856);
+    border-radius: 20px;
+}
+
+.mensajeOtro:hover{
+    background-color: rgb(124, 225, 250);
+}
+
+.mensajeMio, .mensajeOtro{
+    width: 100%;
+}
+ 
+p{
+    margin: 10px;
+    text-align: justify;
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+  
+*::-webkit-scrollbar-thumb {
+    background-color: black;
+    border-radius: 20px;
+    border: 3px solid #ffc93c;
+}
+
+#labelMessage {
+    color: white;
+}
+.send {
+    color: black;
+}
+
+.butSend {
+    background-color: #ffc93c;
+    border-color: transparent;
+    min-height: 5vh;
+    max-height: 5vh;
+    width: 5vh;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.butSend:hover {
+    cursor:pointer;
+    cursor:hand;
+}
+
+.formIntent {
+    text-align: center;
+}
+
+.divNameUser {
+    display: inline-block;
+}
+
+#online {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: greenyellow;
+    margin: 10px;
+    vertical-align: bottom;
+}
+
+#offline {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin: 10px;
+    vertical-align: bottom;
+}
+
+#divOnline {
+    color: greenyellow;
+    margin: 10px;
+}
+
+#divOffline {
+    color: red;
+    margin: 10px;
+}
+
+#labelNameUser{
+    display: inline-block;
+    color: white;
 }
