@@ -6,6 +6,14 @@ import './main.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Main = () => {
+
+    const [t, setTitulo] = useState('');
+    const [d, setDescripcion] = useState('');
+    
+    const [users, setUsers] = useState('');
+    const navigate = useNavigate()
+
+
     return(
         <body>
         <div className="collapse" id="navbarToggleExternalContent">
