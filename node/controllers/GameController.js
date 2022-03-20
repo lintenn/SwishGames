@@ -14,7 +14,7 @@ export const getGame = async (req, res) => {
         const game = await JuegoModel.findAll({
             where:{ id:req.params.id }
         })
-        res = game
+        res.json(game)
     } catch(error) {
         res.json({message: error.message})
     }

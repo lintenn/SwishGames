@@ -9,7 +9,7 @@ const socket = (port) => {
 
         socket.on('conectado', (nomb) => {
             nombre = nomb
-            socket.broadcast.emit('mensajes', {nombre: nombre, mensaje: `${nombre} ha entrado en la sala del chat`})
+            socket.broadcast.emit('mensajes')
         })
     
         socket.on('mensaje', () => {
