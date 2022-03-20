@@ -9,7 +9,8 @@ const UserModel = db.define('Usuarios', {
     fecha_nacimiento: {type: DataTypes.DATE},
     fecha_creacion: {type: DataTypes.DATE},
     password: {type: DataTypes.STRING},
-    privacidad: {type: DataTypes.BOOLEAN}
+    privacidad: {type: DataTypes.BOOLEAN},
+    online: {type: DataTypes.BOOLEAN}
 })
 
 export default UserModel
