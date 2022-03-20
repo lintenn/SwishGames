@@ -14,7 +14,7 @@ const socket = (port) => {
             axios.put(URIUsers+"connection/"+nombre, {
                 online: true
             })
-            socket.emit('otroConectado', nomb)
+            io.emit('mensajes')
         })
     
         socket.on('mensaje', () => {
@@ -25,7 +25,7 @@ const socket = (port) => {
             axios.put(URIUsers+"connection/"+nombre, {
                 online: false
             })
-            io.emit('otroDesconectado', nombre)
+            io.emit('mensajes')
         })
     })
 }

@@ -23,7 +23,7 @@ export const getUser = async (req, res) => {
 export const getUserByName = async (req, res) => {
     try {
         const user = await UserModel.findAll({
-            where:{ nombre:req.params.nombre }
+            where:{ nombre:req.params.name }
         })
         res.json(user)
     } catch(error) {
