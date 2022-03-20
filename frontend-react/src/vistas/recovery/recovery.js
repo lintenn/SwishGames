@@ -10,14 +10,14 @@ const Recovery = () => {
     const navigate= useNavigate()
 
     return (
-        <div className="signup">
+        <div className="signup1">
         <h1>Reset password</h1>
         <form method="post">
-            <input type="text" name="e" placeholder="Email" required="required" />
+            <input className="input" type="text" name="e" placeholder="Email" required="required" />
 
             <nav className="botones" style={{marginTop: '5px'}}>
-                <button style={{marginRight: '10px'}}  type="submit" className="btn">Retrieve account</button>
-                <button style={{ marginLeft: '10px' }} type="submit" className="btn" 
+                <button style={{marginRight: '10px'}}  type="submit" className="btn1">Retrieve account</button>
+                <button style={{ marginLeft: '10px' }} type="submit" className="btn1" 
                     onClick={() => navigate('/') }
                 > Back</button> 
                

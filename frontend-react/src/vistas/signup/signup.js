@@ -104,17 +104,17 @@ const Signup = () => {
     
 
     return (
-        <div className="signup">
+        <div className="signup1">
         <h1>Sign Up</h1>
         <form onSubmit={store}>
-            <input type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" minLength='6' size='15' required="required" />
-            <input type="text" value={m} onChange={ (e) => setEmail(e.target.value)} placeholder="Email" size='50' required="required" />
-            <input type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" minLength='6' size='15' required="required" />
-            <input type="password" value={rp} onChange={ (e) => setRPassword(e.target.value)} placeholder="Repeat password" minLength='6' size='15' required="required" />
+            <input className="input" type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" minLength='6' size='15' required="required" />
+            <input className="input" type="text" value={m} onChange={ (e) => setEmail(e.target.value)} placeholder="Email" size='50' required="required" />
+            <input className="input" type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" minLength='6' size='15' required="required" />
+            <input className="input" type="password" value={rp} onChange={ (e) => setRPassword(e.target.value)} placeholder="Repeat password" minLength='6' size='15' required="required" />
 
             <nav className="botones" style={{ marginTop: '5px'}}>
-                <button style={{marginRight: '10px'}}  type="submit" className="btn">Sign Up</button>
-                <button style={{ marginLeft: '10px' }} type="submit" className="btn" 
+                <button style={{marginRight: '10px'}}  type="submit" className="btn1">Sign Up</button>
+                <button style={{ marginLeft: '10px' }} type="submit" className="btn1" 
                     onClick={() => volver() }
                 > Back</button>
                 
