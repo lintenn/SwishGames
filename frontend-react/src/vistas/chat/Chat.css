@@ -43,6 +43,10 @@
     display: block;
 }
 
+.mostrarOnline {
+    display: inline-block;
+}
+
 .boton {
     width: 80%;
     display: block;
@@ -150,4 +154,43 @@ p{
 
 .formIntent {
     text-align: center;
+}
+
+.divNameUser {
+    display: inline-block;
+}
+
+#online {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: greenyellow;
+    margin: 10px;
+    vertical-align: bottom;
+}
+
+#offline {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin: 10px;
+    vertical-align: bottom;
+}
+
+#divOnline {
+    color: greenyellow;
+    margin: 10px;
+}
+
+#divOffline {
+    color: red;
+    margin: 10px;
+}
+
+#labelNameUser{
+    display: inline-block;
+    color: white;
 }

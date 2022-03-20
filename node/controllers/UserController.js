@@ -14,7 +14,18 @@ export const getUser = async (req, res) => {
         const user = await UserModel.findAll({
             where:{ id:req.params.id }
         })
-        res = user
+        res.json(user)
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
+export const getUserByName = async (req, res) => {
+    try {
+        const user = await UserModel.findAll({
+            where:{ nombre:req.params.name }
+        })
+        res.json(user)
     } catch(error) {
         res.json({message: error.message})
     }
@@ -33,6 +44,17 @@ export const updateUser = async (req, res) => {
     try {
         await UserModel.update(req.body, {
             where: { id: req.params.id }
+        })
+        res.json({"message":"¡Registro actualizado correctamente!"})
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
+export const updateConnectionUserByName = async (req, res) => {
+    try {
+        await UserModel.update(req.body, {
+            where: { nombre: req.params.name }
         })
         res.json({"message":"¡Registro actualizado correctamente!"})
     } catch(error) {

@@ -1,4 +1,5 @@
 import { Server } from "socket.io"
+import axios from 'axios'
 
 const socket = (port) => {
     const io = new Server(port)
@@ -6,10 +7,14 @@ const socket = (port) => {
     io.on('connection', socket => {
 
         let nombre;
+        const URIUsers = 'http://localhost:8000/users/'
 
         socket.on('conectado', (nomb) => {
             nombre = nomb
-            socket.broadcast.emit('mensajes', {nombre: nombre, mensaje: `${nombre} ha entrado en la sala del chat`})
+            axios.put(URIUsers+"connection/"+nombre, {
+                online: true
+            })
+            io.emit('mensajes')
         })
     
         socket.on('mensaje', () => {
@@ -17,7 +22,10 @@ const socket = (port) => {
         })
     
         socket.on('disconnect', () => {
-            io.emit('mensajes', {server: 'Servidor', mensaje: `${nombre} ha abandonado la sala`})
+            axios.put(URIUsers+"connection/"+nombre, {
+                online: false
+            })
+            io.emit('mensajes')
         })
     })
 }
