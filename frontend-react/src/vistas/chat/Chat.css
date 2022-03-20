@@ -151,3 +151,30 @@ p{
 .formIntent {
     text-align: center;
 }
+
+.divNameUser {
+    display: inline-block;
+}
+
+#online {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: greenyellow;
+    margin: 10px;
+}
+
+#offline {
+    display: inline-block;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    margin: 10px;
+}
+
+#labelNameUser{
+    display: inline-block;
+    color: white;
+}

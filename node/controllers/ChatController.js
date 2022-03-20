@@ -62,7 +62,7 @@ export const getMessage = async (req, res) => {
         const chat = await ChatModel.findAll({
             where:{ id:req.params.id }
         })
-        res = chat
+        res.json(chat)
     } catch(error) {
         res.json({message: error.message})
     }

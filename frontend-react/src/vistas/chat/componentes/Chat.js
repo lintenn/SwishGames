@@ -4,6 +4,7 @@ import '../Chat.css'
 import axios from 'axios'
 
 const URI = 'http://localhost:8000/chats/'
+const URIUsers = 'http://localhost:8000/users/'
 //const URI = 'https://prueba-swishgame-backend.herokuapp.com/chats'
 
 const Chat = ({nombre}) => {
@@ -19,8 +20,32 @@ const Chat = ({nombre}) => {
     }, [nombre])
 
     useEffect(() => {
+        socket.on('ConectarUser', (nombre) => {
+            console.log('1')
+            if(receptor === nombre) {
+                console.log('2')
+                document.getElementById("offline").classList.add("ocultar");
+                document.getElementById("online").classList.add("mostrar");
+            }
+        })
+
+        return () => {socket.off()}
+    }, [nombre])
+
+    useEffect(() => {
+        socket.on('DesonectarUser', (nombre) => {
+            if(receptor === nombre) {
+                document.getElementById("online").classList.add("ocultar");
+                document.getElementById("offline").classList.add("mostrar");
+            }
+        })
+
+        return () => {socket.off()}
+    }, [nombre])
+
+    useEffect(() => {
         socket.on('mensajes', () => {
-            getMensajesOnePerson()
+            getMensajesOnePerson(receptor)
         })
 
         return () => {socket.off()}
@@ -32,8 +57,6 @@ const Chat = ({nombre}) => {
 
     //procedimineto para obtener todos los usuarios
     const getMensajes = async () => {
-        const res = await axios.get(URI)
-        setMensajes(res.data)
         const res2 = await axios.get(URI+"fecha")
         setMensajesDESC(res2.data)
     }
@@ -50,33 +73,20 @@ const Chat = ({nombre}) => {
         setMensaje('')
     }
 
-    const getMensajesOnePerson = async () => {
+    const getMensajesOnePerson = async (rec) => {
         if(receptor !== '') {
-            const res = await axios.get(URI+'nombre_usuario_receptor/'+receptor+"/"+nombre)
+            const res = await axios.get(URI+'nombre_usuario_receptor/'+rec+"/"+nombre)
             setMensajes(res.data)
             const res2 = await axios.get(URI+'fecha')
             setMensajesDESC(res2.data)
+            document.getElementById("panelChat").classList.add("mostrar");
         }
     }
 
     async function showChat(rec){
         setReceptor(rec)
-        getMensajesOnePerson()
-        document.getElementById("panelChat").classList.add("mostrar");
-    }
-
-    const getMensajesOnePerson2 = async () => {
-        if(receptor !== '') {
-            const res = await axios.get(URI+'nombre_usuario_receptor/'+nombre+"/"+receptor)
-            setMensajes(res.data)
-            const res2 = await axios.get(URI+'fecha')
-            setMensajesDESC(res2.data)
-        }
-    }
-
-    async function showChat2(){
-        getMensajesOnePerson2()
-        document.getElementById("panelChat").classList.add("mostrar");
+        document.getElementById('labelNameUser').innerHTML=rec
+        getMensajesOnePerson(rec)
     }
 
     function doButton(){
@@ -124,7 +134,7 @@ const Chat = ({nombre}) => {
                     let d = new Date(men.fecha_envio)
                     let s = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDay()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
                     prueba.push(
-                        <button className='boton' key={men.id} onClick={() => {showChat2(); setReceptor(men.nombre_usuario_emisor)}}>
+                        <button className='boton' key={men.id} onClick={() => {showChat(men.nombre_usuario_emisor)}}>
                             <table>
                                 <tbody>
                                     <tr>
@@ -203,8 +213,8 @@ const Chat = ({nombre}) => {
                 {doButton()}
             </div>
             <div className='panelChat ocultar' id='panelChat'>
+                <div className='divNameUser'><div id="labelNameUser"></div><div className='ocultar' id='online'></div><div id='offline'></div></div>
                 <div className='chat'>
-                
                     {doMessage()}
                     <div ref={divRef} id="idRef"></div>
                 </div>
