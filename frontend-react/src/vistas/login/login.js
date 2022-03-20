@@ -35,26 +35,26 @@ const Login = () => {
     }
 
     return (
-        <div className="login" id="login" >
+        <div className="login1" id="login" >
         <h1>Log In</h1>
         <form method="post">
-            <input type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" required="required" />
-            <input type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" required="required" />
+            <input className="input" type="text" value={u} onChange={ (e) => setNombre(e.target.value)} placeholder="Username" required="required" />
+            <input className="input" type="password" value={p} onChange={ (e) => setPassword(e.target.value)} placeholder="Password" required="required" />
             <nav className="botones" style={{ marginTop: '5px' }}>
-                <button style={{ marginRight: '10px'}}  type="submit" className="btn"
+                <button style={{ marginRight: '10px'}}  type="submit" className="btn1"
                     onClick={() => comprobarUser()}    
                 >Log In</button>
-                <button style={{ marginLeft: '10px' }} type="submit" className="btn" 
+                <button style={{ marginLeft: '10px' }} type="submit" className="btn1" 
                     onClick={() => navigate('/signup/signup/') }
                 > Register</button>
             </nav>
             <br/>
             <nav className="remember">
-                <input style={{marginRight: '5px'}} type="checkbox" value="lsRememberMe" id="remember_me"></input>
+                <input className="input" style={{marginRight: '5px'}} type="checkbox" value="lsRememberMe" id="remember_me"></input>
                 <label style={{marginBottom:'10px'}} forhtml="rememberMe">Remember me</label>
             </nav>
             
-            <section className="recovery" >
+            <section className="recovery1" >
                 <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>  
             </section>
             
