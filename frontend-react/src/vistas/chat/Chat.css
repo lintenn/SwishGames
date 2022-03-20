@@ -43,6 +43,10 @@
     display: block;
 }
 
+.mostrarOnline {
+    display: inline-block;
+}
+
 .boton {
     width: 80%;
     display: block;
@@ -163,6 +167,7 @@ p{
     height: 10px;
     background-color: greenyellow;
     margin: 10px;
+    vertical-align: bottom;
 }
 
 #offline {
@@ -171,6 +176,17 @@ p{
     width: 10px;
     height: 10px;
     background-color: red;
+    margin: 10px;
+    vertical-align: bottom;
+}
+
+#divOnline {
+    color: greenyellow;
+    margin: 10px;
+}
+
+#divOffline {
+    color: red;
     margin: 10px;
 }
 
