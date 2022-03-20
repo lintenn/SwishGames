@@ -54,3 +54,11 @@ body {
 .nav-item {
     background-color: #212529;
 }
+
+.nav-link:hover {
+    color: #c29613 !important;
+}
+
+small {
+    font-size: 14px !important;
+}

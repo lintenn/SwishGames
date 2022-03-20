@@ -35,11 +35,16 @@ const Main = () => {
             listado.push(
                 <a href="#" className="list-group-item list-group-item-action">
                     <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{game.titulo}</h5>
-                    <small className="text-muted">Valoración: {game.valoracion}</small>
+                        <img src={game.imagen} width="200" height="150" />
+                        <div className='px-2'>
+                            <div className="d-flex w-100 justify-content-between">
+                            <h5 className="mb-1">{game.titulo}</h5>
+                            <small className="text-muted">Valoración: {game.valoracion}</small>
+                            </div>
+                            <p className="mb-1">{game.descripcion}</p>
+                            <small className="text-muted">Género: {game.genero}</small>
+                        </div>
                     </div>
-                    <p className="mb-1">{game.descripcion}</p>
-                    <small className="text-muted">Género: {game.genero}</small>
                 </a>
             )
 
@@ -76,13 +81,13 @@ const Main = () => {
                     <a className="nav-link active" aria-current="page" href="main">Juegos</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Listas</a>
+                    <a className="nav-link text-warning" href="#">Listas</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Usuarios</a>
+                    <a className="nav-link text-warning" href="#">Usuarios</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href=''>Chats</a>
+                    <a className="nav-link text-warning" href=''>Chats</a>
                 </li>
             </ul>
 
