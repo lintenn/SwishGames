@@ -12,8 +12,8 @@ const socket = (port) => {
             socket.broadcast.emit('mensajes', {nombre: nombre, mensaje: `${nombre} ha entrado en la sala del chat`})
         })
     
-        socket.on('mensaje', (nombre, mensaje) => {
-            io.emit('mensajes', {nombre, mensaje})
+        socket.on('mensaje', () => {
+            io.emit('mensajes')
         })
     
         socket.on('disconnect', () => {
