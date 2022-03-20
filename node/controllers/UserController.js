@@ -51,6 +51,17 @@ export const updateUser = async (req, res) => {
     }
 }
 
+export const updateConnectionUserByName = async (req, res) => {
+    try {
+        await UserModel.update(req.body, {
+            where: { nombre: req.params.name }
+        })
+        res.json({"message":"¡Registro actualizado correctamente!"})
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
 export const deleteUser = async (req, res) => {
     try {
         await UserModel.destroy({
