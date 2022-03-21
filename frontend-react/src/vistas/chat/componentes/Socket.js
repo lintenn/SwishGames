@@ -1,5 +1,8 @@
 import { io } from "socket.io-client";
 
-let socket = io("//localhost:5000/", { transports : ['websocket'] })
+//const URI = 'https://swishgames-socketio.herokuapp.com/'
+const URI = 'ws://localhost:5000'
+
+let socket = io(URI, { transports : ['websocket'] })
 
 export default socket
