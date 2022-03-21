@@ -3,8 +3,6 @@ import {useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import Chat2 from './componentes/Chat'
 
-const URI = 'https://prueba-swishgame-backend.herokuapp.com/chats'
-
 const Chat = () => {
 
     const [nombre, setNombre] = useState('')

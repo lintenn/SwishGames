@@ -6,6 +6,7 @@ import Recovery from './vistas/recovery/recovery.js'
 import Signup from './vistas/signup/signup.js';
 import Main from './vistas/main/main.js';
 import Chat from './vistas/chat/Chat.js';
+import Game from './vistas/game/game.js';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path='/signup/signup' element={<Signup/>}></Route>
             <Route path='/main/main' element={<Main/>}></Route>
             <Route path='/chat/Chat' element={<Chat/>}></Route>
+            <Route path='/game/game/:id' element={<Game/>}></Route>
           </Routes>
         </BrowserRouter>
     </div>
