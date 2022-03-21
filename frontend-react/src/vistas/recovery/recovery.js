@@ -3,7 +3,7 @@ import React from 'react'
 import '../signup/signup.css'
 
 const URI = 'http://localhost:3000/recovery'
-//const URI = 'https://prueba-swishgame-backend.herokuapp.com/users'
+//const URI = 'https://swishgames-backend.herokuapp.com/recovery'
 
 const Recovery = () => {
 
