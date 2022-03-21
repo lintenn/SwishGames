@@ -233,10 +233,15 @@ a {
 
 .mensajeActualizadoOtro  {
     background-color: rgb(201, 192, 192);
+    margin-bottom: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
 }
 
 .mensajeActualizadoMio {
     background-color: #ffc93c;
+    margin-bottom: 5px;
+    border-radius: 5px;
 }
 
 .sendIcon {
@@ -351,8 +356,9 @@ a {
 }
 
 .input { 
-	width: 100%; 
-	margin-bottom: 10px; 
+	width: 80%; 
+    height: 30px;
+	margin-top: 7px; 
 	background: rgba(0,0,0,0.3);
 	border: none;
 	outline: none;
@@ -372,7 +378,8 @@ a {
 
 .input2 { 
 	width: 100%; 
-	margin-top: 10px; 
+    height: 30px;
+	margin-top: 5px; 
 	background: rgba(0,0,0,0.3);
 	border: none;
 	outline: none;
@@ -402,4 +409,9 @@ a {
 .h3NameUser, .divObjectsSend{
     display: flex;
     align-items: center;
+}
+
+.panelChatMensajes {
+    border: 2px solid rgba(0,0,0,0.3);
+    border-radius: 10px;
 }
