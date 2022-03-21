@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import socket from './Socket'
 import '../Chat.css'
 import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const URI = 'http://localhost:8000/chats/'
 const URIUsers = 'http://localhost:8000/users/'
@@ -65,12 +66,9 @@ const Chat = ({nombre}) => {
                     document.getElementById("divOffline").classList.add("mostrarOnline");
                 }
             }
-        })
+        }) 
     }
     
-    useEffect(() => {
-        divRef.current.scrollIntoView({ behavior: 'smooth' })
-    })
 
     const submit = async (e) => {
         e.preventDefault()
@@ -105,21 +103,26 @@ const Chat = ({nombre}) => {
                 if(!enc){
                     users2.push(men.nombre_usuario_receptor);
                     let d = new Date(men.fecha_envio)
-                    let s = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDay()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                    let s = d.getDay()+"-"+d.getMonth()+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes();
                     prueba.push(
-                        <button className='boton' key={men.id} onClick={() => {showChat(men.nombre_usuario_receptor) }}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={3}>{men.nombre_usuario_receptor}</td>
-                                        <td><small>{s}</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={4}>{men.mensaje}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </button>)
+                        <li className="p-2 border-bottom">
+                            <button className="d-flex justify-content-between botonNaranja" onClick={() => showChat(men.nombre_usuario_receptor)}>
+                            <div className="d-flex flex-row">
+                                <div className="align-items-center divObjectsSend">
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
+                                    alt="avatar" className="d-flex align-self-center me-3" width="60"/>
+                                    <span className="badge bg-success badge-dot"></span>
+                                </div>
+                                <div className="pt-1">
+                                    <p className="fw-bold mb-0">{men.nombre_usuario_receptor}</p>
+                                    <p className="small text-muted">{men.mensaje}</p>
+                                </div>
+                            </div>
+                            <div className="pt-1">
+                                <p className="small text-muted mb-1">{s}</p>
+                            </div>
+                            </button>
+                        </li>)
                 }
             } else if(men.nombre_usuario_receptor === nombre){
                 var enc = false;
@@ -131,21 +134,26 @@ const Chat = ({nombre}) => {
                 if(!enc){
                     users2.push(men.nombre_usuario_emisor);
                     let d = new Date(men.fecha_envio)
-                    let s = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDay()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                    let s = d.getDay()+"-"+d.getMonth()+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes();
                     prueba.push(
-                        <button className='boton' key={men.id} onClick={() => {showChat(men.nombre_usuario_emisor)}}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={3}>{men.nombre_usuario_emisor}</td>
-                                        <td><small>{s}</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={4}>{men.mensaje}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </button>)
+                        <li className="p-2 border-bottom">
+                            <button className="d-flex justify-content-between botonNaranja" onClick={() => showChat(men.nombre_usuario_emisor)}>
+                            <div className="d-flex flex-row">
+                                <div>
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
+                                    alt="avatar" className="d-flex align-self-center me-3" width="60"/>
+                                    <span className="badge bg-success badge-dot"></span>
+                                </div>
+                                <div className="pt-1">
+                                    <p className="fw-bold mb-0">{men.nombre_usuario_emisor}</p>
+                                    <p className="small text-muted">{men.mensaje}</p>
+                                </div>
+                            </div>
+                            <div className="pt-1">
+                                <p className="small text-muted mb-1">{s}</p>
+                            </div>
+                            </button>
+                        </li>)
                 }
             }
         })
@@ -162,22 +170,24 @@ const Chat = ({nombre}) => {
             
             if((mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor) || (mensaje.nombre_usuario_emisor === receptor && mensaje.nombre_usuario_receptor === nombre)) {
                 let d = new Date(mensaje.fecha_envio)
-                let s = d.getFullYear()+"-"+d.getMonth()+"-"+d.getDay()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                let s = d.getDay()+"-"+d.getMonth()+"-"+d.getFullYear()+" "+d.getHours()+":"+d.getMinutes();
                 if(mensaje.nombre_usuario_emisor === nombre){
                     if(nombre === nombreAnterior){
                         message.push(
-                            <div className='bloqueMensajeMio'>
-                                <div className='mensajeMio'>
-                                    <p>{mensaje.mensaje} <small>{s}</small></p>
+                            <div className="d-flex flex-row justify-content-end">
+                                <div>
+                                <p className="small p-2 me-3 mb-1 rounded-3 mensajeActualizadoMio">{mensaje.mensaje}</p>
+                                <p className="small me-3 mb-3 rounded-3 text-white">{s}</p>
                                 </div>
                             </div>
                         )
                     } else {
                         message.push(
-                            <div className='bloqueMensajeMio'>
-                                <p className='nombreMio'><b>{nombre}</b></p>
-                                <div className='mensajeMio'>
-                                    <p>{mensaje.mensaje} <small>{s}</small></p>
+                            <div className="d-flex flex-row justify-content-end">
+                                <div>
+                                <p className="small p-2 me-3 mb-1 rounded-3 text-white">{mensaje.nombre_usuario_emisor}</p>
+                                <p className="small p-2 me-3 mb-1 rounded-3 mensajeActualizadoMio">{mensaje.mensaje}</p>
+                                <p className="small me-3 mb-3 rounded-3 text-white">{s}</p>
                                 </div>
                             </div>
                         )
@@ -185,18 +195,20 @@ const Chat = ({nombre}) => {
                 } else {
                     if(mensaje.nombre_usuario_emisor === nombreAnterior){
                         message.push(
-                            <div className='bloqueMensajeOtro'>
-                                <div className='mensajeOtro'>
-                                    <p>{mensaje.mensaje} <small>{s}</small></p>
+                            <div className="d-flex flex-row justify-content-start">
+                                <div>
+                                <p className="small p-2 ms-3 mb-1 rounded-3 mensajeActualizadoOtro">{mensaje.mensaje}</p>
+                                <p className="small ms-3 mb-3 rounded-3 text-white float-end">{s}</p>
                                 </div>
                             </div>
                         )
                     } else {
                         message.push(
-                            <div className='bloqueMensajeOtro'>
-                                <p className='nombreOtro'><b>{mensaje.nombre_usuario_emisor}</b></p>
-                                <div className='mensajeOtro'>
-                                    <p>{mensaje.mensaje} <small>{s}</small></p>
+                            <div className="d-flex flex-row justify-content-start">
+                                <div>
+                                <p className="small p-2 me-3 mb-1 rounded-3 text-white">{mensaje.nombre_usuario_emisor}</p>
+                                <p className="small p-2 ms-3 mb-1 rounded-3 mensajeActualizadoOtro">{mensaje.mensaje}</p>
+                                <p className="small ms-3 mb-3 rounded-3 text-white float-end">{s}</p>
                                 </div>
                             </div>
                         )
@@ -210,35 +222,86 @@ const Chat = ({nombre}) => {
     }
     
     return (
-        <div className='panelPrincipal'>
-            <div className='panelUsersChat'>
-                {doButton()}
-            </div>
-            <div className='panelChat ocultar' id='panelChat'>
-                <div className='divNameUser'>
-                    <div id="labelNameUser"></div>
-                    <div id="divOnline" className='ocultar'>
-                        <div id='online'></div>
-                        Online
+        <section className='botonTransparente'>
+            <div className="container py-5 botonTransparente" >
+
+                <div className="row botonTransparente">
+                <div className="col-md-12 botonTransparente">
+
+                    <div className="card botonTransparente" id="chat3" border-radius= "15px">
+                    <div className="card-body botonTransparente">
+
+                        <div className="row botonTransparente">
+                        <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 botonTransparente">
+
+                            <div className="p-3 botonTransparente">
+
+                            <div className="input-group rounded mb-3 botonTransparente">
+                                <input type="search" className="form-control rounded input" placeholder="Search" aria-label="Search"
+                                aria-describedby="search-addon" />
+                                <span className="input-group-text border-0 botonTransparente" id="search-addon">
+                                    <i className="fas fa-search searchIcon"></i>
+                                </span>
+                            </div>
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div data-mdb-perfect-scrollbar="true" position= "relative" height= "400px">
+                                    <ul className="list-unstyled mb-0">
+                                            {doButton()}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            </div>
+
+                        </div>
+
+                        <div className="col-md-6 col-lg-7 col-xl-8 ocultar row-10" id="panelChat">
+                            <div className='divNameUser'>
+                                <h3 className='h3NameUser'>
+                                    <div id='imagenUser'>
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
+                                        alt="avatar" className="d-flex align-self-center me-3" width="60" />
+                                    </div>
+                                    <b><div id="labelNameUser"></div></b>
+                                    <div id="divOnline" className='ocultar'>
+                                        <div id='online'></div>
+                                        Online
+                                    </div>
+                                    <div id="divOffline" className='ocultar'>
+                                        <div id='offline'></div>
+                                        Offline
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div className="pt-3 pe-3 mh-100" data-mdb-perfect-scrollbar="true" position= "relative" overflow-y="scroll">
+
+                                    {doMessage()}
+
+                                </div>
+                            </div>
+
+                            <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
+                                <input type="text" className="form-control form-control-lg input2" id="exampleFormControlInput2"
+                                    placeholder="Type message" value={mensaje} onChange={e => setMensaje(e.target.value)}/>
+                                <a className="ms-1 text-muted divObjectsSend align-items-center" href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
+                                <a className="ms-3 text-muted divObjectsSend align-items-center" href="#!"><i className="fas fa-smile emogiIcon"></i></a>
+                                <form onSubmit={submit}>
+                                    <button className="ms-3 botonTransparente divObjectsSend align-items-center"><i className="fas fa-paper-plane sendIcon"></i></button>
+                                </form>
+                            </div>
+
+                        </div>
+                        </div>
+
                     </div>
-                    <div id="divOffline" className='ocultar'>
-                        <div id='offline'></div>
-                        Offline
                     </div>
+
                 </div>
-                <div className='chat'>
-                    {doMessage()}
-                    <div ref={divRef} id="idRef"></div>
                 </div>
-                <div className='formIntent'>
-                    <form onSubmit={submit}>
-                        <label htmlFor='' id="labelMessage">Escriba su mensaje</label>
-                        <input className='inputMessage' value={mensaje} onChange={e => setMensaje(e.target.value)}></input>
-                        <button className='butSend'><i className="fa-solid fa-paper-plane send fa-xl"></i></button>
-                    </form>
-                </div>
+
             </div>
-        </div>
+        </section>
         
     )
 }
