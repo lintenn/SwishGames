@@ -10,9 +10,9 @@ const URI = 'http://localhost:8000/games/'
 
 const Game = () => {
     
-    const [game, setGame] = useState('');
+    const [game, setGame] = useState([]);
     const navigate = useNavigate()
-    const id = useParams()
+    const {id} = useParams();
 
 
     useEffect( ()=>{
@@ -20,8 +20,6 @@ const Game = () => {
     },[])
 
     const getGameById = async () => {
-        console.log(URI+JSON.stringify(id))
-        console.log(URI+id.val)
         const res = await axios.get(URI+id)
         setGame(res.data)
     }
@@ -30,7 +28,10 @@ const Game = () => {
 
         const listado = [];
 
-        listado.push(game.titulo)
+        game.map((gam) => {
+            listado.push(gam.titulo)
+        })
+
 
         return (listado)
 
