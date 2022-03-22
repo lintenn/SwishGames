@@ -251,7 +251,7 @@ const Chat = ({nombre}) => {
                             <div className="p-3 botonTransparente">
 
                             <div className="input-group rounded mb-3 botonTransparente">
-                                <input type="search" className="input" placeholder="Search" aria-label="Search"
+                                <input type="search" className="input3" placeholder="Search" aria-label="Search"
                                 aria-describedby="search-addon" />
                                 <span className="input-group-text border-0 botonTransparente" id="search-addon">
                                     <i className="fas fa-search searchIcon"></i>
@@ -287,8 +287,8 @@ const Chat = ({nombre}) => {
                                     </div>
                                 </h3>
                             </div>
-                            <div class="table-wrapper-scroll-y my-custom-scrollbar panelChatMensajes">
-                                <div className="pt-3 pe-3 mh-100" data-mdb-perfect-scrollbar="true" position= "relative" overflow-y="scroll">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div className="pt-3 pe-3 mh-100 panelChatMensajes" data-mdb-perfect-scrollbar="true" position= "relative" overflow-y="scroll">
 
                                     {doMessage()}
 
