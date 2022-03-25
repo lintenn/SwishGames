@@ -175,7 +175,7 @@ const Chat = ({nombre}) => {
                             <div className="d-flex flex-row justify-content-end">
                                 <div className="d-flex flex-row justify-content-end mensajeActualizadoMio">
                                     <div className="pt-1">
-                                        <p className="small">{mensaje.mensaje}</p>
+                                        <p className="small" width="70%">{mensaje.mensaje}</p>
                                     </div>
                                     <div className="pt-1">
                                         <p className="small text-muted mb-1">{s}</p>
