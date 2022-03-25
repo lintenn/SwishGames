@@ -1,0 +1,150 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": [
+      "plugin:react/recommended",
+      "standard"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": [
+      "react"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
+      "space-in-parens": [
+        "error",
+        "always",
+        {
+          "exceptions": [
+            "{}",
+            "[]"
+          ]
+        }
+      ],
+      "no-constructor-return": "error",
+      "no-empty-function": "error",
+      "no-empty-pattern": "error",
+      "no-return-assign": [
+        "error",
+        "always"
+      ],
+      "no-useless-return": "error",
+      "init-declarations": [
+        "error",
+        "always"
+      ],
+      "block-spacing": [
+        "error",
+        "always"
+      ],
+      "brace-style": "error",
+      "camelcase": "error",
+      "capitalized-comments": [
+        "off"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "comma-spacing": "error",
+      "comma-style": "error",
+      "eqeqeq": "error",
+      "curly": "error",
+      "default-case-last": "error",
+      "dot-notation": "error",
+      "no-console": "off",
+      "no-template-curly-in-string": "error",
+      "func-call-spacing": "error",
+      "function-call-argument-newline": [
+        "error",
+        "consistent"
+      ],
+      "indent": [
+        "error",
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "key-spacing": "error",
+      "keyword-spacing": [
+        "error",
+        {
+          "before": true,
+          "after": true
+        }
+      ],
+      "lines-around-comment": [
+        "error",
+        {
+          "beforeBlockComment": true,
+          "beforeLineComment": true
+        }
+      ],
+      "lines-between-class-members": [
+        "error",
+        "always"
+      ],
+      "new-parens": [
+        "error",
+  "always"
+      ],
+      "no-multiple-empty-lines": [
+        "error",
+        {
+          "max": 2
+        }
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "padded-blocks": [
+        "error",
+        "always"
+      ],
+      "no-trailing-spaces": [
+        "error",
+        {
+          "skipBlankLines": false
+        }
+      ],
+      "eol-last": [
+        "error",
+        "always"
+      ],
+      "space-before-function-paren": [
+        "off"
+      ],
+      "no-unused-vars": "warn",
+      "no-undef": [
+        "warn"
+      ],
+      "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "always" }]
+    }
+  }

@@ -1,52 +1,61 @@
-import {useNavigate, useParams } from 'react-router-dom'
-import axios from 'axios'
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-//import '../login/login.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
+;
 
-const URI = 'http://localhost:8000/games/'
-//const URI = 'https://prueba-swishgame-backend.herokuapp.com/games'
+// import '../login/login.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const URI = 'http://localhost:8000/games/';
+
+// const URI = 'https://prueba-swishgame-backend.herokuapp.com/games'
 
 const Game = () => {
-    
-    const [game, setGame] = useState([]);
-    const navigate = useNavigate()
-    const {id} = useParams();
 
-    useEffect( ()=>{
-        getGameById()
-    },[])
+  const [game, setGame] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
 
-    const getGameById = async () => {
-        const res = await axios.get(URI+id)
-        setGame(res.data)
-    }
+  useEffect( () => {
 
-    function doGames() {
+    getGameById();
 
-        const listado = [];
+  }, []);
 
-        game.map((gam) => {
-            listado.push(gam.titulo)
-        })
+  const getGameById = async () => {
+
+    const res = await axios.get( URI + id );
+    setGame( res.data );
+
+  };
+
+  function doGames() {
+
+    const listado = [];
+
+    game.map( ( gam ) => {
+
+      listado.push( gam.titulo );
+
+    });
 
 
-        return (listado)
+    return ( listado );
 
-    } 
-    
-    
-    return(
-        <div>
-        <body>
-            <h1>Game</h1>
-            <h5>Titulo:{doGames()}</h5>
-        </body>
-        </div>
-        
+  }
 
-    )
-}
 
-export default Game
+  return (
+    <div>
+      <body>
+        <h1>Game</h1>
+        <h5>Titulo:{doGames()}</h5>
+      </body>
+    </div>
+
+
+  );
+
+};
+
+export default Game;
