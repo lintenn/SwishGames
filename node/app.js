@@ -4,14 +4,8 @@ import db from "./database/mysql.js"
 import userRoutes from './routes/routesUser.js'
 import chatRoutes from './routes/routesChat.js'
 import gamesRoutes from './routes/routesGame.js'
-import http from "http"
-import path from "path"
-import socket from "./sockets/sockets.js"
 
 const app = express()
-const server = http.createServer(app)
-
-socket(5000)
 
 app.use(cors())
 app.use(express.json())

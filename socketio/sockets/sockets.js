@@ -8,6 +8,7 @@ const socket = (port) => {
 
         let nombre;
         const URIUsers = 'http://localhost:8000/users/'
+        //const URIUsers = 'https://swishgames-backend.herokuapp.com/users/'
 
         socket.on('conectado', (nomb) => {
             nombre = nomb

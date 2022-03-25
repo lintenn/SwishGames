@@ -4,10 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './login.css'
 
-
-
 const URI = 'http://localhost:8000/users'
-//const URI = 'https://prueba-swishgame-backend.herokuapp.com/users'
+//const URI = 'https://swishgames-backend.herokuapp.com/users'
 
 const Login = () => {
 
@@ -29,8 +27,10 @@ const Login = () => {
 
     function comprobarUser(){
         users.map((user) =>{
-            if(user.nombre===u && user.password===p)
+            if(user.nombre===u && user.password===p) {
+                localStorage.setItem('user', JSON.stringify({nombre: 'u', email: 'm', password: 'p'}))
                 navigate('/main/main')
+            }
         })
     }
 
