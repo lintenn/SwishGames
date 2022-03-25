@@ -1,113 +1,204 @@
-import {useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-//import '../login/login.css'
-import './main.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { isAuthorized } from '../../helper/isAuthorized.js';
+import Swal from 'sweetalert2';
+import logo from '../../static/SwishGamesLogo.png';
 
-const URI = 'http://localhost:8000/games/'
-//const URI = 'https://swishgames-backend.herokuapp.com/games/'
+// import '../login/login.css'
+import './main.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const URI = 'http://localhost:8000/games/';
+
+// const URI = 'https://swishgames-backend.herokuapp.com/games/'
 
 const Main = () => {
-    
-    const [games, setGames] = useState([]);
-    const navigate = useNavigate()
+
+  const [games, setGames] = useState([]);
+  const navigate = useNavigate();
+  const isauthorized = isAuthorized();
 
 
-    useEffect( ()=>{
-        getGames()
-    },[])
+  useEffect( () => {
 
-    //procedimineto para obtener todos los usuarios
-    const getGames = async () => {
-        const res = await axios.get(URI)
-        setGames(res.data)
-        
+    getGames();
+
+  }, []);
+
+  // procedimineto para obtener todos los usuarios
+  const getGames = async () => {
+
+    const res = await axios.get( URI );
+    setGames( res.data );
+
+  };
+
+  function doGames() {
+
+    const listado = [];
+
+    games.map( ( game ) => {
+
+      listado.push(
+        <Link to={'/game/game/' + game.id}>
+          <a href="#"
+            className="list-group-item list-group-item-action">
+            <div className="d-flex w-100 justify-content-between">
+              <img className="img-juego"
+                src={game.imagen}
+                width="200"
+                height="150" />
+              <div className="px-2">
+                <div className="d-flex w-100 justify-content-between">
+                  <h5 className="mb-1">{game.titulo}</h5>
+                  <small className="text-muted">Valoración: {game.valoracion}</small>
+                </div>
+                <p className="mb-1">{game.descripcion}</p>
+                <small className="text-muted">Género: {game.genero}</small>
+              </div>
+            </div>
+          </a>
+        </Link>
+      );
+
+    });
+
+    return ( listado );
+
+  }
+
+  function doSesiones() {
+
+    const listado = [];
+
+    if ( isauthorized ) {
+
+      listado.push(
+        <button className="btn btn-outline-dark m-1"
+          onClick={() => cerrarSesion() }>
+          <i className="fa-solid fa-arrow-right-from-bracket"></i></button>
+      );
+
     }
 
-    function doGames() {
+    return ( listado );
 
-        const listado = [];
+  }
 
-        games.map((game) => {
+  function cerrarSesion() {
 
-            listado.push(
-                <a href="#" className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                        <img src={game.imagen} width="200" height="150" />
-                        <div className='px-2'>
-                            <div className="d-flex w-100 justify-content-between">
-                            <h5 className="mb-1">{game.titulo}</h5>
-                            <small className="text-muted">Valoración: {game.valoracion}</small>
-                            </div>
-                            <p className="mb-1">{game.descripcion}</p>
-                            <small className="text-muted">Género: {game.genero}</small>
-                        </div>
-                    </div>
-                </a>
-            )
+    localStorage.clear();
+    navigate( '/' );
+    Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' );
 
-        })
+  }
 
-        return (listado)
+  function iniciarSesion() {
 
-    } 
+    navigate( '/login/login' );
 
-    return(
-        <body>
-        <div className="collapse" id="navbarToggleExternalContent">
-            <div className="bg-dark p-4">
-                <h5 className="text-white h4">Collapsed content</h5>
-                <span className="text-muted">Toggleable via the navbar brand.</span>
-            </div>
-        </div>
-        <nav className="navbar navbar-dark bg-dark">
-        
+  }
+
+  function nombreUsuario() {
+
+    const listado = [];
+
+    if ( isauthorized ) {
+
+      const token = localStorage.getItem( 'user' );
+      const user = JSON.parse( token );
+
+      listado.push(
+        <button className="btn btn-outline-dark m-1">
+          <i className="fa-solid fa-user"></i> {user.nombre}
+        </button>
+      );
+
+    } else {
+
+      listado.push(
+        <button className="btn btn-outline-dark m-1"
+          onClick={() => iniciarSesion() }>
+          <i className="fa-solid fa-user"></i> Identifícate
+        </button>
+      );
+
+    }
+
+    return ( listado );
+
+  }
+
+  return (
+    <body>
+
+      <header className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <a className="navbar-brand"
+            href="">
+            <img src={logo}
+              width="80px"
+              height="50px" >
+            </img>
+          </a>
+          <button className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
-            </button>
-            <h1 className="h1sg">SwishGames</h1>
-            <button className="btn btn-primary btn-dark"><i className="fa-solid fa-user"></i></button>
-            
-        </div>
-        </nav>
-
-        <div className="main">
-            
-            <ul className="nav nav-tabs nav-fill">
-                <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="main">Juegos</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-warning" href="#">Listas</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-warning" href="#">Usuarios</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-warning" href=''>Chats</a>
-                </li>
+          </button>
+          <div className="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active"
+                  aria-current="page"
+                  href=""><i className="fa-solid fa-gamepad"></i> Juegos</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link"
+                  href="#"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link"
+                  href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
+              </li>
             </ul>
+            <form className="d-flex m-2">
+              <input className="form-control me-2"
+                type="search"
+                placeholder="Buscar juego"
+                aria-label="Search"/>
+              <button className="btn btn-outline-success "
+                type="submit">Buscar</button>
+            </form>
 
-            <nav class="navbar navbar-dark bg-dark">
-            <div className="container-fluid">
-                <form className="d-flex">
-                <input className="form-control me-2" size="125" type="search" placeholder="Buscar juegos" aria-label="Search"/>
-                <button className="btn btn-outline-warning" type="submit">Buscar</button>
-                </form>
-            </div>
-            </nav>
+            <button className="btn btn-outline-dark m-1"
+              onClick={() => navigate( '/chat/Chat/' ) }>
+              <i className="fa-solid fa-comments"></i></button>
 
-            <div className="list-group">
-                {doGames()}
-            </div>
+            {nombreUsuario()}
+
+            {doSesiones()}
+          </div>
         </div>
+      </header>
 
-        </body>
+      <main className="main">
 
-    )
-}
+        <div className="list-group">
+          {doGames()}
+        </div>
+      </main>
 
-export default Main
+    </body>
+
+  );
+
+};
+
+export default Main;

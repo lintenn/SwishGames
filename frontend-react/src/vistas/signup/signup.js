@@ -101,7 +101,7 @@ const Signup = () => {
     document.getElementById( 'errore' ).classList.remove( 'mostrar' );
     document.getElementById( 'error' ).classList.remove( 'mostrar' );
     document.getElementById( 'success' ).classList.remove( 'mostrar' );
-    navigate( '/' );
+    navigate( '/login/login/' );
 
   }
 
