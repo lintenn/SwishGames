@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import validator from 'validator'
-;
+import validator from 'validator';
 import './signup.css';
 
 const URI = 'http://localhost:8000/users';
