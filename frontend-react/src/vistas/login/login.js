@@ -35,8 +35,8 @@ const Login = () => {
 
       if ( user.nombre === u && user.password === p ) {
 
-        localStorage.setItem( 'user', JSON.stringify({ nombre: 'u', email: 'm', password: 'p' }) );
-        navigate( '/main/main' );
+        localStorage.setItem( 'user', JSON.stringify({ id: user.id, nombre: user.nombre, email: user.email, password: user.password }) );
+        navigate( '/' );
 
       }
 

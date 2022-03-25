@@ -30,16 +30,24 @@ body {
   position: absolute;
     width: auto;
     height: auto;
-	
+	border-radius: 5px !important;
 }
 
-@media only screen and (min-width: 901px) {
+.list-group {
+    border-radius: 5px !important;
+}
+
+.img-juego {
+    border-radius: 5px;
+}
+
+@media only screen and (min-width: 992px) {
     .main {
         margin-left: 200px; margin-right: 200px;
     }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 991px) {
     .main {
         font-size: 15px;
     }
@@ -47,16 +55,16 @@ body {
 }
 
 .h1sg {
-    margin-left: auto; margin-right: auto;
+    /*margin-left: auto; margin-right: auto;*/
     color: white;
 }
 
 .nav-item {
-    background-color: #212529;
+    /*background-color: #212529;*/
 }
 
 .nav-link:hover {
-    color: #c29613 !important;
+    /*color: #c29613 !important;*/
 }
 
 small {
