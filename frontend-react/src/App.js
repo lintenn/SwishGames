@@ -7,9 +7,11 @@ import Signup from './vistas/signup/signup.js';
 import Main from './vistas/main/main.js';
 import Chat from './vistas/chat/Chat.js';
 import Game from './vistas/game/game.js';
-
+import {isAuthorized} from './helper/isAuthorized'
 
 function App() {
+
+  console.log("¿Ha iniciado sesión? ", isAuthorized())
 
   return (
     <div className="root" id="root" >

@@ -14,7 +14,6 @@ const Game = () => {
     const navigate = useNavigate()
     const {id} = useParams();
 
-
     useEffect( ()=>{
         getGameById()
     },[])

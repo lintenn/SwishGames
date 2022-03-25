@@ -242,6 +242,11 @@ a {
     background-color: #ffc93c;
     margin-bottom: 5px;
     border-radius: 5px;
+    max-width: 70%;
+}
+
+.bloqueActualizadoMio {
+    max-width: 20%;
 }
 
 .sendIcon {

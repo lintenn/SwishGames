@@ -5,8 +5,6 @@ import validator from 'validator'
 import React from 'react'
 import './signup.css'
 
-
-
 const URI = 'http://localhost:8000/users'
 //const URI = 'https://swishgames-backend.herokuapp.com/users'
 
@@ -53,7 +51,7 @@ const Signup = () => {
 
     const store = async (e) => {
         e.preventDefault()
-        
+
         comprobarUser()
         if(!validator.isEmail(m)){
             document.getElementById("errorm").classList.add("mostrar"); 
@@ -67,7 +65,7 @@ const Signup = () => {
             await axios.post(URI, {nombre: u, email: m, password: p})
             document.getElementById("success").classList.add("mostrar");
         }
-            
+    
     }
 
     function volver() {
