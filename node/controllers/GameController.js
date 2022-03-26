@@ -1,5 +1,5 @@
 const JuegoModel = require("../models/GameModel.js")
-const Op = require("sequelize")
+const {Op} = require("sequelize")
 
 const getAllGames = async (req, res) => {
     try {

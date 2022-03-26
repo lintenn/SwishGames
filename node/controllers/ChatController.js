@@ -1,5 +1,5 @@
 const ChatModel = require("../models/ChatModel.js")
-const Op = require("sequelize")
+const {Op} = require("sequelize")
 
 const getAllMessages = async (req, res) => {
     try {
