@@ -110,3 +110,7 @@ body {
 small {
     font-size: 14px !important;
 }
+
+.navSelected {
+    color:black !important;
+}
