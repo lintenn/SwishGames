@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 
-const URI = 'http://localhost:8000/chats/';
-const URIUsers = 'http://localhost:8000/users/';
+// const URI = 'http://localhost:8000/chats/';
+// const URIUsers = 'http://localhost:8000/users/';
 
-// const URI = 'https://swishgames-backend.herokuapp.com/chats/'
-// const URIUsers = 'https://swishgames-backend.herokuapp.com/users/'
+const URI = 'https://swishgames-backend.herokuapp.com/chats/';
+const URIUsers = 'https://swishgames-backend.herokuapp.com/users/';
 
 const Chat = () => {
 

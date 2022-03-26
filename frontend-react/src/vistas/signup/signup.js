@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import './signup.css';
 
-const URI = 'http://localhost:8000/users';
+// const URI = 'http://localhost:8000/users';
 
-// const URI = 'https://swishgames-backend.herokuapp.com/users'
+const URI = 'https://swishgames-backend.herokuapp.com/users';
 
 const Signup = () => {
 
@@ -14,7 +14,7 @@ const Signup = () => {
   const [m, setEmail] = useState( '' );
   const [p, setPassword] = useState( '' );
   const [rp, setRPassword] = useState( '' );
-  const [users, setUsers] = useState( '' );
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -34,7 +34,7 @@ const Signup = () => {
   function comprobarUser() {
 
     let esta = false;
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.nombre === u ) {
 
@@ -50,7 +50,7 @@ const Signup = () => {
   function comprobarEmail() {
 
     let esta = false;
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.email === m ) {
 
