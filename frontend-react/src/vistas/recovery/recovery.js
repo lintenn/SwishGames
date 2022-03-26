@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import '../signup/signup.css';
 
-// const URI = 'http://localhost:3000/recovery';
+const URI = 'http://localhost:3000/recovery';
 
-const URI = 'https://swishgames-backend.herokuapp.com/recovery';
+// const URI = 'https://swishgames-backend.herokuapp.com/recovery';
 
 const Recovery = () => {
 

@@ -10,9 +10,9 @@ import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 import './main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const URI = 'http://localhost:8000/games/';
+const URI = 'http://localhost:8000/games/';
 
-const URI = 'https://swishgames-backend.herokuapp.com/games/';
+// const URI = 'https://swishgames-backend.herokuapp.com/games/';
 
 const Main = () => {
 
