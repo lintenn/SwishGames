@@ -38,9 +38,17 @@ const Main = () => {
 
   const buscar = async () => {
 
-    const res = await axios.get( URI + 'buscar/' + buscado );
-    setGames( res.data );
-    console.log( buscado );
+    if ( buscado === '' ) {
+
+      getGames();
+
+    } else {
+
+      const res = await axios.get( URI + 'buscar/' + buscado );
+      setGames( res.data );
+
+    }
+
 
     // navigate( '/' );
 
@@ -50,7 +58,7 @@ const Main = () => {
 
     const listado = [];
 
-    games.map( ( game ) => {
+    games.forEach( ( game ) => {
 
       listado.push(
         <Link to={'/game/game/' + game.id}>
@@ -181,7 +189,7 @@ const Main = () => {
                   href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
-            <form method="GET"
+            <div
               className="d-flex m-2">
               <input className="form-control me-2"
                 type="search"
@@ -193,7 +201,7 @@ const Main = () => {
               <button className="btn btn-outline-success "
                 type="submit"
                 onClick={() => buscar()}>Buscar</button>
-            </form>
+            </div>
 
             <button className="btn btn-outline-dark m-1"
               onClick={() => navigate( '/chat/Chat/' ) }>
@@ -214,7 +222,7 @@ const Main = () => {
         </div>
 
         <div className="container bg-light">
-          <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+          <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3 border-top">
             <div className="col-md-4 d-flex align-items-center px-3">
               <span className="text-muted">© 2022 SwishGames, Inc</span>
             </div>

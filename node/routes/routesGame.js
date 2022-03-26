@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get('/', getAllGames)
 router.get('/:id', getGame)
-router.get('/buscar/:tit', getSearchedGames)
+router.get('/buscar/:titulo', getSearchedGames)
 router.post('/', createGame)
 router.put('/:id', updateGame)
 router.delete('/:id', deleteGame)
