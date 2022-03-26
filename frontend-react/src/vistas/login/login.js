@@ -4,15 +4,15 @@ import React, { useState, useEffect } from 'react'
 ;
 import './login.css';
 
-const URI = 'http://localhost:8000/users';
+// const URI = 'http://localhost:8000/users';
 
-// const URI = 'https://swishgames-backend.herokuapp.com/users'
+const URI = 'https://swishgames-backend.herokuapp.com/users';
 
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
   const [p, setPassword] = useState( '' );
-  const [users, setUsers] = useState( '' );
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -31,7 +31,7 @@ const Login = () => {
 
   function comprobarUser() {
 
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.nombre === u && user.password === p ) {
 

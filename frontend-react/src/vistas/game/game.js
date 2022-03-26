@@ -6,9 +6,9 @@ import React, { useState, useEffect } from 'react'
 // import '../login/login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const URI = 'http://localhost:8000/games/';
+// const URI = 'http://localhost:8000/games/';
 
-// const URI = 'https://prueba-swishgame-backend.herokuapp.com/games'
+const URI = 'https://prueba-swishgame-backend.herokuapp.com/games';
 
 const Game = () => {
 
@@ -33,7 +33,7 @@ const Game = () => {
 
     const listado = [];
 
-    game.map( ( gam ) => {
+    game.forEach( ( gam ) => {
 
       listado.push( gam.titulo );
 

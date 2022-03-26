@@ -1,5 +1,3 @@
-import socket from './componentes/Socket';
-import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import Chat2 from './componentes/Chat';
 
