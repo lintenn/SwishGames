@@ -62,10 +62,10 @@ const Main = () => {
                 height="150" />
               <div className="px-2">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{game.titulo}</h5>
+                  <h4 className="mb-1 ttexte">{game.titulo}</h4>
                   <small className="text-muted">Valoración: {game.valoracion}</small>
                 </div>
-                <p className="mb-1">{game.descripcion}</p>
+                <p className="mb-1 texte">{game.descripcion}</p>
                 <small className="text-muted">Género: {game.genero}</small>
               </div>
             </div>
@@ -143,9 +143,9 @@ const Main = () => {
 
 
   return (
-    <body>
+    <body data-bs-spy="scroll">
 
-      <header className="navbar navbar-expand-lg navbar-light bg-light">
+      <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
             href="">
@@ -205,9 +205,10 @@ const Main = () => {
         </div>
       </header>
 
-      <main className="main">
+      <main className="row justify-content-center main"
+        id="main-content">
 
-        <div className="list-group">
+        <div className="col-lg-8 list-group">
           {doGames()}
         </div>
       </main>
