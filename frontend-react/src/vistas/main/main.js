@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../../helper/isAuthorized.js';
 import Swal from 'sweetalert2';
 import logo from '../../static/SwishGamesLogo.png';
+import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 
 // import '../login/login.css'
 import './main.css';
@@ -37,9 +38,17 @@ const Main = () => {
 
   const buscar = async () => {
 
-    const res = await axios.get( URI + 'buscar/' + buscado );
-    setGames( res.data );
-    console.log( buscado );
+    if ( buscado === '' ) {
+
+      getGames();
+
+    } else {
+
+      const res = await axios.get( URI + 'buscar/' + buscado );
+      setGames( res.data );
+
+    }
+
 
     // navigate( '/' );
 
@@ -49,7 +58,7 @@ const Main = () => {
 
     const listado = [];
 
-    games.map( ( game ) => {
+    games.forEach( ( game ) => {
 
       listado.push(
         <Link to={'/game/game/' + game.id}>
@@ -62,10 +71,10 @@ const Main = () => {
                 height="150" />
               <div className="px-2">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{game.titulo}</h5>
+                  <h4 className="mb-1 ttexte">{game.titulo}</h4>
                   <small className="text-muted">Valoración: {game.valoracion}</small>
                 </div>
-                <p className="mb-1">{game.descripcion}</p>
+                <p className="mb-1 texte">{game.descripcion}</p>
                 <small className="text-muted">Género: {game.genero}</small>
               </div>
             </div>
@@ -143,9 +152,9 @@ const Main = () => {
 
 
   return (
-    <body>
+    <body data-bs-spy="scroll">
 
-      <header className="navbar navbar-expand-lg navbar-light bg-light">
+      <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
             href="">
@@ -167,7 +176,7 @@ const Main = () => {
             id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active"
+                <a className="nav-link active navSelected"
                   aria-current="page"
                   href=""><i className="fa-solid fa-gamepad"></i> Juegos</a>
               </li>
@@ -180,7 +189,7 @@ const Main = () => {
                   href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
-            <form method="GET"
+            <div
               className="d-flex m-2">
               <input className="form-control me-2"
                 type="search"
@@ -192,7 +201,7 @@ const Main = () => {
               <button className="btn btn-outline-success "
                 type="submit"
                 onClick={() => buscar()}>Buscar</button>
-            </form>
+            </div>
 
             <button className="btn btn-outline-dark m-1"
               onClick={() => navigate( '/chat/Chat/' ) }>
@@ -205,13 +214,41 @@ const Main = () => {
         </div>
       </header>
 
-      <main className="main">
+      <main className="row justify-content-center main"
+        id="main-content">
 
-        <div className="list-group">
+        <div className="col-lg-8 list-group">
           {doGames()}
         </div>
-      </main>
 
+        <div className="container bg-light">
+          <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3 border-top">
+            <div className="col-md-4 d-flex align-items-center px-3">
+              <span className="text-muted">© 2022 SwishGames, Inc</span>
+            </div>
+
+            <a href="/"
+              className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+              <img className="bi me-2"
+                width="32"
+                height="32"
+                src={logoSinLetras}></img>
+            </a>
+
+            <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
+              <li className="nav-item"><a href="#"
+                className="nav-link px-2 text-muted">Home</a></li>
+              <li className="nav-item"><a href="#"
+                className="nav-link px-2 text-muted">Contact</a></li>
+              <li className="nav-item"><a href="#"
+                className="nav-link px-2 text-muted">FAQs</a></li>
+              <li className="nav-item"><a href="#"
+                className="nav-link px-2 text-muted">About</a></li>
+            </ul>
+          </footer>
+        </div>
+
+      </main>
 
     </body>
 
