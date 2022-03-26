@@ -28,13 +28,14 @@ body {
     
   /* centrado vertical */
   position: absolute;
-    width: auto;
-    height: auto;
+    width: auto !important;
+    height: auto !important;
 	border-radius: 5px !important;
 }
 
 .list-group {
     border-radius: 5px !important;
+    /*height: 2000px;*/
 }
 
 .img-juego {
@@ -52,6 +53,25 @@ body {
         font-size: 15px;
     }
     
+}
+
+/**::-webkit-scrollbar {
+    width: 5px;
+
+}*/
+
+/**::-webkit-scrollbar-track {
+    background: transparent;
+}*/
+  
+/**::-webkit-scrollbar-thumb {
+    background-color: rgb(243, 71, 71) !important;
+    border-radius: 20px;
+    border: 3px solid #000000 !important;
+}*/
+
+.my-custom-scrollbar {
+    height: 2000px;
 }
 
 .h1sg {
