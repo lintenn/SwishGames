@@ -4,7 +4,7 @@ import Login from './vistas/login/login.js';
 import Recovery from './vistas/recovery/recovery.js';
 import Signup from './vistas/signup/signup.js';
 import Main from './vistas/main/main.js';
-import Chat from './vistas/chat/componentes/Chat.js';
+import Chat from './vistas/chat/Chat.js';
 import Game from './vistas/game/game.js';
 import { isAuthorized } from './helper/isAuthorized';
 

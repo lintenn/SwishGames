@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react'
 ;
 import './login.css';
 
-// const URI = 'http://localhost:8000/users';
+const URI = 'http://localhost:8000/users';
 
-const URI = 'https://swishgames-backend.herokuapp.com/users';
+// const URI = 'https://swishgames-backend.herokuapp.com/users';
 
 const Login = () => {
 
