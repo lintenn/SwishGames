@@ -1,4 +1,5 @@
 import JuegoModel from "../models/GameModel.js";
+import { Op } from "sequelize";
 
 export const getAllGames = async (req, res) => {
     try {
@@ -11,10 +12,11 @@ export const getAllGames = async (req, res) => {
 
 export const getSearchedGames = async (req, res) => {
     try {
+
         const games = await JuegoModel.findAll({
             where: {
                 titulo: {
-                    [Op.substring]: req.params.titulo
+                    [Op.like]: `%${req.params.titulo}%`
                 }
             }
         })
