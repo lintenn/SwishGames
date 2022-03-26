@@ -9,6 +9,21 @@ export const getAllGames = async (req, res) => {
     }
 }
 
+export const getSearchedGames = async (req, res) => {
+    try {
+        const games = await JuegoModel.findAll({
+            where: {
+                titulo: {
+                    [Op.substring]: req.params.titulo
+                }
+            }
+        })
+        res.json(games)
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
 export const getGame = async (req, res) => {
     try {
         const game = await JuegoModel.findAll({

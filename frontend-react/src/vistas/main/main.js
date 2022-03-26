@@ -16,6 +16,7 @@ const URI = 'http://localhost:8000/games/';
 const Main = () => {
 
   const [games, setGames] = useState([]);
+  const [buscado, setBuscado] = useState( '' );
   const navigate = useNavigate();
   const isauthorized = isAuthorized();
 
@@ -31,6 +32,16 @@ const Main = () => {
 
     const res = await axios.get( URI );
     setGames( res.data );
+
+  };
+
+  const buscar = async () => {
+
+    const res = await axios.get( URI + 'buscar/' + buscado );
+    setGames( res.data );
+    console.log( buscado );
+
+    // navigate( '/' );
 
   };
 
@@ -130,6 +141,7 @@ const Main = () => {
 
   }
 
+
   return (
     <body>
 
@@ -168,13 +180,18 @@ const Main = () => {
                   href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
-            <form className="d-flex m-2">
+            <form method="GET"
+              className="d-flex m-2">
               <input className="form-control me-2"
                 type="search"
+                name="titulo"
                 placeholder="Buscar juego"
-                aria-label="Search"/>
+                aria-label="Search"
+                value={buscado}
+                onChange={ ( b ) => setBuscado( b.target.value ) }/>
               <button className="btn btn-outline-success "
-                type="submit">Buscar</button>
+                type="submit"
+                onClick={() => buscar()}>Buscar</button>
             </form>
 
             <button className="btn btn-outline-dark m-1"
@@ -194,6 +211,7 @@ const Main = () => {
           {doGames()}
         </div>
       </main>
+
 
     </body>
 
