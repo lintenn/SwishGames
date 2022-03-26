@@ -1,6 +1,5 @@
-import db from "../database/mysql.js";
-
-import{DataTypes} from "sequelize";
+const db = require("../database/mysql.js")
+const DataTypes = require("sequelize")
 
 const UserModel = db.define('Usuarios', {
     nombre: {type: DataTypes.STRING},
@@ -13,4 +12,4 @@ const UserModel = db.define('Usuarios', {
     online: {type: DataTypes.BOOLEAN}
 })
 
-export default UserModel
+module.exports = UserModel

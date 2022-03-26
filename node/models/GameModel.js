@@ -1,6 +1,5 @@
-import db from "../database/mysql.js";
-
-import{DataTypes} from "sequelize";
+const db = require("../database/mysql.js")
+const DataTypes = require("sequelize")
 
 const JuegoModel = db.define('Juegos', {
     titulo: {type: DataTypes.STRING},
@@ -10,4 +9,4 @@ const JuegoModel = db.define('Juegos', {
     imagen: {type: DataTypes.STRING}
 })
 
-export default JuegoModel
+module.exports = JuegoModel
