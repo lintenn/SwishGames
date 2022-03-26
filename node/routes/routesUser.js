@@ -1,13 +1,13 @@
-import express from 'express'
-import { createUser, deleteUser, getAllUsers, getUser, getUserByName, updateUser, updateConnectionUserByName } from '../controllers/UserController.js'
+const express = require('express')
+const UserController = require('../controllers/UserController.js')
 const router = express.Router()
 
-router.get('/', getAllUsers)
-router.get('/:id', getUser)
-router.get('/name/:name', getUserByName)
-router.post('/', createUser)
-router.put('/:id', updateUser)
-router.put('/connection/:name', updateConnectionUserByName)
-router.delete('/:id', deleteUser)
+router.get('/', UserController.getAllUsers)
+router.get('/:id', UserController.getUser)
+router.get('/name/:name', UserController.getUserByName)
+router.post('/', UserController.createUser)
+router.put('/:id', UserController.updateUser)
+router.put('/connection/:name', UserController.updateConnectionUserByName)
+router.delete('/:id', UserController.deleteUser)
 
-export default router
+module.exports = router

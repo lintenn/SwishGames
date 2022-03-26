@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import socket from './vistas/chat/componentes/Socket.js';
 import Login from './vistas/login/login.js';
 import Recovery from './vistas/recovery/recovery.js';
 import Signup from './vistas/signup/signup.js';
 import Main from './vistas/main/main.js';
-import Chat from './vistas/chat/Chat.js';
+import Chat from './vistas/chat/componentes/Chat.js';
 import Game from './vistas/game/game.js';
 import { isAuthorized } from './helper/isAuthorized';
 

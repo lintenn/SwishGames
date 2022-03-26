@@ -1,8 +1,8 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
-//const URI = 'https://swishgames-socketio.herokuapp.com/'
-const URI = 'ws://localhost:5000'
+// const URI = 'https://swishgames-socketio.herokuapp.com/'
+const URI = 'ws://localhost:8000';
 
-let socket = io(URI, { transports : ['websocket'] })
+const socket = io( URI, { transports: ['websocket'] });
 
-export default socket
+export default socket;

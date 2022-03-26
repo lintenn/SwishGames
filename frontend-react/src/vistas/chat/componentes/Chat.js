@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import socket from './Socket';
 import '../Chat.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { isAuthorized } from '../../../helper/isAuthorized.js';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 
 const URI = 'http://localhost:8000/chats/';
 const URIUsers = 'http://localhost:8000/users/';
@@ -10,14 +14,33 @@ const URIUsers = 'http://localhost:8000/users/';
 // const URI = 'https://swishgames-backend.herokuapp.com/chats/'
 // const URIUsers = 'https://swishgames-backend.herokuapp.com/users/'
 
-const Chat = ({ nombre }) => {
+const Chat = () => {
 
   const [mensaje, setMensaje] = useState( '' );
   const [mensajes, setMensajes] = useState([]);
   const [mensajesDESC, setMensajesDESC] = useState([]);
   const [users, setUsers] = useState([]);
   const [receptor, setReceptor] = useState( '' );
-  const divRef = useRef( null );
+  const [nombre, setNombre] = useState( '' );
+  const isauthorized = isAuthorized();
+  const navigate = useNavigate();
+
+  useEffect( () => {
+
+    if ( !isauthorized ) {
+
+      Swal.fire( 'No has iniciado sesión', 'Inicia sesión.' );
+      navigate( '/login/login' );
+
+    } else {
+
+      const token = localStorage.getItem( 'user' );
+      const user = JSON.parse( token );
+      setNombre( user.nombre );
+
+    }
+
+  });
 
   useEffect( () => {
 
@@ -74,7 +97,7 @@ const Chat = ({ nombre }) => {
 
   const setConection = ( rec ) => {
 
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.nombre === rec ) {
 
@@ -124,11 +147,11 @@ const Chat = ({ nombre }) => {
     const prueba = [];
     const users2 = [];
 
-    mensajesDESC.map( ( men ) => {
+    mensajesDESC.forEach( ( men ) => {
 
+      let enc = false;
       if ( men.nombre_usuario_emisor === nombre ) {
 
-        var enc = false;
         for ( let i = 0; i < users2.length && !enc; i++ ) {
 
           if ( men.nombre_usuario_receptor === users2[i]) {
@@ -169,7 +192,6 @@ const Chat = ({ nombre }) => {
 
       } else if ( men.nombre_usuario_receptor === nombre ) {
 
-        var enc = false;
         for ( let i = 0; i < users2.length; i++ ) {
 
           if ( men.nombre_usuario_emisor === users2[i]) {
@@ -221,7 +243,7 @@ const Chat = ({ nombre }) => {
     const message = [];
     let nombreAnterior = '';
 
-    mensajes.map( ( mensaje ) => {
+    mensajes.forEach( ( mensaje ) => {
 
       if ( ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor && mensaje.nombre_usuario_receptor === nombre ) ) {
 
@@ -415,6 +437,9 @@ const Chat = ({ nombre }) => {
 
   );
 
+};
+Chat.propTypes = {
+  nombre: PropTypes.string.isRequired
 };
 
 export default Chat;

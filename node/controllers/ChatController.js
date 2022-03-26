@@ -1,7 +1,7 @@
-import ChatModel from "../models/ChatModel.js";
-import { Op } from "sequelize";
+const ChatModel = require("../models/ChatModel.js")
+const Op = require("sequelize")
 
-export const getAllMessages = async (req, res) => {
+const getAllMessages = async (req, res) => {
     try {
         const chats = await ChatModel.findAll()
         res.json(chats)
@@ -10,7 +10,7 @@ export const getAllMessages = async (req, res) => {
     }
 }
 
-export const getAllMessagesOrderByDate = async (req, res) => {
+const getAllMessagesOrderByDate = async (req, res) => {
     try {
         const chats = await ChatModel.findAll({
             order:[['fecha_envio', 'DESC']]
@@ -21,7 +21,7 @@ export const getAllMessagesOrderByDate = async (req, res) => {
     }
 }
 
-export const getAllMessagesOfOnePerson = async (req, res) => {
+const getAllMessagesOfOnePerson = async (req, res) => {
     try {
         const chats = await ChatModel.findAll({
             where: {[Op.or]: [
@@ -39,7 +39,8 @@ export const getAllMessagesOfOnePerson = async (req, res) => {
     }
 }
 
-export const getAllMessagesOfOnePersonOrderByDate = async (req, res) => {
+
+const getAllMessagesOfOnePersonOrderByDate = async (req, res) => {
     try {
         const chats = await ChatModel.findAll({
             where: {[Op.or]: [
@@ -57,7 +58,7 @@ export const getAllMessagesOfOnePersonOrderByDate = async (req, res) => {
     }
 }
 
-export const getMessage = async (req, res) => {
+const getMessage = async (req, res) => {
     try {
         const chat = await ChatModel.findAll({
             where:{ id:req.params.id }
@@ -68,7 +69,7 @@ export const getMessage = async (req, res) => {
     }
 }
 
-export const createMessage = async (req, res) => {
+const createMessage = async (req, res) => {
     try {
         await ChatModel.create(req.body)
         res.json({"message":"¡Registro creado correctamente!"})
@@ -77,7 +78,7 @@ export const createMessage = async (req, res) => {
     }
 }
 
-export const updateMessage = async (req, res) => {
+const updateMessage = async (req, res) => {
     try {
         await ChatModel.update(req.body, {
             where: { id: req.params.id }
@@ -88,7 +89,7 @@ export const updateMessage = async (req, res) => {
     }
 }
 
-export const deleteMessage = async (req, res) => {
+const deleteMessage = async (req, res) => {
     try {
         await ChatModel.destroy({
             where: { id: req.params.id }
@@ -98,3 +99,5 @@ export const deleteMessage = async (req, res) => {
         res.json({message: error.message})
     }
 }
+
+module.exports = {getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, createMessage, updateMessage, deleteMessage}
