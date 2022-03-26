@@ -152,7 +152,7 @@ const Main = () => {
 
 
   return (
-    <body data-bs-spy="scroll">
+    <body>
 
       <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
@@ -217,7 +217,8 @@ const Main = () => {
       <main className="row justify-content-center main"
         id="main-content">
 
-        <div className="col-lg-8 list-group">
+        <div className="col-lg-8 list-group"
+          data-bs-spy="scroll">
           {doGames()}
         </div>
 

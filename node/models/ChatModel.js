@@ -1,6 +1,5 @@
-import db from "../database/mysql.js";
-
-import{DataTypes} from "sequelize";
+const db = require("../database/mysql.js")
+const DataTypes = require("sequelize")
 
 const ChatModel = db.define('Chats', {
     nombre_usuario_emisor: {type: DataTypes.STRING},
@@ -9,4 +8,4 @@ const ChatModel = db.define('Chats', {
     fecha_envio: {type: DataTypes.DATE},
 })
 
-export default ChatModel
+module.exports = ChatModel

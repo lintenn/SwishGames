@@ -1,7 +1,7 @@
-import JuegoModel from "../models/GameModel.js";
-import { Op } from "sequelize";
+const JuegoModel = require("../models/GameModel.js")
+const {Op} = require("sequelize")
 
-export const getAllGames = async (req, res) => {
+const getAllGames = async (req, res) => {
     try {
         const games = await JuegoModel.findAll()
         res.json(games)
@@ -10,7 +10,7 @@ export const getAllGames = async (req, res) => {
     }
 }
 
-export const getSearchedGames = async (req, res) => {
+const getSearchedGames = async (req, res) => {
     try {
 
         const games = await JuegoModel.findAll({
@@ -26,7 +26,7 @@ export const getSearchedGames = async (req, res) => {
     }
 }
 
-export const getGame = async (req, res) => {
+const getGame = async (req, res) => {
     try {
         const game = await JuegoModel.findAll({
             where:{ id:req.params.id }
@@ -37,7 +37,7 @@ export const getGame = async (req, res) => {
     }
 }
 
-export const createGame = async (req, res) => {
+const createGame = async (req, res) => {
     try {
         await JuegoModel.create(req.body)
         res.json({"message":"¡Registro creado correctamente!"})
@@ -46,7 +46,7 @@ export const createGame = async (req, res) => {
     }
 }
 
-export const updateGame = async (req, res) => {
+const updateGame = async (req, res) => {
     try {
         await JuegoModel.update(req.body, {
             where: { id: req.params.id }
@@ -57,7 +57,7 @@ export const updateGame = async (req, res) => {
     }
 }
 
-export const deleteGame = async (req, res) => {
+const deleteGame = async (req, res) => {
     try {
         await JuegoModel.destroy({
             where: { id: req.params.id }
@@ -67,3 +67,5 @@ export const deleteGame = async (req, res) => {
         res.json({message: error.message})
     }
 }
+
+module.exports = {getAllGames, getGame, getSearchedGames, createGame, updateGame, deleteGame}
