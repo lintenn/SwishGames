@@ -22,6 +22,7 @@ const Chat = () => {
   const [users, setUsers] = useState([]);
   const [receptor, setReceptor] = useState( '' );
   const [nombre, setNombre] = useState( '' );
+  const [conexion, setConexion] = useState( '' );
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
 
@@ -103,15 +104,19 @@ const Chat = () => {
 
         if ( user.online ) {
 
-          document.getElementById( 'divOnline' ).classList.add( 'mostrarOnline' );
-          document.getElementById( 'divOffline' ).classList.remove( 'mostrarOnline' );
-          document.getElementById( 'divOffline' ).classList.add( 'ocultar' );
+          setConexion(
+            <div id="divOnline">
+              <div id="online"></div>
+                            Online
+            </div> );
 
         } else {
 
-          document.getElementById( 'divOnline' ).classList.remove( 'mostrarOnline' );
-          document.getElementById( 'divOnline' ).classList.add( 'ocultar' );
-          document.getElementById( 'divOffline' ).classList.add( 'mostrarOnline' );
+          setConexion(
+            <div id="divOffline">
+              <div id="offline"></div>
+                          Offline
+            </div> );
 
         }
 
@@ -135,10 +140,55 @@ const Chat = () => {
 
     getUsers();
     setReceptor( rec );
-    document.getElementById( 'labelNameUser' ).innerHTML = rec;
     getMensajes();
     document.getElementById( 'panelChat' ).classList.add( 'mostrar' );
     setConection( rec );
+
+  }
+
+  function showUser() {
+
+    Swal.fire({
+      html: `<div>${showFriends()}</div>`
+    }).then( () => {
+
+      prueba();
+
+    });
+
+  }
+
+  function prueba() {
+
+    for ( let i = 0; i < document.newChats.newChat.length; i++ ) {
+
+      if ( document.newChats.newChat[i].checked ) {
+
+        setReceptor( document.newChats.newChat[i].value );
+        getUsers();
+        getMensajes();
+        document.getElementById( 'panelChat' ).classList.add( 'mostrar' );
+        setConection( document.newChats.newChat[i].value );
+
+      }
+
+    }
+
+  }
+
+  function showFriends() {
+
+    let friends = '<form name="newChats">';
+
+    users.forEach( ( user ) => {
+
+      friends += `<input type="radio" name="newChat" value="${user.nombre}">${user.nombre}</input></h1><br/>`;
+
+    });
+
+    friends += '</form>';
+
+    return ( friends );
 
   }
 
@@ -353,11 +403,35 @@ const Chat = () => {
                           className="input3"
                           placeholder="Search"
                           aria-label="Search"
-                          aria-describedby="search-addon" />
+                          aria-describedby="search-addon"
+                          maxLength={15} />
                         <span className="input-group-text border-0 botonTransparente"
                           id="search-addon">
                           <i className="fas fa-search searchIcon"></i>
                         </span>
+                        <div className="dropdown">
+                          <button className="btn btn-secondary botonTransparente2"
+                            type="button"
+                            id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="25"
+                              fill="currentColor"
+                              className="bi bi-three-dots-vertical"
+                              viewBox="0 0 16 16">
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg>
+                          </button>
+                          <ul className="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton1">
+                            <li><button className="dropdown-item"
+                              onClick={() => showUser()}>Add a new chat</button></li>
+                            <li><a className="dropdown-item"
+                              href="#">Create a new group</a></li>
+                          </ul>
+                        </div>
                       </div>
                       <div className="table-wrapper-scroll-y my-custom-scrollbar">
                         <div data-mdb-perfect-scrollbar="true"
@@ -383,21 +457,12 @@ const Chat = () => {
                             className="d-flex align-self-center me-3"
                             width="60" />
                         </div>
-                        <b><div id="labelNameUser"></div></b>
-                        <div id="divOnline"
-                          className="ocultar">
-                          <div id="online"></div>
-                                        Online
-                        </div>
-                        <div id="divOffline"
-                          className="ocultar">
-                          <div id="offline"></div>
-                                        Offline
-                        </div>
+                        <b><div id="labelNameUser">{receptor}</div></b>
+                        {conexion}
                       </h3>
                     </div>
-                    <div className="table-wrapper-scroll-y my-custom-scrollbar">
-                      <div className="pt-3 pe-3 mh-100 panelChatMensajes"
+                    <div className="table-wrapper-scroll-y my-custom-scrollbar panelChatMensajes">
+                      <div className="pt-3 pe-3 mh-100"
                         data-mdb-perfect-scrollbar="true"
                         position= "relative"
                         overflow-y="scroll">
