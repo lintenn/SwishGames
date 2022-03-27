@@ -6,13 +6,13 @@ import './login.css';
 
 const URI = 'http://localhost:8000/users';
 
-// const URI = 'https://swishgames-backend.herokuapp.com/users'
+// const URI = 'https://swishgames-backend.herokuapp.com/users';
 
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
   const [p, setPassword] = useState( '' );
-  const [users, setUsers] = useState( '' );
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -31,7 +31,7 @@ const Login = () => {
 
   function comprobarUser() {
 
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.nombre === u && user.password === p ) {
 
@@ -55,12 +55,21 @@ const Login = () => {
           onChange={ ( e ) => setNombre( e.target.value )}
           placeholder="Username"
           required="required" />
-        <input className="input"
+        <input className="input1"
           type="password"
           value={p}
           onChange={ ( e ) => setPassword( e.target.value )}
           placeholder="Password"
           required="required" />
+        <nav className="remember">
+          <input className="input"
+            style={{ marginRight: '5px' }}
+            type="checkbox"
+            value="lsRememberMe"
+            id="remember_me"></input>
+          <label style={{ marginBottom: '10px' }}
+            forhtml="rememberMe">Remember me</label>
+        </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
           <button style={{ marginRight: '10px' }}
@@ -75,15 +84,7 @@ const Login = () => {
           > Register</button>
         </nav>
         <br/>
-        <nav className="remember">
-          <input className="input"
-            style={{ marginRight: '5px' }}
-            type="checkbox"
-            value="lsRememberMe"
-            id="remember_me"></input>
-          <label style={{ marginBottom: '10px' }}
-            forhtml="rememberMe">Remember me</label>
-        </nav>
+
 
         <section className="recovery1" >
           <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>
