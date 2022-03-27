@@ -225,6 +225,13 @@ a {
     border-color: transparent;
 }
 
+.botonTransparente2 {
+    background-color: transparent;
+    border-color: transparent;
+    color: #ffc93c;
+	padding: 10px;
+}
+
 .botonNaranja {
     background-color: #ffc93c;
     border-color: transparent;
@@ -361,7 +368,7 @@ a {
 }
 
 .input3 { 
-	width: 80%; 
+	width: 50%; 
     height: 30px;
 	margin-top: 7px; 
 	background: rgba(0,0,0,0.3);
