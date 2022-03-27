@@ -2,6 +2,12 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import validator from 'validator';
+import Visibility from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import InputLabel from '@material-ui/core/InputLabel';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
 import './signup.css';
 
 const URI = 'http://localhost:8000/users';
@@ -12,8 +18,6 @@ const Signup = () => {
 
   const [u, setNombre] = useState( '' );
   const [m, setEmail] = useState( '' );
-  const [p, setPassword] = useState( '' );
-  const [rp, setRPassword] = useState( '' );
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
@@ -47,6 +51,43 @@ const Signup = () => {
 
   }
 
+  const [values, setValues] = React.useState({
+    password: '',
+    rpassword: '',
+    showPassword: false,
+    showrPassword: false
+  });
+
+  const handleClickShowPassword = () => {
+
+    setValues({ ...values, showPassword: !values.showPassword });
+
+  };
+
+  const handleClickShowrPassword = () => {
+
+    setValues({ ...values, showrPassword: !values.showrPassword });
+
+  };
+
+  const handleMouseDownPassword = ( event ) => {
+
+    event.preventDefault();
+
+  };
+
+  const handleMouseDownrPassword = ( event ) => {
+
+    event.preventDefault();
+
+  };
+
+  const handlePasswordChange = ( prop ) => ( event ) => {
+
+    setValues({ ...values, [prop]: event.target.value });
+
+  };
+
   function comprobarEmail() {
 
     let esta = false;
@@ -73,7 +114,7 @@ const Signup = () => {
 
       document.getElementById( 'errorm' ).classList.add( 'mostrar' );
 
-    } else if ( p !== rp ) {
+    } else if ( values.password !== values.rpassword ) {
 
       document.getElementById( 'error' ).classList.add( 'mostrar' );
 
@@ -87,7 +128,7 @@ const Signup = () => {
 
     } else {
 
-      await axios.post( URI, { nombre: u, email: m, password: p });
+      await axios.post( URI, { nombre: u, email: m, password: values.password });
       document.getElementById( 'success' ).classList.add( 'mostrar' );
 
     }
@@ -136,49 +177,83 @@ const Signup = () => {
 
 
   return (
-    <div className="signup1">
+    <div className="signup">
       <h1>Sign Up</h1>
       <form onSubmit={store}>
-        <input className="input"
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+          Username
+        </InputLabel>
+        <Input className="input"
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          placeholder="Username"
           minLength="6"
           size="15"
           required="required" />
-        <input className="input"
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+          Email
+        </InputLabel>
+        <Input className="input"
           type="text"
           value={m}
           onChange={ ( e ) => setEmail( e.target.value )}
-          placeholder="Email"
           size="50"
           required="required" />
-        <input className="input"
-          type="password"
-          value={p}
-          onChange={ ( e ) => setPassword( e.target.value )}
-          placeholder="Password"
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+          Password
+        </InputLabel>
+        <Input className="input"
+          type={values.showPassword ? 'text' : 'password'}
+          onChange={handlePasswordChange( 'password' )}
+          value={values.password}
           minLength="6"
           size="15"
-          required="required" />
-        <input className="input"
-          type="password"
-          value={rp}
-          onChange={ ( e ) => setRPassword( e.target.value )}
-          placeholder="Repeat password"
+          required="required"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+              >
+                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+        Confirm password
+        </InputLabel>
+        <Input className="input"
+          type={values.showrPassword ? 'text' : 'password'}
+          onChange={handlePasswordChange( 'rpassword' )}
+          value={values.rpassword}
           minLength="6"
           size="15"
-          required="required" />
+          required="required"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowrPassword}
+                onMouseDown={handleMouseDownrPassword}
+              >
+                {values.showrPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
 
         <nav className="botones"
-          style={{ marginTop: '5px' }}>
+          style={{ marginTop: '10px' }}>
           <button style={{ marginRight: '10px' }}
             type="submit"
-            className="btn1">Sign Up</button>
+            className="btn btn-primary btns">Sign Up</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
-            className="btn1"
+            className="btn btn-primary btns"
             onClick={() => volver() }
           > Back</button>
 
