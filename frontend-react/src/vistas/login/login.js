@@ -6,13 +6,13 @@ import './login.css';
 
 const URI = 'http://localhost:8000/users';
 
-// const URI = 'https://swishgames-backend.herokuapp.com/users'
+// const URI = 'https://swishgames-backend.herokuapp.com/users';
 
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
   const [p, setPassword] = useState( '' );
-  const [users, setUsers] = useState( '' );
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -31,12 +31,12 @@ const Login = () => {
 
   function comprobarUser() {
 
-    users.map( ( user ) => {
+    users.forEach( ( user ) => {
 
       if ( user.nombre === u && user.password === p ) {
 
-        localStorage.setItem( 'user', JSON.stringify({ nombre: 'u', email: 'm', password: 'p' }) );
-        navigate( '/main/main' );
+        localStorage.setItem( 'user', JSON.stringify({ id: user.id, nombre: user.nombre, email: user.email, password: user.password }) );
+        navigate( '/' );
 
       }
 

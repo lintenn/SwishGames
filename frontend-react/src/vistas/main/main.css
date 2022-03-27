@@ -5,8 +5,12 @@
 html { width: 100%; height:100%; overflow:hidden; }
 
 body { 
+    position: relative;
 	width: 100%;
-	height:100%;
+    /*height: 100%;*/
+    height: 100rem; /* Manual height for make scrollbar appear */
+    overflow-y: overlay !important; /* For scrollbar overlay on content */
+    overflow-x: hidden !important;
 	font-family: 'Open Sans', sans-serif;
 	background: #092756;
 	background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
@@ -15,6 +19,10 @@ body {
 	background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
 	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+}
+
+.mat-shadow{
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
 }
 
 .main { 
@@ -27,38 +35,82 @@ body {
     margin-left: auto; margin-right: auto;*/
     
   /* centrado vertical */
-  position: absolute;
-    width: auto;
-    height: auto;
-	
+  position: relative;
+    width: auto !important;
+    height: auto !important;
+	border-radius: 5px !important;
+    margin-top: 75px !important;
 }
 
-@media only screen and (min-width: 901px) {
+.list-group {
+    border-radius: 5px !important;
+    /*height: 2000px;*/
+    
+}
+
+.img-juego {
+    border-radius: 5px;
+}
+
+.ttexte {
+    font-weight: bold;
+}
+
+@media only screen and (min-width: 992px) {
     .main {
-        margin-left: 200px; margin-right: 200px;
+        /*margin-left: 200px; margin-right: 200px;*/
+    }
+    .ttexte {
+        font-size: 1.6vw;
+    }
+    .texte {
+        font-size: 1.1vw;
     }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 991px) {
     .main {
         font-size: 15px;
     }
     
 }
 
+/**::-webkit-scrollbar {
+    width: 5px;
+
+}*/
+
+/**::-webkit-scrollbar-track {
+    background: transparent;
+}*/
+  
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(211, 53, 53) !important;
+    border-radius: 20px;
+    border: 3px solid #b4a6a6 !important;
+}
+
+.my-custom-scrollbar {
+    height: 2000px;
+}
+
 .h1sg {
-    margin-left: auto; margin-right: auto;
+    /*margin-left: auto; margin-right: auto;*/
     color: white;
 }
 
 .nav-item {
-    background-color: #212529;
+    /*background-color: #212529;*/
 }
 
 .nav-link:hover {
-    color: #c29613 !important;
+    /*color: #c29613 !important;*/
 }
 
 small {
     font-size: 14px !important;
+}
+
+.navSelected {
+    color:black !important;
 }

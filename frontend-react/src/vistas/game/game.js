@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const URI = 'http://localhost:8000/games/';
 
-// const URI = 'https://prueba-swishgame-backend.herokuapp.com/games'
+// const URI = 'https://swishgames-backend.herokuapp.com/games/';
 
 const Game = () => {
 
@@ -33,7 +33,7 @@ const Game = () => {
 
     const listado = [];
 
-    game.map( ( gam ) => {
+    game.forEach( ( gam ) => {
 
       listado.push( gam.titulo );
 
@@ -49,7 +49,7 @@ const Game = () => {
     <div>
       <body>
         <h1>Game</h1>
-        <h5>Titulo:{doGames()}</h5>
+        <h5>Titulo: {doGames()}</h5>
       </body>
     </div>
 

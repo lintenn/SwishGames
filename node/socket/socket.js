@@ -1,8 +1,6 @@
-import { Server } from "socket.io"
-import axios from 'axios'
+const axios = require('axios')
 
-const socket = (port) => {
-    const io = new Server(port)
+const socket = (io) => {
 
     io.on('connection', socket => {
 
@@ -31,4 +29,4 @@ const socket = (port) => {
     })
 }
 
-export default socket
+module.exports = socket
