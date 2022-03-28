@@ -1,7 +1,12 @@
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
-;
+import React, { useState, useEffect } from 'react';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Visibility from '@material-ui/icons/Visibility';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
 import './login.css';
 
 const URI = 'http://localhost:8000/users';
@@ -11,7 +16,6 @@ const URI = 'http://localhost:8000/users';
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
-  const [p, setPassword] = useState( '' );
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
@@ -33,7 +37,7 @@ const Login = () => {
 
     users.forEach( ( user ) => {
 
-      if ( user.nombre === u && user.password === p ) {
+      if ( user.nombre === u && user.password === values.password ) {
 
         localStorage.setItem( 'user', JSON.stringify({ id: user.id, nombre: user.nombre, email: user.email, password: user.password }) );
         navigate( '/' );
@@ -44,29 +48,69 @@ const Login = () => {
 
   }
 
+  const [values, setValues] = React.useState({
+    password: '',
+    showPassword: false
+
+  });
+
+  const handleClickShowPassword = () => {
+
+    setValues({ ...values, showPassword: !values.showPassword });
+
+  };
+
+  const handleMouseDownPassword = ( event ) => {
+
+    event.preventDefault();
+
+  };
+
+  const handlePasswordChange = ( prop ) => ( event ) => {
+
+    setValues({ ...values, [prop]: event.target.value });
+
+  };
+
   return (
-    <div className="login1"
+    <div className="login"
       id="login" >
       <h1>Log In</h1>
       <form method="post">
-        <input className="input"
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+          Username
+        </InputLabel>
+        <Input className="input"
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          placeholder="Username"
           required="required" />
-        <input className="input1"
-          type="password"
-          value={p}
-          onChange={ ( e ) => setPassword( e.target.value )}
-          placeholder="Password"
-          required="required" />
+        <InputLabel htmlFor="standard-adornment-password"
+          style={{ color: 'black' }}>
+          Password
+        </InputLabel>
+        <Input className="input"
+          type= {values.showPassword ? 'text' : 'password'}
+          value={values.password}
+          onChange={handlePasswordChange( 'password' )}
+          required="required"
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+              >
+                {values.showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          } />
         <nav className="remember">
           <input className="input"
-            style={{ marginRight: '5px' }}
+            style={{ marginTop: '4px', marginRight: '5px' }}
             type="checkbox"
             value="lsRememberMe"
-            id="remember_me"></input>
+            id="remember_me"/>
           <label style={{ marginBottom: '10px' }}
             forhtml="rememberMe">Remember me</label>
         </nav>
@@ -74,19 +118,19 @@ const Login = () => {
           style={{ marginTop: '5px' }}>
           <button style={{ marginRight: '10px' }}
             type="submit"
-            className="btn1"
+            className="btn btn-primary btns"
             onClick={() => comprobarUser()}
           >Log In</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
-            className="btn1"
+            className="btn btn-primary btns"
             onClick={() => navigate( '/signup/signup/' ) }
           > Register</button>
         </nav>
         <br/>
 
 
-        <section className="recovery1" >
+        <section className="recovery" >
           <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>
         </section>
 
