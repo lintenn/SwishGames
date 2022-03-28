@@ -7,6 +7,8 @@ import { isAuthorized } from '../../helper/isAuthorized.js';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 
 const URI = 'http://localhost:8000/chats/';
 const URIUsers = 'http://localhost:8000/users/';
@@ -164,11 +166,7 @@ const Chat = () => {
 
       if ( document.newChats.newChat[i].checked ) {
 
-        setReceptor( document.newChats.newChat[i].value );
-        getUsers();
-        getMensajes();
-        document.getElementById( 'panelChat' ).classList.add( 'mostrar' );
-        setConection( document.newChats.newChat[i].value );
+        showChat( document.newChats.newChat[i].value );
 
       }
 
@@ -215,7 +213,7 @@ const Chat = () => {
 
           users2.push( men.nombre_usuario_receptor );
           const d = new Date( men.fecha_envio );
-          const s = d.getDay() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
           prueba.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -255,7 +253,7 @@ const Chat = () => {
 
           users2.push( men.nombre_usuario_emisor );
           const d = new Date( men.fecha_envio );
-          const s = d.getDay() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
           prueba.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -298,7 +296,7 @@ const Chat = () => {
       if ( ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor && mensaje.nombre_usuario_receptor === nombre ) ) {
 
         const d = new Date( mensaje.fecha_envio );
-        const s = d.getDay() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+        const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
         if ( mensaje.nombre_usuario_emisor === nombre ) {
 
           if ( nombre === nombreAnterior ) {
@@ -399,12 +397,12 @@ const Chat = () => {
                     <div className="p-3 botonTransparente">
 
                       <div className="input-group rounded mb-3 botonTransparente">
-                        <input type="search"
-                          className="input3"
+                        <Input className="input3"
+                          type="search"
+                          size="15"
                           placeholder="Search"
                           aria-label="Search"
-                          aria-describedby="search-addon"
-                          maxLength={15} />
+                          aria-describedby="search-addon" />
                         <span className="input-group-text border-0 botonTransparente"
                           id="search-addon">
                           <i className="fas fa-search searchIcon"></i>
@@ -433,7 +431,7 @@ const Chat = () => {
                           </ul>
                         </div>
                       </div>
-                      <div className="table-wrapper-scroll-y my-custom-scrollbar">
+                      <div className="table-wrapper-scroll-y my-custom-scrollbar panelChatUsers">
                         <div data-mdb-perfect-scrollbar="true"
                           position= "relative"
                           height= "400px">
@@ -473,12 +471,11 @@ const Chat = () => {
                     </div>
 
                     <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
-                      <input type="text"
-                        className="input2"
-                        id="exampleFormControlInput2"
-                        placeholder="Type message"
+                      <Input className="input2"
+                        type="text"
+                        onChange={e => setMensaje( e.target.value )}
                         value={mensaje}
-                        onChange={e => setMensaje( e.target.value )}/>
+                        placeholder="Type message"/>
                       <a className="ms-1 text-muted divObjectsSend align-items-center"
                         href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
                       <a className="ms-3 text-muted divObjectsSend align-items-center"
