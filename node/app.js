@@ -1,20 +1,33 @@
-import express from "express"
-import cors from 'cors'
-import db from "./database/mysql.js"
-import userRoutes from './routes/routes.js'
+const express = require('express')
+const http = require('http');
+const cors = require('cors')
+const db = require("./database/mysql.js")
+const userRoutes = require('./routes/routesUser.js')
+const chatRoutes = require('./routes/routesChat.js')
+const gamesRoutes = require('./routes/routesGame.js')
+const socketio = require('socket.io');
 
 const app = express()
+const server = http.createServer(app);
+
+const io = socketio(server);
 
 app.use(cors())
 app.use(express.json())
 app.use('/users',userRoutes)
+app.use('/chats',chatRoutes)
+app.use('/games',gamesRoutes)
 
 try{
-    await db.authenticate()
+    db.connect()
 }catch{
 
 }
 
-app.listen(8000, ()=>{
-    console.log('Server UP, running in http://localhost:8000/')
+app.set('port', process.env.PORT || 8000)
+
+require('./socket/socket.js')(io)
+
+server.listen(app.get('port'), () =>{
+    console.log('server on port', app.get('port'));
 })

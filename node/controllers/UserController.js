@@ -1,6 +1,6 @@
-import UserModel from "../models/UserModel.js";
+const UserModel = require("../models/UserModel.js")
 
-export const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await UserModel.findAll()
         res.json(users)
@@ -9,18 +9,29 @@ export const getAllUsers = async (req, res) => {
     }
 }
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
     try {
         const user = await UserModel.findAll({
             where:{ id:req.params.id }
         })
-        res = user
+        res.json(user)
     } catch(error) {
         res.json({message: error.message})
     }
 }
 
-export const createUser = async (req, res) => {
+const getUserByName = async (req, res) => {
+    try {
+        const user = await UserModel.findAll({
+            where:{ nombre:req.params.name }
+        })
+        res.json(user)
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
+const createUser = async (req, res) => {
     try {
         await UserModel.create(req.body)
         res.json({"message":"¡Registro creado correctamente!"})
@@ -29,9 +40,9 @@ export const createUser = async (req, res) => {
     }
 }
 
-export const updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
     try {
-        await UserModel.update({
+        await UserModel.update(req.body, {
             where: { id: req.params.id }
         })
         res.json({"message":"¡Registro actualizado correctamente!"})
@@ -40,7 +51,18 @@ export const updateUser = async (req, res) => {
     }
 }
 
-export const deleteUser = async (req, res) => {
+const updateConnectionUserByName = async (req, res) => {
+    try {
+        await UserModel.update(req.body, {
+            where: { nombre: req.params.name }
+        })
+        res.json({"message":"¡Registro actualizado correctamente!"})
+    } catch(error) {
+        res.json({message: error.message})
+    }
+}
+
+const deleteUser = async (req, res) => {
     try {
         await UserModel.destroy({
             where: { id: req.params.id }
@@ -50,3 +72,5 @@ export const deleteUser = async (req, res) => {
         res.json({message: error.message})
     }
 }
+
+module.exports = {getAllUsers, getUser, getUserByName, createUser, updateConnectionUserByName, updateUser, deleteUser}
