@@ -91,5 +91,14 @@ body {
 }
 
 u{
-	color:#fff !important;
+	color:black !important;
+}
+
+#error{
+	padding: 10px;
+	background-color: #f44336; /* Red */
+	color: white;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	margin-top: 15px;
 }

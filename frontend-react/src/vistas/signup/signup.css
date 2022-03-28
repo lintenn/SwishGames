@@ -39,6 +39,7 @@ body {
  */    border-radius: 5px;
 }
 .signup h1 { color: black; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
+.signup h2 { color: black; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
 
 #success{
 	padding: 10px;

@@ -35,16 +35,28 @@ const Login = () => {
 
   function comprobarUser() {
 
+    let esta = false;
     users.forEach( ( user ) => {
 
       if ( user.nombre === u && user.password === values.password ) {
 
+        esta = true;
+        document.getElementById( 'error' ).classList.remove( 'mostrar' );
         localStorage.setItem( 'user', JSON.stringify({ id: user.id, nombre: user.nombre, email: user.email, password: user.password }) );
         navigate( '/' );
 
       }
 
     });
+
+    if ( esta === false && u.length > 5 && values.password.length > 5 ) {
+
+      document.getElementById( 'error' ).classList.add( 'mostrar' );
+
+    }
+
+    return esta;
+
 
   }
 
@@ -72,11 +84,18 @@ const Login = () => {
 
   };
 
+  function cerrar() {
+
+    document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+  }
+
   return (
     <div className="login"
       id="login" >
       <h1>Log In</h1>
-      <form method="post">
+      <form method="post"
+        action="/s">
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
           Username
@@ -134,6 +153,14 @@ const Login = () => {
           <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>
         </section>
 
+        <div id="error"
+          className="alert alert-danger ocultar"
+          role="alert">
+          <span id="closebtn"
+            className="closebtn"
+            onClick={ cerrar} >&times;</span>
+                Usuario o contraseña incorrectos.
+        </div>
       </form>
     </div>
   );
