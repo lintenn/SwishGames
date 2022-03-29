@@ -41,7 +41,7 @@ const Login = () => {
       if ( user.nombre === u && user.password === values.password ) {
 
         esta = true;
-        document.getElementById( 'error' ).classList.remove( 'mostrar' );
+        document.getElementById( 'error' ).classList.remove( 'mostrar' ); 
         localStorage.setItem( 'user', JSON.stringify({ id: user.id, nombre: user.nombre, email: user.email, password: user.password }) );
         navigate( '/' );
 
@@ -49,7 +49,7 @@ const Login = () => {
 
     });
 
-    if ( esta === false && u.length > 5 && values.password.length > 5 ) {
+    if ( !esta  ) {
 
       document.getElementById( 'error' ).classList.add( 'mostrar' );
 
