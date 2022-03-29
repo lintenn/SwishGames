@@ -94,8 +94,7 @@ const Login = () => {
     <div className="login"
       id="login" >
       <h1>Log In</h1>
-      <form method="post"
-        action="/s">
+      <div>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
           Username
@@ -161,7 +160,7 @@ const Login = () => {
             onClick={ cerrar} >&times;</span>
                 Usuario o contraseña incorrectos.
         </div>
-      </form>
+      </div>
     </div>
   );
 
