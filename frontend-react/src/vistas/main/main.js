@@ -54,6 +54,12 @@ const Main = () => {
 
   };
 
+  useEffect(() => {
+
+    buscar(); 
+  
+  }, [buscado])
+
   function doGames() {
 
     const listado = [];
@@ -149,7 +155,6 @@ const Main = () => {
     return ( listado );
 
   }
-
 
   return (
     <body>
