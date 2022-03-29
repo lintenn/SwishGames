@@ -7,7 +7,6 @@ import { isAuthorized } from '../../helper/isAuthorized.js';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
-import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 
 const URI = 'http://localhost:8000/chats/';
@@ -32,8 +31,8 @@ const Chat = () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión', 'Inicia sesión.' );
-      navigate( '/login/login' );
+      Swal.fire( 'No has iniciado sesión' );
+      navigate( '/' );
 
     } else {
 
@@ -180,7 +179,20 @@ const Chat = () => {
 
     users.forEach( ( user ) => {
 
-      friends += `<input type="radio" name="newChat" value="${user.nombre}">${user.nombre}</input></h1><br/>`;
+      friends += `
+      <div class="d-flex flex-row mb-3">
+        <input type="radio" name="newChat" value="${user.nombre}" class="align-items-center divObjectsSend d-flex align-self-center me-3">
+          <div class="align-items-center divObjectsSend">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
+              alt="avatar"
+              class="d-flex align-self-center me-3"
+              width="60"/>
+          </div>
+          <div class="pt-1">
+            <p class="fw-bold mb-0">${user.nombre}</p>
+          </div>
+        </input>
+      </div>`;
 
     });
 
@@ -213,7 +225,16 @@ const Chat = () => {
 
           users2.push( men.nombre_usuario_receptor );
           const d = new Date( men.fecha_envio );
-          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + (d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes());
+          let nombreReceptor = men.nombre_usuario_receptor;
+          while(nombreReceptor.length < 15) {
+            nombreReceptor+=" ";
+          }
+          let ultimoMensaje = men.mensaje;
+          if(ultimoMensaje.length > 15) {
+            ultimoMensaje = ultimoMensaje.substring(0,12);
+            ultimoMensaje += "...";
+          }
           prueba.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -226,16 +247,15 @@ const Chat = () => {
                       width="60"/>
                   </div>
                   <div className="pt-1">
-                    <p className="fw-bold mb-0">{men.nombre_usuario_receptor}</p>
-                    <p className="small text-muted">{men.mensaje}</p>
+                    <p className="fw-bold mb-0">{nombreReceptor}</p>
+                    <p className="small text-muted">{ultimoMensaje}</p>
                   </div>
                 </div>
                 <div className="pt-1">
-                  <p className="small text-muted mb-1">{s}</p>
+                  <p className="small text-muted mb-1 textoDerecha">{s}</p>
                 </div>
               </button>
             </li> );
-
         }
 
       } else if ( men.nombre_usuario_receptor === nombre ) {
@@ -254,6 +274,15 @@ const Chat = () => {
           users2.push( men.nombre_usuario_emisor );
           const d = new Date( men.fecha_envio );
           const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+          let nombreReceptor = men.nombre_usuario_emisor;
+          while(nombreReceptor.length < 15) {
+            nombreReceptor+=" ";
+          }
+          let ultimoMensaje = men.mensaje;
+          if(ultimoMensaje.length > 15) {
+            ultimoMensaje = ultimoMensaje.substring(0,12);
+            ultimoMensaje += "...";
+          }
           prueba.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -266,12 +295,12 @@ const Chat = () => {
                       width="60"/>
                   </div>
                   <div className="pt-1">
-                    <p className="fw-bold mb-0">{men.nombre_usuario_emisor}</p>
-                    <p className="small text-muted">{men.mensaje}</p>
+                    <p className="fw-bold mb-0">{nombreReceptor}</p>
+                    <p className="small text-muted">{ultimoMensaje}</p>
                   </div>
                 </div>
                 <div className="pt-1">
-                  <p className="small text-muted mb-1">{s}</p>
+                  <p className="small text-muted mb-1 textoDerecha">{s}</p>
                 </div>
               </button>
             </li> );
@@ -297,6 +326,8 @@ const Chat = () => {
 
         const d = new Date( mensaje.fecha_envio );
         const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
+        
+        
         if ( mensaje.nombre_usuario_emisor === nombre ) {
 
           if ( nombre === nombreAnterior ) {
@@ -305,15 +336,15 @@ const Chat = () => {
               <div className="d-flex flex-row justify-content-end">
                 <div className="d-flex flex-row justify-content-end mensajeActualizadoMio">
                   <div className="pt-1">
-                    <p className="small"
-                      width="70%">{mensaje.mensaje}</p>
+                    <p className="small cols-4">{mensaje.mensaje}</p>
                   </div>
                   <div className="pt-1">
-                    <p className="small text-muted mb-1">{s}</p>
+                    <p className="small text-muted mb-1 cols-4">{s}</p>
                   </div>
                 </div>
               </div>
             );
+            
 
           } else {
 
@@ -324,7 +355,7 @@ const Chat = () => {
                     <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
                     <p className="small">{mensaje.mensaje}</p>
                   </div>
-                  <div className="mt-5">
+                  <div className="pt-1">
                     <p className="small text-muted mb-1">{s}</p>
                   </div>
                 </div>

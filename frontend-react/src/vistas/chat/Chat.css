@@ -21,6 +21,7 @@ small{
 p{
     margin: 10px;
     text-align: justify;
+    word-wrap:break-word;
 }
 
 *::-webkit-scrollbar {
@@ -103,6 +104,8 @@ a {
     background-color: #ffffff;
     border-color: transparent;
     border-radius: 20px;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .mensajeActualizadoOtro  {
@@ -112,12 +115,13 @@ a {
 
 .mensajeActualizadoMio {
     background-color: #d9fdd3;
-    max-width: 70%;
 }
 
-.mensajeActualizadoMio, .mensajeActualizadoOtro {
+.mensajeActualizadoMio, .mensajeActualizadoOtro, #mensajeActualizadoMio2 {
     margin-bottom: 5px;
     border-radius: 5px;
+    min-width: 70%;
+    max-width: 70%;
 }
 
 .emogiIcon {
@@ -183,6 +187,14 @@ a {
 
 .panelChatUsers {
     margin-top: -17px;
+}
+
+.textoTransparente {
+    color: transparent !important;
+}
+
+.textoDerecha {
+    text-align: right;
 }
 
 @media only screen and (max-height: 400px) {
