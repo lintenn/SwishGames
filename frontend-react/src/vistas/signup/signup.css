@@ -59,6 +59,15 @@ body {
 	margin-top: 15px;
 }
 
+#successRec{
+	padding: 10px;
+	background-color: #00ff66; /* Red */
+	color: black;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+}
+
 .closebtn {
 	margin-left: 15px;
 	color: white;

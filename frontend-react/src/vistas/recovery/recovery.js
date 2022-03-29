@@ -32,26 +32,44 @@ const Recovery = () => {
   };
 
   async function comprobarUser() {
-
+  
+    let esta=false;
     users.forEach( ( user ) => {
-
+      
       if ( user.email === m ) {
 
         emailjs.send( 'service_b05hnvr', 'template_e54pr46', { email: m, to_name: user.name, password: user.password }, 'WznRYXdNmfA-nSsG0' )
           .then( ( result ) => {
 
             console.log( result.text );
-
+            
           }, ( error ) => {
 
             console.log( error.text );
 
           });
-          alert( 'Correo enviado. No olvide revisar la carpeta "spam".' );
-          setEmail('');
+          esta=true;
+          document.getElementById( 'error' ).classList.remove( 'mostrar' );
+          document.getElementById( 'successRec' ).classList.add( 'mostrar' );
+
       }
 
-    });      
+    });  
+    if(!esta)
+      document.getElementById( 'error' ).classList.add( 'mostrar' );
+    
+
+  }
+
+  function cerrar() {
+
+    document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+  }
+
+  function cerrars() {
+
+    document.getElementById( 'successRec' ).classList.remove( 'mostrar' );
 
   }
 
@@ -85,6 +103,23 @@ const Recovery = () => {
           > Back</button>
 
         </nav>
+
+        <div id="successRec"
+          className="alert alert-success ocultar"
+          role="alert">
+          <span id="closebtns"
+            className="closebtn"
+            onClick={ cerrars} >&times;</span>
+                Correo enviado con éxito. No olvide revisar la carpeta "spam".'
+        </div>
+        <div id="error"
+          className="alert alert-danger ocultar"
+          role="alert">
+          <span id="closebtn"
+            className="closebtn"
+            onClick={ cerrar} >&times;</span>
+                El correo indicado no se ecuentra asociado a ninguna cuenta.
+        </div>
 
       </div>
     </div>
