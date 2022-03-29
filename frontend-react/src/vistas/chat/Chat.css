@@ -120,7 +120,6 @@ a {
 .mensajeActualizadoMio, .mensajeActualizadoOtro, #mensajeActualizadoMio2 {
     margin-bottom: 5px;
     border-radius: 5px;
-    min-width: 70%;
     max-width: 70%;
 }
 
@@ -195,6 +194,14 @@ a {
 
 .textoDerecha {
     text-align: right;
+}
+
+.tamañoMaximoMensaje {
+    max-width: 82%;
+}
+
+.tamañoHora {
+    font-size: x-small !important;
 }
 
 @media only screen and (max-height: 400px) {
