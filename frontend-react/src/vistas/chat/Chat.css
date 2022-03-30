@@ -204,6 +204,18 @@ a {
     font-size: x-small !important;
 }
 
+.btnAñadirChats {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #0d6efd !important;
+}
+
+.btnAñadirChats:hover {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #0d6efd !important;
+}
+
 @media only screen and (max-height: 400px) {
     .my-custom-scrollbar {
         position: relative;

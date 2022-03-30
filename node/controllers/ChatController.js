@@ -111,6 +111,24 @@ const getMessage = async ( req, res ) => {
 
 };
 
+const getMessageByUser = async ( req, res ) => {
+
+  try {
+
+    const chat = await ChatModel.findAll({
+      where: { nombre_usuario_emisor: req.params.nombre_usuario_emisor,
+                nombre_usuario_receptor: req.params.nombre_usuario_receptor }
+    });
+    res.json( chat );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
 const createMessage = async ( req, res ) => {
 
   try {
@@ -160,4 +178,4 @@ const deleteMessage = async ( req, res ) => {
 
 };
 
-module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, createMessage, updateMessage, deleteMessage };
+module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, getMessageByUser, createMessage, updateMessage, deleteMessage };
