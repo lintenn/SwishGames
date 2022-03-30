@@ -99,7 +99,7 @@ const Recovery = () => {
           <button style={{ marginLeft: '10px' }}
             type="submit"
             className="btn btn-primary btns"
-            onClick={() => navigate( '/login/login/' ) }
+            onClick={() => navigate( '/login/' ) }
           > Back</button>
 
         </nav>

@@ -93,11 +93,11 @@ const Login = () => {
   return (
     <div className="login"
       id="login" >
-      <h1>Log In</h1>
+      <h1>Iniciar sesión</h1>
       <div>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
-          Username
+          Usuario
         </InputLabel>
         <Input className="input"
           type="text"
@@ -106,7 +106,7 @@ const Login = () => {
           required={true} />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
-          Password
+          Contraseña
         </InputLabel>
         <Input className="input"
           type= {values.showPassword ? 'text' : 'password'}
@@ -130,7 +130,7 @@ const Login = () => {
             value="lsRememberMe"
             id="remember_me"/>
           <label style={{ marginBottom: '10px' }}
-            forhtml="rememberMe">Remember me</label>
+            forhtml="rememberMe"> Recordarme</label>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
@@ -138,18 +138,18 @@ const Login = () => {
             type="submit"
             className="btn btn-primary btns"
             onClick={() => comprobarUser()}
-          >Log In</button>
+          >Iniciar sesión</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
             className="btn btn-primary btns"
-            onClick={() => navigate( '/signup/signup/' ) }
-          > Register</button>
+            onClick={() => navigate( '/signup/' ) }
+          > Registrarse</button>
         </nav>
         <br/>
 
 
         <section className="recovery" >
-          <Link to={'/recovery/recovery/'} > <u>Forgot your password?</u></Link>
+          <Link to={'/recovery/'} > <u>¿Olvidaste tu contraseña?</u></Link>
         </section>
 
         <div id="error"

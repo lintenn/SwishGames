@@ -76,7 +76,7 @@ const Game = () => {
 
   function iniciarSesion() {
 
-    navigate( '/login/login' );
+    navigate( '/login' );
 
   }
 
@@ -151,7 +151,7 @@ const Game = () => {
             </ul>
 
             <button className="btn btn-outline-dark m-1"
-              onClick={() => navigate( '/chat/Chat/' ) }>
+              onClick={() => navigate( '/chat/' ) }>
               <i className="fa-solid fa-comments"></i></button>
 
             {nombreUsuario()}
