@@ -36,7 +36,7 @@ body {
 	width:300px !important;
 	height:300px !important;
 }
-.login h1 { color: black !important; text-shadow: 0 0 10px rgba(0,0,0,0.3) !important; letter-spacing:1px; font-weight: bold; text-align:center !important; padding-bottom: 10px;  }
+.login h1 { color: black !important; letter-spacing:1px; font-weight: bold; text-align:center !important; padding-bottom: 10px;  }
 
 .remember{
 	display: flex !important;

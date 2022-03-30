@@ -17,17 +17,17 @@ function App() {
       id="root" >
       <BrowserRouter>
         <Routes>
-          <Route path="/login/login"
+          <Route path="/login"
             element={<Login/>}> </Route>
-          <Route path="/recovery/recovery"
+          <Route path="/recovery"
             element={<Recovery/>}></Route>
-          <Route path="/signup/signup"
+          <Route path="/signup"
             element={<Signup/>}></Route>
           <Route path="/"
             element={<Main/>}></Route>
-          <Route path="/chat/Chat"
+          <Route path="/chat"
             element={<Chat/>}></Route>
-          <Route path="/game/game/:id"
+          <Route path="/game/:id"
             element={<Game/>}></Route>
         </Routes>
       </BrowserRouter>
