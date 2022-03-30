@@ -54,6 +54,12 @@ const Main = () => {
 
   };
 
+  useEffect(() => {
+
+    buscar(); 
+  
+  }, [buscado])
+
   function doGames() {
 
     const listado = [];
@@ -61,7 +67,7 @@ const Main = () => {
     games.forEach( ( game ) => {
 
       listado.push(
-        <Link to={'/game/game/' + game.id}>
+        <Link to={'/game/' + game.id}>
           <a href="#"
             className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
@@ -70,12 +76,13 @@ const Main = () => {
                 width="200"
                 height="150" />
               <div className="px-2">
-                <div className="d-flex w-100 justify-content-between">
-                  <h4 className="mb-1 ttexte">{game.titulo}</h4>
+                <div className="d-flex w-100 justify-content-between pt-1">
+                  <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
                   <small className="text-muted">Valoración: {game.valoracion}</small>
                 </div>
                 <p className="mb-1 texte">{game.descripcion}</p>
-                <small className="text-muted">Género: {game.genero}</small>
+                <br/>
+                <small className="text-muted"> &nbsp;&nbsp; Género: {game.genero}</small>
               </div>
             </div>
           </a>
@@ -116,7 +123,7 @@ const Main = () => {
 
   function iniciarSesion() {
 
-    navigate( '/login/login' );
+    navigate( '/login' );
 
   }
 
@@ -128,6 +135,7 @@ const Main = () => {
 
       const token = localStorage.getItem( 'user' );
       const user = JSON.parse( token );
+      
 
       listado.push(
         <button className="btn btn-outline-dark m-1">
@@ -149,7 +157,6 @@ const Main = () => {
     return ( listado );
 
   }
-
 
   return (
     <body>
@@ -204,7 +211,7 @@ const Main = () => {
             </div>
 
             <button className="btn btn-outline-dark m-1"
-              onClick={() => navigate( '/chat/Chat/' ) }>
+              onClick={() => navigate( '/chat/' ) }>
               <i className="fa-solid fa-comments"></i></button>
 
             {nombreUsuario()}

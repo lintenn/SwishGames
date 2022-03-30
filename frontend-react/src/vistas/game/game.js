@@ -76,7 +76,7 @@ const Game = () => {
 
   function iniciarSesion() {
 
-    navigate( '/login/login' );
+    navigate( '/login' );
 
   }
 
@@ -117,7 +117,7 @@ const Game = () => {
       <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
-            href="">
+            href="/">
             <img src={logo}
               width="80px"
               height="50px" >
@@ -138,7 +138,7 @@ const Game = () => {
               <li className="nav-item">
                 <a className="nav-link active navSelected"
                   aria-current="page"
-                  href=""><i className="fa-solid fa-gamepad"></i> Juegos</a>
+                  href="/"><i className="fa-solid fa-gamepad"></i> Juegos</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link"
@@ -151,7 +151,7 @@ const Game = () => {
             </ul>
 
             <button className="btn btn-outline-dark m-1"
-              onClick={() => navigate( '/chat/Chat/' ) }>
+              onClick={() => navigate( '/chat/' ) }>
               <i className="fa-solid fa-comments"></i></button>
 
             {nombreUsuario()}

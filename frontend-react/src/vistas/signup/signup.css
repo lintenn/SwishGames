@@ -38,7 +38,8 @@ body {
 /* 	border: 1px solid black;
  */    border-radius: 5px;
 }
-.signup h1 { color: black; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
+.signup h1 { color: black; letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
+.signup h2 { color: black; letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
 
 #success{
 	padding: 10px;
@@ -53,6 +54,15 @@ body {
 	padding: 10px;
 	background-color: #f44336; /* Red */
 	color: white;
+	border-radius: 8px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+}
+
+#successRec{
+	padding: 10px;
+	background-color: #00ff66; /* Red */
+	color: black;
 	border-radius: 8px;
 	margin-bottom: 10px;
 	margin-top: 15px;
