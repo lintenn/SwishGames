@@ -76,12 +76,13 @@ const Main = () => {
                 width="200"
                 height="150" />
               <div className="px-2">
-                <div className="d-flex w-100 justify-content-between">
-                  <h4 className="mb-1 ttexte">{game.titulo}</h4>
+                <div className="d-flex w-100 justify-content-between pt-1">
+                  <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
                   <small className="text-muted">Valoración: {game.valoracion}</small>
                 </div>
                 <p className="mb-1 texte">{game.descripcion}</p>
-                <small className="text-muted">Género: {game.genero}</small>
+                <br/>
+                <small className="text-muted"> &nbsp;&nbsp; Género: {game.genero}</small>
               </div>
             </div>
           </a>
@@ -134,6 +135,7 @@ const Main = () => {
 
       const token = localStorage.getItem( 'user' );
       const user = JSON.parse( token );
+      
 
       listado.push(
         <button className="btn btn-outline-dark m-1">
