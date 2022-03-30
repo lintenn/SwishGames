@@ -142,7 +142,7 @@ const Signup = () => {
     document.getElementById( 'errore' ).classList.remove( 'mostrar' );
     document.getElementById( 'error' ).classList.remove( 'mostrar' );
     document.getElementById( 'success' ).classList.remove( 'mostrar' );
-    navigate( '/login/login/' );
+    navigate( '/login/' );
 
   }
 
@@ -178,11 +178,11 @@ const Signup = () => {
 
   return (
     <div className="signup">
-      <h1>Sign Up</h1>
+      <h1>Registro</h1>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
-          Username
+          Usuario
         </InputLabel>
         <Input className="input"
           type="text"
@@ -203,7 +203,7 @@ const Signup = () => {
           required="required" />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
-          Password
+          Contraseña
         </InputLabel>
         <Input className="input"
           type={values.showPassword ? 'text' : 'password'}
@@ -225,7 +225,7 @@ const Signup = () => {
         />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
-        Confirm password
+        Confirmar contraseña
         </InputLabel>
         <Input className="input"
           type={values.showrPassword ? 'text' : 'password'}
@@ -250,12 +250,12 @@ const Signup = () => {
           style={{ marginTop: '10px' }}>
           <button style={{ marginRight: '10px' }}
             type="submit"
-            className="btn btn-primary btns">Sign Up</button>
+            className="btn btn-primary btns">Registrarse</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
             className="btn btn-primary btns"
             onClick={() => volver() }
-          > Back</button>
+          > Volver</button>
 
         </nav>
         <div id="error"

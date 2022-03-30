@@ -67,7 +67,7 @@ const Main = () => {
     games.forEach( ( game ) => {
 
       listado.push(
-        <Link to={'/game/game/' + game.id}>
+        <Link to={'/game/' + game.id}>
           <a href="#"
             className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
@@ -123,7 +123,7 @@ const Main = () => {
 
   function iniciarSesion() {
 
-    navigate( '/login/login' );
+    navigate( '/login' );
 
   }
 
@@ -211,7 +211,7 @@ const Main = () => {
             </div>
 
             <button className="btn btn-outline-dark m-1"
-              onClick={() => navigate( '/chat/Chat/' ) }>
+              onClick={() => navigate( '/chat/' ) }>
               <i className="fa-solid fa-comments"></i></button>
 
             {nombreUsuario()}
