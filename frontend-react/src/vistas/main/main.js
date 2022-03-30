@@ -54,11 +54,11 @@ const Main = () => {
 
   };
 
-  useEffect(() => {
+  useEffect( () => {
 
-    buscar(); 
-  
-  }, [buscado])
+    buscar();
+
+  }, [buscado]);
 
   function doGames() {
 
@@ -135,7 +135,7 @@ const Main = () => {
 
       const token = localStorage.getItem( 'user' );
       const user = JSON.parse( token );
-      
+
 
       listado.push(
         <button className="btn btn-outline-dark m-1">
