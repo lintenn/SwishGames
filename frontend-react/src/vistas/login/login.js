@@ -103,7 +103,7 @@ const Login = () => {
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          required="required" />
+          required={true} />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
           Password
@@ -112,7 +112,7 @@ const Login = () => {
           type= {values.showPassword ? 'text' : 'password'}
           value={values.password}
           onChange={handlePasswordChange( 'password' )}
-          required="required"
+          required={true}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
