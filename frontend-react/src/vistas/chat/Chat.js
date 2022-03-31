@@ -26,9 +26,8 @@ const Chat = () => {
   const [conexion, setConexion] = useState( '' );
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
-  let mensajeUser = [];
   let numeroMensajeUser = 0;
-  let numeroMaximoMensajes = 0;
+  let numeroMaximoUser = 0;
 
   useEffect( () => {
 
@@ -93,36 +92,94 @@ const Chat = () => {
 
       } else if ( event.key === 'ArrowUp' ) {
 
-        if ( mensajeUser.length > 0 ) {
+        numeroMaximoUser = 0;
 
-          if ( numeroMensajeUser <= numeroMaximoMensajes ) {
+        mensajesDESC.forEach( ( mensaje ) => {
 
-            numeroMensajeUser = numeroMensajeUser + 1;
+          if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+            numeroMaximoUser = numeroMaximoUser + 1;
 
           }
 
-          if ( numeroMensajeUser <= numeroMaximoMensajes ) {
 
-            setMensaje( mensajeUser[mensajeUser.length - numeroMensajeUser]);
+        });
+
+        if ( numeroMensajeUser === numeroMaximoUser && numeroMaximoUser !== 0 ) {
+
+          let i = 1;
+          mensajesDESC.forEach( ( mensaje ) => {
+
+            if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+              if ( i === numeroMensajeUser ) {
+
+                setMensaje( mensaje.mensaje );
+
+              }
+              i = i + 1;
+
+            }
+
+
+          });
+
+        } else if ( numeroMaximoUser === 0 ) {
+
+          setMensaje( '' );
+
+        } else {
+
+          if ( numeroMensajeUser < numeroMaximoUser ) {
+
+            numeroMensajeUser = numeroMensajeUser + 1;
+            let i = 1;
+            mensajesDESC.forEach( ( mensaje ) => {
+
+              if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+                if ( i === numeroMensajeUser ) {
+
+                  setMensaje( mensaje.mensaje );
+
+                }
+                i = i + 1;
+
+              }
+
+
+            });
 
           }
 
         }
 
+
       } else if ( event.key === 'ArrowDown' ) {
 
-        if ( mensajeUser.length > 0 ) {
+        if ( numeroMensajeUser > 0 ) {
 
-          if ( numeroMensajeUser > 0 ) {
+          numeroMensajeUser = numeroMensajeUser - 1;
+          let i = 1;
+          mensajesDESC.forEach( ( mensaje ) => {
 
-            numeroMensajeUser = numeroMensajeUser - 1;
+            if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
 
-          }
-          if ( numeroMensajeUser > 0 ) {
+              if ( i === numeroMensajeUser ) {
 
-            setMensaje( mensajeUser[mensajeUser.length - numeroMensajeUser]);
+                setMensaje( mensaje.mensaje );
 
-          }
+              }
+              i = i + 1;
+
+            }
+
+
+          });
+
+        } else if ( numeroMensajeUser === 0 ) {
+
+          setMensaje( '' );
 
         }
 
@@ -131,7 +188,7 @@ const Chat = () => {
     }, false );
 
 
-  }, [mensajeUser, mensajes, receptor]);
+  }, [mensajesDESC, receptor]);
 
   // procedimineto para obtener todos los usuarios
   const getMensajes = async ( rec ) => {
@@ -140,23 +197,7 @@ const Chat = () => {
     setMensajes( res.data );
     const res2 = await axios.get( URI + 'fecha' );
     setMensajesDESC( res2.data );
-    numeroMaximoMensajes = 0;
     numeroMensajeUser = 0;
-    mensajeUser = [];
-    if ( rec !== '' ) {
-
-      mensajes.forEach( ( mensaje ) => {
-
-        if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === rec ) {
-
-          mensajeUser.push( mensaje.mensaje );
-          numeroMaximoMensajes = numeroMaximoMensajes + 1;
-
-        }
-
-      });
-
-    }
 
   };
 
@@ -216,9 +257,7 @@ const Chat = () => {
 
   async function showChat( rec ) {
 
-    mensajeUser = [];
     numeroMensajeUser = 0;
-    numeroMaximoMensajes = 0;
     getUsers();
     setReceptor( rec );
     getMensajes( rec );
