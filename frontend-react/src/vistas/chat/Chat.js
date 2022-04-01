@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import socket from './componentes/Socket';
 import './Chat.css';
 import axios from 'axios';
@@ -28,6 +28,7 @@ const Chat = () => {
   const navigate = useNavigate();
   let numeroMensajeUser = 0;
   let numeroMaximoUser = 0;
+  const numeroVecesPulsadoEnter = 0;
 
   useEffect( () => {
 
@@ -82,13 +83,21 @@ const Chat = () => {
 
   }, []);
 
+  const divRef = useRef( null );
   useEffect( () => {
 
-    document.getElementById( 'inputMensaje' ).addEventListener( 'keyup', function ( event ) {
+    divRef.current.scrollIntoView({ behavior: 'smooth' });
+
+  });
+
+  useEffect( () => {
+
+    document.getElementById( 'inputMensaje' ).addEventListener( 'keydown', function ( event ) {
 
       if ( event.key === 'Enter' ) {
 
         document.getElementById( 'botonEnviar' ).click();
+        setMensaje( '' );
 
       } else if ( event.key === 'ArrowUp' ) {
 
@@ -241,11 +250,7 @@ const Chat = () => {
   const submit = async ( e ) => {
 
     e.preventDefault();
-    if ( mensaje === '' ) {
-
-      Swal.fire( 'Debes escribir un mensaje' );
-
-    } else {
+    if ( mensaje !== '' ) {
 
       await axios.post( URI, { nombre_usuario_emisor: nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
       socket.emit( 'mensaje' );
@@ -261,7 +266,6 @@ const Chat = () => {
     getUsers();
     setReceptor( rec );
     getMensajes( rec );
-    document.getElementById( 'panelChat' ).classList.add( 'mostrar' );
     setConection( rec );
     setMensaje( '' );
 
@@ -326,6 +330,7 @@ const Chat = () => {
 
     const botonesUsers = [];
     const users2 = [];
+    let i = 0;
 
     mensajesDESC.forEach( ( men ) => {
 
@@ -359,6 +364,12 @@ const Chat = () => {
             ultimoMensaje += '...';
 
           }
+          if ( i === 0 && receptor === '' ) {
+
+            setReceptor( men.nombre_usuario_receptor );
+
+          }
+          i = i + 1;
           botonesUsers.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -414,6 +425,12 @@ const Chat = () => {
             ultimoMensaje += '...';
 
           }
+          if ( i === 0 && receptor === '' ) {
+
+            setReceptor( men.nombre_usuario_emisor );
+
+          }
+          i = i + 1;
           botonesUsers.push(
             <li className="p-2 border-bottom">
               <button className="d-flex justify-content-between botonNaranja"
@@ -683,7 +700,7 @@ const Chat = () => {
 
                   </div>
 
-                  <div className="col-md-6 col-lg-7 col-xl-8 ocultar row-10"
+                  <div className="col-md-6 col-lg-7 col-xl-8 row-10"
                     id="panelChat">
                     <div className="divNameUser">
                       <h3 className="h3NameUser">
@@ -704,7 +721,7 @@ const Chat = () => {
                         overflow-y="scroll">
 
                         {doMessage()}
-
+                        <div ref={divRef}></div>
                       </div>
                     </div>
 
