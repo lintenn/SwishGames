@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 import Input from '@material-ui/core/Input';
+import { doMessage } from './componentes/doMessageChat';
+import { doButton } from './componentes/doButtonChat';
 
 const URI = 'http://localhost:8000/chats/';
 const URIUsers = 'http://localhost:8000/users/';
@@ -22,6 +24,10 @@ const Chat = () => {
   const [mensajesDESC, setMensajesDESC] = useState([]);
   const [users, setUsers] = useState([]);
   const [receptor, setReceptor] = useState( '' );
+  const [grupos, setGrupos] = useState([]);
+  const [gruposMios, setGruposMios] = useState([]);
+  const [idGrupo, setIdGrupo] = useState( '' );
+  const [nombreGrupo, setNombreGrupo] = useState( '' );
   const [nombre, setNombre] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const isauthorized = isAuthorized();
@@ -325,312 +331,6 @@ const Chat = () => {
 
   }
 
-  function doButton() {
-
-    const botonesUsers = [];
-    const users2 = [];
-    let i = 0;
-
-    mensajesDESC.forEach( ( men ) => {
-
-      let enc = false;
-      if ( men.nombre_usuario_emisor === nombre ) {
-
-        for ( let i = 0; i < users2.length && !enc; i++ ) {
-
-          if ( men.nombre_usuario_receptor === users2[i]) {
-
-            enc = true;
-
-          }
-
-        }
-        if ( !enc ) {
-
-          users2.push( men.nombre_usuario_receptor );
-          const d = new Date( men.fecha_envio );
-          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + ( d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes() );
-          let nombreReceptor = men.nombre_usuario_receptor;
-          while ( nombreReceptor.length < 15 ) {
-
-            nombreReceptor += ' ';
-
-          }
-          let ultimoMensaje = men.mensaje;
-          if ( ultimoMensaje.length > 15 ) {
-
-            ultimoMensaje = ultimoMensaje.substring( 0, 12 );
-            ultimoMensaje += '...';
-
-          }
-          if ( i === 0 && receptor === '' ) {
-
-            setReceptor( men.nombre_usuario_receptor );
-
-          }
-          i = i + 1;
-          botonesUsers.push(
-            <li className="p-2 border-bottom">
-              <button className="d-flex justify-content-between botonNaranja"
-                onClick={() => showChat( men.nombre_usuario_receptor )}>
-                <div className="d-flex flex-row">
-                  <div className="align-items-center divObjectsSend">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                      alt="avatar"
-                      className="d-flex align-self-center me-3"
-                      width="60"/>
-                  </div>
-                  <div className="pt-1">
-                    <p className="fw-bold mb-0">{nombreReceptor}</p>
-                    <p className="small text-muted">{ultimoMensaje}</p>
-                  </div>
-                </div>
-                <div className="pt-1">
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoDerecha tamañoHora">{s}</p>
-                </div>
-              </button>
-            </li> );
-
-        }
-
-      } else if ( men.nombre_usuario_receptor === nombre ) {
-
-        for ( let i = 0; i < users2.length; i++ ) {
-
-          if ( men.nombre_usuario_emisor === users2[i]) {
-
-            enc = true;
-
-          }
-
-        }
-        if ( !enc ) {
-
-          users2.push( men.nombre_usuario_emisor );
-          const d = new Date( men.fecha_envio );
-          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
-          let nombreReceptor = men.nombre_usuario_emisor;
-          while ( nombreReceptor.length < 15 ) {
-
-            nombreReceptor += ' ';
-
-          }
-          let ultimoMensaje = men.mensaje;
-          if ( ultimoMensaje.length > 15 ) {
-
-            ultimoMensaje = ultimoMensaje.substring( 0, 12 );
-            ultimoMensaje += '...';
-
-          }
-          if ( i === 0 && receptor === '' ) {
-
-            setReceptor( men.nombre_usuario_emisor );
-
-          }
-          i = i + 1;
-          botonesUsers.push(
-            <li className="p-2 border-bottom">
-              <button className="d-flex justify-content-between botonNaranja"
-                onClick={() => showChat( men.nombre_usuario_emisor )}>
-                <div className="d-flex flex-row">
-                  <div className="align-items-center divObjectsSend">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                      alt="avatar"
-                      className="d-flex align-self-center me-3"
-                      width="60"/>
-                  </div>
-                  <div className="pt-1">
-                    <p className="fw-bold mb-0">{nombreReceptor}</p>
-                    <p className="small text-muted">{ultimoMensaje}</p>
-                  </div>
-                </div>
-                <div className="pt-1">
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoDerecha tamañoHora">{s}</p>
-                </div>
-              </button>
-            </li> );
-
-        }
-
-      }
-
-    });
-
-    return ( botonesUsers );
-
-  }
-
-  function doMessage() {
-
-    const message = [];
-
-    let nombreAnterior = '';
-
-    mensajes.forEach( ( mensaje ) => {
-
-      if ( ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor && mensaje.nombre_usuario_receptor === nombre ) ) {
-
-        const d = new Date( mensaje.fecha_envio );
-        const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
-
-
-        /* if ( mensaje.nombre_usuario_emisor === nombre ) {
-
-          if ( nombre === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small cols-4">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 cols-4 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        } else {
-
-          if ( mensaje.nombre_usuario_emisor === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="mt-5">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        }
-        nombreAnterior = mensaje.nombre_usuario_emisor; */
-
-        if ( mensaje.nombre_usuario_emisor === nombre ) {
-
-          if ( nombre === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small cols-4">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 cols-4 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        } else {
-
-          if ( mensaje.nombre_usuario_emisor === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        }
-        nombreAnterior = mensaje.nombre_usuario_emisor;
-
-      }
-
-    });
-
-    return ( message );
-
-  }
 
   return (
     <section className="botonTransparente">
@@ -690,7 +390,7 @@ const Chat = () => {
                           position= "relative"
                           height= "400px">
                           <ul className="list-unstyled mb-0">
-                            {doButton()}
+                            {doButton( mensajesDESC, nombre, receptor, nombreGrupo, setReceptor, showChat )}
                           </ul>
                         </div>
                       </div>
@@ -719,7 +419,7 @@ const Chat = () => {
                         position= "relative"
                         overflow-y="scroll">
 
-                        {doMessage()}
+                        {doMessage( gruposMios, idGrupo, mensajes, grupos, receptor, nombre, nombreGrupo )}
                         <div ref={divRef}></div>
                       </div>
                     </div>
@@ -756,6 +456,7 @@ const Chat = () => {
   );
 
 };
+
 Chat.propTypes = {
   nombre: PropTypes.string.isRequired
 };
