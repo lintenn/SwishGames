@@ -67,7 +67,7 @@ const Main = () => {
     games.forEach( ( game ) => {
 
       listado.push(
-        <Link to={'/game/' + game.id}>
+        <Link to={'/game/' + game.titulo}>
           <a href="#"
             className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
