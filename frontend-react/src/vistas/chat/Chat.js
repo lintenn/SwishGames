@@ -28,7 +28,6 @@ const Chat = () => {
   const navigate = useNavigate();
   let numeroMensajeUser = 0;
   let numeroMaximoUser = 0;
-  const numeroVecesPulsadoEnter = 0;
 
   useEffect( () => {
 
@@ -654,7 +653,7 @@ const Chat = () => {
                         <Input className="input3"
                           type="search"
                           size="15"
-                          placeholder="Search"
+                          placeholder="Busca un chat"
                           aria-label="Search"
                           aria-describedby="search-addon" />
                         <span className="input-group-text border-0 botonTransparente"
@@ -680,9 +679,9 @@ const Chat = () => {
                           <ul className="dropdown-menu"
                             aria-labelledby="dropdownMenuButton1">
                             <li><button className="dropdown-item"
-                              onClick={() => showUser()}>Add a new chat</button></li>
+                              onClick={() => showUser()}>Nuevo chat</button></li>
                             <li><a className="dropdown-item"
-                              href="#">Create a new group</a></li>
+                              href="#">Nuevo grupo</a></li>
                           </ul>
                         </div>
                       </div>
@@ -730,7 +729,7 @@ const Chat = () => {
                         type="text"
                         onChange={e => setMensaje( e.target.value )}
                         value={mensaje}
-                        placeholder="Type message"
+                        placeholder="Escribe un mensaja aquí"
                         id="inputMensaje"/>
                       <a className="ms-1 text-muted divObjectsSend align-items-center"
                         href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
