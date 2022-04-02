@@ -1,4 +1,4 @@
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../../helper/isAuthorized.js';
@@ -6,18 +6,14 @@ import Swal from 'sweetalert2';
 import logo from '../../static/SwishGamesLogo.png';
 import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 
-// import '../login/login.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 const URI = 'http://localhost:8000/users/name/';
-
-// const URI = 'https://swishgames-backend.herokuapp.com/games/';
 
 const User = () => {
     const [description, setDescription] = useState('')
     const [email, setEmail] = useState('')
     const [birth_date, setBirthDate] = useState('')
     const [creation_date, setCreationDate] = useState('')
+
     const navigate = useNavigate();
     const { name } = useParams();
     const isauthorized = isAuthorized();
@@ -35,7 +31,6 @@ const User = () => {
         setCreationDate(res.data.fecha_creacion)
     };
     
-
   function doSesiones() {
 
     const listado = [];
@@ -150,15 +145,15 @@ const User = () => {
       </header>
       
 
-      <main class="row justify-content-center mt-5">
+    <main class="row justify-content-center mt-5">
         <div class="col-3">
-          <br></br>
-          <br></br>
-          <h1>{name}</h1>
-          <h5>Descripción: {description}</h5>
-          <h5>Email: {email}</h5>
-          <h5>Fecha de nacimiento: {birth_date}</h5>
-          <h5>Fecha de creación: {creation_date}</h5>
+            <br></br>
+            <br></br>
+            <h1>{name}</h1>
+            <h5>Descripción: {description}</h5>
+            <h5>Email: {email}</h5>
+            <h5>Fecha de nacimiento: {birth_date}</h5>
+            <h5>Fecha de creación: {creation_date}</h5>
         </div>
         
         
