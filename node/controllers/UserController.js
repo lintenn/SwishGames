@@ -37,9 +37,9 @@ const getUserByName = async ( req, res ) => {
   try {
 
     const user = await UserModel.findAll({
-      where: { nombre: req.params.name }
+      where: { nombre: req.params.nombre }
     });
-    res.json( user );
+    res.json( user[0] );
 
   } catch ( error ) {
 
