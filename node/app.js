@@ -5,6 +5,8 @@ const db = require("./database/mysql.js")
 const userRoutes = require('./routes/routesUser.js')
 const chatRoutes = require('./routes/routesChat.js')
 const gamesRoutes = require('./routes/routesGame.js')
+const groupRoutes = require('./routes/routesGroup.js')
+const participantsGroupsRoutes = require('./routes/routesParticipantsGroups.js')
 const socketio = require('socket.io');
 
 const app = express()
@@ -17,6 +19,8 @@ app.use(express.json())
 app.use('/users',userRoutes)
 app.use('/chats',chatRoutes)
 app.use('/games',gamesRoutes)
+app.use('/groups',groupRoutes)
+app.use('/participantsGroups',participantsGroupsRoutes)
 
 try{
     db.connect()

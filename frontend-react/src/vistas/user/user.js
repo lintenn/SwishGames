@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../../helper/isAuthorized.js';
@@ -6,95 +6,31 @@ import Swal from 'sweetalert2';
 import logo from '../../static/SwishGamesLogo.png';
 import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 
-// import '../login/login.css'
-import './main.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+const URI = 'http://localhost:8000/users/name/';
 
-const URI = 'http://localhost:8000/games/';
+const User = () => {
+    const [description, setDescription] = useState('')
+    const [email, setEmail] = useState('')
+    const [birth_date, setBirthDate] = useState('')
+    const [creation_date, setCreationDate] = useState('')
 
-// const URI = 'https://swishgames-backend.herokuapp.com/games/';
+    const navigate = useNavigate();
+    const { name } = useParams();
+    const isauthorized = isAuthorized();
 
-const Main = () => {
+    useEffect( () => {
+        getUserByName();
+    }, []);
 
-  const [games, setGames] = useState([]);
-  const [buscado, setBuscado] = useState( '' );
-  const navigate = useNavigate();
-  const isauthorized = isAuthorized();
+    const getUserByName = async () => {
+        const res = await axios.get(URI + name);
 
-
-  useEffect( () => {
-
-    getGames();
-
-  }, []);
-
-  // procedimineto para obtener todos los usuarios
-  const getGames = async () => {
-
-    const res = await axios.get( URI );
-    setGames( res.data );
-
-  };
-
-  const buscar = async () => {
-
-    if ( buscado === '' ) {
-
-      getGames();
-
-    } else {
-
-      const res = await axios.get( URI + 'buscar/' + buscado );
-      setGames( res.data );
-
-    }
-
-
-    // navigate( '/' );
-
-  };
-
-  useEffect( () => {
-
-    buscar();
-
-  }, [buscado]);
-
-  function doGames() {
-
-    const listado = [];
-
-    games.forEach( ( game ) => {
-
-      listado.push(
-        <Link to={'/game/' + game.titulo}>
-          <a href="#"
-            className="list-group-item list-group-item-action">
-            <div className="d-flex w-100 justify-content-between">
-              <img className="img-juego"
-                src={game.imagen}
-                width="200"
-                height="150" />
-              <div className="px-2">
-                <div className="d-flex w-100 justify-content-between pt-1">
-                  <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
-                  <small className="text-muted">Valoración: {game.valoracion}</small>
-                </div>
-                <p className="mb-1 texte">{game.descripcion}</p>
-                <br/>
-                <small className="text-muted"> &nbsp;&nbsp; Género: {game.genero}</small>
-              </div>
-            </div>
-          </a>
-        </Link>
-      );
-
-    });
-
-    return ( listado );
-
-  }
-
+        setDescription(res.data.descripcion)
+        setEmail(res.data.email)
+        setBirthDate(res.data.fecha_nacimiento)
+        setCreationDate(res.data.fecha_creacion)
+    };
+    
   function doSesiones() {
 
     const listado = [];
@@ -136,13 +72,10 @@ const Main = () => {
       const token = localStorage.getItem( 'user' );
       const user = JSON.parse( token );
 
-
       listado.push(
-        <Link to={'/user/' + user.nombre}>
-          <button className="btn btn-outline-dark m-1">
-            <i className="fa-solid fa-user"></i> {user.nombre}
-          </button>
-        </Link>
+        <button className="btn btn-outline-dark m-1">
+          <i className="fa-solid fa-user"></i> {user.nombre}
+        </button>
       );
 
     } else {
@@ -160,13 +93,14 @@ const Main = () => {
 
   }
 
+
   return (
     <body>
-
+      
       <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
-            href="">
+            href="/">
             <img src={logo}
               width="80px"
               height="50px" >
@@ -187,7 +121,7 @@ const Main = () => {
               <li className="nav-item">
                 <a className="nav-link active navSelected"
                   aria-current="page"
-                  href=""><i className="fa-solid fa-gamepad"></i> Juegos</a>
+                  href="/"><i className="fa-solid fa-gamepad"></i> Juegos</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link"
@@ -198,19 +132,6 @@ const Main = () => {
                   href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
-            <div
-              className="d-flex m-2">
-              <input className="form-control me-2"
-                type="search"
-                name="titulo"
-                placeholder="Buscar juego"
-                aria-label="Search"
-                value={buscado}
-                onChange={ ( b ) => setBuscado( b.target.value ) }/>
-              <button className="btn btn-outline-success "
-                type="submit"
-                onClick={() => buscar()}>Buscar</button>
-            </div>
 
             <button className="btn btn-outline-dark m-1"
               onClick={() => navigate( '/chat/' ) }>
@@ -222,16 +143,21 @@ const Main = () => {
           </div>
         </div>
       </header>
+      
 
-      <main className="row justify-content-center main"
-        id="main-content">
-
-        <div className="col-lg-8 list-group"
-          data-bs-spy="scroll">
-          {doGames()}
+    <main class="row justify-content-center mt-5">
+        <div class="col-3">
+            <br></br>
+            <br></br>
+            <h1>{name}</h1>
+            <h5>Descripción: {description}</h5>
+            <h5>Email: {email}</h5>
+            <h5>Fecha de nacimiento: {birth_date}</h5>
+            <h5>Fecha de creación: {creation_date}</h5>
         </div>
-
-        <div className="container bg-light">
+        
+        
+        <div className="container bg-light fixed-bottom">
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3 border-top">
             <div className="col-md-4 d-flex align-items-center px-3">
               <span className="text-muted">© 2022 SwishGames, Inc</span>
@@ -260,10 +186,13 @@ const Main = () => {
 
       </main>
 
+      
+
     </body>
+
 
   );
 
 };
 
-export default Main;
+export default User;

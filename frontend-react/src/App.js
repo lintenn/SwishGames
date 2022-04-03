@@ -6,6 +6,7 @@ import Signup from './vistas/signup/signup.js';
 import Main from './vistas/main/main.js';
 import Chat from './vistas/chat/Chat.js';
 import Game from './vistas/game/game.js';
+import User from './vistas/user/user.js';
 import { isAuthorized } from './helper/isAuthorized';
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
             element={<Chat/>}></Route>
           <Route path="/game/:id"
             element={<Game/>}></Route>
+          <Route path="/user/:name"
+            element={<User/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

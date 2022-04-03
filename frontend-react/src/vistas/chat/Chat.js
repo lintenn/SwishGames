@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import socket from './componentes/Socket';
 import './Chat.css';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Swal from 'sweetalert2';
 import Input from '@material-ui/core/Input';
+import { doMessage } from './componentes/doMessageChat';
+import { doButton } from './componentes/doButtonChat';
 
 const URI = 'http://localhost:8000/chats/';
 const URIUsers = 'http://localhost:8000/users/';
@@ -22,10 +24,16 @@ const Chat = () => {
   const [mensajesDESC, setMensajesDESC] = useState([]);
   const [users, setUsers] = useState([]);
   const [receptor, setReceptor] = useState( '' );
+  const [grupos, setGrupos] = useState([]);
+  const [gruposMios, setGruposMios] = useState([]);
+  const [idGrupo, setIdGrupo] = useState( '' );
+  const [nombreGrupo, setNombreGrupo] = useState( '' );
   const [nombre, setNombre] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
+  let numeroMensajeUser = 0;
+  let numeroMaximoUser = 0;
 
   useEffect( () => {
 
@@ -54,7 +62,7 @@ const Chat = () => {
 
     socket.on( 'mensajes', () => {
 
-      getMensajes();
+      getMensajes( receptor );
       getUsers();
 
     });
@@ -76,17 +84,134 @@ const Chat = () => {
   useEffect( () => {
 
     getUsers();
-    getMensajes();
+    getMensajes( receptor );
 
   }, []);
 
+  const divRef = useRef( null );
+  useEffect( () => {
+
+    divRef.current.scrollIntoView({ behavior: 'smooth' });
+
+  });
+
+  useEffect( () => {
+
+    document.getElementById( 'inputMensaje' ).addEventListener( 'keydown', function ( event ) {
+
+      if ( event.key === 'Enter' ) {
+
+        document.getElementById( 'botonEnviar' ).click();
+        setMensaje( '' );
+
+      } else if ( event.key === 'ArrowUp' ) {
+
+        numeroMaximoUser = 0;
+
+        mensajesDESC.forEach( ( mensaje ) => {
+
+          if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+            numeroMaximoUser = numeroMaximoUser + 1;
+
+          }
+
+
+        });
+
+        if ( numeroMensajeUser === numeroMaximoUser && numeroMaximoUser !== 0 ) {
+
+          let i = 1;
+          mensajesDESC.forEach( ( mensaje ) => {
+
+            if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+              if ( i === numeroMensajeUser ) {
+
+                setMensaje( mensaje.mensaje );
+
+              }
+              i = i + 1;
+
+            }
+
+
+          });
+
+        } else if ( numeroMaximoUser === 0 ) {
+
+          setMensaje( '' );
+
+        } else {
+
+          if ( numeroMensajeUser < numeroMaximoUser ) {
+
+            numeroMensajeUser = numeroMensajeUser + 1;
+            let i = 1;
+            mensajesDESC.forEach( ( mensaje ) => {
+
+              if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+                if ( i === numeroMensajeUser ) {
+
+                  setMensaje( mensaje.mensaje );
+
+                }
+                i = i + 1;
+
+              }
+
+
+            });
+
+          }
+
+        }
+
+
+      } else if ( event.key === 'ArrowDown' ) {
+
+        if ( numeroMensajeUser > 0 ) {
+
+          numeroMensajeUser = numeroMensajeUser - 1;
+          let i = 1;
+          mensajesDESC.forEach( ( mensaje ) => {
+
+            if ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) {
+
+              if ( i === numeroMensajeUser ) {
+
+                setMensaje( mensaje.mensaje );
+
+              }
+              i = i + 1;
+
+            }
+
+
+          });
+
+        } else if ( numeroMensajeUser === 0 ) {
+
+          setMensaje( '' );
+
+        }
+
+      }
+
+    }, false );
+
+
+  }, [mensajesDESC, receptor]);
+
   // procedimineto para obtener todos los usuarios
-  const getMensajes = async () => {
+  const getMensajes = async ( rec ) => {
 
     const res = await axios.get( URI );
     setMensajes( res.data );
     const res2 = await axios.get( URI + 'fecha' );
     setMensajesDESC( res2.data );
+    numeroMensajeUser = 0;
 
   };
 
@@ -127,15 +252,10 @@ const Chat = () => {
 
   };
 
-
   const submit = async ( e ) => {
 
     e.preventDefault();
-    if ( mensaje === '' ) {
-
-      Swal.fire( 'Debes escribir un mensaje' );
-
-    } else {
+    if ( mensaje !== '' ) {
 
       await axios.post( URI, { nombre_usuario_emisor: nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
       socket.emit( 'mensaje' );
@@ -147,28 +267,12 @@ const Chat = () => {
 
   async function showChat( rec ) {
 
+    numeroMensajeUser = 0;
     getUsers();
     setReceptor( rec );
-    getMensajes();
-    document.getElementById( 'panelChat' ).classList.add( 'mostrar' );
+    getMensajes( rec );
     setConection( rec );
-
-  }
-
-  window.onload = function() {
-
-    document.getElementById( 'inputMensaje' ).onkeyup = teclas;
-
-  };
-
-  async function teclas( e ) {
-
-    const codigo = e.keyCode;
-    if ( codigo === 13 ) {
-
-      document.getElementById( 'botonEnviar' ).click();
-
-    }
+    setMensaje( '' );
 
   }
 
@@ -227,226 +331,6 @@ const Chat = () => {
 
   }
 
-  function doButton() {
-
-    const botonesUsers = [];
-    const users2 = [];
-
-    mensajesDESC.forEach( ( men ) => {
-
-      let enc = false;
-      if ( men.nombre_usuario_emisor === nombre ) {
-
-        for ( let i = 0; i < users2.length && !enc; i++ ) {
-
-          if ( men.nombre_usuario_receptor === users2[i]) {
-
-            enc = true;
-
-          }
-
-        }
-        if ( !enc ) {
-
-          users2.push( men.nombre_usuario_receptor );
-          const d = new Date( men.fecha_envio );
-          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + ( d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes() );
-          let nombreReceptor = men.nombre_usuario_receptor;
-          while ( nombreReceptor.length < 15 ) {
-
-            nombreReceptor += ' ';
-
-          }
-          let ultimoMensaje = men.mensaje;
-          if ( ultimoMensaje.length > 15 ) {
-
-            ultimoMensaje = ultimoMensaje.substring( 0, 12 );
-            ultimoMensaje += '...';
-
-          }
-          botonesUsers.push(
-            <li className="p-2 border-bottom">
-              <button className="d-flex justify-content-between botonNaranja"
-                onClick={() => showChat( men.nombre_usuario_receptor )}>
-                <div className="d-flex flex-row">
-                  <div className="align-items-center divObjectsSend">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                      alt="avatar"
-                      className="d-flex align-self-center me-3"
-                      width="60"/>
-                  </div>
-                  <div className="pt-1">
-                    <p className="fw-bold mb-0">{nombreReceptor}</p>
-                    <p className="small text-muted">{ultimoMensaje}</p>
-                  </div>
-                </div>
-                <div className="pt-1">
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoDerecha tamañoHora">{s}</p>
-                </div>
-              </button>
-            </li> );
-
-        }
-
-      } else if ( men.nombre_usuario_receptor === nombre ) {
-
-        for ( let i = 0; i < users2.length; i++ ) {
-
-          if ( men.nombre_usuario_emisor === users2[i]) {
-
-            enc = true;
-
-          }
-
-        }
-        if ( !enc ) {
-
-          users2.push( men.nombre_usuario_emisor );
-          const d = new Date( men.fecha_envio );
-          const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
-          let nombreReceptor = men.nombre_usuario_emisor;
-          while ( nombreReceptor.length < 15 ) {
-
-            nombreReceptor += ' ';
-
-          }
-          let ultimoMensaje = men.mensaje;
-          if ( ultimoMensaje.length > 15 ) {
-
-            ultimoMensaje = ultimoMensaje.substring( 0, 12 );
-            ultimoMensaje += '...';
-
-          }
-          botonesUsers.push(
-            <li className="p-2 border-bottom">
-              <button className="d-flex justify-content-between botonNaranja"
-                onClick={() => showChat( men.nombre_usuario_emisor )}>
-                <div className="d-flex flex-row">
-                  <div className="align-items-center divObjectsSend">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                      alt="avatar"
-                      className="d-flex align-self-center me-3"
-                      width="60"/>
-                  </div>
-                  <div className="pt-1">
-                    <p className="fw-bold mb-0">{nombreReceptor}</p>
-                    <p className="small text-muted">{ultimoMensaje}</p>
-                  </div>
-                </div>
-                <div className="pt-1">
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">l</p>
-                  <p className="small text-muted mb-1 textoDerecha tamañoHora">{s}</p>
-                </div>
-              </button>
-            </li> );
-
-        }
-
-      }
-
-    });
-
-    return ( botonesUsers );
-
-  }
-
-  function doMessage() {
-
-    const message = [];
-    let nombreAnterior = '';
-
-    mensajes.forEach( ( mensaje ) => {
-
-      if ( ( mensaje.nombre_usuario_emisor === nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor && mensaje.nombre_usuario_receptor === nombre ) ) {
-
-        const d = new Date( mensaje.fecha_envio );
-        const s = d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + d.getMinutes();
-
-
-        if ( mensaje.nombre_usuario_emisor === nombre ) {
-
-          if ( nombre === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small cols-4">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 cols-4 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-end">
-                <div className="d-flex flex-row justify-content-end mensajeActualizadoMio mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        } else {
-
-          if ( mensaje.nombre_usuario_emisor === nombreAnterior ) {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="pt-1">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          } else {
-
-            message.push(
-              <div className="d-flex flex-row justify-content-start">
-                <div className="d-flex flex-row justify-content-start mensajeActualizadoOtro mt-5">
-                  <div className="pt-1 tamañoMaximoMensaje">
-                    <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
-                    <p className="small">{mensaje.mensaje}</p>
-                  </div>
-                  <div className="mt-5">
-                    <p className="small text-muted mb-1 tamañoHora">{s}</p>
-                  </div>
-                </div>
-              </div>
-            );
-
-          }
-
-        }
-        nombreAnterior = mensaje.nombre_usuario_emisor;
-
-      }
-
-    });
-
-    return ( message );
-
-  }
 
   return (
     <section className="botonTransparente">
@@ -469,7 +353,7 @@ const Chat = () => {
                         <Input className="input3"
                           type="search"
                           size="15"
-                          placeholder="Search"
+                          placeholder="Busca un chat"
                           aria-label="Search"
                           aria-describedby="search-addon" />
                         <span className="input-group-text border-0 botonTransparente"
@@ -477,26 +361,27 @@ const Chat = () => {
                           <i className="fas fa-search searchIcon"></i>
                         </span>
                         <div className="dropdown">
-                          <button className="btn btn-secondary botonTransparente2"
+                          <button className="botonTransparente2 btnAñadirChats"
                             type="button"
                             id="dropdownMenuButton1"
                             data-bs-toggle="dropdown"
                             aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg"
-                              width="20"
+                              width="25"
                               height="25"
                               fill="currentColor"
-                              className="bi bi-three-dots-vertical"
+                              className="bi bi-plus-lg"
                               viewBox="0 0 16 16">
-                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                              <path fillRule="evenodd"
+                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                             </svg>
                           </button>
                           <ul className="dropdown-menu"
                             aria-labelledby="dropdownMenuButton1">
                             <li><button className="dropdown-item"
-                              onClick={() => showUser()}>Add a new chat</button></li>
+                              onClick={() => showUser()}>Nuevo chat</button></li>
                             <li><a className="dropdown-item"
-                              href="#">Create a new group</a></li>
+                              href="#">Nuevo grupo</a></li>
                           </ul>
                         </div>
                       </div>
@@ -505,7 +390,7 @@ const Chat = () => {
                           position= "relative"
                           height= "400px">
                           <ul className="list-unstyled mb-0">
-                            {doButton()}
+                            {doButton( mensajesDESC, nombre, receptor, nombreGrupo, setReceptor, showChat )}
                           </ul>
                         </div>
                       </div>
@@ -514,7 +399,7 @@ const Chat = () => {
 
                   </div>
 
-                  <div className="col-md-6 col-lg-7 col-xl-8 ocultar row-10"
+                  <div className="col-md-6 col-lg-7 col-xl-8 row-10"
                     id="panelChat">
                     <div className="divNameUser">
                       <h3 className="h3NameUser">
@@ -534,8 +419,8 @@ const Chat = () => {
                         position= "relative"
                         overflow-y="scroll">
 
-                        {doMessage()}
-
+                        {doMessage( gruposMios, idGrupo, mensajes, grupos, receptor, nombre, nombreGrupo )}
+                        <div ref={divRef}></div>
                       </div>
                     </div>
 
@@ -544,7 +429,7 @@ const Chat = () => {
                         type="text"
                         onChange={e => setMensaje( e.target.value )}
                         value={mensaje}
-                        placeholder="Type message"
+                        placeholder="Escribe un mensaja aquí"
                         id="inputMensaje"/>
                       <a className="ms-1 text-muted divObjectsSend align-items-center"
                         href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
@@ -571,6 +456,7 @@ const Chat = () => {
   );
 
 };
+
 Chat.propTypes = {
   nombre: PropTypes.string.isRequired
 };
