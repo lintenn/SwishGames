@@ -9,8 +9,10 @@ import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 // import '../login/login.css'
 import './main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import socket from '../chat/components/Socket.js';
 
 const URI = 'http://localhost:8000/games/';
+const URIUsers = 'http://localhost:8000/users/';
 
 // const URI = 'https://swishgames-backend.herokuapp.com/games/';
 
@@ -25,6 +27,19 @@ const Main = () => {
   useEffect( () => {
 
     getGames();
+
+  }, []);
+
+
+  useEffect( () => {
+
+    if ( isauthorized ) {
+
+      const token = localStorage.getItem( 'user' );
+      const us = JSON.parse( token );
+      socket.emit( 'conectado', us.nombre );
+
+    }
 
   }, []);
 
@@ -68,13 +83,14 @@ const Main = () => {
 
       listado.push(
         <Link to={'/game/' + game.titulo}>
-          <a href="#"
+          <a href={`#Game${game.titulo}`}
             className="list-group-item list-group-item-action">
             <div className="d-flex w-100 justify-content-between">
               <img className="img-juego"
                 src={game.imagen}
                 width="200"
-                height="150" />
+                height="150"
+                alt={`#ImgGame${game.titulo}`} />
               <div className="px-2">
                 <div className="d-flex w-100 justify-content-between pt-1">
                   <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
@@ -115,6 +131,12 @@ const Main = () => {
 
   function cerrarSesion() {
 
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+    axios.put( URIUsers + 'connection/' + us.nombre, {
+      online: false
+    });
+    socket.emit( 'mensajes' );
     localStorage.clear();
     navigate( '/' );
     Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' );
@@ -166,10 +188,11 @@ const Main = () => {
       <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
-            href="">
+            href="#Logo">
             <img src={logo}
               width="80px"
-              height="50px" >
+              height="50px"
+              alt="Logo" >
             </img>
           </a>
           <button className="navbar-toggler"
@@ -187,15 +210,15 @@ const Main = () => {
               <li className="nav-item">
                 <a className="nav-link active navSelected"
                   aria-current="page"
-                  href=""><i className="fa-solid fa-gamepad"></i> Juegos</a>
+                  href="/"><i className="fa-solid fa-gamepad"></i> Juegos</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link"
-                  href="#"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
+                  href="#Listas"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link"
-                  href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
+                  href="#usuarios"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
             <div
@@ -242,17 +265,18 @@ const Main = () => {
               <img className="bi me-2"
                 width="32"
                 height="32"
-                src={logoSinLetras}></img>
+                src={logoSinLetras}
+                alt="logo_sin_letras"></img>
             </a>
 
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#Home"
                 className="nav-link px-2 text-muted">Home</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#Contact"
                 className="nav-link px-2 text-muted">Contact</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#FAQs"
                 className="nav-link px-2 text-muted">FAQs</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#About"
                 className="nav-link px-2 text-muted">About</a></li>
             </ul>
           </footer>
