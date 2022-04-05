@@ -1,4 +1,4 @@
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../../helper/isAuthorized.js';
@@ -8,8 +8,10 @@ import logoSinLetras from '../../static/SwishGamesLogo_sin_letras.png';
 
 // import '../login/login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import socket from '../chat/components/Socket.js';
 
 const URI = 'http://localhost:8000/games/buscar/';
+const URIUsers = 'http://localhost:8000/users/';
 
 // const URI = 'https://swishgames-backend.herokuapp.com/games/';
 
@@ -23,6 +25,18 @@ const Game = () => {
   useEffect( () => {
 
     getGameById();
+
+  }, []);
+
+  useEffect( () => {
+
+    if ( isauthorized ) {
+
+      const token = localStorage.getItem( 'user' );
+      const us = JSON.parse( token );
+      socket.emit( 'conectado', us.nombre );
+
+    }
 
   }, []);
 
@@ -68,6 +82,12 @@ const Game = () => {
 
   function cerrarSesion() {
 
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+    axios.put( URIUsers + 'connection/' + us.nombre, {
+      online: false
+    });
+    socket.emit( 'mensajes' );
     localStorage.clear();
     navigate( '/' );
     Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' );
@@ -113,12 +133,13 @@ const Game = () => {
 
   return (
     <body>
-      
+
       <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
         <div className="container-fluid">
           <a className="navbar-brand"
             href="/">
             <img src={logo}
+              alt="Logo SwishGames"
               width="80px"
               height="50px" >
             </img>
@@ -142,11 +163,11 @@ const Game = () => {
               </li>
               <li className="nav-item">
                 <a className="nav-link"
-                  href="#"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
+                  href="#Listas"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link"
-                  href="#"><i className="fa-solid fa-users"></i> Usuarios</a>
+                  href="#Usuarios"><i className="fa-solid fa-users"></i> Usuarios</a>
               </li>
             </ul>
 
@@ -160,17 +181,17 @@ const Game = () => {
           </div>
         </div>
       </header>
-      
 
-      <main class="row justify-content-center mt-5">
-        <div class="col-2">
+
+      <main className="row justify-content-center mt-5">
+        <div className="col-2">
           <br></br>
           <br></br>
           <h1 >Game</h1>
           <h5>Titulo: {doGames()}</h5>
         </div>
-        
-        
+
+
         <div className="container bg-light fixed-bottom">
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3 border-top">
             <div className="col-md-4 d-flex align-items-center px-3">
@@ -182,17 +203,18 @@ const Game = () => {
               <img className="bi me-2"
                 width="32"
                 height="32"
-                src={logoSinLetras}></img>
+                src={logoSinLetras}
+                alt="logo_sin_letras"></img>
             </a>
 
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#Home"
                 className="nav-link px-2 text-muted">Home</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#Contact"
                 className="nav-link px-2 text-muted">Contact</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#FAQs"
                 className="nav-link px-2 text-muted">FAQs</a></li>
-              <li className="nav-item"><a href="#"
+              <li className="nav-item"><a href="#About"
                 className="nav-link px-2 text-muted">About</a></li>
             </ul>
           </footer>
@@ -200,7 +222,6 @@ const Game = () => {
 
       </main>
 
-      
 
     </body>
 
