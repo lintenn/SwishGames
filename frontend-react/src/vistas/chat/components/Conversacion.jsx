@@ -18,6 +18,22 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     divRef.current.scrollIntoView({ behavior: 'smooth' });
 
+  }, [mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje]);
+
+  useEffect( () => {
+
+    const result = document.querySelector( '.d-flex.flex-row.justify-content-end' );
+    document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
+    document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
+    document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
+
+    if ( result !== null && result.length > 0 ) {
+
+      console.log( result );
+      result[result.length - 1].scrollIntoView({ behavior: 'smooth' });
+
+    }
+
   });
 
   useEffect( () => {

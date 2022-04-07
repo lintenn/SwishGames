@@ -37,6 +37,23 @@ const getSearchedGames = async ( req, res ) => {
 
 };
 
+const getgameByName = async ( req, res ) => {
+
+  try {
+
+    const games = await JuegoModel.findAll({
+      where: { titulo: req.params.titulo }
+    });
+    res.json( games[0] );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
 const getGame = async ( req, res ) => {
 
   try {
@@ -103,4 +120,4 @@ const deleteGame = async ( req, res ) => {
 
 };
 
-module.exports = { getAllGames, getGame, getSearchedGames, createGame, updateGame, deleteGame };
+module.exports = { getAllGames, getGame, getSearchedGames, getgameByName, createGame, updateGame, deleteGame };

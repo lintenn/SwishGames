@@ -8,16 +8,15 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import './login.css';
-
-const URI = 'http://localhost:8000/users';
-
-// const URI = 'https://swishgames-backend.herokuapp.com/users';
+import { Global } from '../../helper/Global';
 
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+  const baseUrl = Global.baseUrl;
+  const URI = `${baseUrl}users`;
 
   useEffect( () => {
 

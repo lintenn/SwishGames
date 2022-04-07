@@ -4,19 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import '../signup/signup.css';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import  emailjs  from '@emailjs/browser';
-import { init } from '../../../node_modules/@emailjs/browser/es/index';
+import emailjs, { init } from '@emailjs/browser';
+import { Global } from '../../helper/Global';
+
 init( 'WznRYXdNmfA-nSsG0' );
-
-const URI = 'http://localhost:8000/users';
-
-// const URI = 'https://swishgames-backend.herokuapp.com/recovery';
 
 const Recovery = () => {
 
   const [m, setEmail] = useState( '' );
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const baseUrl = Global.baseUrl;
+  const URI = `${baseUrl}users`;
 
   useEffect( () => {
 
@@ -32,32 +31,35 @@ const Recovery = () => {
   };
 
   async function comprobarUser() {
-  
-    let esta=false;
+
+    let esta = false;
     users.forEach( ( user ) => {
-      
+
       if ( user.email === m ) {
 
         emailjs.send( 'service_b05hnvr', 'template_e54pr46', { email: m, to_name: user.name, password: user.password }, 'WznRYXdNmfA-nSsG0' )
           .then( ( result ) => {
 
             console.log( result.text );
-            
+
           }, ( error ) => {
 
             console.log( error.text );
 
           });
-          esta=true;
-          document.getElementById( 'error' ).classList.remove( 'mostrar' );
-          document.getElementById( 'successRec' ).classList.add( 'mostrar' );
+        esta = true;
+        document.getElementById( 'error' ).classList.remove( 'mostrar' );
+        document.getElementById( 'successRec' ).classList.add( 'mostrar' );
 
       }
 
-    });  
-    if(!esta)
+    });
+    if ( !esta ) {
+
       document.getElementById( 'error' ).classList.add( 'mostrar' );
-    
+
+    }
+
 
   }
 
@@ -86,7 +88,7 @@ const Recovery = () => {
           type="text"
           value={m}
           name="e"
-          required="required" 
+          required="required"
           onChange={ ( e ) => setEmail( e.target.value )}/>
 
         <nav className="botones"
