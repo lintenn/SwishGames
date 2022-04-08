@@ -29,7 +29,6 @@ const User = () => {
     }
 
     getUserByName();
-    document.getElementById( 'btn-chat-header' ).classList.remove( 'ocultar' );
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
 
@@ -49,11 +48,6 @@ const User = () => {
   return (
     <div>
       <Header
-        setGames={ () => {
-
-          '';
-
-        } }
         buscado={ '' }
         setBuscado={ () => {
 

@@ -74,7 +74,6 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
 
     if ( numeroMensajeUser > 0 ) {
 
-      numeroMensajeUser = numeroMensajeUser - 1;
       let i = 1;
       mensajesDESC.forEach( ( mensaje ) => {
 
@@ -91,6 +90,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
 
 
       });
+      numeroMensajeUser = numeroMensajeUser - 1;
 
     } else if ( numeroMensajeUser === 0 ) {
 
