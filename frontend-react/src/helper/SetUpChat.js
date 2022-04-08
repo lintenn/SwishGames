@@ -4,9 +4,8 @@ import Swal from 'sweetalert2';
 
 const baseUrl = Global.baseUrl;
 
-export const setUpChat = ( setUser, setUsers, setMensajes, setMensajesDESC, setLoading ) => {
+export const setUpChat = ( setUser, setUsers, setMensajes, setMensajesDESC ) => {
 
-  Swal.showLoading();
   setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
 
   axios.get( `${baseUrl}chats/fecha` )
@@ -22,7 +21,6 @@ export const setUpChat = ( setUser, setUsers, setMensajes, setMensajesDESC, setL
   axios.get( `${baseUrl}chats` )
     .then( res => setMensajes( res.data ) );
 
-  setLoading( false );
   Swal.close();
 
 };
