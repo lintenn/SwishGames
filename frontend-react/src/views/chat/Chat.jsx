@@ -53,7 +53,7 @@ export const Chat = () => {
   }, [mensajes, users]);
 
   return (
-    user === null || users === null || mensajes === null || mensajesDESC === null
+    user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0
       ? <div>{Swal.showLoading()}</div>
       : <div className="row justify-content-center">
         <Header
@@ -80,6 +80,7 @@ export const Chat = () => {
                         setReceptor={ setReceptor }
                         setConexion={ setConexion }
                         setMensaje={ setMensaje }
+                        receptor={ receptor }
                       />
                       <Conversacion
                         mensajes={ mensajes }

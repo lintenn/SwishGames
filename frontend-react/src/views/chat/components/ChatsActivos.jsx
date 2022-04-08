@@ -4,7 +4,7 @@ import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor }) => {
 
   const users2 = [];
 
@@ -26,12 +26,14 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
           setReceptor( men.nombre_usuario_receptor );
+          document.getElementById( `${men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
           setConection( men.nombre_usuario_receptor );
           i++;
 
         } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
           setReceptor( men.nombre_usuario_emisor );
+          document.getElementById( `${men.nombre_usuario_emisor}` ).classList.add( 'chatSeleccionado' );
           setConection( men.nombre_usuario_emisor );
           i++;
 
@@ -41,7 +43,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     });
 
-  }, [users, user]);
+  }, [mensajes]);
 
   const chatUsers = () => {
 
@@ -219,9 +221,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                   ( ( men.nombre_usuario_emisor === user.nombre && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
-                      <button className="d-flex justify-content-between botonNaranja"
+                      <button className={`d-flex justify-content-between botonNaranja`}
+                        id = {`${men.nombre_usuario_emisor === user.nombre ? men.nombre_usuario_receptor : men.nombre_usuario_emisor}`}
                         onClick={() => {
 
+                          document.getElementById( `${receptor}` ).classList.remove( 'chatSeleccionado' );
+                          document.getElementById( `${men.nombre_usuario_emisor === user.nombre ? men.nombre_usuario_receptor : men.nombre_usuario_emisor}` ).classList.add( 'chatSeleccionado' );
                           setReceptor( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor );
                           setConection( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor );
                           setMensaje( '' );
@@ -267,5 +272,6 @@ ChatsActivos.propTypes = {
   user: PropTypes.object.isRequired,
   setReceptor: PropTypes.func.isRequired,
   setConexion: PropTypes.func.isRequired,
-  setMensaje: PropTypes.func.isRequired
+  setMensaje: PropTypes.func.isRequired,
+  receptor: PropTypes.string.isRequired
 };
