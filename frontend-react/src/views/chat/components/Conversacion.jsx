@@ -12,27 +12,22 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
   let numeroMensajeUser = 0;
-  const divRef = useRef( null );
+  const messageEndRef = useRef(null);
 
   useEffect( () => {
 
-    divRef.current.scrollIntoView({ behavior: 'smooth' });
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    console.log( messageEndRef.current );
 
   }, [mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje]);
 
   useEffect( () => {
 
-    const result = document.querySelector( '.d-flex.flex-row.justify-content-end' );
-    document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
+    document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
 
-    if ( result !== null && result.length > 0 ) {
-
-      console.log( result );
-      result[result.length - 1].scrollIntoView({ behavior: 'smooth' });
-
-    }
+    messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 
   });
 
@@ -97,7 +92,8 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
         </h3>
       </div>
       <div className="table-wrapper-scroll-y my-custom-scrollbar panelChatMensajes">
-        <div className="pt-3 pe-3 mh-100"
+        <div className="pt-3 pe-3 mh-100" 
+          id="divRef"
           data-mdb-perfect-scrollbar="true"
           position= "relative"
           overflow-y="scroll">
@@ -119,7 +115,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
                 : <div key = {index}></div>
             ) )
           }
-          <div ref={divRef}></div>
+          <div ref={messageEndRef}/>
         </div>
       </div>
 

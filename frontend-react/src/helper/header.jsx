@@ -6,11 +6,11 @@ import { isAuthorized } from './isAuthorized.js';
 import { useNavigate } from '../../node_modules/react-router/index';
 import { Global } from './Global';
 import Swal from 'sweetalert2';
-import socket from '../vistas/chat/components/Socket';
-import '../vistas/chat/Chat.css';
+import socket from '../views/chat/components/Socket';
+import '../views/chat/Chat.css';
 import PropTypes from 'prop-types';
 
-export const Header = ({ setGames, buscado, setBuscado }) => {
+export const Header = ({ buscado, setBuscado }) => {
 
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
@@ -20,17 +20,11 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
 
   useEffect( () => {
 
-    if ( !isauthorized ) {
-
-      Swal.fire( 'No has iniciado sesión' );
-      navigate( '/' );
-
-    } else {
+    if ( isauthorized ) {
 
       setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
 
     }
-
 
   }, []);
 
@@ -38,7 +32,7 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
     <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
       <div className="container-fluid">
         <a className="navbar-brand"
-          href="#Logo">
+          href="/">
           <img src={logo}
             width="80px"
             height="50px"
@@ -83,15 +77,14 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
               value={buscado}
               onChange={ ( b ) => setBuscado( b.target.value ) }/>
           </div>
-
+          {/**
+           * Button chat
+           */}
           <button className="btn btn-outline-dark m-1"
             id="btn-chat-header"
             onClick={() => {
 
               navigate( '/chat/' );
-              document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
-              document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
-              document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
 
             } }>
             <i className="fa-solid fa-comments"></i>
@@ -106,9 +99,6 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
               onClick={() => {
 
                 navigate( '/login' );
-                document.getElementById( 'btn-chat-header' ).classList.remove( 'ocultar' );
-                document.getElementById( 'div-buscar-juegos-header' ).classList.remove( 'ocultar' );
-                document.getElementById( 'input-buscar-juegos-header' ).classList.remove( 'ocultar' );
 
               } }>
               <i className="fa-solid fa-user"></i> Identifícate
@@ -125,10 +115,8 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
                 socket.emit( 'mensajes' );
                 localStorage.clear();
                 navigate( '/' );
-                document.getElementById( 'btn-chat-header' ).classList.remove( 'ocultar' );
-                document.getElementById( 'div-buscar-juegos-header' ).classList.remove( 'ocultar' );
-                document.getElementById( 'input-buscar-juegos-header' ).classList.remove( 'ocultar' );
                 Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' );
+                setUser( null );
 
               } }>
               <i className="fa-solid fa-arrow-right-from-bracket"></i></button>
@@ -141,7 +129,6 @@ export const Header = ({ setGames, buscado, setBuscado }) => {
 };
 
 Header.propTypes = {
-  setGames: PropTypes.func.isRequired,
   setBuscado: PropTypes.func.isRequired,
   buscado: PropTypes.string.isRequired
 };

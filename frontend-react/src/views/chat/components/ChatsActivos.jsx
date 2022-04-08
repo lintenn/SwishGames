@@ -8,23 +8,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const users2 = [];
 
-  const addClickButton = () => {
-
-    document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
-
-      boton.addEventListener( 'click', ( e ) => {
-
-        e.preventDefault();
-        setReceptor( boton.value );
-        setConection( boton.value );
-        Swal.close();
-
-      });
-
-    });
-
-  };
-
 
   useEffect( () => {
 
@@ -44,17 +27,17 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           setReceptor( men.nombre_usuario_receptor );
           setConection( men.nombre_usuario_receptor );
+          i++;
 
         } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
           setReceptor( men.nombre_usuario_emisor );
           setConection( men.nombre_usuario_emisor );
+          i++;
 
         }
 
       }
-
-      i++;
 
     });
 
@@ -109,6 +92,23 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     return ( friends );
 
   }
+
+  const addClickButton = () => {
+
+    document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
+
+      boton.addEventListener( 'click', ( e ) => {
+
+        e.preventDefault();
+        setReceptor( boton.value );
+        setConection( boton.value );
+        Swal.close();
+
+      });
+
+    });
+
+  };
 
   const formatDate = ( date ) => {
 

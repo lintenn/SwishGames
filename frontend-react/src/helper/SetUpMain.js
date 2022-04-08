@@ -6,6 +6,8 @@ const baseUrl = Global.baseUrl;
 
 export const setUpMain = ( setGames ) => {
 
+  Swal.showLoading();
+
   axios.get( `${baseUrl}games/` )
     .then( res => {
 

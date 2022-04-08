@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './vistas/login/login.jsx';
-import Recovery from './vistas/recovery/recovery.jsx';
-import Signup from './vistas/signup/signup.jsx';
-import Main from './vistas/main/main.jsx';
-import { Chat } from './vistas/chat/Chat.jsx';
-import Game from './vistas/game/game.jsx';
-import User from './vistas/user/user.jsx';
+import Login from './views/login/login.jsx';
+import Recovery from './views/recovery/recovery.jsx';
+import Signup from './views/signup/signup.jsx';
+import Main from './views/main/main.jsx';
+import { Chat } from './views/chat/Chat.jsx';
+import Game from './views/game/game.jsx';
+import User from './views/user/user.jsx';
 import { isAuthorized } from './helper/isAuthorized';
 
 function App() {

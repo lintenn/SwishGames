@@ -57,11 +57,6 @@ export const Chat = () => {
       ? <div>{Swal.showLoading()}</div>
       : <div className="row justify-content-center">
         <Header
-          setGames={ () => {
-
-            '';
-
-          } }
           buscado={ '' }
           setBuscado={ () => {
 

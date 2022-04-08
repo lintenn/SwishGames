@@ -18,13 +18,6 @@ const Main = () => {
 
   useEffect( () => {
 
-    setUpMain( setGames );
-
-  }, []);
-
-
-  useEffect( () => {
-
     if ( isauthorized ) {
 
       const token = localStorage.getItem( 'user' );
@@ -33,6 +26,8 @@ const Main = () => {
 
     }
 
+    setUpMain( setGames );
+
   }, []);
 
   return (
@@ -40,7 +35,6 @@ const Main = () => {
       ? <div>{Swal.showLoading()}</div>
       : <div>
         <Header
-          setGames={ setGames }
           buscado={ buscado }
           setBuscado={ setBuscado }
         />
