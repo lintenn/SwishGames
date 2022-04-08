@@ -117,10 +117,14 @@ a {
     background-color: #d9fdd3;
 }
 
-.mensajeActualizadoMio, .mensajeActualizadoOtro, #mensajeActualizadoMio2 {
+.mensajeActualizadoMio, .mensajeActualizadoOtro {
     margin-bottom: 5px;
     border-radius: 5px;
     max-width: 70%;
+}
+
+.mensajeActualizadoMio:hover, .mensajeActualizadoOtro:hover, .chatSeleccionado {
+    background-color: #c6daf8;
 }
 
 .emogiIcon {

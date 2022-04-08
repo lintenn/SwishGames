@@ -5,6 +5,7 @@ import axios from 'axios';
 import socket from './Socket';
 import { Global } from '../../../helper/Global.js';
 import { eventKeyboard } from './eventsKeyboard';
+import Swal from 'sweetalert2';
 
 export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje }) => {
 
@@ -65,7 +66,9 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
   const submit = async ( e ) => {
 
+    Swal.showLoading();
     e.preventDefault();
+    document.getElementById( `${receptor}` ).classList.remove( 'chatSeleccionado' );
     if ( mensaje !== '' ) {
 
       await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
@@ -73,6 +76,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
       setMensaje( '' );
 
     }
+    Swal.close();
 
   };
 
