@@ -123,7 +123,7 @@ a {
     max-width: 70%;
 }
 
-.mensajeActualizadoMio:hover, .mensajeActualizadoOtro:hover, .chatSeleccionado {
+.mensajeActualizadoMio:hover, .mensajeActualizadoOtro:hover, .chatSeleccionado, .btn-chat-seleccionado-hover:hover {
     background-color: #c6daf8;
 }
 
@@ -220,7 +220,7 @@ a {
     color: #0d6efd !important;
 }
 
-@media only screen and (max-height: 400px) {
+@media only screen and (max-height: 500px) {
     .my-custom-scrollbar {
         position: relative;
         min-height: 100px;
@@ -232,24 +232,11 @@ a {
     }
 }
 
-@media only screen and (min-height: 401px) {
-    .my-custom-scrollbar {
-        position: relative;
-        min-height: 200px;
-        max-height: 200px;
-        overflow: auto;
-    }
-    .table-wrapper-scroll-y {
-        display: block;
-    }
-    
-}
-
 @media only screen and (min-height: 501px) {
     .my-custom-scrollbar {
         position: relative;
-        min-height: 250px;
-        max-height: 250px;
+        min-height: 150px;
+        max-height: 150px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -260,8 +247,8 @@ a {
 @media only screen and (min-height: 601px) {
     .my-custom-scrollbar {
         position: relative;
-        min-height: 350px;
-        max-height: 350px;
+        min-height: 250px;
+        max-height: 250px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -273,8 +260,8 @@ a {
 @media only screen and (min-height: 701px) {
     .my-custom-scrollbar {
         position: relative;
-        min-height: 450px;
-        max-height: 450px;
+        min-height: 350px;
+        max-height: 350px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -285,8 +272,8 @@ a {
 @media only screen and (min-height: 801px) {
     .my-custom-scrollbar {
         position: relative;
-        min-height: 550px;
-        max-height: 550px;
+        min-height: 450px;
+        max-height: 450px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -298,8 +285,8 @@ a {
 @media only screen and (min-height: 901px) {
     .my-custom-scrollbar {
         position: relative;
-        min-height: 650px;
-        max-height: 650px;
+        min-height: 550px;
+        max-height: 550px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import socket from '../components/chat/Socket';
 import '../styles/Chat.css';
 import PropTypes from 'prop-types';
+import { NavLink } from '../../node_modules/react-router-dom/index';
 
 export const Header = ({ buscado, setBuscado }) => {
 
@@ -30,14 +31,14 @@ export const Header = ({ buscado, setBuscado }) => {
   return (
     <header className="navbar navbar-expand-lg navbar-light bg-light fixed-top mat-shadow">
       <div className="container-fluid">
-        <a className="navbar-brand"
-          href="/">
+        <NavLink className="navbar-brand"
+          to="/">
           <img src={logo}
             width="80px"
             height="50px"
             alt="Logo" >
           </img>
-        </a>
+        </NavLink>
         <button className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -51,9 +52,9 @@ export const Header = ({ buscado, setBuscado }) => {
           id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active navSelected"
+              <NavLink className="nav-link active navSelected"
                 aria-current="page"
-                href="/"><i className="fa-solid fa-gamepad"></i> Juegos</a>
+                to="/"><i className="fa-solid fa-gamepad"></i> Juegos</NavLink>
             </li>
             <li className="nav-item">
               <a className="nav-link"

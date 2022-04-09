@@ -12,6 +12,7 @@ import { Games } from '../components/games/Games.jsx';
 const Main = () => {
 
   const [games, setGames] = useState([]);
+  const [allGames, setAllGames] = useState([]);
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
 
@@ -26,12 +27,12 @@ const Main = () => {
 
     }
 
-    setUpMain( setGames );
+    setUpMain( setGames, setAllGames );
 
   }, []);
 
   return (
-    games === null
+    allGames.length === 0
       ? <div>{Swal.showLoading()}</div>
       : <div>
         <Header
@@ -46,10 +47,11 @@ const Main = () => {
               games={ games }
               setGames={ setGames }
               buscado={ buscado }
+              setAllGames={ setAllGames }
             />
           </div>
-          <Footer/>
         </main>
+        <Footer/>
       </div>
   );
 
