@@ -25,16 +25,16 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
+          setConection( men.nombre_usuario_receptor );
           setReceptor( men.nombre_usuario_receptor );
           document.getElementById( `${men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-          setConection( men.nombre_usuario_receptor );
           i++;
 
         } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
+          setConection( men.nombre_usuario_emisor );
           setReceptor( men.nombre_usuario_emisor );
           document.getElementById( `${men.nombre_usuario_emisor}` ).classList.add( 'chatSeleccionado' );
-          setConection( men.nombre_usuario_emisor );
           i++;
 
         }
@@ -74,7 +74,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     users.forEach( ( us ) => {
 
-      friends += `
+      if(us.nombre !== user.nombre) {
+        friends += `
         <div class="d-flex flex-row mb-3">
           <button style="background-color: white; border-radius: 20px" name="newChat" value="${us.nombre}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 botonShowFriends w-100 mt-2 mb-2">
             <div class="align-items-center divObjectsSend">
@@ -88,6 +89,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             </div>
           </button>
         </div>`;
+      }
 
     });
 
@@ -102,8 +104,10 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
       boton.addEventListener( 'click', ( e ) => {
 
         e.preventDefault();
+        document.getElementById( `${receptor}` ).classList.remove( 'chatSeleccionado' );
         setReceptor( boton.value );
         setConection( boton.value );
+        document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
         Swal.close();
 
       });
@@ -144,7 +148,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     users.forEach( ( us ) => {
 
       if ( us.nombre === rec ) {
-
+        
         if ( us.online ) {
 
           setConexion(
@@ -152,7 +156,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <div id="online"></div>
               Online
             </div> );
-
         } else {
 
           setConexion(
@@ -205,7 +208,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
                 onClick={() => chatUsers()}>Nuevo chat</button></li>
-              <li><button className="dropdown-item">Nuevo grupo</button></li>
+              <li><button className="dropdown-item"
+                onClick={() => chatUsers()}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
