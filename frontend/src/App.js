@@ -16,19 +16,19 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login"
-            element={<Login/>}> </Route>
+            element={<Login/>}/>
           <Route path="/recovery"
-            element={<Recovery/>}></Route>
+            element={<Recovery/>}/>
           <Route path="/signup"
-            element={<Signup/>}></Route>
+            element={<Signup/>}/>
           <Route path="/"
-            element={<Main/>}></Route>
+            element={<Main/>}/>
           <Route path="/chat"
-            element={<Chat/>}></Route>
+            element={<Chat/>}/>
           <Route path="/game/:id"
-            element={<Game/>}></Route>
+            element={<Game/>}/>
           <Route path="/user/:name"
-            element={<User/>}></Route>
+            element={<User/>}/>
         </Routes>
       </BrowserRouter>
     </div>
