@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { isAuthorized } from '../../helper/isAuthorized.js';
-import './main.css';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import socket from '../chat/components/Socket.js';
-import { Header } from '../../helper/header.jsx';
-import { Footer } from '../../helper/footer.jsx';
-import { setUpMain } from '../../helper/SetUpMain.js';
+import socket from '../components/chat/Socket';
+import { Header } from '../components/header.jsx';
+import { Footer } from '../components/footer.jsx';
+import { setUpMain } from '../helper/SetUpMain.js';
 import Swal from 'sweetalert2';
-import { Games } from './components/Games.jsx';
+import { Games } from '../components/games/Games.jsx';
 
 const Main = () => {
 

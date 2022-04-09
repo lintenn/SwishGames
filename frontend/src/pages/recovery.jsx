@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../signup/signup.css';
+import '../styles/signup.css';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import emailjs, { init } from '@emailjs/browser';
-import { Global } from '../../helper/Global';
+import { Global } from '../helper/Global';
 
 init( 'WznRYXdNmfA-nSsG0' );
 
