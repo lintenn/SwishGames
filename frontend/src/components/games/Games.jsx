@@ -5,7 +5,7 @@ import { setUpMain } from '../../helper/SetUpMain';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
 
-export const Games = ({ games, setGames, buscado }) => {
+export const Games = ({ games, setGames, buscado, setAllGames }) => {
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
@@ -20,7 +20,7 @@ export const Games = ({ games, setGames, buscado }) => {
 
     if ( buscado === '' ) {
 
-      setUpMain( setGames );
+      setUpMain( setGames, setAllGames );
 
     } else {
 
@@ -37,7 +37,8 @@ export const Games = ({ games, setGames, buscado }) => {
 
   return (
     <div>
-      {games.length !== 0 && games.map( ( game, index ) => (
+      {games.length !== 0 
+        ? games.map( ( game, index ) => (
         <Link to={'/game/' + game.titulo}
           key = {index}>
           <div className="list-group-item list-group-item-action">
@@ -59,7 +60,8 @@ export const Games = ({ games, setGames, buscado }) => {
             </div>
           </div>
         </Link>
-      ) )}
+      ) )
+      :<div className='mt-5 text-dark'><h1><b>Lo sentimos, pero no hemos encontrado el juego deseado :(</b></h1></div>}
     </div> );
 
 };
@@ -67,5 +69,6 @@ export const Games = ({ games, setGames, buscado }) => {
 Games.propTypes = {
   games: PropTypes.array.isRequired,
   setGames: PropTypes.func.isRequired,
-  buscado: PropTypes.string.isRequired
+  buscado: PropTypes.string.isRequired,
+  setAllGames: PropTypes.func.isRequired
 };

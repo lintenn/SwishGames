@@ -221,7 +221,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                   ( ( men.nombre_usuario_emisor === user.nombre && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
-                      <button className={`d-flex justify-content-between botonNaranja`}
+                      <button className={`d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover`}
                         id = {`${men.nombre_usuario_emisor === user.nombre ? men.nombre_usuario_receptor : men.nombre_usuario_emisor}`}
                         onClick={() => {
 

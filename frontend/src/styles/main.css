@@ -34,12 +34,13 @@ body {
 	left: 25%;
     margin-left: auto; margin-right: auto;*/
     
-  /* centrado vertical */
-  position: relative;
+    /* centrado vertical */
+    position: relative;
     width: auto !important;
     height: auto !important;
 	border-radius: 5px !important;
-    margin-top: 75px !important;
+    margin-top: 100px !important;
+    margin-bottom: 100px !important;
 }
 
 .list-group {

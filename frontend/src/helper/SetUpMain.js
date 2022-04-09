@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 const baseUrl = Global.baseUrl;
 
-export const setUpMain = ( setGames ) => {
+export const setUpMain = ( setGames, setAllGames ) => {
 
   Swal.showLoading();
 
@@ -12,6 +12,13 @@ export const setUpMain = ( setGames ) => {
     .then( res => {
 
       setGames( res.data );
+
+    });
+    
+    axios.get( `${baseUrl}games/` )
+    .then( res => {
+
+      setAllGames( res.data );
 
     });
 
