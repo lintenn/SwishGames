@@ -7,11 +7,8 @@ import Main from './views/main/main.jsx';
 import { Chat } from './views/chat/Chat.jsx';
 import Game from './views/game/game.jsx';
 import User from './views/user/user.jsx';
-import { isAuthorized } from './helper/isAuthorized';
 
 function App() {
-
-  console.log( '¿Ha iniciado sesión? ', isAuthorized() );
 
   return (
     <div className="root"
