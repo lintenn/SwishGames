@@ -46,7 +46,7 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
               <img className="img-juego"
                 src={game.imagen}
                 width="200"
-                height="150"
+                height="170"
                 alt={`#ImgGame${game.titulo}`} />
               <div className="px-2">
                 <div className="d-flex w-100 justify-content-between pt-1">

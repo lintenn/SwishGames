@@ -18,7 +18,6 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
   useEffect( () => {
 
     messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-    console.log( messageEndRef.current );
 
   }, [mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje]);
 

@@ -5,7 +5,7 @@ import logoSinLetras from '../static/SwishGamesLogo_sin_letras.png';
 export const Footer = () => {
 
   return (
-    <div className="container-fluid bg-light fixed-bottom mat-shadow">
+    <div className="container-fluid bg-light fixed-bottom mat-shadow tamañoFooter">
       <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3">
         <div className="col-md-4 d-flex align-items-center px-3">
           <span className="text-muted">© 2022 SwishGames, Inc</span>
