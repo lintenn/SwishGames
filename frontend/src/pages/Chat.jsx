@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { setUpChat } from '../../helper/SetUpChat';
-import { ChatsActivos } from './components/ChatsActivos.jsx';
-import { Conversacion } from './components/Conversacion.jsx';
+import { setUpChat } from '../helper/SetUpChat';
+import { ChatsActivos } from '../components/chat/ChatsActivos.jsx';
+import { Conversacion } from '../components/chat/Conversacion';
 import Swal from 'sweetalert2';
-import './Chat.css';
-import { isAuthorized } from '../../helper/isAuthorized.js';
-import { useNavigate } from '../../../node_modules/react-router/index';
-import socket from './components/Socket';
-import { Header } from '../../helper/header';
-import { Footer } from '../../helper/footer';
+import '../styles/Chat.css';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import { useNavigate } from '../../node_modules/react-router/index';
+import socket from '../components/chat/Socket';
+import { Header } from '../components/header';
+import { Footer } from '../components/footer';
 
 export const Chat = () => {
 

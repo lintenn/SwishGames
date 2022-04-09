@@ -8,8 +8,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import './signup.css';
-import { Global } from '../../helper/Global';
+import '../styles/signup.css';
+import { Global } from '../helper/Global';
 
 const Signup = () => {
 
