@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './views/login/login.jsx';
-import Recovery from './views/recovery/recovery.jsx';
-import Signup from './views/signup/signup.jsx';
-import Main from './views/main/main.jsx';
-import { Chat } from './views/chat/Chat.jsx';
-import Game from './views/game/game.jsx';
-import User from './views/user/user.jsx';
+import Login from './pages/login.jsx';
+import Recovery from './pages/recovery.jsx';
+import Signup from './pages/signup.jsx';
+import Main from './pages/main.jsx';
+import { Chat } from './pages/Chat.jsx';
+import Game from './pages/game.jsx';
+import User from './pages/user.jsx';
 
 function App() {
 

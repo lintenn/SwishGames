@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import socket from './Socket';
-import { Global } from '../../../helper/Global.js';
+import { Global } from '../../helper/Global';
 import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 

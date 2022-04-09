@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../static/SwishGamesLogo.png';
-import { Link } from '../../node_modules/react-router-dom/index';
-import axios from '../../node_modules/axios/index';
-import { isAuthorized } from './isAuthorized.js';
-import { useNavigate } from '../../node_modules/react-router/index';
-import { Global } from './Global';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import { Global } from '../helper/Global';
 import Swal from 'sweetalert2';
-import socket from '../views/chat/components/Socket';
-import '../views/chat/Chat.css';
+import socket from '../components/chat/Socket';
+import '../styles/Chat.css';
 import PropTypes from 'prop-types';
 
 export const Header = ({ buscado, setBuscado }) => {

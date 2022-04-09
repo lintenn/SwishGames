@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { isAuthorized } from '../../helper/isAuthorized.js';
-import socket from '../chat/components/Socket.js';
-import { Header } from '../../helper/header.jsx';
-import { Footer } from '../../helper/footer.jsx';
-import { Global } from '../../helper/Global.js';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import socket from '../components/chat/Socket';
+import { Header } from '../components/header.jsx';
+import { Footer } from '../components/footer.jsx';
+import { Global } from '../helper/Global.js';
 
 const User = () => {
 

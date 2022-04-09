@@ -7,8 +7,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
-import './login.css';
-import { Global } from '../../helper/Global';
+import '../styles/login.css';
+import { Global } from '../helper/Global';
 
 const Login = () => {
 
