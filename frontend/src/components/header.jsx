@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../static/SwishGamesLogo.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import { Global } from '../helper/Global';
@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import socket from '../components/chat/Socket';
 import '../styles/Chat.css';
 import PropTypes from 'prop-types';
-import { NavLink } from '../../node_modules/react-router-dom/index';
+
 
 export const Header = ({ buscado, setBuscado }) => {
 

@@ -1,11 +1,12 @@
 const express = require( 'express' );
-const ParticipantsGroupsController = require( '../controllers/ParticipantsGroupsController.js' );
+const GroupController = require( '../controllers/GroupController.js' );
 const router = express.Router();
 
-router.get( '/', ParticipantsGroupsController.getAllParticipantsGroups );
-router.get( '/:id', ParticipantsGroupsController.getParticipantsGroups );
-router.post( '/', ParticipantsGroupsController.createParticipantsGroups );
-router.put( '/:id', ParticipantsGroupsController.updateParticipantsGroups );
-router.delete( '/:id', ParticipantsGroupsController.deleteParticipantsGroups );
+router.get( '/', GroupController.getAllGroups );
+router.get( '/:id', GroupController.getGroup );
+router.get( '/groupByNameUser/:nombre_creador', GroupController.getLastGroupByNameUser );
+router.post( '/', GroupController.createGroup );
+router.put( '/:id', GroupController.updateGroup );
+router.delete( '/:id', GroupController.deleteGroup );
 
 module.exports = router;
