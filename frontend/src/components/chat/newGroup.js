@@ -76,7 +76,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           width: '25%',
           didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user );
+            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users );
 
           }
 
@@ -152,7 +152,7 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user ) => {
+const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -184,29 +184,63 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       e.preventDefault();
 
-      participantesAñadidios.push( user.nombre );
+      if ( participantesAñadidios.length > 0 ) {
 
-      participantesAñadidios.forEach( ( participante ) => {
+        participantesAñadidios.push( user.nombre );
 
-        axios.get( URIGroupLastByNameUser )
-          .then( res => {
+        participantesAñadidios.forEach( ( participante ) => {
 
-            setGroup( res.data );
-            axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
+          axios.get( URIGroupLastByNameUser )
+            .then( res => {
+
+              setGroup( res.data );
+              axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
+
+            });
+
+        });
+        Swal.close();
+
+        Swal.fire({
+          type: 'success',
+          title: 'Grupo creado',
+          text: '¡El grupo ha sido creado con éxito!',
+          focusConfirm: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false
+        });
+
+      } else if ( participantesAñadidios.length === 0 ) {
+
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: '¡No has añadido ningun participante al grupo! Añade al menos un participante.'
+        }).then( () => {
+
+          Swal.fire({
+            html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+            background: '#f0eeee',
+            showCloseButton: false,
+            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            width: '25%',
+            didOpen: () => {
+
+              addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user );
+
+            }
 
           });
 
-      });
-      Swal.close();
+        });
 
-      Swal.fire({
-        type: 'success',
-        title: 'Grupo creado',
-        text: '¡El grupo ha sido creado con éxito!',
-        focusConfirm: false,
-        allowOutsideClick: false,
-        allowEscapeKey: false
-      });
+      }
+
 
     });
 
