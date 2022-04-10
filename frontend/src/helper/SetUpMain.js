@@ -14,8 +14,8 @@ export const setUpMain = ( setGames, setAllGames ) => {
       setGames( res.data );
 
     });
-    
-    axios.get( `${baseUrl}games/` )
+
+  axios.get( `${baseUrl}games/` )
     .then( res => {
 
       setAllGames( res.data );

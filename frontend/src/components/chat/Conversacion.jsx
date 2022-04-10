@@ -13,7 +13,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
   let numeroMensajeUser = 0;
-  const messageEndRef = useRef(null);
+  const messageEndRef = useRef( null );
 
   useEffect( () => {
 
@@ -95,7 +95,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
         </h3>
       </div>
       <div className="table-wrapper-scroll-y my-custom-scrollbar panelChatMensajes">
-        <div className="pt-3 pe-3 mh-100" 
+        <div className="pt-3 pe-3 mh-100"
           id="divRef"
           data-mdb-perfect-scrollbar="true"
           position= "relative"

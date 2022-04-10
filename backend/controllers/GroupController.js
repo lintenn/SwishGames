@@ -33,6 +33,24 @@ const getGroup = async ( req, res ) => {
 
 };
 
+const getLastGroupByNameUser = async ( req, res ) => {
+
+  try {
+
+    const Group = await GroupModel.findAll({
+      where: { nombre_creador: req.params.nombre_creador },
+      order: [['fecha_creacion', 'DESC']]
+    });
+    res.json( Group[0] );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
 const createGroup = async ( req, res ) => {
 
   try {
@@ -82,4 +100,4 @@ const deleteGroup = async ( req, res ) => {
 
 };
 
-module.exports = { getAllGroups, getGroup,  createGroup, updateGroup, deleteGroup };
+module.exports = { getAllGroups, getGroup, getLastGroupByNameUser,  createGroup, updateGroup, deleteGroup };

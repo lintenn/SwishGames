@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react';
-import Swal from 'sweetalert2';
+import React, { useEffect, useState } from 'react';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
+import { Global } from '../../helper/Global';
+import { chatUsers } from './newChat';
+import { chatGroups } from './newGroup';
 
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor }) => {
 
   const users2 = [];
-
+  const baseUrl = Global.baseUrl;
+  const URIGroup = `${baseUrl}groups/`;
+  const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
+  const URIparticipantsGroups = `${baseUrl}participantsGroups`;
+  const [group, setGroup] = useState([]);
 
   useEffect( () => {
 
@@ -45,77 +51,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   }, [mensajes]);
 
-  const chatUsers = () => {
-
-    Swal.fire({
-      html: `<div style="background-color: #f0eeee">${showFriends( users )}</div>`,
-      background: '#f0eeee',
-      showCloseButton: true,
-      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-      showCancelButton: false,
-      showConfirmButton: false,
-      focusConfirm: false,
-      allowOutsideClick: false,
-      width: '25%',
-      didOpen: () => {
-
-        addClickButton();
-
-      }
-
-    });
-
-
-  };
-
-  function showFriends( users ) {
-
-    let friends = '';
-
-    users.forEach( ( us ) => {
-
-      if(us.nombre !== user.nombre) {
-        friends += `
-        <div class="d-flex flex-row mb-3">
-          <button style="background-color: white; border-radius: 20px" name="newChat" value="${us.nombre}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 botonShowFriends w-100 mt-2 mb-2">
-            <div class="align-items-center divObjectsSend">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                alt="avatar"
-                class="d-flex align-self-center me-3"
-                width="60"/>
-            </div>
-            <div class="pt-1">
-              <p class="fw-bold mb-0">${us.nombre}</p>
-            </div>
-          </button>
-        </div>`;
-      }
-
-    });
-
-    return ( friends );
-
-  }
-
-  const addClickButton = () => {
-
-    document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
-
-      boton.addEventListener( 'click', ( e ) => {
-
-        e.preventDefault();
-        document.getElementById( `${receptor}` ).classList.remove( 'chatSeleccionado' );
-        setReceptor( boton.value );
-        setConection( boton.value );
-        document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
-        Swal.close();
-
-      });
-
-    });
-
-  };
-
   const formatDate = ( date ) => {
 
     const d = new Date( date );
@@ -148,7 +83,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     users.forEach( ( us ) => {
 
       if ( us.nombre === rec ) {
-        
+
         if ( us.online ) {
 
           setConexion(
@@ -156,6 +91,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <div id="online"></div>
               Online
             </div> );
+
         } else {
 
           setConexion(
@@ -207,9 +143,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers()}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatUsers()}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
@@ -225,7 +161,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                   ( ( men.nombre_usuario_emisor === user.nombre && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
-                      <button className={`d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover`}
+                      <button className={'d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover'}
                         id = {`${men.nombre_usuario_emisor === user.nombre ? men.nombre_usuario_receptor : men.nombre_usuario_emisor}`}
                         onClick={() => {
 

@@ -57,131 +57,143 @@ const User = () => {
 
         } }
       />
-      
+
       <main className="row justify-content-center mt-5">
-        <div class="container mt-5 ms-6">
-      
-          <div class="row gutters-sm">
-            
-            <div class="col-md-2">
-              
-              <div class="card" style={{width: '18rem;'}}>
-                <img src="https://www.personality-database.com/profile_images/183486.png" class="px-5 pt-3 rounded-circle" alt="..."/>
-                <div class="card-body">
-                  <p class="text-center fs-3 fw-bolder">{name}</p>
-                  <p class="text-center">{description}</p>
+        <div className="container mt-5 ms-6">
+
+          <div className="row gutters-sm">
+
+            <div className="col-md-2">
+
+              <div className="card"
+                style={{ width: '18rem;' }}>
+                <img src="https://www.personality-database.com/profile_images/183486.png"
+                  className="px-5 pt-3 rounded-circle"
+                  alt="..."/>
+                <div className="card-body">
+                  <p className="text-center fs-3 fw-bolder">{name}</p>
+                  <p className="text-center">{description}</p>
                 </div>
               </div>
-              
-              <ul class="list-group list-group-flush border mt-3">
-                <li class="list-group-item">
-                  <div class="row ms-1">
-                    <div class="col">
-                      <p class="text-end fs-3 fw-bolder">50</p>
+
+              <ul className="list-group list-group-flush border mt-3">
+                <li className="list-group-item">
+                  <div className="row ms-1">
+                    <div className="col">
+                      <p className="text-end fs-3 fw-bolder">50</p>
                     </div>
-                    <div class="col-8">
-                      <p class="text">Videojuegos completados</p>
+                    <div className="col-8">
+                      <p className="text">Videojuegos completados</p>
                     </div>
                   </div>
                 </li>
-                <li class="list-group-item">
-                  <div class="row ms-1">
-                    <div class="col">
-                      <p class="text-end fs-3 fw-bolder">69</p>
+                <li className="list-group-item">
+                  <div className="row ms-1">
+                    <div className="col">
+                      <p className="text-end fs-3 fw-bolder">69</p>
                     </div>
-                    <div class="col-8">
-                      <p class="text">Videojuegosㅤㅤpor jugar</p>
+                    <div className="col-8">
+                      <p className="text">Videojuegosㅤㅤpor jugar</p>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-            
-            <div class="col-md-8">
-              
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
+
+            <div className="col-md-8">
+
+              <div className="card mb-3">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-sm-3">
                       Nombre
                     </div>
-                    <div class="col-sm-9 text-secondary">{name}</div>
+                    <div className="col-sm-9 text-secondary">{name}</div>
                   </div>
                   <hr/>
-                  <div class="row">
-                    <div class="col-sm-3">
+                  <div className="row">
+                    <div className="col-sm-3">
                       Email
                     </div>
-                    <div class="col-sm-9 text-secondary">{email}</div>
+                    <div className="col-sm-9 text-secondary">{email}</div>
                   </div>
                   <hr/>
-                  <div class="row">
-                    <div class="col-sm-3">
+                  <div className="row">
+                    <div className="col-sm-3">
                       Fecha de nacimiento
                     </div>
-                    <div class="col-sm-9 text-secondary">{birthDate}</div>
+                    <div className="col-sm-9 text-secondary">{birthDate}</div>
                   </div>
                   <hr/>
-                  <div class="row">
-                    <div class="col-sm-3">
+                  <div className="row">
+                    <div className="col-sm-3">
                       Fecha de creación de la cuenta
                     </div>
-                    <div class="col-sm-9 text-secondary">{creationDate}</div>
+                    <div className="col-sm-9 text-secondary">{creationDate}</div>
                   </div>
                   <hr/>
-                  <div class="row">
-                    <div class="col-sm-3">
+                  <div className="row">
+                    <div className="col-sm-3">
                       Privacidad
                     </div>
-                    <div class="col-sm-9 text-secondary">uwu</div>
+                    <div className="col-sm-9 text-secondary">uwu</div>
                   </div>
                   <hr/>
-                  
-                  <div class="row">
-                    <div class="col-sm-12">
+
+                  <div className="row">
+                    <div className="col-sm-12">
                       <button className="btn btn-outline-dark m-1">
                         <i className="fa-solid fa-user"></i> Editar perfil
                       </button>
                       <button className="btn btn-outline-dark m-1">
-                        <i class="fa-solid fa-key"></i> Cambiar contraseña
+                        <i className="fa-solid fa-key"></i> Cambiar contraseña
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <ul class="list-group list-group-flush border mt-3">
+              <ul className="list-group list-group-flush border mt-3">
 
-                <li class="list-group-item">
-                  <div class="row">
-                    <p class="text fs-5 fw-normal mt-2">Listas de {name}</p>
+                <li className="list-group-item">
+                  <div className="row">
+                    <p className="text fs-5 fw-normal mt-2">Listas de {name}</p>
                   </div>
                 </li>
 
-                <li class="list-group-item">
-                  <div class="container">
-                    <div class="row">
+                <li className="list-group-item">
+                  <div className="container">
+                    <div className="row">
 
-                      <div class="col-sm-4">
-                        <a className="nav-link"href="#Listas">
-                          <div id="carousel1" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                      <div className="col-sm-4">
+                        <a className="nav-link"
+                          href="#Listas">
+                          <div id="carousel1"
+                            className="carousel slide carousel-fade"
+                            data-bs-ride="carousel">
+                            <div className="carousel-inner">
+                              <div className="carousel-item active">
+                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos completados</p>
                                 </div>
                               </div>
-                              <div class="carousel-item">
-                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                              <div className="carousel-item">
+                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos completados</p>
                                 </div>
                               </div>
-                              <div class="carousel-item">
-                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                              <div className="carousel-item">
+                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos completados</p>
                                 </div>
                               </div>
                             </div>
@@ -189,26 +201,35 @@ const User = () => {
                         </a>
                       </div>
 
-                      <div class="col-sm-4">
-                        <a className="nav-link"href="#Listas">
-                          <div id="carousel2" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                              <div class="carousel-item active">
-                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos por jugar</p>
+                      <div className="col-sm-4">
+                        <a className="nav-link"
+                          href="#Listas">
+                          <div id="carousel2"
+                            className="carousel slide carousel-fade"
+                            data-bs-ride="carousel">
+                            <div className="carousel-inner">
+                              <div className="carousel-item active">
+                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos por jugar</p>
                                 </div>
                               </div>
-                              <div class="carousel-item">
-                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos por jugar</p>
+                              <div className="carousel-item">
+                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos por jugar</p>
                                 </div>
                               </div>
-                              <div class="carousel-item">
-                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg" class="d-block w-100" alt="..."/>
-                                <div class="carousel-caption d-none d-md-block">
-                                  <p class="fw-bold text-center carousel-text">Videojuegos por jugar</p>
+                              <div className="carousel-item">
+                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg"
+                                  className="d-block w-100"
+                                  alt="..."/>
+                                <div className="carousel-caption d-none d-md-block">
+                                  <p className="fw-bold text-center carousel-text">Videojuegos por jugar</p>
                                 </div>
                               </div>
                             </div>
