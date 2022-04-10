@@ -150,6 +150,72 @@ const User = () => {
                 </div>
               </div>
 
+              <ul class="list-group list-group-flush border mt-3">
+                <li class="list-group-item">
+                  <div class="row">
+                    <p class="text fs-5 fw-normal mt-2">Listas de {name}</p>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <a className="nav-link"href="#Listas">
+                          <div id="carousel1" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                      <div class="col-sm-4">
+                        <a className="nav-link"href="#Listas">
+                          <div id="carousel2" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                              <div class="carousel-item active">
+                                <img src="https://i.ytimg.com/vi/4c1tEsPQZ_Y/maxresdefault.jpg" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="https://cdn1.epicgames.com/offer/6f43ab8025ad42d18510aa91e9eb688b/EGS_FINALFANTASYVIIREMAKEINTERGRADE_SquareEnix_S1_2560x1440-85f829541a833442eaace75d02e0f07d" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                              <div class="carousel-item">
+                                <img src="https://i.blogs.es/35b4ab/kingdom-hearts-ii-2175149/1366_2000.jpeg" class="d-block w-100" alt="..."/>
+                                <div class="carousel-caption d-none d-md-block">
+                                  <p class="fw-bold text-center carousel-text">Videojuegos completados</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
             </div>
 
           </div>
