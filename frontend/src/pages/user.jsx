@@ -151,14 +151,17 @@ const User = () => {
               </div>
 
               <ul class="list-group list-group-flush border mt-3">
+
                 <li class="list-group-item">
                   <div class="row">
                     <p class="text fs-5 fw-normal mt-2">Listas de {name}</p>
                   </div>
                 </li>
+
                 <li class="list-group-item">
                   <div class="container">
                     <div class="row">
+
                       <div class="col-sm-4">
                         <a className="nav-link"href="#Listas">
                           <div id="carousel1" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -185,6 +188,7 @@ const User = () => {
                           </div>
                         </a>
                       </div>
+
                       <div class="col-sm-4">
                         <a className="nav-link"href="#Listas">
                           <div id="carousel2" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -211,9 +215,11 @@ const User = () => {
                           </div>
                         </a>
                       </div>
+
                     </div>
                   </div>
                 </li>
+                
               </ul>
 
             </div>
