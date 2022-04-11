@@ -66,7 +66,11 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     Swal.showLoading();
     e.preventDefault();
-    document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+    if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+    }
     if ( mensaje !== '' ) {
 
       if ( receptor === '' && group !== {}) {

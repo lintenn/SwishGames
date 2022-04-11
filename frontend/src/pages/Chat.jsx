@@ -21,6 +21,7 @@ export const Chat = () => {
   const [mensaje, setMensaje] = useState( '' );
   const [group, setGroup] = useState({});
   const [myGroups, setMyGroups] = useState([]);
+  const [participantsGroups, setParticipantsGroups] = useState([]);
   const [groups, setGroups] = useState([]);
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export const Chat = () => {
 
     }
 
-    setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setMyGroups, setGroups, user );
+    setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
 
   }, []);
 
@@ -42,7 +43,7 @@ export const Chat = () => {
 
     socket.on( 'mensajes', () => {
 
-      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setMyGroups, setGroups, user );
+      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
 
     });
 
@@ -54,8 +55,27 @@ export const Chat = () => {
 
   }, [mensajes, users]);
 
+  useEffect( () => {
+
+
+    const myGroupsArray = [];
+
+    participantsGroups.forEach( ( group ) => {
+
+      if ( group.nombre_usuario === user.nombre ) {
+
+        myGroupsArray.push( group );
+
+      }
+
+    });
+
+    setMyGroups( myGroupsArray );
+
+  }, [participantsGroups]);
+
   return (
-    user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0
+    user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || groups.length === 0 || participantsGroups.length === 0
       ? <div>{Swal.showLoading()}</div>
       : <div className="row justify-content-center">
         <Header
