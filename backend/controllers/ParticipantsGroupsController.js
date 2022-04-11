@@ -1,5 +1,6 @@
 const ParticipantsGroupsModel = require( '../models/ParticipantsGroupsModel.js' );
-const { Op } = require( 'sequelize' );
+const GameController = require( '../controllers/GameController' );
+const { Op, Sequelize } = require( 'sequelize' );
 
 const getAllParticipantsGroups = async ( req, res ) => {
 
@@ -22,6 +23,25 @@ const getParticipantsGroups = async ( req, res ) => {
 
     const ParticipantsGroups = await ParticipantsGroupsModel.findAll({
       where: { id: req.params.id }
+    });
+    res.json( ParticipantsGroups );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+const getGroupsByNameUser = async ( req, res ) => {
+
+  try {
+
+    const ParticipantsGroups = await ParticipantsGroupsModel.findAll({
+          where: { 
+            nombre_usuario: req.params.nombre_usuario
+          }
     });
     res.json( ParticipantsGroups );
 
@@ -82,4 +102,4 @@ const deleteParticipantsGroups = async ( req, res ) => {
 
 };
 
-module.exports = { getAllParticipantsGroups, getParticipantsGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };
+module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };

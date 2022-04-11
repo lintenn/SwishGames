@@ -3,7 +3,7 @@ import axios from 'axios';
 
 let participantesAñadidios = [];
 
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group ) => {
+export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users ) => {
 
   participantesAñadidios = [];
   Swal.fire({
@@ -19,7 +19,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '25%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group );
+      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users );
 
     }
 
@@ -49,7 +49,7 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group ) => {
+const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users ) => {
 
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
@@ -103,7 +103,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             width: '25%',
             didOpen: () => {
 
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group );
+              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users );
 
             }
 
