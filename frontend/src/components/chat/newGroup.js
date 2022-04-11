@@ -3,7 +3,7 @@ import axios from 'axios';
 
 let participantesAñadidios = [];
 
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users ) => {
+export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor ) => {
 
   participantesAñadidios = [];
   Swal.fire({
@@ -19,7 +19,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '25%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users );
+      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor );
 
     }
 
@@ -49,7 +49,7 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users ) => {
+const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor ) => {
 
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
@@ -57,8 +57,6 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
 
       e.preventDefault();
       if ( document.getElementById( 'nameNewGroup' ).value !== '' ) {
-
-        console.log( user );
 
         axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre });
 
@@ -76,7 +74,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           width: '25%',
           didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users );
+            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor );
 
           }
 
@@ -103,7 +101,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             width: '25%',
             didOpen: () => {
 
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users );
+              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor );
 
             }
 
@@ -152,7 +150,7 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users ) => {
+const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -172,8 +170,6 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       }
 
-      console.log( participantesAñadidios );
-
     });
 
   });
@@ -184,6 +180,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       e.preventDefault();
 
+      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
       if ( participantesAñadidios.length > 0 ) {
 
         participantesAñadidios.push( user.nombre );
@@ -194,6 +191,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
             .then( res => {
 
               setGroup( res.data );
+              console.log( res.data );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
 
             });
@@ -202,7 +200,6 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
         Swal.close();
 
         Swal.fire({
-          type: 'success',
           title: 'Grupo creado',
           text: '¡El grupo ha sido creado con éxito!',
           focusConfirm: false,

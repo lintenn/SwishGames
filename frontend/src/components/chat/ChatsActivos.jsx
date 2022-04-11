@@ -36,6 +36,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       if ( i === 0 ) {
 
+        console.log( men );
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
@@ -45,17 +46,20 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               if ( group.id === men.id_grupo_receptor ) {
 
                 setGroup( group );
+                setReceptor( '' );
+                setConexion( <div></div> );
 
               }
 
             });
             i++;
 
+
           } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
 
             setConection( men.nombre_usuario_receptor );
             setReceptor( men.nombre_usuario_receptor );
-            document.getElementById( `${men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+            setGroup({});
             i++;
 
           }
@@ -64,7 +68,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           setConection( men.nombre_usuario_emisor );
           setReceptor( men.nombre_usuario_emisor );
-          document.getElementById( `${men.nombre_usuario_emisor}` ).classList.add( 'chatSeleccionado' );
+          setGroup({});
           i++;
 
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
@@ -72,7 +76,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           let enc = false;
           myGroups.forEach( ( group ) => {
 
-            if ( group.id === men.id_grupo_receptor ) {
+            if ( group.id_grupo === men.id_grupo_receptor ) {
 
               enc = true;
 
@@ -87,6 +91,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               if ( group.id === men.id_grupo_receptor ) {
 
                 setGroup( group );
+                setReceptor( '' );
+                setConexion( <div></div> );
 
               }
 
@@ -95,6 +101,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           }
           i++;
 
+        }
+
+        if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+          document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
 
         }
 
@@ -182,7 +193,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     let enc = false;
     myGroups.forEach( ( group ) => {
 
-      if ( group.id === id ) {
+      if ( group.id_grupo === id ) {
 
         enc = true;
 
@@ -296,9 +307,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection )}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users )}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
@@ -311,7 +322,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               {
                 ( users.length !== 0 && mensajes.length !== 0 ) && mensajes.filter( men => ( filterMensajes( men ) ) ).map( ( men, index ) => (
 
-                  ( ( men.nombre_usuario_emisor === user.nombre && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( nombreGrupoById( men.id_grupo_receptor ) ) === -1 ) )
+                  ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor !== null && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( nombreGrupoById( men.id_grupo_receptor ) ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
                       <button className={'d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover'}
