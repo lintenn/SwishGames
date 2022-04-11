@@ -19,6 +19,9 @@ export const Chat = () => {
   const [receptor, setReceptor] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const [mensaje, setMensaje] = useState( '' );
+  const [group, setGroup] = useState({});
+  const [myGroups, setMyGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
 
@@ -31,8 +34,7 @@ export const Chat = () => {
 
     }
 
-    setUpChat( setUser, setUsers, setMensajes, setMensajesDESC );
-
+    setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setMyGroups, setGroups, user );
 
   }, []);
 
@@ -40,7 +42,7 @@ export const Chat = () => {
 
     socket.on( 'mensajes', () => {
 
-      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC );
+      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setMyGroups, setGroups, user );
 
     });
 
@@ -81,6 +83,10 @@ export const Chat = () => {
                         setConexion={ setConexion }
                         setMensaje={ setMensaje }
                         receptor={ receptor }
+                        group={ group }
+                        setGroup={ setGroup }
+                        myGroups={ myGroups }
+                        groups={ groups }
                       />
                       <Conversacion
                         mensajes={ mensajes }
@@ -90,6 +96,9 @@ export const Chat = () => {
                         mensajesDESC={ mensajesDESC }
                         mensaje={ mensaje }
                         setMensaje={ setMensaje }
+                        group={ group }
+                        myGroups={ myGroups }
+                        groups={ groups }
                       />
                     </div>
                   </div>

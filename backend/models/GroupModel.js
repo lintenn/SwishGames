@@ -1,5 +1,6 @@
 const db = require("../database/mysql.js")
 const DataTypes = require("sequelize")
+const ParticipantsGroupsModel = require("./ParticipantsGroupsModel.js")
 
 const GroupModel = db.define('Grupos', {
     nombre: {type: DataTypes.STRING},

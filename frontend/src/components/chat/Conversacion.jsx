@@ -7,7 +7,7 @@ import { Global } from '../../helper/Global';
 import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 
-export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje }) => {
+export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, groups }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -35,13 +35,12 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     document.getElementById( 'inputMensaje' ).addEventListener( 'keydown', function ( event ) {
 
-      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser );
+      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
 
     }, false );
 
 
   }, [mensajesDESC, receptor]);
-
 
   const formatDate = ( date ) => {
 
@@ -67,10 +66,18 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     Swal.showLoading();
     e.preventDefault();
-    document.getElementById( `${receptor}` ).classList.remove( 'chatSeleccionado' );
+    document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
     if ( mensaje !== '' ) {
 
-      await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
+      if ( receptor === '' && group !== {}) {
+
+        await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
+
+      } else {
+
+        await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
+
+      }
       socket.emit( 'mensaje' );
       setMensaje( '' );
 
@@ -90,7 +97,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
               className="d-flex align-self-center me-3"
               width="60" />
           </div>
-          <b><div id="labelNameUser">{ receptor }</div></b>
+          <b><div id="labelNameUser">{ ( group !== {} && receptor === '' ) ? group.nombre : receptor }</div></b>
           {conexion}
         </h3>
       </div>
@@ -103,11 +110,14 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
           {
             mensajes.length !== 0 && mensajes.map( ( mensaje, index ) => (
 
-              ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_receptor === user.nombre && mensaje.nombre_usuario_emisor === receptor )
+              ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_receptor === user.nombre && mensaje.nombre_usuario_emisor === receptor ) || group.id === mensaje.id_grupo_receptor
                 ? <div className={`d-flex flex-row ${getOrientation( user, mensaje )}`}
                   key = {index}>
                   <div className={`d-flex flex-row ${getOrigenMensaje( user, mensaje )} ${getMargen( mensaje )}`}>
                     <div className="pt-1 tamañoMaximoMensaje">
+                      {( group !== {} && receptor === '' && mensaje.nombre_usuario_emisor !== user.nombre )
+                        ? <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
+                        : <div></div>}
                       <p className="small cols-4">{mensaje.mensaje}</p>
                     </div>
                     <div className="pt-1">
@@ -153,5 +163,8 @@ Conversacion.propTypes = {
   conexion: PropTypes.node.isRequired,
   mensajesDESC: PropTypes.array.isRequired,
   mensaje: PropTypes.string.isRequired,
-  setMensaje: PropTypes.func.isRequired
+  setMensaje: PropTypes.func.isRequired,
+  group: PropTypes.object.isRequired,
+  myGroups: PropTypes.array.isRequired,
+  groups: PropTypes.array.isRequired
 };

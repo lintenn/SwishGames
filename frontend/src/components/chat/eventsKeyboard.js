@@ -1,4 +1,4 @@
-export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser ) {
+export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group ) {
 
   if ( event.key === 'Enter' ) {
 
@@ -11,7 +11,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
 
     mensajesDESC.forEach( ( men ) => {
 
-      if ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor === receptor ) {
+      if ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor === receptor ) || men.id_grupo_receptor === group.id ) {
 
         numeroMaximoUser = numeroMaximoUser + 1;
 
@@ -25,7 +25,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
       let i = 1;
       mensajesDESC.forEach( ( mensaje ) => {
 
-        if ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) {
+        if ( ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) || mensaje.id_grupo_receptor === group.id ) {
 
           if ( i === numeroMensajeUser ) {
 
@@ -35,7 +35,6 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
           i = i + 1;
 
         }
-
 
       });
 
@@ -51,7 +50,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
         let i = 1;
         mensajesDESC.forEach( ( men ) => {
 
-          if ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor === receptor ) {
+          if ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor === receptor ) || men.id_grupo_receptor === group.id ) {
 
             if ( i === numeroMensajeUser ) {
 
@@ -77,7 +76,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
       let i = 1;
       mensajesDESC.forEach( ( mensaje ) => {
 
-        if ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) {
+        if ( ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) || mensaje.id_grupo_receptor === group.id ) {
 
           if ( i === numeroMensajeUser ) {
 

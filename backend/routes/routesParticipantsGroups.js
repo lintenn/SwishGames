@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get( '/', ParticipantsGroupsController.getAllParticipantsGroups );
 router.get( '/:id', ParticipantsGroupsController.getParticipantsGroups );
+router.get( '/grupos/:nombre_usuario', ParticipantsGroupsController.getGroupsByNameUser );
 router.post( '/', ParticipantsGroupsController.createParticipantsGroups );
 router.put( '/:id', ParticipantsGroupsController.updateParticipantsGroups );
 router.delete( '/:id', ParticipantsGroupsController.deleteParticipantsGroups );
