@@ -20,7 +20,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   }, [user.nombre]);
 
-
   useEffect( () => {
 
     let i = 0;

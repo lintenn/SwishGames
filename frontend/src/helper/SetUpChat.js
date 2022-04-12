@@ -6,6 +6,8 @@ const baseUrl = Global.baseUrl;
 
 export const setUpChat = ( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups ) => {
 
+  Swal.showLoading();
+
   setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
 
   axios.get( `${baseUrl}chats/fecha` )
