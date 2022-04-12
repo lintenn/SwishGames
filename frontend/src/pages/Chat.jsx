@@ -30,12 +30,18 @@ export const Chat = () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión' );
-      navigate( '/' );
+      Swal.fire( 'No has iniciado sesión' ).then( () => {
+
+        navigate( '/' );
+
+      });
+
+
+    } else {
+
+      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
 
     }
-
-    setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
 
   }, []);
 
@@ -76,7 +82,7 @@ export const Chat = () => {
 
   return (
     user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || groups.length === 0 || participantsGroups.length === 0
-      ? <div>{Swal.showLoading()}</div>
+      ? <div></div>
       : <div className="row justify-content-center">
         <Header
           buscado={ '' }

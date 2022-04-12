@@ -89,7 +89,7 @@ const Recovery = () => {
 
   return (
     <div className="signup">
-      <h2>Retrieve password</h2>
+      <h2>Recuperar contraseña</h2>
       <div>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}
