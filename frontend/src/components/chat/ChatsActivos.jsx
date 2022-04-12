@@ -36,7 +36,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       if ( i === 0 ) {
 
-        console.log( men );
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {

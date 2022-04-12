@@ -10,6 +10,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import '../styles/signup.css';
 import { Global } from '../helper/Global';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
 
@@ -19,9 +21,19 @@ const Signup = () => {
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
+  const isauthorized = isAuthorized();
 
   useEffect( () => {
 
+    if ( isauthorized ) {
+
+      Swal.fire( 'Ya has iniciado sesión' ).then( () => {
+
+        navigate( '/' );
+
+      });
+
+    }
     getUsers();
 
   }, []);
@@ -189,7 +201,7 @@ const Signup = () => {
           onChange={ ( e ) => setNombre( e.target.value )}
           minLength="6"
           size="15"
-          required="required" />
+          required={true} />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
           Email
@@ -199,7 +211,7 @@ const Signup = () => {
           value={m}
           onChange={ ( e ) => setEmail( e.target.value )}
           size="50"
-          required="required" />
+          required={true} />
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
           Contraseña
@@ -210,7 +222,7 @@ const Signup = () => {
           value={values.password}
           minLength="6"
           size="15"
-          required="required"
+          required={true}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -232,7 +244,7 @@ const Signup = () => {
           value={values.rpassword}
           minLength="6"
           size="15"
-          required="required"
+          required={true}
           endAdornment={
             <InputAdornment position="end">
               <IconButton

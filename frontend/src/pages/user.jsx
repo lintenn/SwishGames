@@ -66,7 +66,7 @@ const User = () => {
             <div className="col-md-2">
 
               <div className="card"
-                style={{ width: '18rem;' }}>
+                style={{ width: '18rem' }}>
                 <img src="https://www.personality-database.com/profile_images/183486.png"
                   className="px-5 pt-3 rounded-circle"
                   alt="..."/>
