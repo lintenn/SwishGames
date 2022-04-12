@@ -9,6 +9,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/login.css';
 import { Global } from '../helper/Global';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import Swal from 'sweetalert2';
 
 const Login = () => {
 
@@ -17,9 +19,19 @@ const Login = () => {
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
+  const isauthorized = isAuthorized();
 
   useEffect( () => {
 
+    if ( isauthorized ) {
+
+      Swal.fire( 'Ya has iniciado sesión' ).then( () => {
+
+        navigate( '/' );
+
+      });
+
+    }
     getUsers();
 
   }, []);

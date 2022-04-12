@@ -6,6 +6,8 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import emailjs, { init } from '@emailjs/browser';
 import { Global } from '../helper/Global';
+import { isAuthorized } from '../helper/isAuthorized.js';
+import Swal from 'sweetalert2';
 
 init( 'WznRYXdNmfA-nSsG0' );
 
@@ -16,9 +18,19 @@ const Recovery = () => {
   const [users, setUsers] = useState([]);
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
+  const isauthorized = isAuthorized();
 
   useEffect( () => {
 
+    if ( isauthorized ) {
+
+      Swal.fire( 'Ya has iniciado sesión' ).then( () => {
+
+        navigate( '/' );
+
+      });
+
+    }
     getUsers();
 
   }, []);
@@ -88,7 +100,7 @@ const Recovery = () => {
           type="text"
           value={m}
           name="e"
-          required="required"
+          required={true}
           onChange={ ( e ) => setEmail( e.target.value )}/>
 
         <nav className="botones"
@@ -112,7 +124,7 @@ const Recovery = () => {
           <span id="closebtns"
             className="closebtn"
             onClick={ cerrars} >&times;</span>
-                Correo enviado con éxito. No olvide revisar la carpeta "spam".'
+                Correo enviado con éxito. No olvide revisar la carpeta &quot;spam&quot;.
         </div>
         <div id="error"
           className="alert alert-danger ocultar"
