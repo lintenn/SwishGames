@@ -7,6 +7,8 @@ const chatRoutes = require('./routes/routesChat.js')
 const gamesRoutes = require('./routes/routesGame.js')
 const groupRoutes = require('./routes/routesGroup.js')
 const participantsGroupsRoutes = require('./routes/routesParticipantsGroups.js')
+const listsRoutes = require('./routes/routesList.js')
+const contentsListsRoutes = require('./routes/routesContentsLists.js')
 const socketio = require('socket.io');
 const path = require('path')
 
@@ -23,6 +25,8 @@ app.use('/chats',chatRoutes)
 app.use('/games',gamesRoutes)
 app.use('/groups',groupRoutes)
 app.use('/participantsGroups',participantsGroupsRoutes)
+app.use('/lists',listsRoutes)
+app.use('/contentsLists',contentsListsRoutes)
 app.get('/*'),(req, res)=>{
     res.sendFile(__dirname + './public/index.html'),(err)=>{
         if(err){
