@@ -7,6 +7,7 @@ import Main from './pages/main.jsx';
 import { Chat } from './pages/Chat.jsx';
 import Game from './pages/game.jsx';
 import User from './pages/user.jsx';
+import Lists from './pages/lists.jsx';
 
 function App() {
 
@@ -29,6 +30,8 @@ function App() {
             element={<Game/>}/>
           <Route path="/user/:name"
             element={<User/>}/>
+          <Route path="/lists"
+            element={<Lists/>}/>
         </Routes>
       </BrowserRouter>
     </div>

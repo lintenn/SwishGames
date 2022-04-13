@@ -57,8 +57,8 @@ export const Header = ({ buscado, setBuscado }) => {
                 to="/"><i className="fa-solid fa-gamepad"></i> Juegos</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link"
-                href="#Listas"><i className="fa-solid fa-rectangle-list"></i> Listas</a>
+              <NavLink className="nav-link"
+                to="/lists"><i className="fa-solid fa-rectangle-list"></i> Listas</NavLink>
             </li>
             <li className="nav-item">
               <a className="nav-link"
