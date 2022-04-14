@@ -4,24 +4,25 @@ import Swal from 'sweetalert2';
 
 const baseUrl = Global.baseUrl;
 
-export const setUpLists = ( setLists, setAllLists ) => {
+export const setUpLists = ( userId, setLists, setAllLists ) => {
     
-      Swal.showLoading();
     
-      axios.get( `${baseUrl}lists/` )
+      axios.get( `${baseUrl}lists/${userId}/` )
      .then( res => {
     
         setLists( res.data );
     
-     });
+     })
+       .catch( err => console.log(err) )
     
-      axios.get( `${baseUrl}lists/` )
+      axios.get( `${baseUrl}lists/${userId}/` )
      .then( res => {
     
         setAllLists( res.data );
     
-     });
-    
-      Swal.close();
+     })
+     .catch( err => console.log(err) )
+
+     Swal.close();
     
 };
