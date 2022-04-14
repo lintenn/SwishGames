@@ -1,42 +1,56 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { setUpMain } from '../../helper/SetUpMain';
+import { setUpList } from '../../helper/SetUpList';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
 
-export const Games = ({ games, setGames, buscado, setAllGames }) => {
+export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, setAllGames }) => {
+    
+    const baseUrl = Global.baseUrl;
+    const URI = `${baseUrl}contentsLists/`;
 
-  const baseUrl = Global.baseUrl;
-  const URIGames = `${baseUrl}games/`;
+    useEffect( () => {
+            
+            buscar();
+    
+    }, [buscado]);
 
-  useEffect( () => {
+    const buscar = async () => {
 
-    buscar();
+        if ( buscado === '' ) {
 
-  }, [buscado]);
+           setUpList( id, list, setList, games, setGames, setAllGames);
 
-  async function buscar() {
+        } else {
 
-    if ( buscado === '' ) {
+            axios.get( `${baseUrl}contentsLists/${id}/` )
+                .then( res => {
+    
+                    setList( res.data );
+    
+                });
 
-      setUpMain( setGames, setAllGames );
+            let games = [];
 
-    } else {
+            list.map( ( content ) => {
+                axios.get( `${baseUrl}games/${content.id_juego}/buscar/${buscado}` )
+                    .then( res => {
+                        games.push( res.data );
+                    });
 
-      axios.get( `${URIGames}buscar/${buscado}` )
-        .then( res => {
+            });
+        
+            console.log(games);
 
-          setGames( res.data );
+            setGames( games );
 
-        });
+        }
 
-    }
+    };
 
-  };
-
-  return (
-    <div>
+    return (
+        <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
           <Link to={'/game/' + game.titulo}
@@ -66,9 +80,12 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
 
 };
 
-Games.propTypes = {
-  games: PropTypes.array.isRequired,
-  setGames: PropTypes.func.isRequired,
-  buscado: PropTypes.string.isRequired,
-  setAllGames: PropTypes.func.isRequired
+GamesPreviewList.propTypes = {
+    id: PropTypes.string.isRequired,
+    list: PropTypes.array.isRequired,
+    setList: PropTypes.func.isRequired,
+    games: PropTypes.array.isRequired,
+    setGames: PropTypes.func.isRequired,
+    buscado: PropTypes.string.isRequired,
+    setAllGames: PropTypes.func.isRequired
 };

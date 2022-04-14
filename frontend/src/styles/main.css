@@ -71,6 +71,13 @@ body {
     .texte {
         font-size: 1.1vw;
     }
+    .overtexte {
+        align-self: flex-start;
+    }
+    .subtexte {
+        /*font-size: 1vw;*/
+        align-self: flex-end;
+    }
 }
 
 @media only screen and (max-width: 991px) {

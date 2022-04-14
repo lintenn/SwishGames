@@ -52,7 +52,7 @@ export const Header = ({ buscado, setBuscado }) => {
           id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className="nav-link active navSelected"
+              <NavLink className="nav-link"
                 aria-current="page"
                 to="/"><i className="fa-solid fa-gamepad"></i> Juegos</NavLink>
             </li>
