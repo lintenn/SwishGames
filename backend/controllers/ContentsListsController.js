@@ -22,7 +22,7 @@ const getContentsListsByList = async (req, res) => {
     try {
             
         const ContentsLists = await ContentsListsModel.findAll({
-            where: { id_lista: req.params.id_list }
+            where: { id_lista: req.params.id_lista }
         });
         res.json(ContentsLists);
             
@@ -54,7 +54,7 @@ const updateContentsLists = async (req, res) => {
     try {
             
         await ContentsListsModel.update(req.body, {
-            where: { id: req.params.id_list }
+            where: { id: req.params.id }
         });
         res.json({ message: "Lista actualizada correctamente" });
             
@@ -71,7 +71,7 @@ const deleteContentsLists = async (req, res) => {
     try {
                     
         await ContentsListsModel.destroy({
-            where: { id: req.params.id_list }
+            where: { id: req.params.id }
         });
         res.json({ message: "Lista eliminada correctamente" });
                     

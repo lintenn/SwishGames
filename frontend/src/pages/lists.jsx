@@ -30,11 +30,13 @@ const Lists = () => {
             const us = JSON.parse(token);
             socket.emit('conectado', us.nombre);
 
-            setUpLists(setLists, setAllLists);
+            setUpLists(us.id, setLists, setAllLists);
             
         }
     
     }, []);
+
+    console.log(allLists)
     
       return (
      allLists.length === 0

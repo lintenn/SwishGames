@@ -8,6 +8,7 @@ import { Chat } from './pages/Chat.jsx';
 import Game from './pages/game.jsx';
 import User from './pages/user.jsx';
 import Lists from './pages/lists.jsx';
+import List from './pages/list.jsx';
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
             element={<User/>}/>
           <Route path="/lists"
             element={<Lists/>}/>
+          <Route path="/list/:id"
+            element={<List/>}/>
         </Routes>
       </BrowserRouter>
     </div>

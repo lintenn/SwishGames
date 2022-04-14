@@ -70,6 +70,23 @@ const getSearchedList = async (req, res) => {
         
 };
 
+const getSearchedListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { id_usuario: req.params.id_user, nombre: { [Op.like]: `%${req.params.nombre}%` } }
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
 const createList = async (req, res) => {
         
     try {
@@ -130,6 +147,7 @@ module.exports = {
     getListsByUser,
     getList,
     getSearchedList,
+    getSearchedListByUser,
     createList,
     updateList,
     deleteList

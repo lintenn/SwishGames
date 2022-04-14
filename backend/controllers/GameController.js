@@ -37,6 +37,24 @@ const getSearchedGames = async ( req, res ) => {
 
 };
 
+const getSearchedGamesById = async ( req, res ) => {
+
+  try {
+
+    const games = await JuegoModel.findAll({
+      where: { id: req.params.id, titulo: { [Op.like]: `%${req.params.titulo}%` } }
+    });
+    res.json( games );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+
 const getgameByName = async ( req, res ) => {
 
   try {
@@ -120,4 +138,4 @@ const deleteGame = async ( req, res ) => {
 
 };
 
-module.exports = { getAllGames, getGame, getSearchedGames, getgameByName, createGame, updateGame, deleteGame };
+module.exports = { getAllGames, getGame, getSearchedGames, getSearchedGamesById, getgameByName, createGame, updateGame, deleteGame };

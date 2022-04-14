@@ -3,9 +3,9 @@ const ContentsListsController = require('../controllers/ContentsListsController.
 const router = express.Router()
 
 router.get('/', ContentsListsController.getAllContentsLists);
-router.get('/:id_list', ContentsListsController.getContentsListsByList);
+router.get('/:id_lista', ContentsListsController.getContentsListsByList);
 router.post('/', ContentsListsController.createContentsLists);
-router.put('/:id_list', ContentsListsController.updateContentsLists);
-router.delete('/:id_list', ContentsListsController.deleteContentsLists);
+router.put('/:id', ContentsListsController.updateContentsLists);
+router.delete('/:id', ContentsListsController.deleteContentsLists);
 
 module.exports = router;
