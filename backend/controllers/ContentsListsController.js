@@ -38,6 +38,23 @@ const getContentsListsByList = async (req, res) => {
             
 };
 
+const getSearchedContentsListsByList = async (req, res) => {
+
+    try {
+
+        const ContentsLists = await db.query(`SELECT J.id, J.titulo, J.descripcion, J.genero, J.valoracion, J.imagen, J.createdAt, J.updatedAt
+        FROM ContenidosListas C JOIN Juegos J ON C.id_juego = J.id
+        WHERE C.id_lista = ${req.params.id_lista} AND J.titulo LIKE '%${req.params.titulo}%'`, { type: Sequelize.QueryTypes.SELECT });
+        res.json(ContentsLists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};    
+
 const createContentsLists = async (req, res) => {
         
     try {
@@ -90,6 +107,7 @@ const deleteContentsLists = async (req, res) => {
 module.exports = {
     getAllContentsLists,
     getContentsListsByList,
+    getSearchedContentsListsByList,
     createContentsLists,
     updateContentsLists,
     deleteContentsLists
