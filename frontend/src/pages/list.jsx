@@ -10,17 +10,19 @@ import { setUpList } from '../helper/SetUpList.js';
 import Swal from 'sweetalert2';
 import { Global } from '../helper/Global.js';
 import { GamesPreviewList } from '../components/lists/GamesPreviewList.jsx';
+import axios from 'axios';
 
 const List = () => {
     
     const [games, setGames] = useState([]);
     const { id } = useParams();
-    const [list, setList] = useState([]);
-    const [allGames, setAllGames] = useState([]);
+    const [list, setList] = useState(null);
+    let idUserAuth = "";
+    const [user, setUser] = useState(null);
     const [buscado, setBuscado] = useState( '' );
     const isauthorized = isAuthorized();
     const baseUrl = Global.baseUrl;
-    const URI = `${baseUrl}contentsLists/`;
+    //const URI = `${baseUrl}contentsLists/`;
 
     useEffect( () => {
             
@@ -29,24 +31,34 @@ const List = () => {
             const token = localStorage.getItem( 'user' );
             const us = JSON.parse( token );
             socket.emit( 'conectado', us.nombre );
+            idUserAuth = us.id;
+            console.log( idUserAuth + "" );
+            console.log(id);
     
         }
     
-        setUpList( id, list, setList, setGames, setAllGames);
-    
-        //getContentsListById();
+        setUpList( id, setList, setGames);
+        
 
     }, []);
 
-    /*const getContentsListById = async () => {
-        const res = await axios.get(URI + id);
-        setList(res.data);
-    }*/
+    useEffect(() => {
+        if(list !== null && list.length > 0) {
+            console.log(list[0].id_usuario);
+            axios.get( `${baseUrl}users/${list[0].id_usuario}/` )
+                .then( res => {
+                    console.log( res.data );
+
+                    setUser( res.data );
+
+                }).catch( err => console.log(err) )
+
+        }
+    }, [list]) 
 
     return (
-        allGames.length === 0
-        ? <div>{Swal.showLoading()}</div>
-        : <div>
+        list !== null && user !== null ?
+        <div>
             <Header
             buscado={ buscado }
             setBuscado={ setBuscado }
@@ -55,19 +67,49 @@ const List = () => {
             id="main-content">
                 <div className="col-lg-8 list-group"
                 data-bs-spy="scroll">
-                    <GamesPreviewList
-                    id={ id }
-                    list={ list }
-                    setList={ setList }
-                    games={ games }
-                    setGames={ setGames }
-                    buscado={ buscado }
-                    setAllGames={ setAllGames }
-                    />
+                    
+                    <div className="d-flex w-100 justify-content-between">
+                        <div>
+                            <h1 className="mt-1 text-dark fw-bold px-3"> {list[0].nombre} </h1>
+                            <h6 className='text-muted px-3'> Lista de {user[0].nombre} </h6>
+                        </div>
+                        <div className="input-group rounded botonTransparente">
+                            <div className="dropdown">
+                                <button className="botonTransparente2 btnAñadirChats"
+                                type="button"
+                                id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis-vertical fa-2xl"></i>
+                                </button>
+                                <ul className="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton1">
+                                <li><button className="dropdown-item"
+                                    >Editar</button></li>
+                                <li><button className="dropdown-item"
+                                    >Borrar</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    { games.length === 0 ? 
+                        <h2 className="mt-5 text-dark text-center"> Lista vacía. </h2> 
+                        : <GamesPreviewList 
+                            id={ id }
+                            idUserAuth = { idUserAuth + "" }
+                            list={ list }
+                            setList={ setList }
+                            games={ games }
+                            setGames={ setGames }
+                            buscado={ buscado }
+                            
+                          /> 
+                    }
                 </div>
             </main>
             <Footer/>
         </div>
+        : <div> </div>
     );
 };
 

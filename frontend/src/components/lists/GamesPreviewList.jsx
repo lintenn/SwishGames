@@ -5,7 +5,7 @@ import { setUpList } from '../../helper/SetUpList';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
 
-export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, setAllGames }) => {
+export const GamesPreviewList = ({ id, idUserAuth, list, setList, games, setGames, buscado }) => {
     
     const baseUrl = Global.baseUrl;
     const URI = `${baseUrl}contentsLists/`;
@@ -20,30 +20,16 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, 
 
         if ( buscado === '' ) {
 
-           setUpList( id, list, setList, games, setGames, setAllGames);
+           setUpList( id, setList, setGames);
 
         } else {
 
-            axios.get( `${baseUrl}contentsLists/${id}/` )
-                .then( res => {
-    
-                    setList( res.data );
-    
-                });
-
-            let games = [];
-
-            list.map( ( content ) => {
-                axios.get( `${baseUrl}games/${content.id_juego}/buscar/${buscado}` )
-                    .then( res => {
-                        games.push( res.data );
-                    });
-
-            });
-        
-            console.log(games);
-
-            setGames( games );
+          axios.get( `${URI}${id}/buscar/${buscado}` )
+            .then( res => {
+          
+             setGames( res.data );
+          
+            }).catch( err => console.log(err) )
 
         }
 
@@ -69,7 +55,19 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, 
                   </div>
                   <p className="mb-4 texte">{game.descripcion}</p>
                   <br/>
-                  <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
+                  <div className="d-flex w-100 justify-content-between">
+                    <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
+                    
+                    {idUserAuth === list[0].id_usuario ? 
+                      <span style={ { color: '#ff0000' } } >
+                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                      </span>
+                      : <div></div>
+                    }
+                    {console.log("id_usuario: " + list[0].id_usuario)}
+                    {console.log("idUserAuth: " + idUserAuth)}
+                    {console.log(idUserAuth === list[0].id_usuario)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,10 +80,10 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, 
 
 GamesPreviewList.propTypes = {
     id: PropTypes.string.isRequired,
+    idUserAuth: PropTypes.string.isRequired,
     list: PropTypes.array.isRequired,
     setList: PropTypes.func.isRequired,
     games: PropTypes.array.isRequired,
     setGames: PropTypes.func.isRequired,
-    buscado: PropTypes.string.isRequired,
-    setAllGames: PropTypes.func.isRequired
+    buscado: PropTypes.string.isRequired
 };

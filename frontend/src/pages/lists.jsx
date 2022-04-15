@@ -35,12 +35,10 @@ const Lists = () => {
         }
     
     }, []);
-
-    console.log(allLists)
     
       return (
      allLists.length === 0
-        ? <div>{Swal.showLoading()}</div>
+        ? <div></div>
         : <div>
           <Header
              buscado={ buscado }
@@ -50,6 +48,12 @@ const Lists = () => {
              id="main-content">
              <div className="col-lg-8 list-group"
                 data-bs-spy="scroll">
+                <div className="d-flex w-100 justify-content-between">
+                  <h1 className="mt-1 text-dark fw-bold px-3"> Tus listas: </h1>
+                  <button className="btn btn-outline-dark btn-lg mb-1" data-toggle="modal" data-target="#exampleModal"> 
+                    <i className="fa-solid fa-plus"></i> Crear lista 
+                  </button>
+                </div>
                 <ListsPreview
                   lists={ lists }
                   setLists={ setLists }

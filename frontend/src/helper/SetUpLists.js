@@ -6,8 +6,9 @@ const baseUrl = Global.baseUrl;
 
 export const setUpLists = ( userId, setLists, setAllLists ) => {
     
+      Swal.showLoading();
     
-      axios.get( `${baseUrl}lists/${userId}/` )
+      axios.get( `${baseUrl}lists/user/${userId}/` )
      .then( res => {
     
         setLists( res.data );
@@ -15,7 +16,7 @@ export const setUpLists = ( userId, setLists, setAllLists ) => {
      })
        .catch( err => console.log(err) )
     
-      axios.get( `${baseUrl}lists/${userId}/` )
+      axios.get( `${baseUrl}lists/user/${userId}/` )
      .then( res => {
     
         setAllLists( res.data );

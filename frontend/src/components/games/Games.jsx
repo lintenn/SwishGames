@@ -55,7 +55,12 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
                   </div>
                   <p className="mb-4 texte">{game.descripcion}</p>
                   <br/>
-                  <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
+                  <div className="d-flex w-100 justify-content-between">
+                    <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
+                    <i className="fa-regular fa-heart fa-2xl"></i>
+                    
+                    <i className="fa-solid fa-heart fa-2xl"></i>
+                  </div>
                 </div>
               </div>
             </div>
