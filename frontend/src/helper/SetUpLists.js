@@ -6,6 +6,7 @@ const baseUrl = Global.baseUrl;
 
 export const setUpLists = ( userId, setLists, setAllLists ) => {
     
+      Swal.showLoading();
     
       axios.get( `${baseUrl}lists/${userId}/` )
      .then( res => {

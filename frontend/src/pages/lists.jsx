@@ -40,7 +40,7 @@ const Lists = () => {
     
       return (
      allLists.length === 0
-        ? <div>{Swal.showLoading()}</div>
+        ? <div></div>
         : <div>
           <Header
              buscado={ buscado }

@@ -50,9 +50,9 @@ export const ListsPreview = ({ lists, setLists, buscado, setAllLists }) => {
              <Link to={'/list/' + list.id}
                 key = {index}>
                 <div className="list-group-item list-group-item-action">
-                  <div className="d-flex w-50 justify-content-between">
+                  <div className="d-flex w-100">
                     <i className="fa-solid fa-list"></i>
-                    <div className="px-2">
+                    <div className="d-flex w-100 justify-content-center">
                     
                         <h4 className="mb-1 ttexte"> &nbsp; {list.nombre}</h4>
                       

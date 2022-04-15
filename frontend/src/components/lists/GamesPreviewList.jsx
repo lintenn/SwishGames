@@ -33,7 +33,7 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado, 
 
             let games = [];
 
-            list.map( ( content ) => {
+            list.forEach( ( content ) => {
                 axios.get( `${baseUrl}games/${content.id_juego}/buscar/${buscado}` )
                     .then( res => {
                         games.push( res.data );
