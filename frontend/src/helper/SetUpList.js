@@ -11,28 +11,9 @@ export const setUpList = ( listId, list, setList, setGames, setAllGames ) => {
       axios.get( `${baseUrl}contentsLists/${listId}/` )
      .then( res => {
     
-        setList( res.data );
+        setGames( res.data );
     
      }).catch( err => console.log(err) )
-
-     console.log(listId);
-     console.log(list);
-
-      let games = [];
-
-      list.map( ( content ) => {
-          axios.get( `${baseUrl}games/${content.id_juego}/` )
-            .then( res => {
-                games.push( res.data );
-            }).catch( err => console.log(err) )
-
-        });
-
-      console.log(games);
-
-      setGames( games );
-      setAllGames( games );
     
-      Swal.close();
-    
+     Swal.close();
 };

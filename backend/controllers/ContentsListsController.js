@@ -1,6 +1,7 @@
 const ContentsListsModel = require("../models/ContentsListsModel.js")
 const GameController = require("../controllers/GameController.js")
 const { Op, Sequelize } = require("sequelize")
+const db = require("../database/mysql.js");
 
 const getAllContentsLists = async (req, res) => {
     
@@ -21,9 +22,12 @@ const getContentsListsByList = async (req, res) => {
         
     try {
             
-        const ContentsLists = await ContentsListsModel.findAll({
+        /* const ContentsLists = await ContentsListsModel.findAll({
             where: { id_lista: req.params.id_lista }
-        });
+        }); */
+        const ContentsLists = await db.query(`SELECT J.id, J.titulo, J.descripcion, J.genero, J.valoracion, J.imagen, J.createdAt, J.updatedAt
+        FROM ContenidosListas C JOIN Juegos J ON C.id_juego = J.id
+        WHERE C.id_lista = ${req.params.id_lista}`, { type: Sequelize.QueryTypes.SELECT });
         res.json(ContentsLists);
             
     } catch (error) {
