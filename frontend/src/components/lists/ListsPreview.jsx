@@ -18,7 +18,7 @@ export const ListsPreview = ({ lists, setLists, buscado, setAllLists }) => {
 
         if (!user) return
         
-        URILists = `${baseUrl}lists/${user.id}/`;
+        URILists = `${baseUrl}lists/user/${user.id}/`;
     
         buscar();
     

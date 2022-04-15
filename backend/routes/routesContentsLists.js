@@ -4,6 +4,7 @@ const router = express.Router()
 
 router.get('/', ContentsListsController.getAllContentsLists);
 router.get('/:id_lista', ContentsListsController.getContentsListsByList);
+router.get('/:id_lista/buscar/:titulo', ContentsListsController.getSearchedContentsListsByList);
 router.post('/', ContentsListsController.createContentsLists);
 router.put('/:id', ContentsListsController.updateContentsLists);
 router.delete('/:id', ContentsListsController.deleteContentsLists);
