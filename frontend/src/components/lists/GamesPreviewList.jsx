@@ -4,17 +4,29 @@ import { Link } from 'react-router-dom';
 import { setUpList } from '../../helper/SetUpList';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
+import { isAuthorized } from '../../helper/isAuthorized.js';
 
-export const GamesPreviewList = ({ id, idUserAuth, list, setList, games, setGames, buscado }) => {
+export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }) => {
     
     const baseUrl = Global.baseUrl;
     const URI = `${baseUrl}contentsLists/`;
+    const isauthorized = isAuthorized();
 
     useEffect( () => {
             
             buscar();
     
     }, [buscado]);
+
+    const comprobarDuenyo = () => {
+        let duenyo = false;
+        if ( isauthorized ) {
+            const token = localStorage.getItem( 'user' );
+            const us = JSON.parse( token );
+            duenyo = us.id === list[0].id_usuario;
+        }
+        return duenyo;
+    }
 
     const buscar = async () => {
 
@@ -58,29 +70,25 @@ export const GamesPreviewList = ({ id, idUserAuth, list, setList, games, setGame
                   <div className="d-flex w-100 justify-content-between">
                     <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
                     
-                    {idUserAuth === list[0].id_usuario ? 
+                    {comprobarDuenyo() ? 
                       <span style={ { color: '#ff0000' } } >
-                        <i class="fa-solid fa-xmark fa-2xl"></i>
+                        <i className="fa-solid fa-xmark fa-2xl"></i>
                       </span>
                       : <div></div>
                     }
-                    {console.log("id_usuario: " + list[0].id_usuario)}
-                    {console.log("idUserAuth: " + idUserAuth)}
-                    {console.log(idUserAuth === list[0].id_usuario)}
                   </div>
                 </div>
               </div>
             </div>
           </Link>
         ) )
-        : <div className="mt-5 text-dark"><h1><b>Lo sentimos, pero no hemos encontrado el juego deseado :(</b></h1></div>}
+        : <h2 className="mt-5 text-dark text-center"> Sin juegos que mostrar :( </h2> }
     </div> );
 
 };
 
 GamesPreviewList.propTypes = {
     id: PropTypes.string.isRequired,
-    idUserAuth: PropTypes.string.isRequired,
     list: PropTypes.array.isRequired,
     setList: PropTypes.func.isRequired,
     games: PropTypes.array.isRequired,
