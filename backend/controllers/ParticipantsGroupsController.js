@@ -1,6 +1,7 @@
 const ParticipantsGroupsModel = require( '../models/ParticipantsGroupsModel.js' );
-const GameController = require( '../controllers/GameController' );
+const GroupModel = require( '../models/GroupModel' );
 const { Op, Sequelize } = require( 'sequelize' );
+const db = require("../database/mysql.js")
 
 const getAllParticipantsGroups = async ( req, res ) => {
 
@@ -43,7 +44,39 @@ const getGroupsByNameUser = async ( req, res ) => {
             nombre_usuario: req.params.nombre_usuario
           }
     });
-    res.json( ParticipantsGroups );
+    const Groups = await GroupModel.findAll();
+    const GroupsByNameUser = [];
+    ParticipantsGroups.forEach( ( ParticipantsGroup ) => {
+      Groups.forEach( ( Group ) => {
+        if ( ParticipantsGroup.id_grupo === Group.id ) {
+          GroupsByNameUser.push( Group );
+        }
+      });
+    } );
+
+    // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
+
+    //const GroupsByNameUser = await db.query(`Select * from ParticipantesGrupos where nombre_usuario = "${req.params.nombre_usuario}"`, { type: Sequelize.QueryTypes.SELECT });
+
+    res.json( GroupsByNameUser );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+const getUsersByGroups = async ( req, res ) => {
+
+  try {
+
+    // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
+
+    const UsersByGroups = await db.query(`Select u.* from Usuarios u, ParticipantesGrupos p where p.nombre_usuario = u.nombre and p.id_grupo=${req.params.id_grupo}`, { type: Sequelize.QueryTypes.SELECT });
+
+    res.json( UsersByGroups );
 
   } catch ( error ) {
 
@@ -102,4 +135,4 @@ const deleteParticipantsGroups = async ( req, res ) => {
 
 };
 
-module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };
+module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };

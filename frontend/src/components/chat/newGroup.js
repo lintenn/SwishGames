@@ -1,9 +1,13 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import React from 'react';
+import { chatUsers } from './newChat';
+import { Global } from '../../helper/Global';
 
 let participantesAñadidios = [];
+const baseUrl = Global.baseUrl;
 
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor ) => {
+export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
 
   participantesAñadidios = [];
   Swal.fire({
@@ -19,7 +23,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '25%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor );
+      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
 
     }
 
@@ -49,7 +53,7 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor ) => {
+const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
 
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
@@ -74,7 +78,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           width: '25%',
           didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor );
+            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
 
           }
 
@@ -101,7 +105,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             width: '25%',
             didOpen: () => {
 
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor );
+              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
 
             }
 
@@ -150,7 +154,7 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor ) => {
+const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -191,6 +195,8 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
             .then( res => {
 
               setGroup( res.data );
+              setReceptor( '' );
+              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
               console.log( res.data );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
 
@@ -242,5 +248,35 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
     });
 
   });
+
+};
+
+const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
+
+  axios.get( `${baseUrl}participantsGroups/users/${id}` )
+    .then( res =>
+      setConfigurationGroups(
+        <div className="dropdown">
+          <button className="botonTransparente2 btnAñadirChats"
+            type="button"
+            id="dropdownMenuButton1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-three-dots-vertical"
+              viewBox="0 0 16 16">
+              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            </svg>
+          </button>
+          <ul className="dropdown-menu"
+            aria-labelledby="dropdownMenuButton1">
+            <li><button className="dropdown-item"
+              onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group )}>Ver miembros del grupo</button></li>
+          </ul>
+        </div> ) );
+
 
 };

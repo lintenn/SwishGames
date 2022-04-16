@@ -1,4 +1,5 @@
 const ChatModel = require( '../models/ChatModel.js' );
+const ParticipantsGroupsController = require( './ParticipantsGroupsController' );
 const { Op } = require( 'sequelize' );
 
 const getAllMessages = async ( req, res ) => {
@@ -6,6 +7,9 @@ const getAllMessages = async ( req, res ) => {
   try {
 
     const chats = await ChatModel.findAll();
+
+    // do sequelize query 
+
     res.json( chats );
 
   } catch ( error ) {
