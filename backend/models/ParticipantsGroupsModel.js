@@ -8,4 +8,8 @@ const ParticipantsGroupsModel = db.define('ParticipantesGrupos', {
     fecha_union: {type: DataTypes.DATE}
 })
 
+
+//associate ParticipantsGroupsModel with GroupModel
+ParticipantsGroupsModel.belongsTo(GroupModel, {foreignKey: 'id_grupo'})
+
 module.exports = ParticipantsGroupsModel

@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
 import { Global } from '../../helper/Global';
 import { chatUsers } from './newChat';
 import { chatGroups } from './newGroup';
+import axios from 'axios';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, groups }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
   const URIGroup = `${baseUrl}groups/`;
   const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
+  const [configurationGroups, setConfigurationGroups] = useState( '' );
 
   useEffect( () => {
 
@@ -39,13 +41,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
 
-            groups.forEach( ( group ) => {
+            myGroups.forEach( ( group ) => {
 
               if ( group.id === men.id_grupo_receptor ) {
 
+                setMiembrosGrupo( group.id );
                 setGroup( group );
-                setReceptor( '' );
-                setConexion( <div></div> );
 
               }
 
@@ -71,32 +72,17 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
-          let enc = false;
           myGroups.forEach( ( group ) => {
 
-            if ( group.id_grupo === men.id_grupo_receptor ) {
+            if ( group.id === men.id_grupo_receptor ) {
 
-              enc = true;
+              setMiembrosGrupo( group.id );
+              setGroup( group );
 
             }
 
           });
 
-          if ( enc ) {
-
-            groups.forEach( ( group ) => {
-
-              if ( group.id === men.id_grupo_receptor ) {
-
-                setGroup( group );
-                setReceptor( '' );
-                setConexion( <div></div> );
-
-              }
-
-            });
-
-          }
           i++;
 
         }
@@ -112,6 +98,17 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     });
 
   }, [mensajes]);
+
+  useEffect( () => {
+
+    if ( configurationGroups !== '' ) {
+
+      setReceptor( '' );
+      setConexion( configurationGroups );
+
+    }
+
+  }, [configurationGroups]);
 
   const formatDate = ( date ) => {
 
@@ -136,7 +133,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
   const nombreGrupoById = ( id ) => {
 
     let nombre = '';
-    groups.forEach( ( group ) => {
+    myGroups.forEach( ( group ) => {
 
       if ( group.id === id ) {
 
@@ -151,7 +148,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const putUsers2 = ( men ) => {
 
-    users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( nombreGrupoById( men.id_grupo_receptor ) ) );
+    users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
     return <div></div>;
 
   };
@@ -186,12 +183,42 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   };
 
+  const setMiembrosGrupo = ( id ) => {
+
+    axios.get( `${baseUrl}participantsGroups/users/${id}` )
+      .then( res =>
+        setConfigurationGroups(
+          <div className="dropdown">
+            <button className="botonTransparente2 btnAñadirChats"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-three-dots-vertical"
+                viewBox="0 0 16 16">
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+              </svg>
+            </button>
+            <ul className="dropdown-menu"
+              aria-labelledby="dropdownMenuButton1">
+              <li><button className="dropdown-item"
+                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group )}>Ver miembros del grupo</button></li>
+            </ul>
+          </div> ) );
+
+
+  };
+
   const encGroup = ( id ) => {
 
     let enc = false;
     myGroups.forEach( ( group ) => {
 
-      if ( group.id_grupo === id ) {
+      if ( group.id === id ) {
 
         enc = true;
 
@@ -258,7 +285,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const setGrupo = ( id ) => {
 
-    groups.forEach( ( group ) => {
+    myGroups.forEach( ( group ) => {
 
       if ( group.id === id ) {
 
@@ -307,7 +334,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <li><button className="dropdown-item"
                 onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor )}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
@@ -320,7 +347,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               {
                 ( users.length !== 0 && mensajes.length !== 0 ) && mensajes.filter( men => ( filterMensajes( men ) ) ).map( ( men, index ) => (
 
-                  ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor !== null && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( nombreGrupoById( men.id_grupo_receptor ) ) === -1 ) )
+                  ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor !== null && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( men.id_grupo_receptor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
                       <button className={'d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover'}
@@ -337,8 +364,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
                           } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
-                            setReceptor( '' );
-                            setConexion( <div></div> );
+                            setMiembrosGrupo( men.id_grupo_receptor );
                             setGrupo( men.id_grupo_receptor );
 
                           }
@@ -359,9 +385,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                           </div>
                         </div>
                         <div className="pt-1">
-                          <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">&nbsp;</p>
-                          <p className="small text-muted mb-1 textoTransparente textoDerecha tamañoHora">&nbsp;</p>
-                          <p className="small text-muted mb-1 textoDerecha tamañoHora">{formatDate( men.fecha_envio )}</p>
+                          <p className="small text-muted mb-1 textoTransparente textoDerecha tamnyoHora">&nbsp;</p>
+                          <p className="small text-muted mb-1 textoTransparente textoDerecha tamnyoHora">&nbsp;</p>
+                          <p className="small text-muted mb-1 textoDerecha tamnyoHora">{formatDate( men.fecha_envio )}</p>
                         </div>
                       </button>
                     </li>
@@ -389,6 +415,5 @@ ChatsActivos.propTypes = {
   receptor: PropTypes.string.isRequired,
   group: PropTypes.object.isRequired,
   setGroup: PropTypes.func.isRequired,
-  myGroups: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired
+  myGroups: PropTypes.array.isRequired
 };

@@ -7,7 +7,7 @@ import { Global } from '../../helper/Global';
 import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 
-export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, groups }) => {
+export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -125,7 +125,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
                       <p className="small cols-4">{mensaje.mensaje}</p>
                     </div>
                     <div className="pt-1">
-                      <p className="small text-muted mb-1 cols-4 tamañoHora">{formatDate( mensaje.fecha_envio )}</p>
+                      <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje.fecha_envio )}</p>
                     </div>
                   </div>
                 </div>
@@ -169,6 +169,5 @@ Conversacion.propTypes = {
   mensaje: PropTypes.string.isRequired,
   setMensaje: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  myGroups: PropTypes.array.isRequired,
-  groups: PropTypes.array.isRequired
+  myGroups: PropTypes.array.isRequired
 };
