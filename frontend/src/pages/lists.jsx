@@ -51,7 +51,7 @@ const Lists = () => {
           focusConfirm: false,
           allowOutsideClick: false,
           allowEscapeKey: false,
-          width: '25%',
+          width: '35%',
           didOpen: () => {
 
             addClickButtonNewList();
@@ -76,7 +76,7 @@ const Lists = () => {
           <input type="text" id="nameNewList"/>
           <br/>
           <br/>
-          <button style="background-color: white; border-radius: 20px" name="newList">Crear</button>
+          <button style="background-color: white; border-radius: 5px" name="newList">Crear</button>
           `;
 
       return ( formList );
