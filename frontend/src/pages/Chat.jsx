@@ -21,8 +21,6 @@ export const Chat = () => {
   const [mensaje, setMensaje] = useState( '' );
   const [group, setGroup] = useState({});
   const [myGroups, setMyGroups] = useState([]);
-  const [participantsGroups, setParticipantsGroups] = useState([]);
-  const [groups, setGroups] = useState([]);
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
 
@@ -39,7 +37,7 @@ export const Chat = () => {
 
     } else {
 
-      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
+      setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
 
     }
 
@@ -47,9 +45,19 @@ export const Chat = () => {
 
   useEffect( () => {
 
+    if ( user !== null ) {
+
+      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+
+    }
+
+  }, [user]);
+
+  useEffect( () => {
+
     socket.on( 'mensajes', () => {
 
-      setUpChat( setUser, setUsers, setMensajes, setMensajesDESC, setParticipantsGroups, setGroups );
+      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
 
     });
 
@@ -61,27 +69,8 @@ export const Chat = () => {
 
   }, [mensajes, users]);
 
-  useEffect( () => {
-
-
-    const myGroupsArray = [];
-
-    participantsGroups.forEach( ( group ) => {
-
-      if ( group.nombre_usuario === user.nombre ) {
-
-        myGroupsArray.push( group );
-
-      }
-
-    });
-
-    setMyGroups( myGroupsArray );
-
-  }, [participantsGroups]);
-
   return (
-    user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || groups.length === 0 || participantsGroups.length === 0
+    user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || myGroups.length === 0
       ? <div></div>
       : <div className="row justify-content-center">
         <Header
@@ -112,7 +101,6 @@ export const Chat = () => {
                         group={ group }
                         setGroup={ setGroup }
                         myGroups={ myGroups }
-                        groups={ groups }
                       />
                       <Conversacion
                         mensajes={ mensajes }
@@ -124,7 +112,6 @@ export const Chat = () => {
                         setMensaje={ setMensaje }
                         group={ group }
                         myGroups={ myGroups }
-                        groups={ groups }
                       />
                     </div>
                   </div>
