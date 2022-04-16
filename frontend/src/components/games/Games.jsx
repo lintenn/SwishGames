@@ -5,7 +5,7 @@ import { setUpMain } from '../../helper/SetUpMain';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
 
-export const Games = ({ games, setGames, buscado, setAllGames }) => {
+export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllGames }) => {
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
@@ -20,7 +20,7 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
 
     if ( buscado === '' ) {
 
-      setUpMain( setGames, setAllGames );
+      setUpMain( setGames, setFavGames, setAllGames );
 
     } else {
 
@@ -32,6 +32,24 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
         });
 
     }
+
+  };
+
+  const contains = ( array, value ) => {
+
+    let result = false;
+
+    array.forEach( element => {
+
+      if ( element.id === value ) {
+
+        result = true;
+
+      }
+
+    });
+
+    return result;
 
   };
 
@@ -57,9 +75,13 @@ export const Games = ({ games, setGames, buscado, setAllGames }) => {
                   <br/>
                   <div className="d-flex w-100 justify-content-between">
                     <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
-                    <i className="fa-regular fa-heart fa-2xl"></i>
-                    
-                    <i className="fa-solid fa-heart fa-2xl"></i>
+                  
+                    {contains(favGames, game.id) ?
+                      <i className="fa-solid fa-heart fa-2xl"></i>
+                      :
+                      <i className="fa-regular fa-heart fa-2xl"></i>}
+                      {console.log(favGames)}
+                      {console.log(game)}
                   </div>
                 </div>
               </div>
