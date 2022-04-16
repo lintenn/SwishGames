@@ -7,7 +7,7 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { setUpList } from '../helper/SetUpList.js';
-import Swal from 'sweetalert2';
+//import Swal from 'sweetalert2';
 import { Global } from '../helper/Global.js';
 import { GamesPreviewList } from '../components/lists/GamesPreviewList.jsx';
 import axios from 'axios';
@@ -17,7 +17,6 @@ const List = () => {
     const [games, setGames] = useState([]);
     const { id } = useParams();
     const [list, setList] = useState(null);
-    let idUserAuth = "";
     const [user, setUser] = useState(null);
     const [buscado, setBuscado] = useState( '' );
     const isauthorized = isAuthorized();
@@ -31,9 +30,6 @@ const List = () => {
             const token = localStorage.getItem( 'user' );
             const us = JSON.parse( token );
             socket.emit( 'conectado', us.nombre );
-            idUserAuth = us.id;
-            console.log( idUserAuth + "" );
-            console.log(id);
     
         }
     
@@ -44,10 +40,9 @@ const List = () => {
 
     useEffect(() => {
         if(list !== null && list.length > 0) {
-            console.log(list[0].id_usuario);
+
             axios.get( `${baseUrl}users/${list[0].id_usuario}/` )
                 .then( res => {
-                    console.log( res.data );
 
                     setUser( res.data );
 
@@ -55,6 +50,18 @@ const List = () => {
 
         }
     }, [list]) 
+
+    const comprobarDuenyo = () => {
+        let duenyo = false;
+        if ( isauthorized ) {
+            const token = localStorage.getItem( 'user' );
+            const us = JSON.parse( token );
+            duenyo = us.id === list[0].id_usuario;
+        }
+        return duenyo;
+    }
+
+    
 
     return (
         list !== null && user !== null ?
@@ -73,6 +80,7 @@ const List = () => {
                             <h1 className="mt-1 text-dark fw-bold px-3"> {list[0].nombre} </h1>
                             <h6 className='text-muted px-3'> Lista de {user[0].nombre} </h6>
                         </div>
+                        {comprobarDuenyo() ?
                         <div className="input-group rounded botonTransparente">
                             <div className="dropdown">
                                 <button className="botonTransparente2 btnAñadirChats"
@@ -80,7 +88,7 @@ const List = () => {
                                 id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                    <i class="fa-solid fa-ellipsis-vertical fa-2xl"></i>
+                                    <i className="fa-solid fa-ellipsis-vertical fa-2xl"></i>
                                 </button>
                                 <ul className="dropdown-menu"
                                 aria-labelledby="dropdownMenuButton1">
@@ -91,12 +99,10 @@ const List = () => {
                                 </ul>
                             </div>
                         </div>
+                        : <div></div>}
                     </div>
-                    { games.length === 0 ? 
-                        <h2 className="mt-5 text-dark text-center"> Lista vacía. </h2> 
-                        : <GamesPreviewList 
+                    <GamesPreviewList 
                             id={ id }
-                            idUserAuth = { idUserAuth + "" }
                             list={ list }
                             setList={ setList }
                             games={ games }
@@ -104,7 +110,7 @@ const List = () => {
                             buscado={ buscado }
                             
                           /> 
-                    }
+                    
                 </div>
             </main>
             <Footer/>
