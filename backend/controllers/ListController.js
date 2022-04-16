@@ -91,10 +91,7 @@ const createList = async (req, res) => {
         
     try {
             
-        const List = await ListModel.create({
-            id_usuario: req.body.id_usuario,
-            nombre: req.body.nombre
-        });
+        const List = await ListModel.create( req.body );
         res.json(List);
             
     } catch (error) {

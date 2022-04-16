@@ -11,7 +11,6 @@ export const setUpList = ( listId, setList, setGames ) => {
       axios.get( `${baseUrl}lists/${listId}/` )
          .then( res => {
 
-            console.log( res.data );
             setList( res.data );
 
          }).catch( err => console.log(err) )
