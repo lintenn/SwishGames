@@ -12,6 +12,7 @@ import { Games } from '../components/games/Games.jsx';
 const Main = () => {
 
   const [games, setGames] = useState([]);
+  const [favGames, setFavGames] = useState([]);
   const [allGames, setAllGames] = useState([]);
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
@@ -27,7 +28,7 @@ const Main = () => {
 
     }
 
-    setUpMain( setGames, setAllGames );
+    setUpMain( setGames, setFavGames, setAllGames );
 
   }, []);
 
@@ -46,6 +47,8 @@ const Main = () => {
             <Games
               games={ games }
               setGames={ setGames }
+              favGames={ favGames }
+              setFavGames={ setFavGames }
               buscado={ buscado }
               setAllGames={ setAllGames }
             />
