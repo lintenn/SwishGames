@@ -7,48 +7,52 @@ import axios from 'axios';
 import { isAuthorized } from '../../helper/isAuthorized.js';
 
 export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }) => {
-    
-    const baseUrl = Global.baseUrl;
-    const URI = `${baseUrl}contentsLists/`;
-    const isauthorized = isAuthorized();
 
-    useEffect( () => {
-            
-            buscar();
-    
-    }, [buscado]);
+  const baseUrl = Global.baseUrl;
+  const URI = `${baseUrl}contentsLists/`;
+  const isauthorized = isAuthorized();
 
-    const comprobarDuenyo = () => {
-        let duenyo = false;
-        if ( isauthorized ) {
-            const token = localStorage.getItem( 'user' );
-            const us = JSON.parse( token );
-            duenyo = us.id === list[0].id_usuario;
-        }
-        return duenyo;
+  useEffect( () => {
+
+    buscar();
+
+  }, [buscado]);
+
+  const comprobarDuenyo = () => {
+
+    let duenyo = false;
+    if ( isauthorized ) {
+
+      const token = localStorage.getItem( 'user' );
+      const us = JSON.parse( token );
+      duenyo = us.id === list[0].id_usuario;
+
+    }
+    return duenyo;
+
+  };
+
+  const buscar = async () => {
+
+    if ( buscado === '' ) {
+
+      setUpList( id, setList, setGames );
+
+    } else {
+
+      axios.get( `${URI}${id}/buscar/${buscado}` )
+        .then( res => {
+
+          setGames( res.data );
+
+        }).catch( err => console.log( err ) );
+
     }
 
-    const buscar = async () => {
+  };
 
-        if ( buscado === '' ) {
-
-           setUpList( id, setList, setGames);
-
-        } else {
-
-          axios.get( `${URI}${id}/buscar/${buscado}` )
-            .then( res => {
-          
-             setGames( res.data );
-          
-            }).catch( err => console.log(err) )
-
-        }
-
-    };
-
-    return (
-        <div>
+  return (
+    <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
           <Link to={'/game/' + game.titulo}
@@ -69,9 +73,9 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
                   <br/>
                   <div className="d-flex w-100 justify-content-between">
                     <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
-                    
-                    {comprobarDuenyo() ? 
-                      <span style={ { color: '#ff0000' } } >
+
+                    {comprobarDuenyo()
+                      ? <span style={ { color: '#ff0000' } } >
                         <i className="fa-solid fa-xmark fa-2xl"></i>
                       </span>
                       : <div></div>
@@ -88,10 +92,10 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
 };
 
 GamesPreviewList.propTypes = {
-    id: PropTypes.string.isRequired,
-    list: PropTypes.array.isRequired,
-    setList: PropTypes.func.isRequired,
-    games: PropTypes.array.isRequired,
-    setGames: PropTypes.func.isRequired,
-    buscado: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  list: PropTypes.array.isRequired,
+  setList: PropTypes.func.isRequired,
+  games: PropTypes.array.isRequired,
+  setGames: PropTypes.func.isRequired,
+  buscado: PropTypes.string.isRequired
 };
