@@ -1,0 +1,43 @@
+{
+  "name": "swishgames",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lintenn/SwishGames.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emailjs/browser": "^3.4.0",
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "email": "^0.2.6",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "react-maps": "^0.4.0",
+    "sequelize": "^6.17.0",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
+    "sockets": "^0.4.2"
+  },
+  "bugs": {
+    "url": "https://github.com/lintenn/SwishGames/issues"
+  },
+  "homepage": "https://github.com/lintenn/SwishGames#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0"
+  }
+}
