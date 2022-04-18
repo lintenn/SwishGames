@@ -17,20 +17,20 @@ export const setUpMain = ( setGames, setFavGames, setAllGames ) => {
 
     });
 
-    if (isauthorized) {
+  if ( isauthorized ) {
 
-      const token = localStorage.getItem( 'user' );
-      const us = JSON.parse( token );
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
 
-      axios.get( `${baseUrl}contentsLists/favoritos/${us.id}` )
-        .then( res => {
-            
-            setFavGames( res.data );
-  
-          }
-        );
+    axios.get( `${baseUrl}contentsLists/favoritos/${us.id}` )
+      .then( res => {
 
-    }
+        setFavGames( res.data );
+
+      }
+      );
+
+  }
 
   axios.get( `${baseUrl}games/` )
     .then( res => {

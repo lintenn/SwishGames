@@ -10,7 +10,7 @@ export const ListsPreview = ({ lists, setLists, buscado, setAllLists }) => {
   const [user, setUser] = useState( null );
 
   const baseUrl = Global.baseUrl;
-  let URILists;
+  let URILists = '';
 
   useEffect( () => setUser( JSON.parse( localStorage.getItem( 'user' ) ) ), []);
 
