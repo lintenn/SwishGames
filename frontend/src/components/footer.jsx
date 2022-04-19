@@ -6,7 +6,7 @@ export const Footer = () => {
 
   return (
     <div className="container-fluid bg-light fixed-bottom mat-shadow tamañoFooter">
-      <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-3">
+      <footer className="d-flex flex-wrap justify-content-between align-items-center py-2 my-2">
         <div className="col-md-4 d-flex align-items-center px-3">
           <span className="text-muted">© 2022 SwishGames, Inc</span>
         </div>
