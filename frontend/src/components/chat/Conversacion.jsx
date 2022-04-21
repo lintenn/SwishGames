@@ -109,7 +109,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
         imagen =
               <svg xmlns="http://www.w3.org/2000/svg"
-                width="60"
+                width="90"
                 height="50"
                 fill="currentColor"
                 className="bi bi-person-fill d-flex align-self-center me-3 mt-3"
@@ -123,7 +123,7 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
       imagen =
             <svg xmlns="http://www.w3.org/2000/svg"
-              width="60"
+              width="90"
               height="50"
               fill="currentColor"
               className="bi bi-person-fill d-flex align-self-center me-3 mt-3"
