@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export const chatUsers = ( user, users, receptor, setReceptor, setConection, group ) => {
+export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup ) => {
 
   console.log( users );
 
@@ -16,7 +16,7 @@ export const chatUsers = ( user, users, receptor, setReceptor, setConection, gro
     width: '25%',
     didOpen: () => {
 
-      addClickButton( receptor, setReceptor, setConection, group );
+      addClickButton( receptor, setReceptor, setConection, group, setGroup );
 
     }
 
@@ -56,17 +56,26 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( receptor, setReceptor, setConection, group ) => {
+const addClickButton = ( receptor, setReceptor, setConection, group, setGroup ) => {
 
   document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
 
     boton.addEventListener( 'click', ( e ) => {
 
       e.preventDefault();
-      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+      if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+        document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+      }
       setReceptor( boton.value );
       setConection( boton.value );
-      document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
+      setGroup({});
+      if ( document.getElementById( `${boton.value}` ) !== null ) {
+
+        document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
+
+      }
       Swal.close();
 
     });

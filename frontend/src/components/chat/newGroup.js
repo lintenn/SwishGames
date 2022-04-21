@@ -184,7 +184,11 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       e.preventDefault();
 
-      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+      if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+        document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+      }
       if ( participantesAñadidios.length > 0 ) {
 
         participantesAñadidios.push( user.nombre );
