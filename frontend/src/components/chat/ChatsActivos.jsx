@@ -70,7 +70,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           setGroup({});
           i++;
 
-        } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
+        } else if ( idGroups.indexOf( men.id_grupo_receptor ) === -1 ) {
 
           myGroups.forEach( ( group ) => {
 
