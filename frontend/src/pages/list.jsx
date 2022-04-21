@@ -63,7 +63,7 @@ const List = () => {
 
       const token = localStorage.getItem( 'user' );
       const us = JSON.parse( token );
-      duenyo = us.id === list[0].id_usuario;
+      duenyo = us.nombre === list[0].nombre_usuario;
 
     }
     return duenyo;

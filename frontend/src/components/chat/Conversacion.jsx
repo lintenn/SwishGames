@@ -90,16 +90,60 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
   };
 
+  const fotoPerfil = () => {
+
+    let imagen = '';
+
+    if ( ( group !== {} && receptor === '' ) ) {
+
+      if ( group.imagen !== null ) {
+
+        imagen =
+              <img src={group.imagen}
+                alt="avatar"
+                className="d-flex align-self-center me-3"
+                width="60"
+                max-height="50" />;
+
+      } else {
+
+        imagen =
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="60"
+                height="50"
+                fill="currentColor"
+                className="bi bi-person-fill d-flex align-self-center me-3"
+                viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>;
+
+      }
+
+    } else {
+
+      imagen =
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="60"
+        height="50"
+        fill="currentColor"
+        className="bi bi-person-fill d-flex align-self-center me-3"
+        viewBox="0 0 16 16">
+        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+      </svg>;
+
+    }
+
+    return imagen;
+
+  };
+
   return (
     <div className="col-md-6 col-lg-7 col-xl-8 row-10"
       id="panelChat">
       <div className="divNameUser">
         <h3 className="h3NameUser">
           <div id="imagenUser">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-              alt="avatar"
-              className="d-flex align-self-center me-3"
-              width="60" />
+            {fotoPerfil()}
           </div>
           <b><div id="labelNameUser">{ ( group !== {} && receptor === '' ) ? group.nombre : receptor }</div></b>
           {conexion}

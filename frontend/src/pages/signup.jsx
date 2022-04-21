@@ -21,7 +21,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
-  const URIList = `${baseUrl}list/`;
+  const URIList = `${baseUrl}lists/`;
   const URIParticipantsGroups = `${baseUrl}participantsGroups`;
   const isauthorized = isAuthorized();
 
@@ -143,7 +143,7 @@ const Signup = () => {
 
       await axios.post( URI, { nombre: u, email: m, password: values.password });
       await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
-      axios.post( `${baseUrl}lists/`, { nombre: 'Favoritos', nombre_usuario: u });
+      axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
       document.getElementById( 'success' ).classList.add( 'mostrar' );
 
     }
