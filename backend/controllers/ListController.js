@@ -24,7 +24,7 @@ const getListsByUser = async (req, res) => {
     try {
         
         const Lists = await ListModel.findAll({
-            where: { id_usuario: req.params.id_user }
+            where: { nombre_usuario: req.params.nombre_usuario }
         });
         res.json(Lists);
         
@@ -75,7 +75,7 @@ const getSearchedListByUser = async (req, res) => {
     try {
 
         const Lists = await ListModel.findAll({
-            where: { id_usuario: req.params.id_user, nombre: { [Op.like]: `%${req.params.nombre}%` } }
+            where: { nombre_usuario: req.params.nombre_usuario, nombre: { [Op.like]: `%${req.params.nombre}%` } }
         });
         res.json(Lists);
 
@@ -107,7 +107,7 @@ const updateList = async (req, res) => {
     try {
                 
         const List = await ListModel.update({
-            id_usuario: req.body.id_usuario,
+            nombre_usuario: req.body.nombre_usuario,
             nombre: req.body.nombre
         }, {
             where: { id: req.params.id_list }
