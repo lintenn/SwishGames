@@ -22,9 +22,10 @@ export const setUpMain = ( setGames, setFavGames, setAllGames ) => {
     const token = localStorage.getItem( 'user' );
     const us = JSON.parse( token );
 
-    axios.get( `${baseUrl}contentsLists/favoritos/${us.id}` )
+    axios.get( `${baseUrl}contentsLists/favoritos/${us.nombre}` )
       .then( res => {
 
+        console.log( `${baseUrl}contentsLists/favoritos/${us.nombre}` );
         setFavGames( res.data );
 
       }
