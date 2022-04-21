@@ -20,7 +20,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     focusConfirm: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
-    width: '25%',
+    width: '50%',
     didOpen: () => {
 
       addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
@@ -46,7 +46,14 @@ function showCreateNewGroup() {
       <input type="text" id="nameNewGroup"/>
       <br/>
       <br/>
-      <button style="background-color: white; border-radius: 20px" name="newGroup">Siguiente</button>
+      ¡Elige la foto de perfil del grupo!
+      <br/>
+      <Input accept="image/*" type="file" id="photo-create-group">
+      <br/>
+      <img id="img-photo-create-group">
+      <br/>
+      <br/>
+      <button style="background-color: white; border-radius: 20px; border-color: transparent" name="newGroup">Siguiente</button>
     `;
 
   return ( formGroup );
@@ -55,6 +62,8 @@ function showCreateNewGroup() {
 
 const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
 
+  let imagen = '';
+
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
     boton.addEventListener( 'click', ( e ) => {
@@ -62,7 +71,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
       e.preventDefault();
       if ( document.getElementById( 'nameNewGroup' ).value !== '' ) {
 
-        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre });
+        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre, imagen });
 
         Swal.close();
         Swal.fire({
@@ -116,6 +125,32 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
       }
 
     });
+
+  });
+
+  document.querySelectorAll( 'input[type="file"]' ).forEach( ( input ) => {
+
+    input.addEventListener( 'change', async ( e ) => {
+
+      e.preventDefault();
+      const file = e.target.files;
+      const formData = new FormData();
+      formData.append( 'file', file[0]);
+      formData.append( 'upload_preset', 'FotosGrupos' );
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
+        {
+          method: 'POST',
+          body: formData
+        }
+      );
+      const result = await res.json();
+      console.log( result );
+      imagen = result.secure_url;
+      document.getElementById( 'img-photo-create-group' ).src = imagen;
+
+    });
+
 
   });
 
