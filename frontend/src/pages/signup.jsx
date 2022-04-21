@@ -21,6 +21,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
+  const URIList = `${baseUrl}list`;
+  const URIParticipantsGroups = `${baseUrl}participantsGroups`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -140,6 +142,8 @@ const Signup = () => {
     } else {
 
       await axios.post( URI, { nombre: u, email: m, password: values.password });
+      await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });/*
+      await axios.post( URIList, { id_usuario: u, email: m, password: values.password }); */
       document.getElementById( 'success' ).classList.add( 'mostrar' );
 
     }

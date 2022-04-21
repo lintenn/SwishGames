@@ -206,7 +206,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group )}>Ver miembros del grupo</button></li>
+                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group, setGroup )}>Ver miembros del grupo</button></li>
             </ul>
           </div> ) );
 
@@ -332,7 +332,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group )}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
                 onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection )}>Nuevo grupo</button></li>
             </ul>
@@ -354,7 +354,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                         id = {`${nombreEmisorOrId( men )}`}
                         onClick={() => {
 
-                          document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+                          if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+                            document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+                          }
                           document.getElementById( `${nombreEmisorOrId( men )}` ).classList.add( 'chatSeleccionado' );
                           if ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) {
 
