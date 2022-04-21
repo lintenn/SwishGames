@@ -20,7 +20,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     focusConfirm: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
-    width: '25%',
+    width: '50%',
     didOpen: () => {
 
       addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
@@ -46,7 +46,14 @@ function showCreateNewGroup() {
       <input type="text" id="nameNewGroup"/>
       <br/>
       <br/>
-      <button style="background-color: white; border-radius: 20px" name="newGroup">Siguiente</button>
+      ¡Elige la foto de perfil del grupo!
+      <br/>
+      <Input accept="image/*" type="file" id="photo-create-group">
+      <br/>
+      <img id="img-photo-create-group">
+      <br/>
+      <br/>
+      <button style="background-color: white; border-radius: 20px; border-color: transparent" name="newGroup">Siguiente</button>
     `;
 
   return ( formGroup );
@@ -55,6 +62,8 @@ function showCreateNewGroup() {
 
 const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
 
+  let imagen = '';
+
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
     boton.addEventListener( 'click', ( e ) => {
@@ -62,7 +71,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
       e.preventDefault();
       if ( document.getElementById( 'nameNewGroup' ).value !== '' ) {
 
-        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre });
+        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre, imagen });
 
         Swal.close();
         Swal.fire({
@@ -119,7 +128,51 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
 
   });
 
+  document.querySelectorAll( 'input[type="file"]' ).forEach( ( input ) => {
+
+    input.addEventListener( 'change', async ( e ) => {
+
+      e.preventDefault();
+      const file = e.target.files;
+      const formData = new FormData();
+      formData.append( 'file', file[0]);
+      formData.append( 'upload_preset', 'FotosGrupos' );
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
+        {
+          method: 'POST',
+          body: formData
+        }
+      );
+      const result = await res.json();
+      console.log( result );
+      imagen = result.secure_url;
+      document.getElementById( 'img-photo-create-group' ).src = imagen;
+
+    });
+
+
+  });
+
 };
+
+/* const fotoPerfil = ( user ) => {
+
+  let imagen = '';
+
+  imagen =
+    <svg xmlns="http://www.w3.org/2000/svg"
+      width="60"
+      height="50"
+      fill="currentColor"
+      className="bi bi-person-fill d-flex align-self-center m-3"
+      viewBox="0 0 16 16">
+      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+    </svg>;
+
+  return imagen;
+
+}; */
 
 function showFriends( user, users ) {
 
@@ -129,14 +182,19 @@ function showFriends( user, users ) {
 
     if ( us.nombre !== user.nombre ) {
 
+      // const imagen = fotoPerfil( user );
       friends += `
         <div class="d-flex flex-row mb-3">
           <button style="background-color: white; border-radius: 20px" name="añadir" value="${us.nombre}" id="${us.nombre}AñadirGrupo" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
             <div class="align-items-center divObjectsSend">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                alt="avatar"
-                class="d-flex align-self-center me-3"
-                width="60"/>
+            <svg xmlns="http://www.w3.org/2000/svg"
+              width="60"
+              height="50"
+              fill="currentColor"
+              className="bi bi-person-fill d-flex align-self-center m-3"
+              viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
             </div>
             <div class="pt-1">
               <p class="fw-bold mb-0">${us.nombre}</p>
@@ -184,7 +242,11 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       e.preventDefault();
 
-      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+      if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+        document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+      }
       if ( participantesAñadidios.length > 0 ) {
 
         participantesAñadidios.push( user.nombre );

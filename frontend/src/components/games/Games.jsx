@@ -75,13 +75,12 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                   <br/>
                   <div className="d-flex w-100 justify-content-between">
                     <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
-                  
-                    {contains(favGames, game.id) ?
-                      <i className="fa-solid fa-heart fa-2xl"></i>
-                      :
-                      <i className="fa-regular fa-heart fa-2xl"></i>}
-                      {console.log(favGames)}
-                      {console.log(game)}
+
+                    {contains( favGames, game.id )
+                      ? <i className="fa-solid fa-heart fa-2xl"></i>
+                      : <i className="fa-regular fa-heart fa-2xl"></i>}
+                    {console.log( favGames )}
+                    {console.log( game )}
                   </div>
                 </div>
               </div>
@@ -97,5 +96,7 @@ Games.propTypes = {
   games: PropTypes.array.isRequired,
   setGames: PropTypes.func.isRequired,
   buscado: PropTypes.string.isRequired,
-  setAllGames: PropTypes.func.isRequired
+  setAllGames: PropTypes.func.isRequired,
+  favGames: PropTypes.array.isRequired,
+  setFavGames: PropTypes.func.isRequired
 };

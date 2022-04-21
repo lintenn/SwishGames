@@ -3,7 +3,7 @@ const DataTypes = require("sequelize")
 
 
 const ListModel = db.define('Listas', {
-    id_usuario: {type: DataTypes.INTEGER},
+    nombre_usuario: {type: DataTypes.INTEGER},
     nombre: {type: DataTypes.STRING}
 })
 

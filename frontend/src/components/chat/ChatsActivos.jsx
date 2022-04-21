@@ -70,7 +70,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           setGroup({});
           i++;
 
-        } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
+        } else if ( idGroups.indexOf( men.id_grupo_receptor ) === -1 ) {
 
           myGroups.forEach( ( group ) => {
 
@@ -206,7 +206,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group )}>Ver miembros del grupo</button></li>
+                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group, setGroup )}>Ver miembros del grupo</button></li>
             </ul>
           </div> ) );
 
@@ -297,6 +297,61 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   };
 
+  const fotoPerfil = ( men ) => {
+
+    let imagen = '';
+
+    if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
+
+      myGroups.forEach( ( grupo ) => {
+
+        if ( grupo.id === men.id_grupo_receptor ) {
+
+          if ( grupo.imagen !== null ) {
+
+            imagen =
+              <img src={grupo.imagen}
+                alt="avatar"
+                className="d-flex align-self-center m-3"
+                width="60"
+                max-height="50" />;
+
+          } else {
+
+            imagen =
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="60"
+                height="50"
+                fill="currentColor"
+                className="bi bi-person-fill d-flex align-self-center m-3"
+                viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>;
+
+          }
+
+        }
+
+      });
+
+    } else {
+
+      imagen =
+      <svg xmlns="http://www.w3.org/2000/svg"
+        width="60"
+        height="50"
+        fill="currentColor"
+        className="bi bi-person-fill d-flex align-self-center m-3"
+        viewBox="0 0 16 16">
+        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+      </svg>;
+
+    }
+
+    return imagen;
+
+  };
+
   return (
     <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 botonTransparente">
 
@@ -332,7 +387,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group )}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
                 onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection )}>Nuevo grupo</button></li>
             </ul>
@@ -354,7 +409,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                         id = {`${nombreEmisorOrId( men )}`}
                         onClick={() => {
 
-                          document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+                          if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+                            document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+                          }
                           document.getElementById( `${nombreEmisorOrId( men )}` ).classList.add( 'chatSeleccionado' );
                           if ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) {
 
@@ -373,10 +432,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                         }}>
                         <div className="d-flex flex-row">
                           <div className="align-items-center divObjectsSend">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava5-bg.webp"
-                              alt="avatar"
-                              className="d-flex align-self-center me-3"
-                              width="60"/>
+                            {fotoPerfil( men )}
                           </div>
                           <div className="pt-1">
                             {putUsers2( men )}
