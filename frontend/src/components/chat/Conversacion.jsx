@@ -95,27 +95,25 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     let imagen = '';
 
-    console.log( group.length );
     if ( ( group.nombre !== undefined && receptor === '' ) ) {
 
-      console.log( group.imagen );
       if ( group.imagen !== null ) {
 
         imagen =
               <img src={group.imagen}
                 alt="avatar"
-                className="d-flex align-self-center me-3 mt-3"
-                width="90"
-                max-height="50" />;
+                className="d-flex align-self-center me-3 imagen-perfil-chat"
+                width="80"
+                height="80" />;
 
       } else {
 
         imagen =
               <svg xmlns="http://www.w3.org/2000/svg"
-                width="90"
-                height="50"
+                width="80"
+                height="80"
                 fill="currentColor"
-                className="bi bi-person-fill d-flex align-self-center me-3 mt-3"
+                className="bi bi-person-fill d-flex align-self-center me-3 imagen-perfil-chat"
                 viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
               </svg>;
@@ -126,10 +124,10 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
       imagen =
             <svg xmlns="http://www.w3.org/2000/svg"
-              width="90"
-              height="50"
+              width="80"
+              height="80"
               fill="currentColor"
-              className="bi bi-person-fill d-flex align-self-center me-3 mt-3"
+              className="bi bi-person-fill d-flex align-self-center me-3 imagen-perfil-chat"
               viewBox="0 0 16 16">
               <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
             </svg>;

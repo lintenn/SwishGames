@@ -2,8 +2,6 @@ import Swal from 'sweetalert2';
 
 export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup ) => {
 
-  console.log( users );
-
   Swal.fire({
     html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
     background: '#f0eeee',
