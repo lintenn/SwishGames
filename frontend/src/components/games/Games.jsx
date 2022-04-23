@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setUpMain } from '../../helper/SetUpMain';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
+
 
 export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllGames }) => {
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
+  const navigate = useNavigate();
 
   useEffect( () => {
 
@@ -57,8 +59,10 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
     <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
-          <Link to={'/game/' + game.titulo}
-            key = {index}>
+          <button
+            key = {index}
+            onClick={() => navigate( `game/${game.titulo}` )}
+            className="botonGameTransparente">
             <div className="list-group-item list-group-item-action">
               <div className="d-flex w-100 justify-content-between">
                 <img className="img-juego"
@@ -85,7 +89,7 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                 </div>
               </div>
             </div>
-          </Link>
+          </button>
         ) )
         : <div className="mt-5 text-dark"><h1><b>Lo sentimos, pero no hemos encontrado el juego deseado :(</b></h1></div>}
     </div> );

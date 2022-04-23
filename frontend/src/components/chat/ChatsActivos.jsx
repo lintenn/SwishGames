@@ -29,7 +29,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     myGroups.forEach( ( group ) => {
 
-      idGroups.push( group.id_grupo );
+      idGroups.push( group.id );
 
     });
 
@@ -70,7 +70,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           setGroup({});
           i++;
 
-        } else if ( idGroups.indexOf( men.id_grupo_receptor ) === -1 ) {
+        } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
           myGroups.forEach( ( group ) => {
 
@@ -312,9 +312,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             imagen =
               <img src={grupo.imagen}
                 alt="avatar"
-                className="d-flex align-self-center m-3"
-                width="60"
-                max-height="50" />;
+                className="d-flex align-self-center m-3 imagen-perfil-chat"
+                width="50"
+                height="50" />;
 
           } else {
 
@@ -353,7 +353,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
   };
 
   return (
-    <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 botonTransparente">
+    <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 botonTransparente marginChatActivos">
 
       <div className="p-3 botonTransparente">
 
