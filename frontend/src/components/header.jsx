@@ -114,8 +114,11 @@ export const Header = ({ buscado, setBuscado }) => {
                 });
                 socket.emit( 'mensajes' );
                 localStorage.clear();
-                navigate( '/' );
-                Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' );
+                Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' ).then( () => {
+
+                  navigate( '/' );
+
+                });
                 setUser( null );
 
               } }>

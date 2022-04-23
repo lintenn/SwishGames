@@ -9,6 +9,14 @@
     display: none;
 }
 
+.imagen-perfil-chat{
+    border-radius: 150px;
+}
+
+.marginChatActivos{
+    margin-top: 15px;
+}
+
 .mostrar {
     display: block;
 }

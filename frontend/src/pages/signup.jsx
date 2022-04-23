@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import validator from 'validator';
 import Visibility from '@material-ui/icons/Visibility';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -11,6 +11,7 @@ import Input from '@material-ui/core/Input';
 import '../styles/signup.css';
 import { Global } from '../helper/Global';
 import { isAuthorized } from '../helper/isAuthorized.js';
+import logo from '../static/SwishGamesLogo.png';
 import Swal from 'sweetalert2';
 
 const Signup = () => {
@@ -21,6 +22,8 @@ const Signup = () => {
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}users`;
+  const URIList = `${baseUrl}lists/`;
+  const URIParticipantsGroups = `${baseUrl}participantsGroups`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -140,6 +143,8 @@ const Signup = () => {
     } else {
 
       await axios.post( URI, { nombre: u, email: m, password: values.password });
+      await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
+      axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
       document.getElementById( 'success' ).classList.add( 'mostrar' );
 
     }
@@ -190,6 +195,18 @@ const Signup = () => {
   return (
     <div className="signup">
       <h1>Registro</h1>
+      <header className="navbar navbar-expand-lg navbar-light fixed-top ">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand"
+            to="/">
+            <img src={logo}
+              width="80px"
+              height="50px"
+              alt="Logo" >
+            </img>
+          </NavLink>
+        </div>
+      </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
@@ -264,7 +281,7 @@ const Signup = () => {
             className="btn btn-primary btns">Registrarse</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
-            className="btn btn-primary btns"
+            className="btn btn-secondary btns"
             onClick={() => volver() }
           > Volver</button>
 

@@ -109,12 +109,12 @@ const Recovery = () => {
             type="submit"
             className="btn btn-primary btns"
             onClick={() => comprobarUser() }>
-              Send email</button>
+              Enviar email</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
-            className="btn btn-primary btns"
+            className="btn btn-secondary btns"
             onClick={() => navigate( '/login/' ) }
-          > Back</button>
+          > Volver</button>
 
         </nav>
 
