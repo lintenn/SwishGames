@@ -150,10 +150,15 @@ const Game = () => {
 
             <div class="d-flex justify-content-between mt-3">
               <h2 className='fw-bold ms-2'>{game.titulo}</h2>
-  
-              <button className="btn btn-outline-dark me-2 mb-3">
-                <i className="fa fa-plus-circle"></i> Añadir a lista
-              </button>
+
+              {isauthorized ? 
+                <button className="btn btn-outline-dark me-2 mb-3"
+                  onClick={() => newGameInList()}>
+                  <i className="fa fa-plus-circle"></i> Añadir a lista
+                </button>
+              : <div></div>
+              }
+
             </div>
 
           </div>
@@ -178,28 +183,13 @@ const Game = () => {
                   alt={`#ImgGame${game.titulo}`} />
             </div>
 
-            
-
           </div>
-          {isauthorized ? 
-            <button className="btn btn-outline-dark btn-lg mt-1 mb-1"
-            onClick={() => newGameInList()}>
-              <i className="fa-solid fa-plus"></i> Añadir a lista
-            </button>
-            : <div></div>
-          }
-          
 
         </div>
-
-
-
-
 
         <Footer/>
       </main>
     </div>
-
 
   );
 
