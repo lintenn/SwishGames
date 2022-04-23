@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import validator from 'validator';
 import Visibility from '@material-ui/icons/Visibility';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -11,6 +11,7 @@ import Input from '@material-ui/core/Input';
 import '../styles/signup.css';
 import { Global } from '../helper/Global';
 import { isAuthorized } from '../helper/isAuthorized.js';
+import logo from '../static/SwishGamesLogo.png';
 import Swal from 'sweetalert2';
 
 const Signup = () => {
@@ -194,6 +195,18 @@ const Signup = () => {
   return (
     <div className="signup">
       <h1>Registro</h1>
+      <header className="navbar navbar-expand-lg navbar-light fixed-top ">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand"
+            to="/">
+            <img src={logo}
+              width="80px"
+              height="50px"
+              alt="Logo" >
+            </img>
+          </NavLink>
+        </div>
+      </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
