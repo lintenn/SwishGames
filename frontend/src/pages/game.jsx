@@ -55,17 +55,49 @@ const Game = () => {
 
       <main className="row justify-content-center mt-5">
 
-        <div className="container col-8 mt-5 border card">
+        <div className="row container col-8 mt-5">
 
-          <div class="d-flex justify-content-between mt-3">
-            <h2 className='fw-bold ms-2'>{game.titulo}</h2>
+          <div className="col-12 border card">
+
+            <div class="d-flex justify-content-between mt-3">
+              <h2 className='fw-bold ms-2'>{game.titulo}</h2>
+  
+              <button className="btn btn-outline-dark me-2 mb-3">
+                <i className="fa fa-plus-circle"></i> Añadir a lista
+              </button>
+            </div>
+
+          </div>
+
+          <div className="mt-2 col-8 border card">
+
+            <div className="col-4 ratio ratio-16x9 my-2 mx-2">
+              <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE" title={game.titulo}
+              frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+              </iframe>
+            </div>
             
-            <button className="btn btn-outline-dark me-2 mb-3">
-              <i className="fa fa-plus-circle"></i> Añadir a lista
-            </button>
+          </div>
+
+          <div className='mt-2 col-4 border card'>
+
+            <div className='col-12 d-flex justify-content-center'>
+              <img className="img-juego mt-2"
+                  src={game.imagen}
+                  width="75%"
+                  height="100%"
+                  alt={`#ImgGame${game.titulo}`} />
+            </div>
+
+            
+
           </div>
 
         </div>
+
+
+
+
 
         <Footer/>
       </main>
