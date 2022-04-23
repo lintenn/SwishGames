@@ -268,7 +268,7 @@ const Signup = () => {
             className="btn btn-primary btns">Registrarse</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"
-            className="btn btn-primary btns"
+            className="btn btn-secondary btns"
             onClick={() => volver() }
           > Volver</button>
 
