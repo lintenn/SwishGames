@@ -1,5 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -8,17 +7,18 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import '../styles/login.css';
-import { Global } from '../helper/Global';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import Swal from 'sweetalert2';
+import { setUpLogin } from '../helper/SetUpLogin';
+import logo from '../static/SwishGamesLogo.png';
+import { Footer } from '../components/footer';
+
 
 const Login = () => {
 
   const [u, setNombre] = useState( '' );
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const baseUrl = Global.baseUrl;
-  const URI = `${baseUrl}users`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -32,17 +32,9 @@ const Login = () => {
       });
 
     }
-    getUsers();
+    setUpLogin( setUsers );
 
   }, []);
-
-  // procedimineto para obtener todos los usuarios
-  const getUsers = async () => {
-
-    const res = await axios.get( URI );
-    setUsers( res.data );
-
-  };
 
   function comprobarUser() {
 
@@ -105,6 +97,18 @@ const Login = () => {
     <div className="login"
       id="login" >
       <h1>Iniciar sesión</h1>
+      <header className="navbar navbar-expand-lg navbar-light fixed-top ">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand"
+            to="/">
+            <img src={logo}
+              width="80px"
+              height="50px"
+              alt="Logo" >
+            </img>
+          </NavLink>
+        </div>
+      </header>
       <div>
         <InputLabel htmlFor="standard-adornment-password"
           style={{ color: 'black' }}>
@@ -171,6 +175,7 @@ const Login = () => {
             onClick={ cerrar} >&times;</span>
                 Usuario o contraseña incorrectos.
         </div>
+        <Footer/>
       </div>
     </div>
   );

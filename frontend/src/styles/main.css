@@ -26,7 +26,13 @@ body {
 }
 
 .tamañoFooter{
-    height: 65px;
+    height: 55px;
+}
+
+.botonGameTransparente{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-radius: 20px !important;
 }
 
 .main { 

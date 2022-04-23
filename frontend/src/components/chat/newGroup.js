@@ -53,6 +53,11 @@ function showCreateNewGroup() {
       <img id="img-photo-create-group">
       <br/>
       <br/>
+      Descripción del grupo
+      <br/>
+      <Input type="text" id="description-create-group">
+      <br/>
+      <br/>
       <button style="background-color: white; border-radius: 20px; border-color: transparent" name="newGroup">Siguiente</button>
     `;
 
@@ -71,7 +76,9 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
       e.preventDefault();
       if ( document.getElementById( 'nameNewGroup' ).value !== '' ) {
 
-        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre, imagen });
+        const descripcion = document.getElementById( 'description-create-group' ).value;
+
+        axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre, imagen, descripcion });
 
         Swal.close();
         Swal.fire({
@@ -145,7 +152,6 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
         }
       );
       const result = await res.json();
-      console.log( result );
       imagen = result.secure_url;
       document.getElementById( 'img-photo-create-group' ).src = imagen;
 
@@ -259,7 +265,6 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
               setGroup( res.data );
               setReceptor( '' );
               setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
-              console.log( res.data );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
 
             });
