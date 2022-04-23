@@ -143,59 +143,53 @@ const Game = () => {
 
 
       <main className="row justify-content-center mt-5">
-        <div className="col-2">
 
-          <br></br>
-          <br></br>
-          <h1 >Game</h1>
-          <h5>Titulo: {game.titulo}</h5>
+        <div className="row container col-8 mt-5">
 
-          <div className="rate">
-            <input type="radio"
-              id="star5"
-              name="rate"
-              value="5" />
-            <label htmlFor="star5"
-              title="5 estrellas">5 stars</label>
-            <input type="radio"
-              id="star4"
-              name="rate"
-              value="4" />
-            <label htmlFor="star4"
-              title="4 estrellas">4 stars</label>
-            <input type="radio"
-              id="star3"
-              name="rate"
-              value="3" />
-            <label htmlFor="star3"
-              title="3 estrellas">3 stars</label>
-            <input type="radio"
-              id="star2"
-              name="rate"
-              value="2" />
-            <label htmlFor="star2"
-              title="2 estrellas">2 stars</label>
-            <input type="radio"
-              id="star1"
-              name="rate"
-              value="1" />
-            <label htmlFor="star1"
-              title="1 estrella">1 star</label>
+          <div className="col-12 border card">
+
+            <div class="d-flex justify-content-between mt-3">
+              <h2 className='fw-bold ms-2'>{game.titulo}</h2>
+
+              {isauthorized ? 
+                <button className="btn btn-outline-dark me-2 mb-3"
+                  onClick={() => newGameInList()}>
+                  <i className="fa fa-plus-circle"></i> Añadir a lista
+                </button>
+              : <div></div>
+              }
+
+            </div>
+
           </div>
-          {isauthorized ? 
-            <button className="btn btn-outline-dark btn-lg mt-1 mb-1"
-            onClick={() => newGameInList()}>
-              <i className="fa-solid fa-plus"></i> Añadir a lista
-            </button>
-            : <div></div>
-          }
-          
+
+          <div className="mt-2 col-8 border card">
+
+            <div className="col-4 ratio ratio-16x9 my-2 mx-2">
+              <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE" title={game.titulo}
+              frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+              </iframe>
+            </div>
+            
+          </div>
+
+          <div className='mt-2 col-4 border card'>
+
+            <div className='col-12 d-flex justify-content-center'>
+              <img className="img-juego mt-2"
+                  src={game.imagen}
+                  width="75%"
+                  height="100%"
+                  alt={`#ImgGame${game.titulo}`} />
+            </div>
+
+          </div>
 
         </div>
+
         <Footer/>
       </main>
     </div>
-
 
   );
 
