@@ -93,7 +93,7 @@ body {
 }
 
 .btns {
-    background-color: #0d6efd !important;
+    /* background-color: #0d6efd !important; */
     border-radius: 5px;
     width: 150px;
     height: 40px;
