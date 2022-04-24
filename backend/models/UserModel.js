@@ -9,6 +9,7 @@ const UserModel = db.define( 'Usuarios', {
   fecha_creacion: { type: DataTypes.DATE },
   password: { type: DataTypes.STRING },
   privacidad: { type: DataTypes.BOOLEAN },
+  imagen: { type: DataTypes.STRING },
   online: { type: DataTypes.BOOLEAN }
 });
 

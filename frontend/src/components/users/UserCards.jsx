@@ -6,10 +6,10 @@ import { Global } from '../../helper/Global';
 import axios from 'axios';
 
 
-export const UserCards = ({ users, setUsers, buscado }) => {
+export const UserCards = ({ users, setUsers, buscado, userAct }) => {
 
   const baseUrl = Global.baseUrl;
-  const URIUsers = `${baseUrl}users`;
+  const URIUsers = `${baseUrl}users/`;
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -26,7 +26,8 @@ export const UserCards = ({ users, setUsers, buscado }) => {
 
     } else {
 
-      axios.get( `${URIUsers}name/${buscado}` )
+      console.log( `${URIUsers}user/${buscado}` );
+      axios.get( `${URIUsers}user/${buscado}` )
         .then( res => {
 
           setUsers( res.data );
@@ -37,48 +38,35 @@ export const UserCards = ({ users, setUsers, buscado }) => {
 
   };
 
-  const contains = ( array, value ) => {
-
-    let result = false;
-
-    array.forEach( element => {
-
-      if ( element.id === value ) {
-
-        result = true;
-
-      }
-
-    });
-
-    return result;
-
-  };
-
   return (
-    <div>
+    <div className="row">
       {users.length !== 0
         ? users.map( ( user, index ) => (
-          <button
-            key = {index}
-            onClick={() => navigate( `user/${user.nombre}` )}
-            className="botonGameTransparente">
-            <div className="list-group-item list-group-item-action">
-              <div className="d-flex w-100 justify-content-between">
-                <img className="img-juego"
-                  src={user.imagen}
-                  width="200"
-                  height="170"
-                  alt={`#ImgGame${user.titulo}`} />
-                <div className="px-2">
-                  <p className="mb-4 texte">{user.descripcion}</p>
-                  <br/>
+          ( userAct !== null && user.nombre !== userAct.nombre ) || userAct === null
+            ? <button
+              key = {index}
+              onClick={() => navigate( `/user/${user.nombre}` )}
+              className="botonGameTransparente col-12">
+              <div className="list-group-item list-group-item-action">
+                <div className="d-flex w-100">
+                  <img className="img-user"
+                    src={user.imagen}
+
+                    /* width="100"
+                    height="100" */
+                    alt={`#UserImg${user.nombre}`} />
+                  <div className="px-2 tamanyoMaxDesc">
+                    <div className="d-flex w-100 pt-1">
+                      <h4 className="mb-0 ttexte"> &nbsp; {user.nombre}</h4>
+                    </div>
+                    <p className="texte">{user.descripcion}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </button>
+            </button>
+            : <div></div>
         ) )
-        : <div className="mt-5 text-dark"><h1><b>Lo sentimos, pero no hemos encontrado el juego deseado :(</b></h1></div>}
+        : <div className="mt-5 text-dark"><h1><b>Lo sentimos, pero no hemos encontrado el usuario deseado :(</b></h1></div>}
     </div> );
 
 };
@@ -86,5 +74,6 @@ export const UserCards = ({ users, setUsers, buscado }) => {
 UserCards.propTypes = {
   users: PropTypes.array.isRequired,
   setUsers: PropTypes.func.isRequired,
-  buscado: PropTypes.string.isRequired
+  buscado: PropTypes.string.isRequired,
+  userAct: PropTypes.object.isRequired
 };

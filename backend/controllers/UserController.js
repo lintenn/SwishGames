@@ -1,4 +1,5 @@
 const UserModel = require( '../models/UserModel.js' );
+const { Op } = require( 'sequelize' );
 
 const getAllUsers = async ( req, res ) => {
 
@@ -40,6 +41,23 @@ const getUserByName = async ( req, res ) => {
       where: { nombre: req.params.nombre }
     });
     res.json( user[0]);
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+const getUsersByName = async ( req, res ) => {
+
+  try {
+
+    const user = await UserModel.findAll({
+      where: { nombre: { [Op.like]: `%${req.params.nombre}%` } }
+    });
+    res.json( user );
 
   } catch ( error ) {
 
@@ -115,4 +133,4 @@ const deleteUser = async ( req, res ) => {
 
 };
 
-module.exports = { getAllUsers, getUser, getUserByName, createUser, updateConnectionUserByName, updateUser, deleteUser };
+module.exports = { getAllUsers, getUser, getUserByName, getUsersByName, createUser, updateConnectionUserByName, updateUser, deleteUser };
