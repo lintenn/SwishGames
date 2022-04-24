@@ -6,6 +6,7 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { setUpMain } from '../helper/SetUpMain.js';
+import { setUpFavorites } from '../helper/SetUpFavorites.js';
 import Swal from 'sweetalert2';
 import { Games } from '../components/games/Games.jsx';
 
@@ -17,8 +18,7 @@ const Main = () => {
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
 
-
-  useEffect( () => {
+  const montarFavGames = ( setFavGames ) => {
 
     if ( isauthorized ) {
 
@@ -26,9 +26,18 @@ const Main = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
+      setUpFavorites( us.nombre, setFavGames );
+
     }
 
-    setUpMain( setGames, setFavGames, setAllGames );
+  };
+
+
+  useEffect( () => {
+
+    montarFavGames( setFavGames );
+
+    setUpMain( setGames, setAllGames );
 
   }, []);
 

@@ -5,6 +5,7 @@ import socket from './Socket';
 import { Global } from '../../helper/Global';
 import { chatUsers } from './newChat';
 import { chatGroups } from './newGroup';
+import { infoGroup } from './infoGroups';
 import axios from 'axios';
 
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups }) => {
@@ -45,6 +46,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
               if ( group.id === men.id_grupo_receptor ) {
 
+                setReceptor( '' );
                 setMiembrosGrupo( group.id );
                 setGroup( group );
 
@@ -76,6 +78,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
             if ( group.id === men.id_grupo_receptor ) {
 
+              setReceptor( '' );
               setMiembrosGrupo( group.id );
               setGroup( group );
 
@@ -206,7 +209,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group, setGroup )}>Ver miembros del grupo</button></li>
+                onClick={() => infoGroup( myGroups, id, false, '', users, res.data )}>Ver información del grupo</button></li>
             </ul>
           </div> ) );
 
@@ -307,28 +310,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( grupo.id === men.id_grupo_receptor ) {
 
-          if ( grupo.imagen !== null ) {
-
-            imagen =
+          imagen =
               <img src={grupo.imagen}
                 alt="avatar"
                 className="d-flex align-self-center m-3 imagen-perfil-chat"
-                width="50"
-                height="50" />;
-
-          } else {
-
-            imagen =
-              <svg xmlns="http://www.w3.org/2000/svg"
                 width="60"
-                height="50"
-                fill="currentColor"
-                className="bi bi-person-fill d-flex align-self-center m-3"
-                viewBox="0 0 16 16">
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              </svg>;
-
-          }
+                height="60" />;
 
         }
 
@@ -336,15 +323,38 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     } else {
 
-      imagen =
-      <svg xmlns="http://www.w3.org/2000/svg"
-        width="60"
-        height="50"
-        fill="currentColor"
-        className="bi bi-person-fill d-flex align-self-center m-3"
-        viewBox="0 0 16 16">
-        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-      </svg>;
+      let nombre = '';
+
+      if ( men.nombre_usuario_receptor !== user.nombre && men.nombre_usuario_emisor === user.nombre ) {
+
+        nombre = men.nombre_usuario_receptor;
+
+      } else if ( men.nombre_usuario_receptor === user.nombre && men.nombre_usuario_emisor !== user.nombre ) {
+
+        nombre = men.nombre_usuario_emisor;
+
+      } else if ( men.nombre_usuario_receptor === user.nombre && men.nombre_usuario_emisor === user.nombre ) {
+
+        nombre = men.nombre_usuario_emisor;
+
+      }
+
+      users.forEach( ( user ) => {
+
+        if ( user.nombre === nombre ) {
+
+          imagen =
+          <img src={user.imagen}
+            alt="avatar"
+            className="d-flex align-self-center m-3 imagen-perfil-chat"
+            width="60"
+            height="60" />;
+
+
+        }
+
+      });
+
 
     }
 
@@ -389,7 +399,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <li><button className="dropdown-item"
                 onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection )}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
@@ -423,8 +433,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
                           } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
-                            setMiembrosGrupo( men.id_grupo_receptor );
+                            setReceptor( '' );
                             setGrupo( men.id_grupo_receptor );
+                            setMiembrosGrupo( men.id_grupo_receptor );
 
                           }
                           setMensaje( '' );

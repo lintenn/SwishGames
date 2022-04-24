@@ -74,7 +74,7 @@ const getUsersByGroups = async ( req, res ) => {
 
     // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
 
-    const UsersByGroups = await db.query(`Select u.* from Usuarios u, ParticipantesGrupos p where p.nombre_usuario = u.nombre and p.id_grupo=${req.params.id_grupo}`, { type: Sequelize.QueryTypes.SELECT });
+    const UsersByGroups = await db.query(`Select u.* from Usuarios u, ParticipantesGrupos p where p.nombre_usuario = u.nombre and p.id_grupo=${req.params.id_grupo} order by u.nombre`, { type: Sequelize.QueryTypes.SELECT });
 
     res.json( UsersByGroups );
 

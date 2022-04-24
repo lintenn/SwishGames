@@ -53,16 +53,16 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
 
   };
 
-  const quitarDeLista = (gameId) => {
+  const quitarDeLista = ( gameId ) => {
 
     axios.delete( `${URI}${id}/${gameId}` );
 
     // Ineficiente sí, pero juntando todo esto recarga la lista
     setUpList( id, setList, setGames );
-    buscado='d';
-    buscado='';
-    navigate('/lists/');
-    navigate(`/list/${id}`);
+    buscado = 'd';
+    buscado = '';
+    navigate( '/lists/' );
+    navigate( `/list/${id}` );
 
   };
 
@@ -70,29 +70,31 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
     <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
-          <div 
-            key = {index}>
+          <div
+            key = {index}
+            className="mb-1 botonGameTransparente">
             <div className="list-group-item list-group-item-action">
               <div className="d-flex w-100 justify-content-between">
-                <Link to={'/game/' + game.titulo}> 
-                <img className="img-juego"
-                  src={game.imagen}
-                  width="200"
-                  height="170"
-                  alt={`#ImgGame${game.titulo}`} />
+                <Link to={'/game/' + game.titulo}>
+                  <img className="img-juego"
+                    src={game.imagen}
+                    width="200"
+                    height="170"
+                    alt={`#ImgGame${game.titulo}`} />
                 </Link>
                 <div className="px-2">
-                  <Link to={'/game/' + game.titulo} className="text-dark">
-                  <div className="d-flex w-100 justify-content-between pt-1">
-                    <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
-                    <small className="text-muted overtexte">Valoración: {game.valoracion}</small>
-                  </div>
-                  <p className="mb-4 texte">{game.descripcion}</p>
-                  <br/>
+                  <Link to={'/game/' + game.titulo}
+                    className="text-dark">
+                    <div className="d-flex w-100 justify-content-between pt-1">
+                      <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>
+                      <small className="text-muted overtexte">Valoración: {game.valoracion}</small>
+                    </div>
+                    <p className="mb-4 texte">{game.descripcion}</p>
+                    <br/>
                   </Link>
                   <div className="d-flex w-100 justify-content-between">
                     <Link to={'/game/' + game.titulo}>
-                    <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
+                      <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
                     </Link>
 
                     {comprobarDuenyo()
@@ -100,7 +102,8 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
 
                         {/* botón transparente */}
 
-                        <button className="botonTransparente equis" onClick={() => quitarDeLista(game.id)}>
+                        <button className="botonTransparente equis"
+                          onClick={() => quitarDeLista( game.id )}>
                           <i className="fa-solid fa-xmark fa-2xl"></i> Quitar
                         </button>
                       </span>
