@@ -148,7 +148,7 @@ const Game = () => {
 
           <div className="col-12 border card">
 
-            <div class="d-flex justify-content-between mt-3">
+            <div className="d-flex justify-content-between mt-3">
               <h2 className='fw-bold ms-2'>{game.titulo}</h2>
 
               {isauthorized ? 
