@@ -22,7 +22,7 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
 
     if ( buscado === '' ) {
 
-      setUpMain( setGames, setFavGames, setAllGames );
+      setUpMain( setGames, setAllGames );
 
     } else {
 
