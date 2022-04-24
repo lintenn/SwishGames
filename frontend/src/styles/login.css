@@ -57,7 +57,7 @@ body {
 }
 
 .btns {
-    background-color: transparent;
+    /*background-color: transparent;*/
     border-radius: 5px;
     width: 150px;
     height: 40px;
