@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { Global } from './Global';
 import Swal from 'sweetalert2';
-import { isAuthorized } from './isAuthorized.js';
 
 const baseUrl = Global.baseUrl;
-const isauthorized = isAuthorized();
 
-export const setUpMain = ( setGames, setFavGames, setAllGames ) => {
+export const setUpMain = ( setGames, setAllGames ) => {
 
   Swal.showLoading();
 
@@ -16,22 +14,6 @@ export const setUpMain = ( setGames, setFavGames, setAllGames ) => {
       setGames( res.data );
 
     });
-
-  if ( isauthorized ) {
-
-    const token = localStorage.getItem( 'user' );
-    const us = JSON.parse( token );
-
-    axios.get( `${baseUrl}contentsLists/favoritos/${us.nombre}` )
-      .then( res => {
-
-        console.log( `${baseUrl}contentsLists/favoritos/${us.nombre}` );
-        setFavGames( res.data );
-
-      }
-      );
-
-  }
 
   axios.get( `${baseUrl}games/` )
     .then( res => {
