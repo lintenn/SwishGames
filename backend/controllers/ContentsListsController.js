@@ -113,7 +113,7 @@ const deleteContentsLists = async (req, res) => {
     try {
                     
         await ContentsListsModel.destroy({
-            where: { id: req.params.id }
+            where: { id_lista: req.params.id_lista, id_juego: req.params.id_juego }
         });
         res.json({ message: "Lista eliminada correctamente" });
                     

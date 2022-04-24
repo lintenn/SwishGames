@@ -8,6 +8,6 @@ router.get('/:id_lista/buscar/:titulo', ContentsListsController.getSearchedConte
 router.get('/favoritos/:nombre_usuario', ContentsListsController.getFavoritesContentsListsByUser);
 router.post('/', ContentsListsController.createContentsLists);
 router.put('/:id', ContentsListsController.updateContentsLists);
-router.delete('/:id', ContentsListsController.deleteContentsLists);
+router.delete('/:id_lista/:id_juego', ContentsListsController.deleteContentsLists);
 
 module.exports = router;
