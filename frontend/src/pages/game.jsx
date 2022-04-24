@@ -49,23 +49,35 @@ const Game = () => {
 
   const newGameInList = () => {
 
-    Swal.fire({
-      html: `<div style="background-color: #f0eeee">${showLists( )}</div>`,
-      background: '#f0eeee',
-      showCloseButton: true,
-      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-      showCancelButton: false,
-      showConfirmButton: false,
-      focusConfirm: false,
-      allowOutsideClick: false,
-      width: '35%',
-      didOpen: () => {
-  
-        addClickButton();
-  
-      }
-  
-    });
+    if ( allLists.length === 0 ) {
+
+      Swal.fire(
+        'No tienes listas',
+        'Debes crear una lista para poder agregar un juego',
+        'warning'
+      );
+
+    } else {
+
+      Swal.fire({
+        html: `<div style="background-color: #f0eeee">${showLists( )}</div>`,
+        background: '#f0eeee',
+        showCloseButton: true,
+        closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+        showCancelButton: false,
+        showConfirmButton: false,
+        focusConfirm: false,
+        allowOutsideClick: false,
+        width: '35%',
+        didOpen: () => {
+
+          addClickButton();
+
+        }
+
+      });
+
+    }
 
   };
 
@@ -75,7 +87,7 @@ const Game = () => {
 
     lists.forEach( ( list ) => {
 
-      divlists += 
+      divlists +=
         `<div class="d-flex flex-row mb-3">
         <button style="background-color: white; border-radius: 20px" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
           <div class="align-items-center divObjectsSend">
@@ -96,23 +108,24 @@ const Game = () => {
   }
 
   const addClickButton = () => {
-    
+
     document.querySelectorAll( 'button[name="newGameInList"]' ).forEach( ( boton ) => {
 
       boton.addEventListener( 'click', ( e ) => {
-  
+
         e.preventDefault();
-        //if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
-  
-          //document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
-  
-        //}
-        console.log(boton.value + ' : ' + document.getElementById( `${boton.value}` ));
-        
+
+        // if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+        // document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+        // }
+        console.log( boton.value + ' : ' + document.getElementById( `${boton.value}` ) );
+
         if ( boton.value !== null ) {
-  
+
           axios.post( `${baseUrl}contentsLists/`, { id_lista: boton.value, id_juego: game.id });
-  
+
         }
         Swal.close();
 
@@ -123,11 +136,11 @@ const Game = () => {
           allowOutsideClick: false,
           allowEscapeKey: false
         });
-  
+
       });
-  
+
     });
-  
+
   };
 
   return (
@@ -149,14 +162,14 @@ const Game = () => {
           <div className="col-12 border card">
 
             <div className="d-flex justify-content-between mt-3">
-              <h2 className='fw-bold ms-2'>{game.titulo}</h2>
+              <h2 className="fw-bold ms-2">{game.titulo}</h2>
 
-              {isauthorized ? 
-                <button className="btn btn-outline-dark me-2 mb-3"
+              {isauthorized
+                ? <button className="btn btn-outline-dark me-2 mb-3"
                   onClick={() => newGameInList()}>
                   <i className="fa fa-plus-circle"></i> Añadir a lista
                 </button>
-              : <div></div>
+                : <div></div>
               }
 
             </div>
@@ -166,21 +179,26 @@ const Game = () => {
           <div className="mt-2 col-8 border card">
 
             <div className="col-4 ratio ratio-16x9 my-2 mx-2">
-              <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE" title={game.titulo}
-              frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
+              <iframe width="560"
+                height="315"
+                src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE"
+                title={game.titulo}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen>
               </iframe>
             </div>
-            
+
           </div>
 
-          <div className='mt-2 col-4 border card'>
+          <div className="mt-2 col-4 border card">
 
-            <div className='col-12 d-flex justify-content-center'>
+            <div className="col-12 d-flex justify-content-center">
               <img className="img-juego mt-2"
-                  src={game.imagen}
-                  width="75%"
-                  height="100%"
-                  alt={`#ImgGame${game.titulo}`} />
+                src={game.imagen}
+                width="75%"
+                height="100%"
+                alt={`#ImgGame${game.titulo}`} />
             </div>
 
           </div>

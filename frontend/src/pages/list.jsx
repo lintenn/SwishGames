@@ -89,12 +89,13 @@ const List = () => {
         text: 'Esta acción no se puede deshacer',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#d33', 
+        confirmButtonColor: '#d33',
         cancelButtonColor: '#3085d6',
         confirmButtonText: 'Borrar',
         cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.value) {
+      }).then( ( result ) => {
+
+        if ( result.value ) {
 
           axios.delete( `${baseUrl}lists/${id}` );
 
@@ -103,13 +104,14 @@ const List = () => {
             'La lista ha sido borrada',
             'success'
           ).then( () => {
-              
-              navigate( '/lists/' );
-  
-            });
+
+            navigate( '/lists/' );
+
+          });
 
         }
-      })
+
+      });
 
     }
 
@@ -127,31 +129,33 @@ const List = () => {
           <div className="col-lg-8 list-group"
             data-bs-spy="scroll">
 
-            <div className="d-flex w-100 justify-content-between">
-              <div>
-                <h1 className="mt-1 text-dark fw-bold px-3"> {list[0].nombre} </h1>
-                <h6 className="text-muted px-3"> Lista de {list[0].nombre_usuario} </h6>
-              </div>
-              {comprobarDuenyo()
-                ? <div className="input-group rounded botonTransparente">
-                  <div className="dropdown">
-                    <button className="botonTransparente2 btnAñadirChats"
-                      type="button"
-                      id="dropdownMenuButton1"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false">
-                      <i className="fa-solid fa-ellipsis-vertical fa-2xl"></i>
-                    </button>
-                    <ul className="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton1">
-                      <li><button className="dropdown-item"
-                      >Editar nombre</button></li>
-                      <li><button className="dropdown-item"
-                        onClick={ () => showAdvertenciaBorrar() }>Borrar</button></li>
-                    </ul>
-                  </div>
+            <div className="row">
+              <div className="d-flex w-100 justify-content-between">
+                <div className="">
+                  <h1 className="mt-1 text-dark fw-bold px-3"> {list[0].nombre} </h1>
+                  <h6 className="text-muted px-3"> Lista de {list[0].nombre_usuario} </h6>
                 </div>
-                : <div></div>}
+                {comprobarDuenyo()
+                  ? <div className="input-group rounded botonTransparente">
+                    <div className="dropdown">
+                      <button className="botonTransparente2 btnAñadirChats"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i className="fa-solid fa-ellipsis-vertical fa-2xl"></i>
+                      </button>
+                      <ul className="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton1">
+                        <li><button className="dropdown-item"
+                        >Editar nombre</button></li>
+                        <li><button className="dropdown-item"
+                          onClick={ () => showAdvertenciaBorrar() }>Borrar</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                  : <div></div>}
+              </div>
             </div>
             <GamesPreviewList
               id={ id }

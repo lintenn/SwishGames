@@ -95,28 +95,7 @@ const Lists = () => {
       boton.addEventListener( 'click', ( e ) => {
 
         e.preventDefault();
-        if ( document.getElementById( 'nameNewList' ).value !== '' ) {
-
-          const token = localStorage.getItem( 'user' );
-          const us = JSON.parse( token );
-
-          axios.post( `${baseUrl}lists/`, { nombre: document.getElementById( 'nameNewList' ).value, nombre_usuario: us.nombre });
-
-          Swal.close();
-
-          Swal.fire({
-            title: 'Lista creada',
-            text: '¡La lista ha sido creada con éxito!',
-            focusConfirm: false,
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          }).then( () => {
-
-            setUpLists( us.nombre, setLists, setAllLists );
-
-          });
-
-        } else {
+        if ( document.getElementById( 'nameNewList' ).value === '' ) {
 
           Swal.fire({
             type: 'error',
@@ -134,7 +113,7 @@ const Lists = () => {
               focusConfirm: false,
               allowOutsideClick: false,
               allowEscapeKey: false,
-              width: '25%',
+              width: '35%',
               didOpen: () => {
 
                 addClickButtonNewList();
@@ -142,6 +121,56 @@ const Lists = () => {
               }
 
             });
+
+          });
+
+        } else if ( document.getElementById( 'nameNewList' ).value === 'Favoritos' ) {
+
+          Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: '¡No puedes crear otra lista de Favoritos! Prueba con otro nombre.'
+          }).then( () => {
+
+            Swal.fire({
+              html: `<div style="background-color: #f0eeee">${showCreateNewList()}</div>`,
+              background: '#f0eeee',
+              showCloseButton: true,
+              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              width: '35%',
+              didOpen: () => {
+
+                addClickButtonNewList();
+
+              }
+
+            });
+
+          });
+
+        } else {
+
+          const token = localStorage.getItem( 'user' );
+          const us = JSON.parse( token );
+
+          axios.post( `${baseUrl}lists/`, { nombre: document.getElementById( 'nameNewList' ).value, nombre_usuario: us.nombre });
+
+          Swal.close();
+
+          Swal.fire({
+            title: 'Lista creada',
+            text: '¡La lista ha sido creada con éxito!',
+            focusConfirm: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+          }).then( () => {
+
+            setUpLists( us.nombre, setLists, setAllLists );
 
           });
 
