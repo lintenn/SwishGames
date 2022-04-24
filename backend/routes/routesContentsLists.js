@@ -1,6 +1,6 @@
-const express = require('express')
-const ContentsListsController = require('../controllers/ContentsListsController.js')
-const router = express.Router()
+const express = require( 'express' );
+const ContentsListsController = require( '../controllers/ContentsListsController.js' );
+const router = express.Router();
 
 router.get('/', ContentsListsController.getAllContentsLists);
 router.get('/:id_lista', ContentsListsController.getContentsListsByList);

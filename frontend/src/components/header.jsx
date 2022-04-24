@@ -61,8 +61,8 @@ export const Header = ({ buscado, setBuscado }) => {
                 to="/lists"><i className="fa-solid fa-rectangle-list"></i> Listas</NavLink>
             </li>
             <li className="nav-item">
-              <a className="nav-link"
-                href="#usuarios"><i className="fa-solid fa-users"></i> Usuarios</a>
+              <NavLink className="nav-link"
+                to="/users"><i className="fa-solid fa-rectangle-list"></i> Usuarios</NavLink>
             </li>
           </ul>
           <div
