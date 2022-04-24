@@ -46,6 +46,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
               if ( group.id === men.id_grupo_receptor ) {
 
+                setReceptor( '' );
                 setMiembrosGrupo( group.id );
                 setGroup( group );
 
@@ -77,6 +78,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
             if ( group.id === men.id_grupo_receptor ) {
 
+              setReceptor( '' );
               setMiembrosGrupo( group.id );
               setGroup( group );
 
@@ -207,7 +209,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => infoGroup( myGroups, id, false, receptor, users )}>Ver información del grupo</button></li>
+                onClick={() => infoGroup( myGroups, id, false, '', users, res.data )}>Ver información del grupo</button></li>
             </ul>
           </div> ) );
 
@@ -312,8 +314,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <img src={grupo.imagen}
                 alt="avatar"
                 className="d-flex align-self-center m-3 imagen-perfil-chat"
-                width="50"
-                height="50" />;
+                width="60"
+                height="60" />;
 
         }
 
@@ -331,6 +333,10 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         nombre = men.nombre_usuario_emisor;
 
+      } else if ( men.nombre_usuario_receptor === user.nombre && men.nombre_usuario_emisor === user.nombre ) {
+
+        nombre = men.nombre_usuario_emisor;
+
       }
 
       users.forEach( ( user ) => {
@@ -341,8 +347,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           <img src={user.imagen}
             alt="avatar"
             className="d-flex align-self-center m-3 imagen-perfil-chat"
-            width="50"
-            height="50" />;
+            width="60"
+            height="60" />;
 
 
         }
@@ -427,6 +433,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
                           } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
+                            setReceptor( '' );
                             setGrupo( men.id_grupo_receptor );
                             setMiembrosGrupo( men.id_grupo_receptor );
 

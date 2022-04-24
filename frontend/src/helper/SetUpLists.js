@@ -12,7 +12,6 @@ export const setUpLists = ( userNombre, setLists, setAllLists ) => {
     .then( res => {
 
       setLists( res.data );
-      console.log( res.data );
 
     })
     .catch( err => console.log( err ) );

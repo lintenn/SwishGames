@@ -130,13 +130,24 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   };
 
+  const setMiembrosGrupo = ( id ) => {
+
+    axios.get( `${baseUrl}participantsGroups/users/${id}` )
+      .then( res => {
+
+        infoGroup( myGroups, id, false, id !== undefined ? '' : receptor, users, res.data );
+
+      });
+
+  };
+
   return (
     <div className="col-md-6 col-lg-7 col-xl-8 row-10"
       id="panelChat">
       <div className="divNameUser">
         <h3 className="h3NameUser">
           <button className="botonTransparente divObjectsSend align-items-center"
-            onClick={() => infoGroup( myGroups, group.id, false, receptor, users )}>
+            onClick={() => setMiembrosGrupo( group.id )}>
             <div id="imagenUser">
               {fotoPerfil()}
             </div>
