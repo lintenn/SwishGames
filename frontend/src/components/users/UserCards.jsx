@@ -51,9 +51,6 @@ export const UserCards = ({ users, setUsers, buscado, userAct }) => {
                 <div className="d-flex w-100">
                   <img className="img-user"
                     src={user.imagen}
-
-                    /* width="100"
-                    height="100" */
                     alt={`#UserImg${user.nombre}`} />
                   <div className="px-2 tamanyoMaxDesc">
                     <div className="d-flex w-100 pt-1">
