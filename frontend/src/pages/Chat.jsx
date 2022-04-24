@@ -103,6 +103,7 @@ export const Chat = () => {
                         myGroups={ myGroups }
                       />
                       <Conversacion
+                        users={ users }
                         mensajes={ mensajes }
                         user={ user }
                         receptor={ receptor }
