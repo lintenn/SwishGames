@@ -14,6 +14,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
+  const [user, setUser] = useState( null );
 
 
   useEffect( () => {
@@ -23,6 +24,7 @@ const Users = () => {
       const token = localStorage.getItem( 'user' );
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
+      setUser( us );
 
     }
 
@@ -46,6 +48,7 @@ const Users = () => {
               users={ users }
               setUsers={ setUsers }
               buscado={ buscado }
+              userAct={ user }
             />
           </div>
         </main>
