@@ -1,13 +1,13 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
-import { chatUsers } from './newChat';
 import { Global } from '../../helper/Global';
+import { infoGroup } from './infoGroups';
 
 let participantesAñadidios = [];
 const baseUrl = Global.baseUrl;
 
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
+export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
   participantesAñadidios = [];
   Swal.fire({
@@ -23,7 +23,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '50%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
+      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
 
     }
 
@@ -41,20 +41,17 @@ function showCreateNewGroup() {
       <h1>Crear nuevo grupo</h1>
       <br/>
       <br/>
-      Nombre
-      <br/>
+      <h3>Nombre</h3>
       <input type="text" id="nameNewGroup"/>
       <br/>
       <br/>
-      ¡Elige la foto de perfil del grupo!
-      <br/>
+      <h4>¡Elige la foto de perfil del grupo!</h4>
       <Input accept="image/*" type="file" id="photo-create-group">
       <br/>
-      <img id="img-photo-create-group">
+      <img id="img-photo-create-group" width ="500" height ="300">
       <br/>
       <br/>
-      Descripción del grupo
-      <br/>
+      <h4>Descripción del grupo</h4>
       <Input type="text" id="description-create-group">
       <br/>
       <br/>
@@ -65,7 +62,7 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
+const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
   let imagen = '';
 
@@ -94,7 +91,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           width: '25%',
           didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
+            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
 
           }
 
@@ -121,7 +118,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             width: '25%',
             didOpen: () => {
 
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
+              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
 
             }
 
@@ -218,7 +215,7 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
+const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -264,7 +261,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
               setGroup( res.data );
               setReceptor( '' );
-              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection );
+              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
 
             });
@@ -318,7 +315,14 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
 };
 
-const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection ) => {
+const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
+
+  let groups = [];
+
+  groups = myGroups;
+  groups.push( group );
+  console.log( groups );
+  console.log( group );
 
   axios.get( `${baseUrl}participantsGroups/users/${id}` )
     .then( res =>
@@ -341,7 +345,7 @@ const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipants
           <ul className="dropdown-menu"
             aria-labelledby="dropdownMenuButton1">
             <li><button className="dropdown-item"
-              onClick={() => chatUsers( user, res.data, receptor, setReceptor, setConection, group )}>Ver miembros del grupo</button></li>
+              onClick={() => infoGroup( groups, id, false, receptor, users )}>Ver información del grupo</button></li>
           </ul>
         </div> ) );
 

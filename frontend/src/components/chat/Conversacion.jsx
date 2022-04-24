@@ -6,8 +6,9 @@ import socket from './Socket';
 import { Global } from '../../helper/Global';
 import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
+import { infoGroup } from './infoGroups';
 
-export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -97,40 +98,31 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
     if ( ( group.nombre !== undefined && receptor === '' ) ) {
 
-      if ( group.imagen !== null ) {
-
-        imagen =
+      imagen =
               <img src={group.imagen}
                 alt="avatar"
                 className="d-flex align-self-center me-3 imagen-perfil-chat"
                 width="80"
                 height="80" />;
 
-      } else {
-
-        imagen =
-              <svg xmlns="http://www.w3.org/2000/svg"
-                width="80"
-                height="80"
-                fill="currentColor"
-                className="bi bi-person-fill d-flex align-self-center me-3 imagen-perfil-chat"
-                viewBox="0 0 16 16">
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              </svg>;
-
-      }
-
     } else if ( ( group.length === undefined && receptor !== '' ) ) {
 
-      imagen =
-            <svg xmlns="http://www.w3.org/2000/svg"
-              width="80"
-              height="80"
-              fill="currentColor"
-              className="bi bi-person-fill d-flex align-self-center me-3 imagen-perfil-chat"
-              viewBox="0 0 16 16">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>;
+
+      users.forEach( ( user ) => {
+
+        if ( user.nombre === receptor ) {
+
+          imagen =
+          <img src={user.imagen}
+            alt="avatar"
+            className="d-flex align-self-center me-3 imagen-perfil-chat"
+            width="80"
+            height="80" />;
+
+
+        }
+
+      });
 
     }
 
@@ -143,10 +135,13 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
       id="panelChat">
       <div className="divNameUser">
         <h3 className="h3NameUser">
-          <div id="imagenUser">
-            {fotoPerfil()}
-          </div>
-          <b><div id="labelNameUser">{ ( group !== {} && receptor === '' ) ? group.nombre : receptor }</div></b>
+          <button className="botonTransparente divObjectsSend align-items-center"
+            onClick={() => infoGroup( myGroups, group.id, false, receptor, users )}>
+            <div id="imagenUser">
+              {fotoPerfil()}
+            </div>
+            <b><div id="labelNameUser">{ ( group !== {} && receptor === '' ) ? group.nombre : receptor }</div></b>
+          </button>
           {conexion}
         </h3>
       </div>
@@ -203,9 +198,8 @@ export const Conversacion = ({ mensajes, user, receptor, conexion, mensajesDESC,
 
 };
 
-// conexion is a html element
-
 Conversacion.propTypes = {
+  users: PropTypes.array.isRequired,
   mensajes: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   receptor: PropTypes.string.isRequired,
