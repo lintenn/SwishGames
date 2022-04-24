@@ -7,8 +7,9 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { setUpList } from '../helper/SetUpList.js';
+import { useNavigate } from '../../node_modules/react-router/index';
 
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { Global } from '../helper/Global.js';
 import { GamesPreviewList } from '../components/lists/GamesPreviewList.jsx';
 import axios from 'axios';
@@ -22,6 +23,7 @@ const List = () => {
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
+  const navigate = useNavigate();
 
   // const URI = `${baseUrl}contentsLists/`;
 
@@ -70,6 +72,48 @@ const List = () => {
 
   };
 
+  const showAdvertenciaBorrar = () => {
+
+    if ( list[0].nombre === 'Favoritos' ) {
+
+      Swal.fire(
+        'No puedes borrar esta lista',
+        '',
+        'error'
+      );
+
+    } else {
+
+      Swal.fire({
+        title: '¿Estás seguro de que quieres borrar la lista?',
+        text: 'Esta acción no se puede deshacer',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', 
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+
+          axios.delete( `${baseUrl}lists/${id}` );
+
+          Swal.fire(
+            '¡Borrada!',
+            'La lista ha sido borrada',
+            'success'
+          ).then( () => {
+              
+              navigate( '/lists/' );
+  
+            });
+
+        }
+      })
+
+    }
+
+  };
 
   return (
     list !== null && user !== null
@@ -101,9 +145,9 @@ const List = () => {
                     <ul className="dropdown-menu"
                       aria-labelledby="dropdownMenuButton1">
                       <li><button className="dropdown-item"
-                      >Editar</button></li>
+                      >Editar nombre</button></li>
                       <li><button className="dropdown-item"
-                      >Borrar</button></li>
+                        onClick={ () => showAdvertenciaBorrar() }>Borrar</button></li>
                     </ul>
                   </div>
                 </div>
