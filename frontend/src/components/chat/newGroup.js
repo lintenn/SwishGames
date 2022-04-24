@@ -1,8 +1,8 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
-import { Global } from '../../helper/Global';
 import { infoGroup } from './infoGroups';
+import { Global } from '../../helper/Global';
 
 let participantesAñadidios = [];
 const baseUrl = Global.baseUrl;
@@ -48,14 +48,14 @@ function showCreateNewGroup() {
       <h4>¡Elige la foto de perfil del grupo!</h4>
       <Input accept="image/*" type="file" id="photo-create-group">
       <br/>
-      <img id="img-photo-create-group" width ="500" height ="300">
+      <img src="https://res.cloudinary.com/duvhgityi/image/upload/v1650761563/FotosGrupos/585e4d1ccb11b227491c339b_1_g7fpkh.png" id="img-photo-create-group" class="align-self-center m-3 imagen-perfil-chat" width ="300" height ="300">
       <br/>
       <br/>
       <h4>Descripción del grupo</h4>
       <Input type="text" id="description-create-group">
       <br/>
       <br/>
-      <button style="background-color: white; border-radius: 20px; border-color: transparent" name="newGroup">Siguiente</button>
+      <button  style="border-radius: 20px" class="btn btn-primary" name="newGroup">Siguiente</button>
     `;
 
   return ( formGroup );
@@ -64,7 +64,7 @@ function showCreateNewGroup() {
 
 const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
-  let imagen = '';
+  let imagen = 'https://res.cloudinary.com/duvhgityi/image/upload/v1650761563/FotosGrupos/585e4d1ccb11b227491c339b_1_g7fpkh.png';
 
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
@@ -115,7 +115,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             focusConfirm: false,
             allowOutsideClick: false,
             allowEscapeKey: false,
-            width: '25%',
+            width: '50%',
             didOpen: () => {
 
               addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
@@ -159,24 +159,6 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
 
 };
 
-/* const fotoPerfil = ( user ) => {
-
-  let imagen = '';
-
-  imagen =
-    <svg xmlns="http://www.w3.org/2000/svg"
-      width="60"
-      height="50"
-      fill="currentColor"
-      className="bi bi-person-fill d-flex align-self-center m-3"
-      viewBox="0 0 16 16">
-      <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-    </svg>;
-
-  return imagen;
-
-}; */
-
 function showFriends( user, users ) {
 
   let friends = '';
@@ -185,35 +167,47 @@ function showFriends( user, users ) {
 
     if ( us.nombre !== user.nombre ) {
 
-      // const imagen = fotoPerfil( user );
+      const descripcion = formatDescription( us.descripcion );
+
       friends += `
-        <div class="d-flex flex-row mb-3">
-          <button style="background-color: white; border-radius: 20px" name="añadir" value="${us.nombre}" id="${us.nombre}AñadirGrupo" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-            <div class="align-items-center divObjectsSend">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              width="60"
-              height="50"
-              fill="currentColor"
-              className="bi bi-person-fill d-flex align-self-center m-3"
-              viewBox="0 0 16 16">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
-            </div>
-            <div class="pt-1">
-              <p class="fw-bold mb-0">${us.nombre}</p>
-            </div>
-          </button>
-        </div>`;
+          <div class="d-flex flex-row mb-3">
+            <button style="background-color: white; border-radius: 20px" name="añadir" value="${us.nombre}" id="${us.nombre}AñadirGrupo" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+              <div class="align-items-center divObjectsSend">
+                <img src=${us.imagen}
+                  alt="avatar"
+                  class="d-flex align-self-center m-3 imagen-perfil-chat"
+                  width="50"
+                  height="50" />
+              </div>
+              <div class="pt-1">
+                <p class="fw-bold mb-0">${us.nombre}</p>
+                <p class="small text-muted">${descripcion}</p>
+              </div>
+            </button>
+          </div>`;
 
     }
 
   });
 
-  friends += '<button style="background-color: white; border-radius: 20px" name="añadirParticipantes">Añadir participantes al grupo</button>';
+  friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Crear grupo con los participantes seleccionados</button>';
 
   return ( friends );
 
 }
+
+const formatDescription = ( descripcion ) => {
+
+  let ultimoDescripcion = descripcion;
+  if ( ultimoDescripcion.length > 15 ) {
+
+    ultimoDescripcion = ultimoDescripcion.substring( 0, 12 );
+    ultimoDescripcion += '...';
+
+  }
+  return ultimoDescripcion;
+
+};
 
 const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
@@ -261,7 +255,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
               setGroup( res.data );
               setReceptor( '' );
-              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
+              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
 
             });
@@ -298,7 +292,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
             width: '25%',
             didOpen: () => {
 
-              addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user );
+              addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
 
             }
 
@@ -315,39 +309,46 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
 };
 
-const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
+const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios ) => {
 
   let groups = [];
 
+  const participants = [];
+
+  users.forEach( ( us ) => {
+
+    if ( participantesAñadidios.indexOf( us.nombre ) !== -1 ) {
+
+      participants.push( us );
+
+    }
+
+  });
+
   groups = myGroups;
   groups.push( group );
-  console.log( groups );
-  console.log( group );
-
-  axios.get( `${baseUrl}participantsGroups/users/${id}` )
-    .then( res =>
-      setConfigurationGroups(
-        <div className="dropdown">
-          <button className="botonTransparente2 btnAñadirChats"
-            type="button"
-            id="dropdownMenuButton1"
-            data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-three-dots-vertical"
-              viewBox="0 0 16 16">
-              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-            </svg>
-          </button>
-          <ul className="dropdown-menu"
-            aria-labelledby="dropdownMenuButton1">
-            <li><button className="dropdown-item"
-              onClick={() => infoGroup( groups, id, false, receptor, users )}>Ver información del grupo</button></li>
-          </ul>
-        </div> ) );
+  setConfigurationGroups(
+    <div className="dropdown">
+      <button className="botonTransparente2 btnAñadirChats"
+        type="button"
+        id="dropdownMenuButton1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          className="bi bi-three-dots-vertical"
+          viewBox="0 0 16 16">
+          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+        </svg>
+      </button>
+      <ul className="dropdown-menu"
+        aria-labelledby="dropdownMenuButton1">
+        <li><button className="dropdown-item"
+          onClick={() => infoGroup( groups, id, false, '', users, participants )}>Ver información del grupo</button></li>
+      </ul>
+    </div> );
 
 
 };

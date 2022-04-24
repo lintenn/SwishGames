@@ -120,7 +120,6 @@ const Game = () => {
         // document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
 
         // }
-        console.log( boton.value + ' : ' + document.getElementById( `${boton.value}` ) );
 
         if ( boton.value !== null ) {
 

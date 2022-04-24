@@ -7,7 +7,6 @@ const baseUrl = Global.baseUrl;
 export const prueba = ( list, setGames, games, setAllGames ) => {
 
   const games2 = [];
-  console.log( list );
   list.forEach( ( content ) => {
 
     axios.get( `${baseUrl}games/${content.id_juego}/` )
@@ -22,7 +21,6 @@ export const prueba = ( list, setGames, games, setAllGames ) => {
 
   setGames( games2 );
   setAllGames( games2 );
-  console.log( games );
   Swal.close();
 
 };

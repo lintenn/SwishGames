@@ -14,7 +14,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
-  const [user, setUser] = useState( null );
+  const [user, setUser] = useState({});
 
 
   useEffect( () => {
