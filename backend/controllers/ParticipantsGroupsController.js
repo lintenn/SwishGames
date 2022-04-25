@@ -86,6 +86,24 @@ const getUsersByGroups = async ( req, res ) => {
 
 };
 
+const getNotUsersByGroups = async ( req, res ) => {
+
+  try {
+
+    // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
+
+    const UsersByGroups = await db.query(`SELECT u.* FROM Usuarios u where u.nombre not in (SELECT u.nombre FROM ParticipantesGrupos p, Usuarios u WHERE p.id_grupo=${req.params.id_grupo} and u.nombre=p.nombre_usuario) order by u.nombre`, { type: Sequelize.QueryTypes.SELECT });
+
+    res.json( UsersByGroups );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
 const createParticipantsGroups = async ( req, res ) => {
 
   try {
@@ -153,4 +171,4 @@ const deleteParticipantsGroupsByGroupAndUser = async ( req, res ) => {
 
 };
 
-module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups, deleteParticipantsGroupsByGroupAndUser };
+module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups, getNotUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups, deleteParticipantsGroupsByGroupAndUser };
