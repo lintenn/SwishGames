@@ -8,5 +8,6 @@ router.get( '/users/:id_grupo', ParticipantsGroupsController.getUsersByGroups );
 router.post( '/', ParticipantsGroupsController.createParticipantsGroups );
 router.put( '/:id', ParticipantsGroupsController.updateParticipantsGroups );
 router.delete( '/:id', ParticipantsGroupsController.deleteParticipantsGroups );
+router.delete( '/:id_grupo/participant/:nombre_usuario', ParticipantsGroupsController.deleteParticipantsGroupsByGroupAndUser );
 
 module.exports = router;
