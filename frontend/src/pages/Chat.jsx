@@ -113,6 +113,7 @@ export const Chat = () => {
                         setMensaje={ setMensaje }
                         group={ group }
                         myGroups={ myGroups }
+                        setGroup={ setGroup }
                       />
                     </div>
                   </div>

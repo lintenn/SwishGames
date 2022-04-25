@@ -8,7 +8,7 @@ import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -20,7 +20,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
     messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 
-  }, [mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje]);
+  }, [mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group]);
 
   useEffect( () => {
 
@@ -41,7 +41,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     }, false );
 
 
-  }, [mensajesDESC, receptor]);
+  }, [mensajesDESC, receptor, group]);
 
   const formatDate = ( mensaje ) => {
 
@@ -135,7 +135,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     axios.get( `${baseUrl}participantsGroups/users/${id}` )
       .then( res => {
 
-        infoGroup( myGroups, id, false, id !== undefined ? '' : receptor, users, res.data );
+        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup );
 
       });
 
@@ -219,5 +219,6 @@ Conversacion.propTypes = {
   mensaje: PropTypes.string.isRequired,
   setMensaje: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
-  myGroups: PropTypes.array.isRequired
+  myGroups: PropTypes.array.isRequired,
+  setGroup: PropTypes.func.isRequired
 };

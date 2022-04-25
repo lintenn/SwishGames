@@ -2,10 +2,8 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
 import { infoGroup } from './infoGroups';
-import { Global } from '../../helper/Global';
 
 let participantesAñadidios = [];
-const baseUrl = Global.baseUrl;
 
 export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
 
@@ -346,7 +344,7 @@ const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipants
       <ul className="dropdown-menu"
         aria-labelledby="dropdownMenuButton1">
         <li><button className="dropdown-item"
-          onClick={() => infoGroup( groups, id, false, '', users, participants )}>Ver información del grupo</button></li>
+          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup )}>Ver información del grupo</button></li>
       </ul>
     </div> );
 
