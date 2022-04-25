@@ -135,4 +135,22 @@ const deleteParticipantsGroups = async ( req, res ) => {
 
 };
 
-module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };
+const deleteParticipantsGroupsByGroupAndUser = async ( req, res ) => {
+
+  try {
+
+    await ParticipantsGroupsModel.destroy({
+      where: { id_grupo: req.params.id_grupo,
+               nombre_usuario: req.params.nombre_usuario }
+    });
+    res.json({ message: '¡Registro borrado correctamente!' });
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups, deleteParticipantsGroupsByGroupAndUser };

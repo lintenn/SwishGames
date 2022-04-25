@@ -50,7 +50,7 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
     width: '50%',
     didOpen: () => {
 
-      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup );
+      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
 
     }
 
@@ -237,6 +237,67 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
 
       });
 
+
+    });
+
+    document.querySelectorAll( 'button[name="removeParticipante"]' ).forEach( ( boton ) => {
+
+      boton.addEventListener( 'click', ( event ) => {
+
+        console.log( 'Hola' );
+        event.preventDefault();
+        const nombreParticipante = boton.value;
+
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: '¡No podrás revertir esto!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: '¡Sí, eliminarlo!'
+        }).then( ( result ) => {
+
+          if ( result.value ) {
+
+            axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${nombreParticipante}` );
+
+            Swal.fire(
+              '¡Eliminado!',
+              'El participante ha sido eliminado',
+              'success'
+            ).then( () => {
+
+              axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
+                .then( res => {
+
+                  Swal.fire({
+                    html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, res.data, userAct )}</div>`,
+                    background: '#f0eeee',
+                    showCloseButton: true,
+                    closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    focusConfirm: false,
+                    allowOutsideClick: false,
+                    width: '50%',
+                    didOpen: () => {
+
+                      addClickButton( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+
+                    }
+
+                  });
+
+                });
+
+            });
+
+          }
+
+        });
+
+      });
 
     });
 
@@ -635,7 +696,7 @@ function showMembers( users, admin, userAct ) {
             <div class="pt-1">
               <p class="fw-bold mb-0">${us.nombre}</p>
               <p class="small text-muted">${descripcion}</p>
-              <button class="botonTransparente">
+              <button class="botonTransparente" name="removeParticipante" value=${us.nombre}>
                 ${remove}
               </button>
             </div>
