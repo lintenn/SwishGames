@@ -205,6 +205,41 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
 
     });
 
+    const botonEliminarGrupo = document.querySelector( 'button[name="eliminarGrupo"]' );
+    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, eliminarlo!'
+      }).then( ( result ) => {
+
+        if ( result.value ) {
+
+          axios.delete( `${baseUrl}groups/${groupAct.id}` );
+
+          Swal.fire(
+            '¡Eliminado!',
+            'El grupo ha sido eliminado',
+            'success'
+          ).then( () => {
+
+            window.location.reload();
+
+          });
+
+        }
+
+      });
+
+
+    });
+
   }
 
 
@@ -496,8 +531,7 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
     </h5>
     <br/>
     <br/>
-    <h5>Miembros:</h5>
-    <br/>
+    <h4 class="d-flex">Miembros:</h4>
     <br/>
     ${showMembers( participantes, admin, userAct )}
   `;
@@ -534,7 +568,7 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
     </h5>
     <br/>
     <br/>
-    <h5>Miembros:</h5>
+    <h4 class="d-flex">Miembros:</h4>
     <br/>
     <br/>
     ${showMembers( participantes, admin, userAct )}
