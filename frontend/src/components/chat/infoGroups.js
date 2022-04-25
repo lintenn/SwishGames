@@ -301,10 +301,184 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
 
     });
 
+    const botonAñadirParticipantes = document.querySelector( 'button[name="añadirParticipantes"]' );
+    botonAñadirParticipantes.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      axios.get( `${baseUrl}participantsGroups/notUsers/${groupAct.id}` )
+        .then( res => {
+
+          Swal.fire({
+            html: `<div style="background-color: #f0eeee">${showAddParticipantes( groupAct, res.data )}</div>`,
+            background: '#f0eeee',
+            showCloseButton: true,
+            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            width: '50%',
+            didOpen: () => {
+
+              addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+
+            }
+
+          });
+
+        });
+
+
+    });
+
   }
 
 
 }
+
+function showAddParticipantes( user, users ) {
+
+  let friends = '';
+
+  users.forEach( ( us ) => {
+
+    if ( us.nombre !== user.nombre ) {
+
+      const descripcion = formatDescription( us.descripcion );
+
+      friends += `
+          <div class="d-flex flex-row mb-3">
+            <button style="background-color: white; border-radius: 20px" name="añadir" value="${us.nombre}" id="${us.nombre}AñadirGrupo" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+              <div class="align-items-center divObjectsSend">
+                <img src=${us.imagen}
+                  alt="avatar"
+                  class="d-flex align-self-center m-3 imagen-perfil-chat"
+                  width="50"
+                  height="50" />
+              </div>
+              <div class="pt-1">
+                <p class="fw-bold mb-0">${us.nombre}</p>
+                <p class="small text-muted">${descripcion}</p>
+              </div>
+            </button>
+          </div>`;
+
+    }
+
+  });
+
+  friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Añadir participantes seleccionados</button>';
+
+  return ( friends );
+
+}
+
+function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
+
+  const participantesAñadidos = [];
+
+  document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
+
+    boton.addEventListener( 'click', ( e ) => {
+
+      e.preventDefault();
+
+      if ( participantesAñadidos.indexOf( boton.value ) === -1 ) {
+
+        participantesAñadidos.push( boton.value );
+        document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#c6daf8';
+
+      } else {
+
+        participantesAñadidos.pop( boton.value );
+        document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#ffffff';
+
+      }
+
+    });
+
+  });
+
+  document.querySelectorAll( 'button[name="añadirParticipantes"]' ).forEach( ( boton ) => {
+
+    boton.addEventListener( 'click', ( e ) => {
+
+      e.preventDefault();
+
+      if ( participantesAñadidos.length > 0 ) {
+
+        participantesAñadidos.forEach( ( participante ) => {
+
+          axios.post( `${baseUrl}participantsGroups/`, { id_grupo: groupAct.id, nombre_usuario: participante });
+
+
+        });
+
+        Swal.fire(
+          '¡Añadido!',
+          'Los participantes han sido añadidos',
+          'success'
+        ).then( () => {
+
+
+          axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
+            .then( res => {
+
+              Swal.fire({
+                html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, res.data, userAct )}</div>`,
+                background: '#f0eeee',
+                showCloseButton: true,
+                closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+                showCancelButton: false,
+                showConfirmButton: false,
+                focusConfirm: false,
+                allowOutsideClick: false,
+                width: '50%',
+                didOpen: () => {
+
+                  addClickButton( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+
+                }
+
+              });
+
+            });
+
+        });
+
+      } else if ( participantesAñadidos.length === 0 ) {
+
+        axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
+          .then( res => {
+
+            Swal.fire({
+              html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, res.data, userAct )}</div>`,
+              background: '#f0eeee',
+              showCloseButton: true,
+              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              width: '50%',
+              didOpen: () => {
+
+                addClickButton( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+
+              }
+
+            });
+
+          });
+
+      }
+
+
+    });
+
+  });
+
+};
 
 function addClickButtonEditDescripcion( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
 
