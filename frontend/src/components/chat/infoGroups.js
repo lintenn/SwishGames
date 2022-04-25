@@ -61,42 +61,46 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
 
 function addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
 
-  if ( admin ) {
+  if ( receptor === '' ) {
 
-    const botonCopiarDescripcion = document.querySelector( 'button[name="copiarDescripcionGrupo"]' );
-    botonCopiarDescripcion.addEventListener( 'click', ( event ) => {
+    if ( groupAct.descripcion !== '' ) {
 
-      event.preventDefault();
-      const descripcion = document.querySelector( '#descripcionGrupo' );
-      navigator.clipboard.writeText( descripcion.innerText );
+      const botonCopiarDescripcion = document.querySelector( 'button[name="copiarDescripcionGrupo"]' );
+      botonCopiarDescripcion.addEventListener( 'click', ( event ) => {
 
-      Swal.fire(
-        'Copiado!',
-        'La descripción del grupo ha sido copiada al portapapeles',
-        'success'
-      ).then( () => {
+        event.preventDefault();
+        const descripcion = document.querySelector( '#descripcionGrupo' );
+        navigator.clipboard.writeText( descripcion.innerText );
 
-        Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          didOpen: () => {
+        Swal.fire(
+          'Copiado!',
+          'La descripción del grupo ha sido copiada al portapapeles',
+          'success'
+        ).then( () => {
 
-            addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, userAct );
+          Swal.fire({
+            html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+            background: '#f0eeee',
+            showCloseButton: true,
+            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+            showCancelButton: false,
+            showConfirmButton: false,
+            focusConfirm: false,
+            allowOutsideClick: false,
+            width: '50%',
+            didOpen: () => {
 
-          }
+              addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, userAct );
+
+            }
+
+          });
 
         });
 
       });
 
-    });
+    }
 
     const botonCopiarNombre = document.querySelector( 'button[name="copiarNombreGrupo"]' );
     botonCopiarNombre.addEventListener( 'click', ( event ) => {
@@ -132,6 +136,10 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
       });
 
     });
+
+  }
+
+  if ( admin ) {
 
     const botonEditarDescripcion = document.querySelector( 'button[name="editDescripcionGrupo"]' );
     botonEditarDescripcion.addEventListener( 'click', ( event ) => {
@@ -327,6 +335,44 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
           });
 
         });
+
+
+    });
+
+  } else if ( receptor === '' ) {
+
+
+    const botonEliminarGrupo = document.querySelector( 'button[name="salirDelGrupo"]' );
+    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, salir del grupo!'
+      }).then( ( result ) => {
+
+        if ( result.value ) {
+
+          axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${userAct.nombre}` );
+
+          Swal.fire(
+            '¡Eliminado!',
+            'Has salido del grupo',
+            'success'
+          ).then( () => {
+
+            window.location.reload();
+
+          });
+
+        }
+
+      });
 
 
     });
@@ -719,6 +765,8 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
 
     if ( admin ) {
 
+      let buttonCopyDescription = '';
+      group.descripcion !== '' ? buttonCopyDescription = '<button class="botonTransparente" name="copiarDescripcionGrupo"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></button>' : buttonCopyDescription = '';
       infoGroup += `
     <br/>
     <div>
@@ -752,12 +800,7 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
     <br/>
     <h5 id="descripcionGrupo">
       ${group.descripcion}
-      <button class="botonTransparente" name="copiarDescripcionGrupo">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-          <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-          <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-        </svg>
-      </button>
+      ${buttonCopyDescription}
       <button class="botonTransparente" name="editDescripcionGrupo">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
           <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
@@ -773,6 +816,8 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
 
     } else {
 
+      let buttonCopyDescription = '';
+      group.descripcion !== '' ? buttonCopyDescription = '<button class="botonTransparente" name="copiarDescripcionGrupo"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/></svg></button>' : buttonCopyDescription = '';
       infoGroup += `
     <br/>
     <img src=${group.imagen}
@@ -794,12 +839,7 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
     <br/>
     <h5 id="descripcionGrupo">
       ${group.descripcion}
-      <button class="botonTransparente" name="copiarDescripcionGrupo">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
-          <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-          <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-        </svg>
-      </button>
+      ${buttonCopyDescription}
     </h5>
     <br/>
     <br/>
@@ -879,7 +919,7 @@ function showMembers( users, admin, userAct ) {
 
   });
 
-  admin ? friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Añadir participantes al grupo</button>&nbsp;&nbsp;&nbsp;<button style="border-radius: 20px" class="btn btn-danger" name="eliminarGrupo">Eliminar grupo</button>' : friends += '';
+  admin ? friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Añadir participantes al grupo</button>&nbsp;&nbsp;&nbsp;<button style="border-radius: 20px" class="btn btn-danger" name="eliminarGrupo">Eliminar grupo</button>' : friends += '<button style="border-radius: 20px" class="btn btn-danger" name="salirDelGrupo">Salir del grupo</button>';
 
   return ( friends );
 
