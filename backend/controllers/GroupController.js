@@ -23,7 +23,7 @@ const getGroup = async ( req, res ) => {
     const Group = await GroupModel.findAll({
       where: { id: req.params.id }
     });
-    res.json( Group );
+    res.json( Group[0] );
 
   } catch ( error ) {
 
