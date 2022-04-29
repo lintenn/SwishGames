@@ -74,7 +74,25 @@ const getUsersByGroups = async ( req, res ) => {
 
     // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
 
-    const UsersByGroups = await db.query(`Select u.* from Usuarios u, ParticipantesGrupos p where p.nombre_usuario = u.nombre and p.id_grupo=${req.params.id_grupo}`, { type: Sequelize.QueryTypes.SELECT });
+    const UsersByGroups = await db.query(`Select u.* from Usuarios u, ParticipantesGrupos p where p.nombre_usuario = u.nombre and p.id_grupo=${req.params.id_grupo} order by u.nombre`, { type: Sequelize.QueryTypes.SELECT });
+
+    res.json( UsersByGroups );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+const getNotUsersByGroups = async ( req, res ) => {
+
+  try {
+
+    // do sequelize query Select * from Grupos, ParticipantesGrupos where Grupos.id = ParticipantesGrupos.id_grupo and ParticipantesGrupos.nombre_usuario = 'nombre_usuario'
+
+    const UsersByGroups = await db.query(`SELECT u.* FROM Usuarios u where u.nombre not in (SELECT u.nombre FROM ParticipantesGrupos p, Usuarios u WHERE p.id_grupo=${req.params.id_grupo} and u.nombre=p.nombre_usuario) order by u.nombre`, { type: Sequelize.QueryTypes.SELECT });
 
     res.json( UsersByGroups );
 
@@ -135,4 +153,22 @@ const deleteParticipantsGroups = async ( req, res ) => {
 
 };
 
-module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups };
+const deleteParticipantsGroupsByGroupAndUser = async ( req, res ) => {
+
+  try {
+
+    await ParticipantsGroupsModel.destroy({
+      where: { id_grupo: req.params.id_grupo,
+               nombre_usuario: req.params.nombre_usuario }
+    });
+    res.json({ message: '¡Registro borrado correctamente!' });
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+module.exports = { getAllParticipantsGroups, getParticipantsGroups, getGroupsByNameUser, getUsersByGroups, getNotUsersByGroups,  createParticipantsGroups, updateParticipantsGroups, deleteParticipantsGroups, deleteParticipantsGroupsByGroupAndUser };

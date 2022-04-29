@@ -11,11 +11,9 @@ export const setUpFavorites = ( usNombre, setFavGames ) => {
   axios.get( `${baseUrl}contentsLists/favoritos/${usNombre}` )
     .then( res => {
 
-      console.log( `${baseUrl}contentsLists/favoritos/${usNombre}` );
       setFavGames( res.data );
 
-    }
-    );
+    });
 
   Swal.close();
 

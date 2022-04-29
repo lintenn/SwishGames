@@ -49,7 +49,6 @@ const List = () => {
       axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
         .then( res => {
 
-          console.log( `${baseUrl}users/${list[0].nombre_usuario}/` );
           setUser( res.data );
 
         }).catch( err => console.log( err ) );

@@ -5,7 +5,9 @@ const getAllUsers = async ( req, res ) => {
 
   try {
 
-    const users = await UserModel.findAll();
+    const users = await UserModel.findAll({
+      order: [['nombre', 'ASC']]
+    });
     res.json( users );
 
   } catch ( error ) {

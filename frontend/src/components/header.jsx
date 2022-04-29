@@ -116,7 +116,6 @@ export const Header = ({ buscado, setBuscado }) => {
                 localStorage.clear();
                 Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' ).then( () => {
 
-                  navigate( '/users/' );
                   navigate( '/' );
 
                 });

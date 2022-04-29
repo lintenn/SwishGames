@@ -83,8 +83,6 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                     {contains( favGames, game.id )
                       ? <i className="fa-solid fa-heart fa-2xl"></i>
                       : <i className="fa-regular fa-heart fa-2xl"></i>}
-                    {console.log( favGames )}
-                    {console.log( game )}
                   </div>
                 </div>
               </div>
