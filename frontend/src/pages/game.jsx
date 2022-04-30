@@ -161,7 +161,10 @@ const Game = () => {
           <div className="col-12 border card">
 
             <div className="d-flex justify-content-between mt-3">
-              <h2 className="fw-bold ms-2">{game.titulo}</h2>
+              <div className='d-flex justify-content-between'>
+                <h2 className="fw-bold ms-2">{game.titulo}</h2>
+                <p class="text-muted overtexte mt-3 ms-3">{game.genero}</p>
+              </div>
 
               {isauthorized
                 ? <button className="btn btn-outline-dark me-2 mb-3"
@@ -175,9 +178,9 @@ const Game = () => {
 
           </div>
 
-          <div className="mt-2 col-8 border card">
+          <div className="mt-2 col-8 border card d-flex justify-content-center">
 
-            <div className="col-4 ratio ratio-16x9 my-2 mx-2">
+            <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
                 height="315"
                 src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE"
@@ -198,6 +201,10 @@ const Game = () => {
                 width="75%"
                 height="100%"
                 alt={`#ImgGame${game.titulo}`} />
+            </div>
+
+            <div className='mt-4'>
+              <p class="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
             </div>
 
           </div>
