@@ -1,15 +1,14 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import '../styles/signup.css';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import emailjs, { init } from '@emailjs/browser';
-import { Global } from '../helper/Global';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import Swal from 'sweetalert2';
 import logoSinLetras from '../static/SwishGamesLogo_sin_letras.png';
 import logo from '../static/SwishGamesLogo.png';
+import { setUpLogin } from '../helper/SetUpLogin';
 
 
 init( 'WznRYXdNmfA-nSsG0' );
@@ -19,8 +18,6 @@ const Recovery = () => {
   const [m, setEmail] = useState( '' );
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const baseUrl = Global.baseUrl;
-  const URI = `${baseUrl}users`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -34,16 +31,21 @@ const Recovery = () => {
       });
 
     }
-    getUsers();
+
+    setUpLogin( setUsers );
+
+    document.getElementById( 'recoveryEmail' ).addEventListener( 'keyup', ( event ) => {
+
+      if ( event.key === 'Enter' ) {
+
+        event.preventDefault();
+        document.getElementById( 'recoveryBtnEmail' ).click();
+
+      }
+
+    }, false );
 
   }, []);
-
-  const getUsers = async () => {
-
-    const res = await axios.get( URI );
-    setUsers( res.data );
-
-  };
 
   async function comprobarUser() {
 
@@ -69,6 +71,7 @@ const Recovery = () => {
       }
 
     });
+
     if ( !esta ) {
 
       document.getElementById( 'error' ).classList.add( 'mostrar' );
@@ -106,7 +109,7 @@ const Recovery = () => {
             </NavLink>
           </div>
         </header>
-        <form>
+        <div>
           <InputLabel htmlFor="standard-adornment-password"
             style={{ color: 'black' }}
             value="">
@@ -114,6 +117,7 @@ const Recovery = () => {
           </InputLabel>
           <Input className="input"
             type="text"
+            id="recoveryEmail"
             value={m}
             name="e"
             required={true}
@@ -123,6 +127,7 @@ const Recovery = () => {
             style={{ marginTop: '5px' }}>
             <button style={{ marginRight: '10px' }}
               type="submit"
+              id= "recoveryBtnEmail"
               className="btn btn-primary btns"
               onClick={() => comprobarUser() }>
               Enviar email</button>
@@ -133,7 +138,7 @@ const Recovery = () => {
             > Volver</button>
 
           </nav>
-        </form>
+        </div>
 
         <div id="successRec"
           className="alert alert-success ocultar"
