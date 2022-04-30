@@ -128,17 +128,34 @@ const Signup = () => {
     comprobarUser();
     if ( !validator.isEmail( m ) ) {
 
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
+
       document.getElementById( 'errorm' ).classList.add( 'mostrar' );
 
     } else if ( values.password !== values.rpassword ) {
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
 
       document.getElementById( 'error' ).classList.add( 'mostrar' );
 
     } else if ( comprobarUser() ) {
 
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
       document.getElementById( 'erroru' ).classList.add( 'mostrar' );
 
     } else if ( comprobarEmail() ) {
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
 
       document.getElementById( 'errore' ).classList.add( 'mostrar' );
 
@@ -147,7 +164,17 @@ const Signup = () => {
       await axios.post( URI, { nombre: u, email: m, password: values.password });
       await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
       axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
-      document.getElementById( 'success' ).classList.add( 'mostrar' );
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+      Swal.fire(
+        'Usuario creado con éxito',
+        '',
+        'success'
+      );
 
     }
 
@@ -159,7 +186,6 @@ const Signup = () => {
     document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
     document.getElementById( 'errore' ).classList.remove( 'mostrar' );
     document.getElementById( 'error' ).classList.remove( 'mostrar' );
-    document.getElementById( 'success' ).classList.remove( 'mostrar' );
     navigate( '/login/' );
 
   }
@@ -167,12 +193,6 @@ const Signup = () => {
   function cerrar() {
 
     document.getElementById( 'error' ).classList.remove( 'mostrar' );
-
-  }
-
-  function cerrars() {
-
-    document.getElementById( 'success' ).classList.remove( 'mostrar' );
 
   }
 
@@ -192,7 +212,6 @@ const Signup = () => {
     document.getElementById( 'errore' ).classList.remove( 'mostrar' );
 
   }
-
 
   return (
     <div className="signup">
@@ -239,8 +258,7 @@ const Signup = () => {
           type={values.showPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'password' )}
           value={values.password}
-          minLength="6"
-          size="15"
+          inputProps={{ minLength: 8, size: 15 }}
           required={true}
           endAdornment={
             <InputAdornment position="end">
@@ -261,8 +279,6 @@ const Signup = () => {
           type={values.showrPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'rpassword' )}
           value={values.rpassword}
-          minLength="6"
-          size="15"
           required={true}
           endAdornment={
             <InputAdornment position="end">
@@ -347,15 +363,6 @@ const Signup = () => {
             onClick={ cerrare} >&times;</span>
                 Email ya existente.
         </div>
-        <div id="success"
-          className="alert alert-success ocultar"
-          role="alert">
-          <span id="closebtns"
-            className="closebtn"
-            onClick={ cerrars} >&times;</span>
-                Usuario creado con éxito.
-        </div>
-
       </form>
     </div>
   );

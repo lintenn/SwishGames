@@ -30,7 +30,7 @@ body {
 	position: absolute;
 	color: #fff;
 	font-size: 14px;
-	top: 50%;
+	top: 45%;
 	left: 50%;
 	margin: -150px 0 0 -150px;
 	width:300px;
@@ -40,15 +40,6 @@ body {
 }
 .signup h1 { color: black; letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
 .signup h2 { color: black; letter-spacing:1px; text-align:center; font-weight: bold; padding-bottom: 10px; }
-
-#success{
-	padding: 10px;
-	background-color: #00ff66; /* Green */
-	color: white;
-	border-radius: 8px;
-	margin-bottom: 10px;
-	margin-top: 15px;
-}
 
 #error,#errorm,#errore,#erroru{
 	padding: 10px;
