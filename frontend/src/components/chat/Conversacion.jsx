@@ -192,7 +192,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
           type="text"
           onChange={e => setMensaje( e.target.value )}
           value={mensaje}
-          placeholder="Escribe un mensaja aquí"
+          placeholder="Escribe un mensaje aquí"
           id="inputMensaje"/>
         <a className="ms-1 text-muted divObjectsSend align-items-center"
           href="#!"><i className="fas fa-paperclip clipIcon"></i></a>

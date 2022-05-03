@@ -251,9 +251,11 @@ const Signup = () => {
           size="50"
           required={true} />
         <InputLabel htmlFor="standard-adornment-password"
-          style={{ color: 'black' }}>
+          style={{ color: 'black' }}
+          className="mb-0">
           Contraseña
         </InputLabel>
+        <p className="small text-muted my-0">La contraseña debe tener mínimo 8 caracteres</p>
         <Input className="input"
           type={values.showPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'password' )}

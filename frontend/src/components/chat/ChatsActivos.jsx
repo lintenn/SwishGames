@@ -40,6 +40,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
+          console.log( men );
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
 
             myGroups.forEach( ( group ) => {
@@ -55,6 +56,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             });
             i++;
 
+            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+            }
+
 
           } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
 
@@ -63,17 +70,31 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             setGroup({});
             i++;
 
+            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+            }
+
           }
 
         } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
+          console.log( men );
           setConection( men.nombre_usuario_emisor );
           setReceptor( men.nombre_usuario_emisor );
           setGroup({});
           i++;
 
+          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+          }
+
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
+          console.log( men );
           myGroups.forEach( ( group ) => {
 
             if ( group.id === men.id_grupo_receptor ) {
@@ -88,11 +109,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           i++;
 
-        }
+          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
 
-        if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
 
-          document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+          }
 
         }
 
