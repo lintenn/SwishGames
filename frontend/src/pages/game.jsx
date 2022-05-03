@@ -161,9 +161,9 @@ const Game = () => {
           <div className="col-12 border card">
 
             <div className="d-flex justify-content-between mt-3">
-              <div className='d-flex justify-content-between'>
+              <div className="d-flex justify-content-between">
                 <h2 className="fw-bold ms-2">{game.titulo}</h2>
-                <p class="text-muted overtexte mt-3 ms-3">{game.genero}</p>
+                <p className="text-muted overtexte mt-3 ms-3">{game.genero}</p>
               </div>
 
               {isauthorized
@@ -203,8 +203,8 @@ const Game = () => {
                 alt={`#ImgGame${game.titulo}`} />
             </div>
 
-            <div className='mt-4'>
-              <p class="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
+            <div className="mt-4">
+              <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
             </div>
 
           </div>

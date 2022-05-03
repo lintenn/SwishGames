@@ -90,6 +90,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
             width: '50%',
             didOpen: () => {
 
+
               addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, userAct );
 
             }
