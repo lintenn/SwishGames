@@ -3,9 +3,9 @@ import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
 import { Global } from '../../helper/Global';
-import { chatUsers } from './newChat';
-import { chatGroups } from './newGroup';
-import { infoGroup } from './infoGroups';
+import { chatUsers } from './createNewChats/newChat';
+import { chatGroups } from './createNewChats/newGroup';
+import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups }) => {
@@ -80,7 +80,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
-          console.log( men );
           setConection( men.nombre_usuario_emisor );
           setReceptor( men.nombre_usuario_emisor );
           setGroup({});
