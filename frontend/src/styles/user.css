@@ -1,0 +1,16 @@
+.ms-6 {
+    margin-left: 18rem;
+}
+
+.tamanyoMaxDesc {
+    max-width: 84%;
+}
+
+.carousel-text {
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.tamanyoLetra {
+    font-size: 0.5 vw;
+}

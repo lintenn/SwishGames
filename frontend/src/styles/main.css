@@ -1,0 +1,148 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+* { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
+
+html { width: 100%; height:100%; overflow:hidden; }
+
+body { 
+    position: relative;
+	width: 100%;
+    /*height: 100%;*/
+    height: 100rem; /* Manual height for make scrollbar appear */
+    overflow-y: overlay !important; /* For scrollbar overlay on content */
+    overflow-x: hidden !important;
+	font-family: 'Open Sans', sans-serif;
+	background: #092756;
+	background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
+	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+}
+
+.mat-shadow{
+    box-shadow: 0 6px 6px rgba(0, 0, 0, .16), 0 -6px 6px rgba(0, 0, 0, .23);
+}
+
+.tamañoFooter{
+    height: 55px;
+}
+
+.botonGameTransparente{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-radius: 20px !important;
+}
+
+.main { 
+    
+	/*position: sticky;/*center;*/
+	color: #fff;
+	/*font-size: 14px;*/
+	/*top: 25%;
+	left: 25%;
+    margin-left: auto; margin-right: auto;*/
+    
+    /* centrado vertical */
+    position: relative;
+    width: auto !important;
+    height: auto !important;
+	border-radius: 5px !important;
+    margin-top: 85px !important;
+    margin-bottom: 85px !important;
+}
+
+.list-group {
+    border-radius: 5px !important;
+    /*height: 2000px;*/
+    
+}
+
+.img-juego {
+    border-radius: 5px;
+}
+
+.img-user {
+    border-radius: 100%;
+    width: 8.4vw;
+    height: 8.4vw;
+}
+
+.ttexte {
+    font-weight: bold;
+}
+
+.textoUser {
+
+}
+
+.equis {
+    color: red;
+}
+
+@media only screen and (min-width: 992px) {
+    .main {
+        /*margin-left: 200px; margin-right: 200px;*/
+    }
+    .ttexte {
+        font-size: 1.6vw;
+    }
+    .texte {
+        font-size: 1.1vw;
+    }
+    .overtexte {
+        align-self: flex-start;
+    }
+    .subtexte {
+        /*font-size: 1vw;*/
+        align-self: flex-end;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .main {
+        font-size: 15px;
+    }
+    
+}
+
+/**::-webkit-scrollbar {
+    width: 5px;
+
+}*/
+
+/**::-webkit-scrollbar-track {
+    background: transparent;
+}*/
+  
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(211, 53, 53) !important;
+    border-radius: 20px;
+    border: 3px solid #b4a6a6 !important;
+}
+
+.my-custom-scrollbar {
+    height: 2000px;
+}
+
+.h1sg {
+    /*margin-left: auto; margin-right: auto;*/
+    color: white;
+}
+
+.nav-item {
+    /*background-color: #212529;*/
+}
+
+.nav-link:hover {
+    /*color: #c29613 !important;*/
+}
+
+small {
+    font-size: 14px !important;
+}
+
+.navSelected {
+    color:black !important;
+}
