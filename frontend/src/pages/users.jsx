@@ -28,9 +28,20 @@ const Users = () => {
 
     }
 
+
     setUpUsers( setUsers );
 
   }, []);
+
+  useEffect( () => {
+
+    if ( users.length !== 0 ) {
+
+      document.getElementById( 'input-buscar-juegos-header' ).placeholder = 'Buscar usuarios';
+
+    }
+
+  }, [users]);
 
   return (
     users.length === 0
