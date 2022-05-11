@@ -26,7 +26,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
-    document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
 
     messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 
