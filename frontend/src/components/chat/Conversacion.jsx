@@ -6,7 +6,7 @@ import socket from './Socket';
 import { Global } from '../../helper/Global';
 import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
-import { infoGroup } from './infoGroups';
+import { infoGroup } from './infoGroups/infoGroups';
 
 export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
 
@@ -26,7 +26,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
-    document.getElementById( 'btn-chat-header' ).classList.add( 'ocultar' );
 
     messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 
@@ -66,15 +65,15 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const submit = async ( e ) => {
 
-    Swal.showLoading();
     e.preventDefault();
-    if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
-
-      document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
-
-    }
     if ( mensaje !== '' ) {
 
+      Swal.showLoading();
+      if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
+
+        document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+      }
       if ( receptor === '' && group !== {}) {
 
         await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
@@ -87,8 +86,14 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       socket.emit( 'mensaje' );
       setMensaje( '' );
 
+
+      Swal.close();
+
+    } else {
+
+      Swal.fire( 'Mensaje vacío', 'No se puede enviar un mensaje vacío', 'error' );
+
     }
-    Swal.close();
 
   };
 
@@ -192,7 +197,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
           type="text"
           onChange={e => setMensaje( e.target.value )}
           value={mensaje}
-          placeholder="Escribe un mensaja aquí"
+          placeholder="Escribe un mensaje aquí"
           id="inputMensaje"/>
         <a className="ms-1 text-muted divObjectsSend align-items-center"
           href="#!"><i className="fas fa-paperclip clipIcon"></i></a>

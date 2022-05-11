@@ -3,9 +3,9 @@ import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
 import { Global } from '../../helper/Global';
-import { chatUsers } from './newChat';
-import { chatGroups } from './newGroup';
-import { infoGroup } from './infoGroups';
+import { chatUsers } from './createNewChats/newChat';
+import { chatGroups } from './createNewChats/newGroup';
+import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups }) => {
@@ -40,6 +40,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
+          console.log( men );
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
 
             myGroups.forEach( ( group ) => {
@@ -55,6 +56,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             });
             i++;
 
+            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+            }
+
 
           } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
 
@@ -62,6 +69,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             setReceptor( men.nombre_usuario_receptor );
             setGroup({});
             i++;
+
+            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+            }
 
           }
 
@@ -72,8 +85,15 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
           setGroup({});
           i++;
 
+          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+          }
+
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
+          console.log( men );
           myGroups.forEach( ( group ) => {
 
             if ( group.id === men.id_grupo_receptor ) {
@@ -88,11 +108,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           i++;
 
-        }
+          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
 
-        if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
 
-          document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+          }
 
         }
 

@@ -44,6 +44,16 @@ const Lists = () => {
 
   }, []);
 
+  useEffect( () => {
+
+    if ( allLists.length !== 0 ) {
+
+      document.getElementById( 'input-buscar-juegos-header' ).placeholder = 'Buscar listas';
+
+    }
+
+  }, [allLists]);
+
   const newList = () => {
 
     Swal.fire({

@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const User = () => {
 
+  const [myusername, setMyusername] = useState( '' );
   const [description, setDescription] = useState( '' );
   const [email, setEmail] = useState( '' );
   const [birthDate, setBirthDate] = useState( '' );
@@ -31,6 +32,7 @@ const User = () => {
     }
 
     getUserByName();
+    getMyUsername();
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
 
@@ -39,12 +41,18 @@ const User = () => {
   const getUserByName = async () => {
 
     const res = await axios.get( URI + name );
-
+    
     setDescription( res.data.descripcion );
     setEmail( res.data.email );
     setBirthDate( res.data.fecha_nacimiento );
     setCreationDate( res.data.fecha_creacion );
 
+  };
+
+  const getMyUsername = async () => {
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+    setMyusername( us.nombre );
   };
 
   return (
@@ -138,18 +146,21 @@ const User = () => {
                     </div>
                     <div className="col-sm-9 text-secondary">uwu</div>
                   </div>
-                  <hr/>
 
-                  <div className="row">
-                    <div className="col-sm-12">
-                      <button className="btn btn-outline-dark m-1">
-                        <i className="fa-solid fa-user"></i> Editar perfil
-                      </button>
-                      <button className="btn btn-outline-dark m-1">
-                        <i className="fa-solid fa-key"></i> Cambiar contraseña
-                      </button>
-                    </div>
-                  </div>
+                  { myusername == name ?
+                    <><hr />
+                    <div className="row">
+                      <div className="col-sm-12">
+                        <button className="btn btn-outline-dark m-1">
+                          <i className="fa-solid fa-user"></i> Editar perfil
+                        </button>
+                        <button className="btn btn-outline-dark m-1">
+                          <i className="fa-solid fa-key"></i> Cambiar contraseña
+                        </button>
+                      </div>
+                    </div></>
+                  : ""}
+
                 </div>
               </div>
 

@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
-import { infoGroup } from './infoGroups';
+import { infoGroup } from '../infoGroups/infoGroups';
 
 let participantesAñadidios = [];
 
