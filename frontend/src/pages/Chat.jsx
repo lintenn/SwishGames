@@ -9,6 +9,7 @@ import { useNavigate } from '../../node_modules/react-router/index';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
+import { IniciarChat } from '../components/chat/IniciarChat';
 
 export const Chat = () => {
 
@@ -23,6 +24,9 @@ export const Chat = () => {
   const [myGroups, setMyGroups] = useState([]);
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
+  const [conMensajes, setConMensajes] = useState( false );
+  const [iniciandoChat, setIniciandoChat] = useState( false );
+  const [configurationGroups, setConfigurationGroups] = useState( '' );
 
   useEffect( () => {
 
@@ -61,6 +65,7 @@ export const Chat = () => {
 
     });
 
+
     return () => {
 
       socket.off();
@@ -69,61 +74,125 @@ export const Chat = () => {
 
   }, [mensajes, users]);
 
+  useEffect( () => {
+
+    if ( mensajes.length !== 0 && myGroups.length !== 0 && user !== null ) {
+
+      const idGroups = [];
+
+      myGroups.forEach( ( group ) => {
+
+        idGroups.push( group.id );
+
+      });
+
+      mensajes.forEach( ( mensaje ) => {
+
+        if ( mensaje.nombre_usuario_emisor === user.nombre ) {
+
+          setConMensajes( true );
+
+        } else if ( mensaje.nombre_usuario_receptor === user.nombre ) {
+
+          setConMensajes( true );
+
+        } else if ( idGroups.indexOf( mensaje.id_grupo_receptor ) !== -1 ) {
+
+          setConMensajes( true );
+
+        }
+
+      });
+
+    }
+
+  }, [mensajes, myGroups, user]);
+
   return (
     user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || myGroups.length === 0
       ? <div></div>
-      : <div className="row justify-content-center">
-        <Header
-          buscado={ '' }
-          setBuscado={ () => {
+      : conMensajes || iniciandoChat
+        ? <div className="row justify-content-center">
+          <Header
+            buscado={ '' }
+            setBuscado={ () => {
 
-            '';
+              '';
 
-          } }
-        />
-        <section className="botonTransparente mt-5">
-          <div className="container py-5 botonTransparente" >
-            <div className="row botonTransparente">
-              <div className="col-md-12 botonTransparente">
-                <div className="card botonTransparente"
-                  id="chat3"
-                  border-radius= "15px">
-                  <div className="card-body botonTransparente">
-                    <div className="row botonTransparente">
-                      <ChatsActivos
-                        users={ users }
-                        mensajes={ mensajesDESC }
-                        user={ user }
-                        setReceptor={ setReceptor }
-                        setConexion={ setConexion }
-                        setMensaje={ setMensaje }
-                        receptor={ receptor }
-                        group={ group }
-                        setGroup={ setGroup }
-                        myGroups={ myGroups }
-                      />
-                      <Conversacion
-                        users={ users }
-                        mensajes={ mensajes }
-                        user={ user }
-                        receptor={ receptor }
-                        conexion={ conexion }
-                        mensajesDESC={ mensajesDESC }
-                        mensaje={ mensaje }
-                        setMensaje={ setMensaje }
-                        group={ group }
-                        myGroups={ myGroups }
-                        setGroup={ setGroup }
-                      />
+            } }
+          />
+          <section className="botonTransparente mt-5">
+            <div className="container py-5 botonTransparente" >
+              <div className="row botonTransparente">
+                <div className="col-md-12 botonTransparente">
+                  <div className="card botonTransparente"
+                    id="chat3"
+                    border-radius= "15px">
+                    <div className="card-body botonTransparente">
+                      <div className="row botonTransparente">
+                        <ChatsActivos
+                          users={ users }
+                          mensajes={ mensajesDESC }
+                          user={ user }
+                          setReceptor={ setReceptor }
+                          setConexion={ setConexion }
+                          setMensaje={ setMensaje }
+                          receptor={ receptor }
+                          group={ group }
+                          setGroup={ setGroup }
+                          myGroups={ myGroups }
+                          configurationGroups={ configurationGroups }
+                          setConfigurationGroups={ setConfigurationGroups }
+                          setIniciandoChat={ setIniciandoChat }
+                        />
+                        <Conversacion
+                          users={ users }
+                          mensajes={ mensajes }
+                          user={ user }
+                          receptor={ receptor }
+                          conexion={ conexion }
+                          mensajesDESC={ mensajesDESC }
+                          mensaje={ mensaje }
+                          setMensaje={ setMensaje }
+                          group={ group }
+                          myGroups={ myGroups }
+                          setGroup={ setGroup }
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-        <Footer/>
-      </div>
+          </section>
+          <Footer/>
+        </div>
+        : <div className="row justify-content-center">
+          <Header
+            buscado={ '' }
+            setBuscado={ () => {
+
+              '';
+
+            } }
+          />
+          <IniciarChat
+            setIniciandoChat={ setIniciandoChat }
+            users={ users }
+            mensajes={ mensajesDESC }
+            user={ user }
+            setReceptor={ setReceptor }
+            setConexion={ setConexion }
+            setMensaje={ setMensaje }
+            receptor={ receptor }
+            group={ group }
+            setGroup={ setGroup }
+            myGroups={ myGroups }
+            configurationGroups={ configurationGroups }
+            setConfigurationGroups={ setConfigurationGroups }
+          />
+          <Footer/>
+        </div>
   );
 
 };

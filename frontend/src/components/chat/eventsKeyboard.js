@@ -1,13 +1,14 @@
 export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group ) {
 
-  event.preventDefault();
   if ( event.key === 'Enter' ) {
 
+    console.log( 'H' );
     document.getElementById( 'botonEnviar' ).click();
     setMensaje( '' );
 
   } else if ( event.key === 'ArrowUp' ) {
 
+    console.log( 'H2' );
     let numeroMaximoUser = 0;
 
     mensajesDESC.forEach( ( men ) => {
@@ -72,6 +73,7 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
 
   } else if ( event.key === 'ArrowDown' ) {
 
+    console.log( 'H3' );
     if ( numeroMensajeUser > 0 ) {
 
       let i = 1;
