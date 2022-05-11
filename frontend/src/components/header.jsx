@@ -62,7 +62,11 @@ export const Header = ({ buscado, setBuscado }) => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link"
-                to="/users"><i className="fa-solid fa-rectangle-list"></i> Usuarios</NavLink>
+                to="/users"><i className="fa-solid fa-users"></i> Usuarios</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link"
+                to="/chat"><i className="fa-solid fa-comments"></i> Chats</NavLink>
             </li>
           </ul>
           <div
@@ -77,18 +81,7 @@ export const Header = ({ buscado, setBuscado }) => {
               value={buscado}
               onChange={ ( b ) => setBuscado( b.target.value ) }/>
           </div>
-          {/**
-           * Button chat
-           */}
-          <button className="btn btn-outline-dark m-1"
-            id="btn-chat-header"
-            onClick={() => {
-
-              navigate( '/chat/' );
-
-            } }>
-            <i className="fa-solid fa-comments"></i>
-          </button>
+          
           {user !== null
             ? <Link to={'/user/' + user.nombre}>
               <button className="btn btn-outline-dark m-1">
