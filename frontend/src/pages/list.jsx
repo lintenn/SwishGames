@@ -137,12 +137,27 @@ const List = () => {
                 {comprobarDuenyo()
                   ? <div className="input-group rounded botonTransparente">
                     <div className="dropdown">
+                      {/* 
                       <button className="botonTransparente2 btnAñadirChats pb-1"
                         type="button"
                         id="dropdownMenuButton1"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i className="fa-solid fa-gear fa-2xl mt-3"></i>
+                        <i className="fa-solid fa-bars fa-2xl mt-3"></i>
+                      </button>*/}
+                      <button className="botonTransparente2 btnAñadirChats pb-1"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i className="fa-solid fa-pencil fa-2xl mt-3"></i>
+                      </button>
+                      <button className="botonTransparente2 btnAñadirChats pb-1"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i className="fa-solid fa-trash-can fa-2xl mt-3"></i>
                       </button>
                       <ul className="dropdown-menu"
                         aria-labelledby="dropdownMenuButton1">
