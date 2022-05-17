@@ -88,7 +88,7 @@ const Game = () => {
     lists.forEach( ( list ) => {
 
       divlists +=
-        `<div class="d-flex flex-row mb-3">
+        `<div class="d-flex flex-row mb-1">
         <button style="background-color: white; border-radius: 20px" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
           <div class="align-items-center divObjectsSend">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
