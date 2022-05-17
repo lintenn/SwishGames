@@ -39,7 +39,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
-          console.log( men );
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
 
             myGroups.forEach( ( group ) => {
@@ -92,7 +91,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
-          console.log( men );
           myGroups.forEach( ( group ) => {
 
             if ( group.id === men.id_grupo_receptor ) {
