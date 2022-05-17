@@ -33,8 +33,9 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   useEffect( () => {
 
-    document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keypress', function ( event ) {
+    document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keyup', function ( event ) {
 
+      event.preventDefault();
       numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
 
     });
@@ -63,10 +64,26 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   };
 
+  const eliminarEspaciosMensajes = ( mensaje ) => {
+
+    let mensajeNuevo = '';
+
+
+    while ( mensajeNuevo.length < mensaje.length ) {
+
+      mensajeNuevo += ' ';
+
+    }
+
+    return mensajeNuevo !== mensaje;
+
+
+  };
+
   const submit = async ( e ) => {
 
     e.preventDefault();
-    if ( mensaje !== '' ) {
+    if ( eliminarEspaciosMensajes( mensaje ) ) {
 
       Swal.showLoading();
       if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
@@ -84,7 +101,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
       }
       socket.emit( 'mensaje' );
-      console.log( 'edd' );
       setMensaje( '' );
 
 
