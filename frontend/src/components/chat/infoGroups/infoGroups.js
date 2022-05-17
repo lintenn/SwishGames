@@ -152,7 +152,6 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
 
       boton.addEventListener( 'click', ( event ) => {
 
-        console.log( 'Hola' );
         event.preventDefault();
         const nombreParticipante = boton.value;
 
