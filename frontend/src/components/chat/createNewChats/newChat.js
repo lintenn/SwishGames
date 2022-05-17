@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup ) => {
+export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat ) => {
 
   Swal.fire({
     html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
@@ -14,7 +14,7 @@ export const chatUsers = ( user, users, receptor, setReceptor, setConection, gro
     width: '25%',
     didOpen: () => {
 
-      addClickButton( receptor, setReceptor, setConection, group, setGroup );
+      addClickButton( receptor, setReceptor, setConection, group, setGroup, setIniciandoChat );
 
     }
 
@@ -72,7 +72,7 @@ const formatDescription = ( descripcion ) => {
 
 };
 
-const addClickButton = ( receptor, setReceptor, setConection, group, setGroup ) => {
+const addClickButton = ( receptor, setReceptor, setConection, group, setGroup, setIniciandoChat ) => {
 
   document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
 
@@ -92,6 +92,9 @@ const addClickButton = ( receptor, setReceptor, setConection, group, setGroup ) 
         document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
 
       }
+
+      setIniciandoChat( true );
+
       Swal.close();
 
     });

@@ -1,5 +1,5 @@
 import Input from '@material-ui/core/Input';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import socket from './Socket';
@@ -33,11 +33,11 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   useEffect( () => {
 
-    document.getElementById( 'inputMensaje' ).addEventListener( 'keydown', function ( event ) {
+    document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keypress', function ( event ) {
 
       numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
 
-    }, false );
+    });
 
 
   }, [mensajesDESC, receptor, group]);
@@ -84,6 +84,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
       }
       socket.emit( 'mensaje' );
+      console.log( 'edd' );
       setMensaje( '' );
 
 
@@ -194,11 +195,12 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
       <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
         <Input className="input2"
+          id="inputMensaje-enviar-chat"
           type="text"
-          onChange={e => setMensaje( e.target.value )}
           value={mensaje}
           placeholder="Escribe un mensaje aquí"
-          id="inputMensaje"/>
+          onChange={( e ) => setMensaje( e.target.value )}
+        />
         <a className="ms-1 text-muted divObjectsSend align-items-center"
           href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
         <a className="ms-3 text-muted divObjectsSend align-items-center"

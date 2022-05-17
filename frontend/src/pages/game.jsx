@@ -88,7 +88,7 @@ const Game = () => {
     lists.forEach( ( list ) => {
 
       divlists +=
-        `<div class="d-flex flex-row mb-3">
+        `<div class="d-flex flex-row mb-1">
         <button style="background-color: white; border-radius: 20px" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
           <div class="align-items-center divObjectsSend">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
@@ -192,20 +192,39 @@ const Game = () => {
             </div>
 
           </div>
+              
+          <div className="col-4 row ms-0 mt-2 border card">
 
-          <div className="mt-2 col-4 border card">
-
-            <div className="col-12 d-flex justify-content-center">
-              <img className="img-juego mt-2"
-                src={game.imagen}
-                width="75%"
-                height="100%"
-                alt={`#ImgGame${game.titulo}`} />
-            </div>
-
-            <div className="mt-4">
-              <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
-            </div>
+            <table id="gameinfo">
+              <tr>
+                <td id="tdimg">
+                  <div id="img" className="col-12 mt-4 d-flex justify-content-center">
+                    <img className="img-juego"
+                      src={game.imagen}
+                      width="75%"
+                      height="100%"
+                      alt={`#ImgGame${game.titulo}`} />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td id="tdcontent">
+                  <div id="content" className="col-12 mt-2 d-flex justify-content-center">
+                    <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td id="tdcontent">
+                  <div id="content" className="col-12 mb-4 d-flex justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="red" class="bi bi-star-fill" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                  </div>
+                </td>
+              </tr>
+            </table>
 
           </div>
 
