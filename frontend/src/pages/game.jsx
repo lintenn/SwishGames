@@ -162,8 +162,8 @@ const Game = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex justify-content-between">
-                <h2 className="fw-bold ms-2">{game.titulo}</h2>
-                <p className="text-muted overtexte mt-3 ms-3">{game.genero}</p>
+                <h1 className="fw-bold ms-2">{game.titulo}</h1>
+                <p className="text-muted overtexte mt-4 ms-3">{game.genero}</p>
               </div>
 
               {isauthorized
