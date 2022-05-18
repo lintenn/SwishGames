@@ -123,42 +123,52 @@ const List = () => {
           buscado={ buscado }
           setBuscado={ setBuscado }
         />
-        <main className="row justify-content-center main"
+        <main className="row justify-content-center main mt-5"
           id="main-content">
-          <div className="col-lg-8 list-group"
+          <div className="col-lg-8 list-group mt-5"
             data-bs-spy="scroll">
 
-            <div className="row">
               <div className="d-flex w-100 justify-content-between">
-                <div className="">
-                  <h1 className="mt-1 text-dark fw-bold ps-3"> {list[0].nombre} </h1>
-                  <h6 className="text-muted px-3"> Lista de {list[0].nombre_usuario} </h6>
+
+                <div className="col-12 border card mb-2">
+
+                  <div className="d-flex justify-content-between mt-3">
+                    <div className="d-flex justify-content-between">
+                      <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
+                      <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
+                    </div>
+
+                    {comprobarDuenyo()
+                      ? 
+                    <div>
+                      <button className="btn btn-outline-dark me-2 mb-3">
+                        <i className="fa fa-pencil"></i> Editar nombre
+                      </button>
+                      <button className="btn btn-outline-dark me-3 mb-3"
+                        onClick={ () => showAdvertenciaBorrar() }>
+                        <i className="fa fa-trash-can"></i> Eliminar lista
+                      </button>
+                    </div>
+                    : <div></div>}
+                  </div>
+                  
                 </div>
+                
+                
+                {/*
                 {comprobarDuenyo()
                   ? <div className="input-group rounded botonTransparente">
                     <div className="dropdown">
-                      {/* 
+                       
                       <button className="botonTransparente2 btnAñadirChats pb-1"
                         type="button"
                         id="dropdownMenuButton1"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i className="fa-solid fa-bars fa-2xl mt-3"></i>
-                      </button>*/}
-                      <button className="botonTransparente2 btnAñadirChats pb-1"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i className="fa-solid fa-pencil fa-2xl mt-3"></i>
                       </button>
-                      <button className="botonTransparente2 btnAñadirChats pb-1"
-                        type="button"
-                        id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i className="fa-solid fa-trash-can fa-2xl mt-3"></i>
-                      </button>
+
+
                       <ul className="dropdown-menu"
                         aria-labelledby="dropdownMenuButton1">
                         <li><button className="dropdown-item"
@@ -168,9 +178,11 @@ const List = () => {
                       </ul>
                     </div>
                   </div>
-                  : <div></div>}
+                  : <div></div>}*/}
+
+
               </div>
-            </div>
+            
             <GamesPreviewList
               id={ id }
               list={ list }
