@@ -5,7 +5,7 @@ import { infoGroup } from '../infoGroups/infoGroups';
 
 let participantesAñadidios = [];
 
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
+export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
 
   participantesAñadidios = [];
   Swal.fire({
@@ -21,7 +21,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '50%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
+      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
 
     }
 
@@ -60,7 +60,7 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
+const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
 
   let imagen = 'https://res.cloudinary.com/duvhgityi/image/upload/v1650761563/FotosGrupos/585e4d1ccb11b227491c339b_1_g7fpkh.png';
 
@@ -89,7 +89,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           width: '25%',
           didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
+            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
 
           }
 
@@ -116,7 +116,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             width: '50%',
             didOpen: () => {
 
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
+              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
 
             }
 
@@ -207,7 +207,7 @@ const formatDescription = ( descripcion ) => {
 
 };
 
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups ) => {
+const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -267,6 +267,10 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
           focusConfirm: false,
           allowOutsideClick: false,
           allowEscapeKey: false
+        }).then( ( result ) => {
+
+          setIniciandoChat( true );
+
         });
 
       } else if ( participantesAñadidios.length === 0 ) {

@@ -131,18 +131,33 @@ const List = () => {
             <div className="row">
               <div className="d-flex w-100 justify-content-between">
                 <div className="">
-                  <h1 className="mt-1 text-dark fw-bold px-3"> {list[0].nombre} </h1>
+                  <h1 className="mt-1 text-dark fw-bold ps-3"> {list[0].nombre} </h1>
                   <h6 className="text-muted px-3"> Lista de {list[0].nombre_usuario} </h6>
                 </div>
                 {comprobarDuenyo()
                   ? <div className="input-group rounded botonTransparente">
                     <div className="dropdown">
-                      <button className="botonTransparente2 btnAñadirChats"
+                      {/* 
+                      <button className="botonTransparente2 btnAñadirChats pb-1"
                         type="button"
                         id="dropdownMenuButton1"
                         data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <i className="fa-solid fa-ellipsis-vertical fa-2xl"></i>
+                        <i className="fa-solid fa-bars fa-2xl mt-3"></i>
+                      </button>*/}
+                      <button className="botonTransparente2 btnAñadirChats pb-1"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i className="fa-solid fa-pencil fa-2xl mt-3"></i>
+                      </button>
+                      <button className="botonTransparente2 btnAñadirChats pb-1"
+                        type="button"
+                        id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i className="fa-solid fa-trash-can fa-2xl mt-3"></i>
                       </button>
                       <ul className="dropdown-menu"
                         aria-labelledby="dropdownMenuButton1">

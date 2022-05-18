@@ -8,14 +8,13 @@ import { chatGroups } from './createNewChats/newGroup';
 import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
   const URIGroup = `${baseUrl}groups/`;
   const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
-  const [configurationGroups, setConfigurationGroups] = useState( '' );
 
   useEffect( () => {
 
@@ -40,7 +39,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         if ( men.nombre_usuario_emisor === user.nombre ) {
 
-          console.log( men );
           if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
 
             myGroups.forEach( ( group ) => {
@@ -93,7 +91,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
         } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
-          console.log( men );
           myGroups.forEach( ( group ) => {
 
             if ( group.id === men.id_grupo_receptor ) {
@@ -417,9 +414,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup )}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups )}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>
@@ -502,5 +499,8 @@ ChatsActivos.propTypes = {
   receptor: PropTypes.string.isRequired,
   group: PropTypes.object.isRequired,
   setGroup: PropTypes.func.isRequired,
-  myGroups: PropTypes.array.isRequired
+  myGroups: PropTypes.array.isRequired,
+  setConfigurationGroups: PropTypes.func.isRequired,
+  configurationGroups: PropTypes.node.isRequired,
+  setIniciandoChat: PropTypes.func.isRequired
 };
