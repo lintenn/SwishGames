@@ -51,6 +51,9 @@ const Main = () => {
         />
         <main className="row justify-content-center main"
           id="main-content">
+          
+          <h1>SwishGames</h1>
+         
           <div className="col-lg-8 list-group"
             data-bs-spy="scroll">
             <Games
