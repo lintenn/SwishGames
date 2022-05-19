@@ -157,9 +157,13 @@ const Login = () => {
             style={{ marginTop: '4px', marginRight: '5px' }}
             type="checkbox"
             value="lsRememberMe"
-            id="remember_me"/>
+            id="rememberMe"/>
           <label style={{ marginBottom: '10px' }}
+<<<<<<< Updated upstream
             for="rememberMe"> Recordarme</label>
+=======
+            title="rememberMe"> Recordarme</label>
+>>>>>>> Stashed changes
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
