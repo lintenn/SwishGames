@@ -4,7 +4,6 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
   if ( event.key === 'Enter' ) {
 
     document.getElementById( 'botonEnviar' ).click();
-    setMensaje( '' );
 
   } else if ( event.key === 'ArrowUp' ) {
 

@@ -38,4 +38,14 @@
     color: #c59b08;
 }
 
-/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+#gameinfo {
+    height: 100%; width: 100%
+}
+
+#tdcontent {
+    height: 100%;
+}
+
+#content {
+    overflow: auto;
+}

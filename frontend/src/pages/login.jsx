@@ -120,16 +120,19 @@ const Login = () => {
         </div>
       </header>
       <div>
-        <InputLabel htmlFor="standard-adornment-password"
+        <InputLabel 
+          for="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
         <Input className="input"
+          id="usuario"
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
           required={true} />
-        <InputLabel htmlFor="standard-adornment-password"
+        <InputLabel 
+          for="loginPsw"
           style={{ color: 'black' }}>
           Contraseña
         </InputLabel>
@@ -156,7 +159,7 @@ const Login = () => {
             value="lsRememberMe"
             id="remember_me"/>
           <label style={{ marginBottom: '10px' }}
-            forhtml="rememberMe"> Recordarme</label>
+            for="rememberMe"> Recordarme</label>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
