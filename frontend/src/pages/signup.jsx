@@ -230,10 +230,12 @@ const Signup = () => {
       </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
+          for="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
         <Input className="input"
+          id="usuario"
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
@@ -241,22 +243,26 @@ const Signup = () => {
           size="15"
           required={true} />
         <InputLabel htmlFor="standard-adornment-password"
+          for="email"
           style={{ color: 'black' }}>
           Email
         </InputLabel>
         <Input className="input"
+          id="email"
           type="text"
           value={m}
           onChange={ ( e ) => setEmail( e.target.value )}
           size="50"
           required={true} />
         <InputLabel htmlFor="standard-adornment-password"
+          for="password"
           style={{ color: 'black' }}
           className="mb-0">
           Contraseña
         </InputLabel>
         <p className="small text-muted my-0">La contraseña debe tener mínimo 8 caracteres</p>
         <Input className="input"
+          id="password"
           type={values.showPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'password' )}
           value={values.password}
@@ -274,10 +280,12 @@ const Signup = () => {
           }
         />
         <InputLabel htmlFor="standard-adornment-password"
+          for="rpassword"
           style={{ color: 'black' }}>
         Confirmar contraseña
         </InputLabel>
         <Input className="input"
+          id="rpassword"
           type={values.showrPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'rpassword' )}
           value={values.rpassword}
