@@ -130,7 +130,7 @@ const Login = () => {
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          required={true} />
+        />
         <InputLabel
           for="loginPsw"
           style={{ color: 'black' }}>
@@ -141,7 +141,6 @@ const Login = () => {
           type= {values.showPassword ? 'text' : 'password'}
           value={values.password}
           onChange={handlePasswordChange( 'password' )}
-          required={true}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -152,13 +151,13 @@ const Login = () => {
               </IconButton>
             </InputAdornment>
           } />
-        <nav className="remember">
-          <input className="input"
-            style={{ marginTop: '4px', marginRight: '5px' }}
+        <nav className="remember mb-3">
+          <input
+            style={{ marginTop: '3px', marginRight: '5px' }}
             type="checkbox"
             value="lsRememberMe"
-            id="remember_me"/>
-          <InputLabel style={{ color: 'black', marginTop: '4px' }}
+            id="rememberMe"/>
+          <InputLabel style={{ color: 'black', marginTop: '2px', fontSize: '14px', fontFamily: 'Open sans' }}
             for="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
