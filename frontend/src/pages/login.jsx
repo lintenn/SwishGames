@@ -158,8 +158,8 @@ const Login = () => {
             type="checkbox"
             value="lsRememberMe"
             id="remember_me"/>
-          <label style={{ marginBottom: '10px' }}
-            forhtml="rememberMe"> Recordarme</label>
+          <InputLabel style={{ color: 'black', marginTop: '4px' }}
+            for="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
