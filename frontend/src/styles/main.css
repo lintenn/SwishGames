@@ -126,11 +126,11 @@ body {
     height: 2000px;
 }
 
-/*
-h1 {
+
+.invisible {
     display: none;
 }
-*/
+
 
 .h1sg {
     /*margin-left: auto; margin-right: auto;*/
