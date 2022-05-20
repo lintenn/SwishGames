@@ -14,8 +14,7 @@ import Users from './pages/users.jsx';
 function App() {
 
   return (
-    <div className="root"
-      id="root" >
+    <div className="root" >
       <BrowserRouter>
         <Routes>
           <Route path="/login"
