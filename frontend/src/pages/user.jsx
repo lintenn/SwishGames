@@ -69,6 +69,8 @@ const User = () => {
           </div>
         </>
       )
+    } else {
+      setUserOptions()
     }
   }
 
