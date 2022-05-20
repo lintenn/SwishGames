@@ -130,6 +130,7 @@ const Login = () => {
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
+          inputProps={{ required: true }}
         />
         <InputLabel
           for="loginPsw"
@@ -141,23 +142,27 @@ const Login = () => {
           type= {values.showPassword ? 'text' : 'password'}
           value={values.password}
           onChange={handlePasswordChange( 'password' )}
+          inputProps={{ required: true }}
           endAdornment={
-            <InputAdornment position="end">
+            <InputAdornment position="end"
+            >
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
-              >
+                tabindex="-1">
+
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
+
               </IconButton>
             </InputAdornment>
           } />
         <nav className="remember mb-3">
           <input
-            style={{ marginTop: '3px', marginRight: '5px' }}
+            style={{ marginTop: '4px', marginRight: '5px' }}
             type="checkbox"
             value="lsRememberMe"
             id="rememberMe"/>
-          <InputLabel style={{ color: 'black', marginTop: '2px', fontSize: '14px', fontFamily: 'Open sans' }}
+          <InputLabel style={{ color: 'black', marginTop: '3px', fontSize: '14px', fontFamily: 'Open sans' }}
             for="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
