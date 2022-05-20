@@ -183,7 +183,7 @@ const Game = () => {
             <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
                 height="315"
-                src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE"
+                src={game.video}
                 title={game.titulo}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
