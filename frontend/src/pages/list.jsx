@@ -128,19 +128,18 @@ const List = () => {
           <div className="col-lg-8 list-group mt-5"
             data-bs-spy="scroll">
 
-              <div className="d-flex w-100 justify-content-between">
+            <div className="d-flex w-100 justify-content-between">
 
-                <div className="col-12 border card mb-2">
+              <div className="col-12 border card mb-2">
 
-                  <div className="d-flex justify-content-between mt-3">
-                    <div className="d-flex justify-content-between">
-                      <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
-                      <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
-                    </div>
+                <div className="d-flex justify-content-between mt-3">
+                  <div className="d-flex justify-content-between mt-0">
+                    <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
+                    <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
+                  </div>
 
-                    {comprobarDuenyo()
-                      ? 
-                    <div>
+                  {comprobarDuenyo()
+                    ? <div>
                       <button className="btn btn-outline-dark me-2 mb-3">
                         <i className="fa fa-pencil"></i> Editar nombre
                       </button>
@@ -150,16 +149,16 @@ const List = () => {
                       </button>
                     </div>
                     : <div></div>}
-                  </div>
-
                 </div>
-                
-                
-                {/*
+
+              </div>
+
+
+              {/*
                 {comprobarDuenyo()
                   ? <div className="input-group rounded botonTransparente">
                     <div className="dropdown">
-                       
+
                       <button className="botonTransparente2 btnAñadirChats pb-1"
                         type="button"
                         id="dropdownMenuButton1"
@@ -178,11 +177,11 @@ const List = () => {
                       </ul>
                     </div>
                   </div>
-                  : <div></div>}*/}
+                  : <div></div>} */}
 
 
-              </div>
-            
+            </div>
+
             <GamesPreviewList
               id={ id }
               list={ list }
