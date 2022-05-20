@@ -56,7 +56,9 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
   };
 
   return (
+
     <div>
+      <h1 hidden="true" >Juegos </h1>
       {games.length !== 0
         ? games.map( ( game, index ) => (
           <button

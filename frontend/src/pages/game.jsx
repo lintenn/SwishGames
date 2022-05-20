@@ -162,8 +162,8 @@ const Game = () => {
 
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex justify-content-between">
-                <h2 className="fw-bold ms-2">{game.titulo}</h2>
-                <p className="text-muted overtexte mt-3 ms-3">{game.genero}</p>
+                <h1 className="fw-bold ms-2">{game.titulo}</h1>
+                <p className="text-muted overtexte mt-4 ms-3">{game.genero}</p>
               </div>
 
               {isauthorized
@@ -183,7 +183,7 @@ const Game = () => {
             <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
                 height="315"
-                src="https://www.youtube-nocookie.com/embed/qkQTMXCR-cE"
+                src={game.video}
                 title={game.titulo}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

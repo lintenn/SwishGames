@@ -126,6 +126,12 @@ body {
     height: 2000px;
 }
 
+
+.invisible {
+    display: none;
+}
+
+
 .h1sg {
     /*margin-left: auto; margin-right: auto;*/
     color: white;

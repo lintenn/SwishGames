@@ -120,16 +120,20 @@ const Login = () => {
         </div>
       </header>
       <div>
-        <InputLabel htmlFor="standard-adornment-password"
+        <InputLabel
+          for="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
         <Input className="input"
+          id="usuario"
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          required={true} />
-        <InputLabel htmlFor="standard-adornment-password"
+          inputProps={{ required: true }}
+        />
+        <InputLabel
+          for="loginPsw"
           style={{ color: 'black' }}>
           Contraseña
         </InputLabel>
@@ -138,25 +142,28 @@ const Login = () => {
           type= {values.showPassword ? 'text' : 'password'}
           value={values.password}
           onChange={handlePasswordChange( 'password' )}
-          required={true}
+          inputProps={{ required: true }}
           endAdornment={
-            <InputAdornment position="end">
+            <InputAdornment position="end"
+            >
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
-              >
+                tabindex="-1">
+
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
+
               </IconButton>
             </InputAdornment>
           } />
-        <nav className="remember">
-          <input className="input"
+        <nav className="remember mb-3">
+          <input
             style={{ marginTop: '4px', marginRight: '5px' }}
             type="checkbox"
             value="lsRememberMe"
-            id="remember_me"/>
-          <label style={{ marginBottom: '10px' }}
-            forhtml="rememberMe"> Recordarme</label>
+            id="rememberMe"/>
+          <InputLabel style={{ color: 'black', marginTop: '3px', fontSize: '14px', fontFamily: 'Open sans' }}
+            for="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
