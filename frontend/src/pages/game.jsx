@@ -155,7 +155,7 @@ const Game = () => {
 
       <main className="row justify-content-center mt-5">
 
-        <div className="row container col-md-10 col-lg-9 col-xl-8 mt-5">
+        <div className="row container col-md-12 col-lg-9 col-xl-8 mt-5">
 
           <div className="col-12 border card">
 
@@ -228,24 +228,25 @@ const Game = () => {
           </div>
 
           <div className="col-12 d-lg-none row ms-0 mt-2 border card">
-            <div id="img" className="col-12 mt-4 d-flex justify-content-center">
-              <img className="img-juego"
+            <div className="col-12 my-3 d-flex justify-content-center">
+              <img className="img-juego col-4"
                 src={game.imagen}
                 width="75%"
                 height="100%"
                 alt={`#ImgGame${game.titulo}`} />
               
-              <table>
+               
+              <table className='col-5 ms-3'>
               <tr>
                 <td id="tdcontent">
-                  <div id="content" className="col-12 mt-2 d-flex justify-content-center">
+                  <div id="content" className="d-flex justify-content-center">
                     <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td id="tdcontent">
-                  <div id="content" className="col-12 mb-4 d-flex justify-content-center">
+                  <div id="content" className="mb-4 d-flex justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="red" class="bi bi-star-fill" viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
@@ -260,7 +261,7 @@ const Game = () => {
           
         </div>
 
-        <div className="row container col-md-10 col-lg-9 col-xl-8 mt-2 mb-5">
+        <div className="row container col-md-12 col-lg-9 col-xl-8 mt-2 mb-5">
 
           <div className="col-md-8 col-lg-8 col-xl-7 col-xxl-6 border card">
             
