@@ -153,10 +153,9 @@ const Game = () => {
         } }
       />
 
-
       <main className="row justify-content-center mt-5">
 
-        <div className="row container col-8 mt-5">
+        <div className="row container col-md-10 col-lg-9 col-xl-8 mt-5">
 
           <div className="col-12 border card">
 
@@ -178,7 +177,7 @@ const Game = () => {
 
           </div>
 
-          <div className="mt-2 col-8 border card d-flex justify-content-center">
+          <div className="mt-2 col-md-12 col-lg-8 border card d-flex justify-content-center">
 
             <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
@@ -193,7 +192,7 @@ const Game = () => {
 
           </div>
               
-          <div className="col-4 row ms-0 mt-2 border card">
+          <div className="d-none d-lg-block col-lg-4 row ms-0 mt-2 border card">
 
             <table id="gameinfo">
               <tr>
@@ -225,6 +224,87 @@ const Game = () => {
                 </td>
               </tr>
             </table>
+
+          </div>
+
+          <div className="col-12 d-lg-none row ms-0 mt-2 border card">
+            <div id="img" className="col-12 mt-4 d-flex justify-content-center">
+              <img className="img-juego"
+                src={game.imagen}
+                width="75%"
+                height="100%"
+                alt={`#ImgGame${game.titulo}`} />
+              
+              <table>
+              <tr>
+                <td id="tdcontent">
+                  <div id="content" className="col-12 mt-2 d-flex justify-content-center">
+                    <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td id="tdcontent">
+                  <div id="content" className="col-12 mb-4 d-flex justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="red" class="bi bi-star-fill" viewBox="0 0 16 16">
+                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                  </div>
+                </td>
+              </tr>
+              </table>
+
+            </div>
+          </div>
+          
+        </div>
+
+        <div className="row container col-md-10 col-lg-9 col-xl-8 mt-2 mb-5">
+
+          <div className="col-md-8 col-lg-8 col-xl-7 col-xxl-6 border card">
+            
+            <div className="d-flex justify-content-evenly mt-2 mb-3">
+              
+              <button className="btn btn-outline-dark ms-3 mt-2" id="valorar"
+                onClick={() => newGameInList()}>
+                <i className="fa fa-star"></i> Valorar juego
+              </button>
+
+              <div className="me-3 mb-2" id="rate">
+                <input type="radio"
+                  id="star5"
+                  name="rate"
+                  value="5" />
+                <label htmlFor="star5" id="start"
+                  title="5 estrellas">5 stars</label>
+                <input type="radio"
+                  id="star4"
+                  name="rate"
+                  value="4" />
+                <label htmlFor="star4" id="start"
+                  title="4 estrellas">4 stars</label>
+                <input type="radio"
+                  id="star3"
+                  name="rate"
+                  value="3" />
+                <label htmlFor="star3" id="start"
+                  title="3 estrellas">3 stars</label>
+                <input type="radio"
+                  id="star2"
+                  name="rate"
+                  value="2" />
+                <label htmlFor="star2" id="start"
+                  title="2 estrellas">2 stars</label>
+                <input type="radio"
+                  id="star1"
+                  name="rate"
+                  value="1" />
+                <label htmlFor="star1" id="start"
+                  title="1 estrella">1 star</label>
+              </div>
+
+            </div>
 
           </div>
 

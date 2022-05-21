@@ -14,3 +14,46 @@
 .tamanyoLetra {
     font-size: 0.5 vw;
 }
+
+/*@media only screen and (min-width: 992px) {
+    .title {
+        font-size: 1.6vw;
+    }
+    .text {
+        font-size: 0.8vw;
+    }
+}*/
+
+.rounded-circle {
+    min-width:150px;
+    min-height:150px;
+}
+
+.profile {
+    min-width: 300px;
+}
+
+.col-md-2 {
+    min-width: 350px;
+}
+
+.pad0 {
+    padding-top: 2px;
+}
+
+.pad1 {
+    padding-top: 0px;
+    font-size: 24px;
+}
+
+.pad2 {
+    padding-right: 10rem;
+}
+
+.pad3 {
+    padding-left: 10rem;
+}
+
+.columna1 {
+    margin-bottom: 100px;
+}

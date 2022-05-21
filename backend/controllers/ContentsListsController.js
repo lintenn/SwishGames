@@ -80,7 +80,8 @@ const createContentsLists = async (req, res) => {
         
     try {
         
-        await ContentsListsModel.create(req.body);
+        //await ContentsListsModel.create(req.body);
+        await db.query(`INSERT INTO ContenidosListas (id_lista, id_juego) VALUES (${req.body.id_lista}, ${req.body.id_juego})`, { type: Sequelize.QueryTypes.INSERT });
         res.json({ message: "Lista creada correctamente" });
         
     } catch (error) {
@@ -95,9 +96,10 @@ const updateContentsLists = async (req, res) => {
             
     try {
             
-        await ContentsListsModel.update(req.body, {
+        /*await ContentsListsModel.update(req.body, {
             where: { id: req.params.id }
-        });
+        });*/
+        await db.query(`UPDATE ContenidosListas SET id_lista = ${req.body.id_lista}, id_juego = ${req.body.id_juego} WHERE id = ${req.params.id}`, { type: Sequelize.QueryTypes.UPDATE });
         res.json({ message: "Lista actualizada correctamente" });
             
     } catch (error) {
@@ -112,9 +114,10 @@ const deleteContentsLists = async (req, res) => {
                     
     try {
                     
-        await ContentsListsModel.destroy({
+        /*await ContentsListsModel.destroy({
             where: { id_lista: req.params.id_lista, id_juego: req.params.id_juego }
-        });
+        });*/
+        await db.query(`DELETE FROM ContenidosListas WHERE id_lista = ${req.params.id_lista} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.DELETE });
         res.json({ message: "Lista eliminada correctamente" });
                     
     } catch (error) {
