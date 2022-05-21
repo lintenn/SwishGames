@@ -142,6 +142,8 @@ const Game = () => {
 
   };
 
+  var checked = "checked"
+
   return (
     <div>
       <Header
@@ -276,31 +278,37 @@ const Game = () => {
                 <input type="radio"
                   id="star5"
                   name="rate"
-                  value="5" />
+                  value="5" 
+                  checked={game.valoracion == 5}/>
                 <label htmlFor="star5" id="start"
                   title="5 estrellas">5 stars</label>
                 <input type="radio"
                   id="star4"
                   name="rate"
-                  value="4" />
+                  value="4" 
+                  checked={game.valoracion == 4}/>
                 <label htmlFor="star4" id="start"
                   title="4 estrellas">4 stars</label>
                 <input type="radio"
                   id="star3"
                   name="rate"
-                  value="3" />
+                  value="3"            
+                  checked={game.valoracion == 3}
+                    />
                 <label htmlFor="star3" id="start"
                   title="3 estrellas">3 stars</label>
                 <input type="radio"
                   id="star2"
                   name="rate"
-                  value="2" />
+                  value="2" 
+                  checked={game.valoracion == 2}/>
                 <label htmlFor="star2" id="start"
                   title="2 estrellas">2 stars</label>
                 <input type="radio"
                   id="star1"
                   name="rate"
-                  value="1" />
+                  value="1" 
+                  checked={game.valoracion == 1}/>
                 <label htmlFor="star1" id="start"
                   title="1 estrella">1 star</label>
               </div>
