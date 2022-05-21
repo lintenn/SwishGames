@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../helper/isAuthorized.js';
@@ -17,10 +17,13 @@ const Game = () => {
   const [game, setGame] = useState([]);
   const [lists, setLists] = useState([]);
   const [allLists, setAllLists] = useState([]);
+  const [rate, setRate] = useState([])
   const { id } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
+  const URIedit = `${baseUrl}games/`
+  const navigate = useNavigate()
 
   useEffect( () => {
 
@@ -37,8 +40,12 @@ const Game = () => {
     getGameById();
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
-
+    
   }, []);
+
+  useEffect( () => {
+    setRate(game.valoracion)
+  }, [game])
 
   const getGameById = async () => {
 
@@ -142,7 +149,15 @@ const Game = () => {
 
   };
 
-  var checked = "checked"
+  const update = async (e) =>{
+    e.preventDefault()
+    await axios.put( URIedit + game.id , {
+      valoracion : rate
+    })
+    navigate('/')
+    navigate('/game/' + game.titulo)
+  }
+
 
   return (
     <div>
@@ -267,10 +282,10 @@ const Game = () => {
 
           <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
             
-            <div className="d-flex justify-content-evenly mt-2 mb-3">
+            <form className="d-flex justify-content-evenly mt-2 mb-3" onSubmit={update}>
               
               <button className="btn btn-outline-dark ms-3 mt-2" id="valorar"
-                onClick={() => newGameInList()}>
+                type='submit'>
                 <i className="fa fa-star"></i> Valorar juego
               </button>
 
@@ -278,42 +293,47 @@ const Game = () => {
                 <input type="radio"
                   id="star5"
                   name="rate"
-                  value="5" 
-                  checked={game.valoracion == 5}/>
+                  value="5"
+                  onChange={e=>setRate(e.target.value)} 
+                  checked={rate == 5}/>
                 <label htmlFor="star5" id="start"
                   title="5 estrellas">5 stars</label>
                 <input type="radio"
                   id="star4"
                   name="rate"
-                  value="4" 
-                  checked={game.valoracion == 4}/>
+                  value="4"
+                  onChange={e=>setRate(e.target.value)} 
+                  checked={rate == 4}/>
                 <label htmlFor="star4" id="start"
                   title="4 estrellas">4 stars</label>
                 <input type="radio"
                   id="star3"
                   name="rate"
-                  value="3"            
-                  checked={game.valoracion == 3}
+                  value="3"
+                  onChange={e=>setRate(e.target.value)}          
+                  checked={rate == 3}
                     />
                 <label htmlFor="star3" id="start"
                   title="3 estrellas">3 stars</label>
                 <input type="radio"
                   id="star2"
                   name="rate"
-                  value="2" 
-                  checked={game.valoracion == 2}/>
+                  value="2"
+                  onChange={e=>setRate(e.target.value)} 
+                  checked={rate == 2}/>
                 <label htmlFor="star2" id="start"
                   title="2 estrellas">2 stars</label>
                 <input type="radio"
                   id="star1"
                   name="rate"
-                  value="1" 
-                  checked={game.valoracion == 1}/>
+                  value="1"
+                  onChange={e=>setRate(e.target.value)} 
+                  checked={rate == 1}/>
                 <label htmlFor="star1" id="start"
                   title="1 estrella">1 star</label>
               </div>
 
-            </div>
+            </form>
 
           </div>
 
