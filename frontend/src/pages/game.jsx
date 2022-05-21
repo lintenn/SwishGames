@@ -153,7 +153,6 @@ const Game = () => {
         } }
       />
 
-
       <main className="row justify-content-center mt-5">
 
         <div className="row container col-8 mt-5">
@@ -225,6 +224,56 @@ const Game = () => {
                 </td>
               </tr>
             </table>
+
+          </div> 
+          
+        </div>
+
+        <div className="row container col-8 mt-2">
+
+          <div className="col-md-8 col-lg-8 col-xl-7 col-xxl-6 border card">
+            
+            <div className="d-flex justify-content-evenly mt-2 mb-3">
+              
+              <button className="btn btn-outline-dark ms-3 mt-2" id="valorar"
+                onClick={() => newGameInList()}>
+                <i className="fa fa-star"></i> Valorar juego
+              </button>
+
+              <div className="me-3 mb-2" id="rate">
+                <input type="radio"
+                  id="star5"
+                  name="rate"
+                  value="5" />
+                <label htmlFor="star5" id="start"
+                  title="5 estrellas">5 stars</label>
+                <input type="radio"
+                  id="star4"
+                  name="rate"
+                  value="4" />
+                <label htmlFor="star4" id="start"
+                  title="4 estrellas">4 stars</label>
+                <input type="radio"
+                  id="star3"
+                  name="rate"
+                  value="3" />
+                <label htmlFor="star3" id="start"
+                  title="3 estrellas">3 stars</label>
+                <input type="radio"
+                  id="star2"
+                  name="rate"
+                  value="2" />
+                <label htmlFor="star2" id="start"
+                  title="2 estrellas">2 stars</label>
+                <input type="radio"
+                  id="star1"
+                  name="rate"
+                  value="1" />
+                <label htmlFor="star1" id="start"
+                  title="1 estrella">1 star</label>
+              </div>
+
+            </div>
 
           </div>
 
