@@ -263,7 +263,7 @@ const Game = () => {
 
         <div className="row container col-md-12 col-lg-9 col-xl-8 mt-2 mb-5">
 
-          <div className="col-md-8 col-lg-8 col-xl-7 col-xxl-6 border card">
+          <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
             
             <div className="d-flex justify-content-evenly mt-2 mb-3">
               
@@ -309,7 +309,7 @@ const Game = () => {
 
           </div>
 
-          <div className="col-md-4 col-lg-4 col-xl-5 col-xxl-6 border card">
+          <div className="col-md-6 col-lg-4 col-xl-5 col-xxl-6 border card">
             <div className="d-flex justify-content-end mt-2 mb-3">
               <button className="btn btn-outline-dark me-2 mt-2" id="valorar"
                 onClick={() => newGameInList()}>
