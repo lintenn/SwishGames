@@ -6,6 +6,7 @@ import { Global } from '../../helper/Global';
 import axios from 'axios';
 import { isAuthorized } from '../../helper/isAuthorized.js';
 import { useNavigate } from '../../../node_modules/react-router/index';
+import Swal from 'sweetalert2';
 
 export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }) => {
 
@@ -55,14 +56,39 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
 
   const quitarDeLista = ( gameId ) => {
 
-    axios.delete( `${URI}${id}/${gameId}` );
+    Swal.fire({
+      title: '¿Estás seguro de que quieres quitar este juego de la lista?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then( ( result ) => {
 
-    // Ineficiente sí, pero juntando todo esto recarga la lista
-    setUpList( id, setList, setGames );
-    buscado = 'd';
-    buscado = '';
-    navigate( '/lists/' );
-    navigate( `/list/${id}` );
+      if ( result.value ) {
+
+        axios.delete( `${URI}${id}/${gameId}` );
+
+        Swal.fire(
+          '¡Quitado!',
+          'El juego se ha quitado de la lista',
+          'success'
+        ).then( () => {
+
+          // Ineficiente sí, pero juntando todo esto recarga la lista
+          setUpList( id, setList, setGames );
+          buscado = 'd';
+          buscado = '';
+          navigate( '/lists/' );
+          navigate( `/list/${id}` );
+
+        });
+
+      }
+
+    });
 
   };
 

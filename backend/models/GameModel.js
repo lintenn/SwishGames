@@ -6,7 +6,8 @@ const JuegoModel = db.define('Juegos', {
     descripcion: {type: DataTypes.STRING},
     genero: {type: DataTypes.STRING},
     valoracion: {type: DataTypes.DOUBLE},
-    imagen: {type: DataTypes.STRING}
+    imagen: {type: DataTypes.STRING},
+    video: {type: DataTypes.STRING}
 })
 
 module.exports = JuegoModel
