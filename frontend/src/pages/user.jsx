@@ -19,6 +19,7 @@ const User = () => {
   const [creationDate, setCreationDate] = useState( '' );
   const [avatar, setAvatar] = useState( '' );
   const [userOptions, setUserOptions] = useState( '' );
+  const [conexion, setConexion] = useState( '' );
   const { name } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
@@ -60,6 +61,24 @@ const User = () => {
     setBirthDate( res.data.fecha_nacimiento );
     setCreationDate( res.data.fecha_creacion );
     setAvatar( res.data.imagen );
+
+    if ( res.data.online ) {
+
+      setConexion(
+        <div id="divOnline">
+          <div id="online"></div>
+          Online
+        </div> );
+
+    } else {
+
+      setConexion(
+        <div id="divOffline">
+          <div className="col" id="offline"></div>
+          Offline
+        </div> );
+
+    }
 
   };
 
@@ -112,11 +131,12 @@ const User = () => {
                   alt="..."/>
                 <div className="card-body">
                   <p className="text-center text-nowrap fs-2 fw-bolder title">{name}</p>
+                  { conexion }
                   <p className="text-center text">{description}</p>
                 </div>
               </div>
 
-              <ul className="list-group list-group-flush border mt-3">
+              <ul className="list-group list-group-flush border mt-3 backprofile">
                 <li className="list-group-item">
                   <div className="row ms-1">
                     <div className="col">
@@ -132,34 +152,34 @@ const User = () => {
 
             <div className="col-md-8 pad2">
 
-              <div className="card mb-3">
+              <div className="card mb-3 information">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 textito">
                       Nombre
                     </div>
-                    <div className="col-sm-9 text-secondary">{name}</div>
+                    <div className="col-sm-9 text-secondary textito">{name}</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 textito">
                       Email
                     </div>
-                    <div className="col-sm-9 text-secondary">{email}</div>
+                    <div className="col-sm-9 text-secondary textito">{email}</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 textito">
                       Fecha de nacimiento
                     </div>
-                    <div className="col-sm-9 text-secondary">{birthDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{birthDate}</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 textito">
                       Fecha de creación de la cuenta
                     </div>
-                    <div className="col-sm-9 text-secondary">{creationDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{creationDate}</div>
                   </div>
 
                   { userOptions }
