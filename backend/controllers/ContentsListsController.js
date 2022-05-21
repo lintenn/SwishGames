@@ -65,7 +65,27 @@ const getFavoritesContentsListsByUser = async (req, res) => {
         JOIN Listas L ON C.id_lista = L.id
         WHERE L.nombre_usuario = '${req.params.nombre_usuario}'
         AND L.id = (SELECT MIN(id) FROM Listas WHERE nombre_usuario=L.nombre_usuario)`, { type: Sequelize.QueryTypes.SELECT });
-        res.json(ContentsLists);
+        res.json( ContentsLists );
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
+const getFavoritesCountByUser = async (req, res) => {
+
+    try {
+
+        console.log(req.params.nombre_usuario);
+        const ContentsLists = await db.query(`SELECT J.id
+        FROM ContenidosListas C JOIN Juegos J ON C.id_juego = J.id
+        JOIN Listas L ON C.id_lista = L.id
+        WHERE L.nombre_usuario = '${req.params.nombre_usuario}'
+        AND L.id = (SELECT MIN(id) FROM Listas WHERE nombre_usuario=L.nombre_usuario)`, { type: Sequelize.QueryTypes.SELECT });
+        res.json( ContentsLists );
 
     } catch (error) {
 
@@ -133,6 +153,7 @@ module.exports = {
     getContentsListsByList,
     getSearchedContentsListsByList,
     getFavoritesContentsListsByUser,
+    getFavoritesCountByUser,
     createContentsLists,
     updateContentsLists,
     deleteContentsLists
