@@ -112,6 +112,10 @@ const Game = () => {
     let contains = false;
     lists.forEach( l => {
 
+      console.log( 'l.id = ' + l.id );
+      console.log( 'idList = ' + idList );
+      console.log( l.id + ' === ' + idList + ' ? -> ' + ( l.id === idList ) );
+
       if ( l.id === idList ) {
 
         contains = true;
@@ -119,6 +123,7 @@ const Game = () => {
       }
 
     });
+    console.log( contains );
     return contains;
 
   }
@@ -163,6 +168,22 @@ const Game = () => {
 
   }
 
+  function nameOfSelectedList( id, lists ) {
+
+    let name = '';
+    lists.forEach( l => {
+
+      if ( l.id === id ) {
+
+        name = l.nombre;
+
+      }
+
+    });
+    return name;
+
+  }
+
   const addClickButton = () => {
 
     document.querySelectorAll( 'button[name="newGameInList"]' ).forEach( ( boton ) => {
@@ -194,7 +215,7 @@ const Game = () => {
 
             Swal.fire(
               'Juego añadido',
-              'El juego ha sido añadido a la lista',
+              'El juego ha sido añadido a la lista ' + nameOfSelectedList( boton.value, lists ),
               'success'
             ).then( () => {
 
