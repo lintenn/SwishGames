@@ -164,6 +164,11 @@ const Game = () => {
 
     });
 
+    // añadimos un botón para crear una nueva lista
+    divlists += `<button style="border-radius: 10px" name="newGameInList" value="new" class="button-dark align-items-center d-flex align-self-center me-3 mt-2 mb-2">
+      Crear nueva lista
+    </button>`;
+
     return divlists;
 
   }
@@ -197,6 +202,56 @@ const Game = () => {
           console.log( boton.value );
           console.log( containedLists );
 
+          if ( boton.value === 'new' ) {
+
+            Swal.fire({
+              title: 'Nueva lista',
+              input: 'text',
+              inputAttributes: {
+                autocapitalize: 'off'
+              },
+              showCancelButton: true,
+              confirmButtonText: 'Crear',
+              showLoaderOnConfirm: true,
+              preConfirm: ( name ) => {
+
+                if ( name === '' ) {
+
+                  Swal.showValidationMessage( 'El nombre de la lista no puede estar vacío' );
+
+                } else if ( name === 'Favoritos' ) {
+
+                  Swal.showValidationMessage( 'El nombre de la lista no puede ser Favoritos' );
+
+                } else {
+
+                  const token = localStorage.getItem( 'user' );
+                  const us = JSON.parse( token );
+
+                  axios.post( `${baseUrl}lists/`, { nombre: name, nombre_usuario: us.nombre });
+
+                  Swal.close();
+
+                  Swal.fire({
+                    title: 'Lista creada',
+                    text: '¡La lista ha sido creada con éxito!',
+                    focusConfirm: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                  }).then( () => {
+
+                    setUpLists( us.nombre, setLists, setAllLists );
+
+                  });
+
+                }
+
+              }
+
+            });
+
+          } else
+
           if ( contains( boton.value, containedLists ) ) {
 
             Swal.close();
@@ -224,6 +279,16 @@ const Game = () => {
             });
 
           }
+
+        } else {
+
+          Swal.close();
+
+          Swal.fire(
+            'Quieres crear una lista',
+            'Creo que quieres crear una lista',
+            'error'
+          );
 
         }
 
