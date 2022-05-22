@@ -5,6 +5,14 @@
     margin: 5px;
 }
 
+div:hover > li {
+    display: inline-block !important;
+ }
+
+.navbarDropdownBtnChat:focus li {
+    display: inline-block !important;
+}
+
 .ocultar {
     display: none;
 }
