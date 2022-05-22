@@ -183,14 +183,14 @@ const User = () => {
                     <div className="col-sm-3 textito">
                       Fecha de nacimiento
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{birthDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{ new Date(birthDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3 textito">
                       Fecha de creación de la cuenta
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{creationDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{ new Date(creationDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
 
                   { userOptions }
