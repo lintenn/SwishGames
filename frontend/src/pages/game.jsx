@@ -121,18 +121,14 @@ const Game = () => {
     let contains = false;
     lists.forEach( l => {
 
-      console.log( 'l.id = ' + l.id );
-      console.log( 'idList = ' + idList );
-      console.log( l.id + ' === ' + idList + ' ? -> ' + ( l.id === idList ) );
-
-      if ( l.id === idList ) {
+      if ( ( l.id + '' ) === ( idList + '' ) ) {
 
         contains = true;
 
       }
 
     });
-    console.log( contains );
+
     return contains;
 
   }
@@ -187,7 +183,7 @@ const Game = () => {
     let name = '';
     lists.forEach( l => {
 
-      if ( l.id === id ) {
+      if ( ( l.id + '' ) === ( id + '' ) ) {
 
         name = l.nombre;
 
@@ -207,9 +203,6 @@ const Game = () => {
         e.preventDefault();
 
         if ( boton.value !== null ) {
-
-          console.log( boton.value );
-          console.log( containedLists );
 
           if ( boton.value === 'new' ) {
 
@@ -307,29 +300,30 @@ const Game = () => {
     //navigate( '/' );
     //navigate( '/game/' + game.titulo );
 
-  };*/
+  }; */
 
   const rateGame = () => {
 
     Swal.fire({
-      title: "¿Desea valorar " + game.titulo + " con " + rate + (rate ===1 ? " estrella" : " estrellas") + "?",
+      title: '¿Desea valorar ' + game.titulo + ' con ' + rate + ( rate === 1 ? ' estrella' : ' estrellas' ) + '?',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar'
     }).then( ( result ) => {
-      
-      if( result.value ){
+
+      if ( result.value ) {
 
         axios.put( URIedit + game.id, {
           valoracion: rate
         });
 
       }
-    })
 
-  }
+    });
+
+  };
 
   return (
     <div>
@@ -486,7 +480,7 @@ const Game = () => {
                   name="rate"
                   value="5"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 5}/>
+                  checked={rate === 5}/>
                 <label htmlFor="star5"
                   id="start"
                   title="5 estrellas">5 stars</label>
@@ -495,7 +489,7 @@ const Game = () => {
                   name="rate"
                   value="4"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 4}/>
+                  checked={rate === 4}/>
                 <label htmlFor="star4"
                   id="start"
                   title="4 estrellas">4 stars</label>
@@ -504,7 +498,7 @@ const Game = () => {
                   name="rate"
                   value="3"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 3}
+                  checked={rate === 3}
                 />
                 <label htmlFor="star3"
                   id="start"
@@ -514,7 +508,7 @@ const Game = () => {
                   name="rate"
                   value="2"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 2}/>
+                  checked={rate === 2}/>
                 <label htmlFor="star2"
                   id="start"
                   title="2 estrellas">2 stars</label>
@@ -523,7 +517,7 @@ const Game = () => {
                   name="rate"
                   value="1"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 1}/>
+                  checked={rate === 1}/>
                 <label htmlFor="star1"
                   id="start"
                   title="1 estrella">1 star</label>
