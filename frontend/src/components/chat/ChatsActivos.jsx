@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
