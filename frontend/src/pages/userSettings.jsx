@@ -7,10 +7,10 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
-import '../styles/user.css';
+import '../styles/userSettings.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const User = () => {
+const UserSettings = () => {
 
   const [lists, setLists] = useState([]);
   const [description, setDescription] = useState( '' );
@@ -103,9 +103,9 @@ const User = () => {
           <hr/>
           <div className="row">
             <div className="col-sm-12">
-              <Link to={'/userSettings/' + name}><button className="btn btn-outline-dark m-1">
+              <button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-user"></i> Editar perfil
-              </button></Link>
+              </button>
               <button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-key"></i> Cambiar contraseña
               </button>
@@ -130,107 +130,54 @@ const User = () => {
       />
 
       <main className="row justify-content-center mt-5">
-        <div className="container mt-5 ms-6">
+        <div className="container mt-5 mssss">
 
-          <div className="row gutters-sm pad3">
+          <div className="row gutters-sm">
 
-            <div className="col-md-2 mb-3 padperfil">
 
-              <div className="container-fluid card profile center">
-                <img src={ avatar }
-                  className="px-5 pt-3 rounded-circle"
-                  alt="..."/>
-                <div className="card-body">
-                  <p className="text-center text-nowrap fs-2 fw-bolder title">{name}</p>
-                  { conexion }
-                  <p className="text-center text">{description}</p>
-                </div>
-              </div>
-
-              <ul className="list-group list-group-flush border mt-3 backprofile">
-                <li className="list-group-item">
-                  <div className="row ms-1">
-                    <div className="col">
-                      <p className="text-end fs-1 fw-bolder pad0">{favoritos.length}</p>
-                    </div>
-                    <div className="col-8">
-                      <p className="text-center pad1">Videojuegos favoritos</p>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div className="col-md-8 pad2">
+            <div className="col-md-8">
 
               <div className="card mb-3 information">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-sm-3 textito">
-                      Nombre
+                    <div className="col-sm-3 ">
+                      <p>Nombre</p>
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{name}</div>
+                    <div className="col-sm-9 text-secondary "><input type="text" class="form-control" maxLength={15} defaultValue={name} /></div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
-                      Email
+                    <div className="col-sm-3 ">
+                      <p>Descripción</p>
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{email}</div>
+                    <div className="col-sm-9 text-secondary "><textarea rows="2" class="form-control" maxLength={200} defaultValue={description}></textarea></div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
-                      Fecha de nacimiento
+                    <div className="col-sm-3">
+                    <p>Email</p>
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{birthDate}</div>
+                    <div className="col-sm-9 text-secondary "><input type="email" maxLength={50} class="form-control" defaultValue={email} /></div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
-                      Fecha de creación de la cuenta
+                    <div className="col-sm-3 ">
+                    <p>Fecha de nacimiento</p>
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{creationDate}</div>
+                    <div className="col-sm-9 text-secondary "><input type="date" class="form-control" defaultValue={birthDate} /></div>
+                  </div>
+                  <hr/>
+                  <div className="row">
+                    <div className="col-sm-3 ">
+                    <p>URL de imagen de perfil</p>
+                    </div>
+                    <div className="col-sm-9 text-secondary "><textarea rows="1" maxLength={500} class="form-control" defaultValue={avatar}></textarea></div>
                   </div>
 
                   { userOptions }
 
                 </div>
               </div>
-
-              <ul className="list-group list-group-flush border mt-3">
-
-                <li className="list-group-item">
-                  <div className="row">
-                    <p className="text fs-5 fw-bolder mt-2">Listas de {name}</p>
-                  </div>
-                </li>
-
-                <li className="list-group-item">
-                  <div className="container">
-                    <div className="row">
-
-                    { lists.map( ( list, index ) => (
-                      <Link to={'/list/' + list.id}
-                      key = {index}>
-                      <div className="list-group-item list-group-item-action">
-                        <div className="d-flex w-100">
-                          <i className="fa-solid fa-list"></i>
-                          <div className="d-flex w-100 justify-content-center">
-
-                            <h4 className="mb-1 ttexte"> &nbsp; {list.nombre}</h4>
-
-                          </div>
-                        </div>
-                      </div>
-                      </Link>
-                    ) ) }
-
-                    </div>
-                  </div>
-                </li>
-
-              </ul>
 
             </div>
 
@@ -244,6 +191,6 @@ const User = () => {
     </div>
   );
 
-};
+                    }
 
-export default User;
+export default UserSettings;

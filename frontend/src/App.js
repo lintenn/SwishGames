@@ -10,6 +10,7 @@ import User from './pages/user.jsx';
 import Lists from './pages/lists.jsx';
 import List from './pages/list.jsx';
 import Users from './pages/users.jsx';
+import UserSettings from './pages/userSettings.jsx';
 
 function App() {
 
@@ -37,6 +38,8 @@ function App() {
             element={<List/>}/>
           <Route path="/users/"
             element={<Users/>}/>
+          <Route path="/userSettings/:name"
+            element={<UserSettings/>}/>
         </Routes>
       </BrowserRouter>
     </div>
