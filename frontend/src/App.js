@@ -11,6 +11,7 @@ import Lists from './pages/lists.jsx';
 import List from './pages/list.jsx';
 import EditList from './pages/editList.jsx';
 import Users from './pages/users.jsx';
+import UserSettings from './pages/userSettings.jsx';
 
 function App() {
 
@@ -40,6 +41,8 @@ function App() {
             element={<EditList/>}/>
           <Route path="/users/"
             element={<Users/>}/>
+          <Route path="/userSettings/:name"
+            element={<UserSettings/>}/>
         </Routes>
       </BrowserRouter>
     </div>

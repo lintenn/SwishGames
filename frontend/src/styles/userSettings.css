@@ -1,0 +1,37 @@
+.mssss {
+    margin-left: 50rem;
+}
+
+@media only screen and (max-width: 2200px) {
+    .mssss {
+        margin-left: 40rem;
+    }
+}
+
+@media only screen and (max-width: 1800px) {
+    .mssss {
+        margin-left: 35rem;
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .mssss {
+        margin-left: 30rem;
+    }
+}
+
+@media only screen and (max-width: 1300px) {
+    .mssss {
+        margin-left: 25rem;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .mssss {
+        margin-left: 21rem;
+    }
+}
+
+.errorcito {
+    padding-top: 10px;
+}
