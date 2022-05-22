@@ -1,21 +1,25 @@
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
+import Swal from 'sweetalert2';
 import '../styles/userSettings.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserSettings = () => {
 
   const [lists, setLists] = useState([]);
+  const [id, setId] = useState( '' );
   const [nombre, setNombre] = useState( '' );
   const [description, setDescription] = useState( '' );
+  const [password, setPassword] = useState( '' );
   const [email, setEmail] = useState( '' );
+  const [ogEmail, setOgEmail] = useState( '' );
   const [birthDate, setBirthDate] = useState( '' );
   const [creationDate, setCreationDate] = useState( '' );
   const [avatar, setAvatar] = useState( '' );
@@ -23,8 +27,10 @@ const UserSettings = () => {
   const [errorRow, setErrorRow] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const [favoritos, setFavoritos] = useState( '' );
+  const [users, setUsers] = useState([]);
   const { name } = useParams();
   const isauthorized = isAuthorized();
+  const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
   let URILists = '';
   let URIFavourites = '';
@@ -47,6 +53,7 @@ const UserSettings = () => {
     URILists = `${baseUrl}lists/user/${name}/`;
     getLists();
     getFavouritesNumber();
+    getUsers();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -62,9 +69,12 @@ const UserSettings = () => {
 
     const res = await axios.get( URI + name );
     
-    setNombre(name );
+    setId( res.data.id );
+    setNombre( name );
     setDescription( res.data.descripcion );
+    setPassword( res.data.password );
     setEmail( res.data.email );
+    setOgEmail( res.data.email );
     setBirthDate( res.data.fecha_nacimiento );
     setCreationDate( res.data.fecha_creacion );
     setAvatar( res.data.imagen );
@@ -121,10 +131,10 @@ const UserSettings = () => {
   }
 
   const showError = async () => {
-    if (error != '') {
+    if (error !== '') {
       setErrorRow(
-      <><div className="row">
-          <p className='text-center text-danger'>{error}</p>
+      <><div className="row errorcito">
+          <p className='text-center fw-bold text-danger'>{error}</p>
       </div><hr /></>
       )
     } else {
@@ -132,12 +142,79 @@ const UserSettings = () => {
     }
   }
 
+  const getUsers = async () => {
+
+    const res = await axios.get( `${baseUrl}users` );
+    setUsers( res.data );
+
+  };
+
+  function usernameExists() {
+
+    let exists = false;
+
+    users.forEach( ( user ) => {
+      if ( nombre != name && user.nombre === nombre ) {
+        exists = true;
+      }
+
+    });
+
+    return exists;
+
+  }
+
+  function emailExists() {
+
+    let exists = false;
+
+    users.forEach( ( user ) => {
+      if ( email != ogEmail && user.email === email ) {
+        exists = true;
+      }
+
+    });
+
+    return exists;
+
+  }
+
+  function dateNotValid() {
+    let date = new Date(birthDate)
+    let now = new Date()
+
+    if (date > now) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   const update = async ( e ) => {
 
     e.preventDefault();
 
-    error = 'Usuario ya existente';
-    showError();
+    if (usernameExists()) {
+      error = 'Nombre de usuario ya existente. Por favor, introduzca un nuevo nombre de usuario.';
+      showError();
+    } else if (emailExists()) {
+      error = 'Email ya existente. Por favor, introduzca un nuevo email.';
+      showError();
+    } else if (dateNotValid()) {
+      error = 'La fecha de nacimiento debe ser anterior al presente. Por favor, introduzca una nueva fecha.';
+      showError();
+    } else {
+      error = '';
+      showError();
+
+      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: avatar });
+      localStorage.setItem( 'user', JSON.stringify({ id: id, nombre: nombre, email: email, password: password }) );
+
+      Swal.fire( 'Cambios guardados', 'Tu datos se han modificado con éxito.', 'success' ).then( () => {
+        navigate( `/user/${nombre}` );
+      });
+    }
 
     /*comprobarUser();
     if ( !validator.isEmail( m ) ) {
@@ -219,7 +296,7 @@ const UserSettings = () => {
                   { errorRow }
                   <div className="row">
                     <div className="col-sm-3 ">
-                      <p>Nombre</p>
+                      <p>Nombre de usuario</p>
                     </div>
                     <div className="col-sm-9 text-secondary ">
                       <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} />

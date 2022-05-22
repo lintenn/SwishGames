@@ -167,7 +167,7 @@ const User = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3 textito">
-                      Nombre
+                      Nombre de usuario
                     </div>
                     <div className="col-sm-9 text-secondary textito">{name}</div>
                   </div>
