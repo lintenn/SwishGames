@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../helper/isAuthorized.js';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/game.css';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
@@ -297,17 +297,39 @@ const Game = () => {
 
   };
 
+  /*
   const update = async ( e ) => {
 
     e.preventDefault();
     await axios.put( URIedit + game.id, {
       valoracion: rate
     });
-    navigate( '/' );
-    navigate( '/game/' + game.titulo );
+    //navigate( '/' );
+    //navigate( '/game/' + game.titulo );
 
-  };
+  };*/
 
+  const rateGame = () => {
+
+    Swal.fire({
+      title: "¿Desea valorar " + game.titulo + " con " + rate + (rate ===1 ? " estrella" : " estrellas") + "?",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then( ( result ) => {
+      
+      if( result.value ){
+
+        axios.put( URIedit + game.id, {
+          valoracion: rate
+        });
+
+      }
+    })
+
+  }
 
   return (
     <div>
@@ -394,7 +416,7 @@ const Game = () => {
                       viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
-                    <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                    <p className="text-center text-break fs-2 fw-bold">{rate}</p>
                   </div>
                 </td>
               </tr>
@@ -432,7 +454,7 @@ const Game = () => {
                         viewBox="0 0 16 16">
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                       </svg>
-                      <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                      <p className="text-center text-break fs-2 fw-bold">{rate}</p>
                     </div>
                   </td>
                 </tr>
@@ -447,12 +469,13 @@ const Game = () => {
 
           <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
 
-            <form className="d-flex justify-content-evenly mt-2 mb-3"
-              onSubmit={update}>
+            <div className="d-flex justify-content-evenly mt-2 mb-3">
+              {/* onSubmit={rateGame} */}
 
               <button className="btn btn-outline-dark ms-3 mt-2"
                 id="valorar"
-                type="submit">
+                type="submit"
+                onClick={rateGame}>
                 <i className="fa fa-star"></i> Valorar juego
               </button>
 
@@ -506,7 +529,7 @@ const Game = () => {
                   title="1 estrella">1 star</label>
               </div>
 
-            </form>
+            </div>
 
           </div>
 
