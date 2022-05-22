@@ -13,7 +13,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const UserSettings = () => {
 
-  const [lists, setLists] = useState([]);
   const [id, setId] = useState( '' );
   const [nombre, setNombre] = useState( '' );
   const [description, setDescription] = useState( '' );
@@ -21,19 +20,13 @@ const UserSettings = () => {
   const [email, setEmail] = useState( '' );
   const [ogEmail, setOgEmail] = useState( '' );
   const [birthDate, setBirthDate] = useState( '' );
-  const [creationDate, setCreationDate] = useState( '' );
   const [avatar, setAvatar] = useState( '' );
-  const [userOptions, setUserOptions] = useState( '' );
   const [errorRow, setErrorRow] = useState( '' );
-  const [conexion, setConexion] = useState( '' );
-  const [favoritos, setFavoritos] = useState( '' );
   const [users, setUsers] = useState([]);
   const { name } = useParams();
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
   const baseUrl = Global.baseUrl;
-  let URILists = '';
-  let URIFavourites = '';
   let error = '';
   const URI = `${baseUrl}users/name/`;
 
@@ -48,22 +41,12 @@ const UserSettings = () => {
     }
 
     getUserByName();
-    checkUserOptions();
-
-    URILists = `${baseUrl}lists/user/${name}/`;
-    getLists();
-    getFavouritesNumber();
     getUsers();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
 
   }, [name]);
-
-  const getLists = async () => {
-    const res = await axios.get( `${URILists}` );
-    setLists( res.data );
-  }
 
   const getUserByName = async () => {
 
@@ -76,59 +59,9 @@ const UserSettings = () => {
     setEmail( res.data.email );
     setOgEmail( res.data.email );
     setBirthDate( res.data.fecha_nacimiento );
-    setCreationDate( res.data.fecha_creacion );
     setAvatar( res.data.imagen );
 
-    if ( res.data.online ) {
-
-      setConexion(
-        <div id="divOnline">
-          <div id="online"></div>
-          Online
-        </div> );
-
-    } else {
-
-      setConexion(
-        <div id="divOffline">
-          <div className="col" id="offline"></div>
-          Offline
-        </div> );
-
-    }
-
   };
-
-  const getFavouritesNumber = async () => {
-
-    URIFavourites = `${baseUrl}contentsLists/count/favoritos/${name}/`;
-    const res = await axios.get( URIFavourites );
-    setFavoritos( res.data );
-
-  }
-
-  const checkUserOptions = async () => {
-    const token = localStorage.getItem( 'user' );
-    const us = JSON.parse( token );
-
-    if (us.nombre == name) {
-      setUserOptions(
-        <>
-          <hr/>
-          <div className="row">
-            <div className="col-sm-12">
-            <Link to={'/user/' + name}>
-              <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-xmark"></i> Cancelar</button>
-            </Link>
-              <button className="btn btn-outline-success m-1"><i class="fa-solid fa-check"></i> Guardar cambios</button>
-            </div>
-          </div>
-        </>
-      )
-    } else {
-      setUserOptions()
-    }
-  }
 
   const showError = async () => {
     if (error !== '') {
@@ -154,7 +87,7 @@ const UserSettings = () => {
     let exists = false;
 
     users.forEach( ( user ) => {
-      if ( nombre != name && user.nombre === nombre ) {
+      if ( nombre !== name && user.nombre === nombre ) {
         exists = true;
       }
 
@@ -169,7 +102,7 @@ const UserSettings = () => {
     let exists = false;
 
     users.forEach( ( user ) => {
-      if ( email != ogEmail && user.email === email ) {
+      if ( email !== ogEmail && user.email === email ) {
         exists = true;
       }
 
@@ -215,59 +148,6 @@ const UserSettings = () => {
         navigate( `/user/${nombre}` );
       });
     }
-
-    /*comprobarUser();
-    if ( !validator.isEmail( m ) ) {
-
-      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
-      document.getElementById( 'error' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
-
-      document.getElementById( 'errorm' ).classList.add( 'mostrar' );
-
-    } else if ( values.password !== values.rpassword ) {
-
-      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
-      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
-
-      document.getElementById( 'error' ).classList.add( 'mostrar' );
-
-    } else if ( comprobarUser() ) {
-
-      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
-      document.getElementById( 'error' ).classList.remove( 'mostrar' );
-
-      document.getElementById( 'erroru' ).classList.add( 'mostrar' );
-
-    } else if ( comprobarEmail() ) {
-
-      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
-      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
-      document.getElementById( 'error' ).classList.remove( 'mostrar' );
-
-      document.getElementById( 'errore' ).classList.add( 'mostrar' );
-
-    } else {
-
-      await axios.post( URI, { nombre: u, email: m, password: values.password });
-      await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
-      axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
-
-      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
-      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
-      document.getElementById( 'error' ).classList.remove( 'mostrar' );
-
-      Swal.fire(
-        'Usuario creado con éxito',
-        '',
-        'success'
-      );
-
-    }*/
 
   };
 

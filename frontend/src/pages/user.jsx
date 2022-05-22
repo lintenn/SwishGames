@@ -97,7 +97,7 @@ const User = () => {
     const token = localStorage.getItem( 'user' );
     const us = JSON.parse( token );
 
-    if (us.nombre == name) {
+    if (us.nombre === name) {
       setUserOptions(
         <>
           <hr/>
