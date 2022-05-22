@@ -6,7 +6,7 @@ const gettAllRatings = async (req, res) => {
 
     try {
 
-        const Ratings = await RatingModel.findAll();
+        const Ratings = await db.query(`SELECT * FROM Valoraciones `, { type: Sequelize.QueryTypes.SELECT });
         res.json(Ratings);
 
     } catch (error){
@@ -20,7 +20,7 @@ const getRatingsByGame = async(req, res) => {
 
     try{
 
-        const Ratings = await db.query(`SELECT V.valoracion FROM Valoraciones WHERE J.id_juego = ${req.params.id_juego} `, { type: Sequelize.QueryTypes.SELECT });
+        const Ratings = await db.query(`SELECT V.valoracion FROM Valoraciones V WHERE V.id_juego = ${req.params.id_juego} `, { type: Sequelize.QueryTypes.SELECT });
         res.json(Ratings)
     } catch (error){
 
@@ -30,11 +30,11 @@ const getRatingsByGame = async(req, res) => {
 
 };
 
-const getRatingsByUser = async(req, res) => {
+const getRatingsByUserAndGame = async(req, res) => {
 
     try{
 
-        const Ratings = await db.query(`SELECT V.valoracion FROM Valoraciones WHERE J.id_usuario = ${req.params.id_usuario} `, { type: Sequelize.QueryTypes.SELECT });
+        const Ratings = await db.query(`SELECT V.valoracion FROM Valoraciones V WHERE V.id_usuario = ${req.params.id_usuario} AND V.id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.SELECT });
         res.json(Ratings)
     } catch (error){
 
@@ -48,8 +48,8 @@ const createRating = async (req, res) => {
 
     try{
 
-        await db.query(`INSERT INTO Valoraciones (id_usuario, id_juego, valoracion) VALUES (${req.body.id_usuario}, ${req.body.id_usuario}), ${req.body.valoracion}`, { type: Sequelize.QueryTypes.INSERT });
-        res.json({ message: "Lista creada correctamente" });
+        await db.query(`INSERT INTO Valoraciones (id_usuario, id_juego, valoracion) VALUES (${req.body.id_usuario}, ${req.body.id_juego}, ${req.body.valoracion})`, { type: Sequelize.QueryTypes.INSERT });
+        res.json({ message: "Valoracion creada correctamente" });
 
     } catch( error ){
 
@@ -64,7 +64,7 @@ const updateRating = async (req, res) => {
     try{
 
         await db.query(`UPDATE Valoraciones SET valoracion = ${req.body.valoracion} WHERE id_usuario = ${req.params.id_usuario} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.UPDATE });
-        res.json({ message: "Lista actualizada correctamente" });
+        res.json({ message: "Valoracion actualizada correctamente" });
 
     } catch (error) {
 
@@ -77,7 +77,7 @@ const deleteRating = async (req, res) => {
     try{
 
         await db.query(`DELETE FROM Valoraciones WHERE id_usuario = ${req.params.id_usuario} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.DELETE })
-        res.json({ message: "Lista eliminada correctamente" });
+        res.json({ message: "Valoracion eliminada correctamente" });
 
     } catch (error) {
 
@@ -90,7 +90,7 @@ const deleteRating = async (req, res) => {
 module.exports = {
     gettAllRatings,
     getRatingsByGame, 
-    getRatingsByUser,
+    getRatingsByUserAndGame,
     createRating,
     updateRating,
     deleteRating
