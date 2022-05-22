@@ -18,13 +18,13 @@ const Game = () => {
   const [lists, setLists] = useState([]);
   const [containedLists, setContainedLists] = useState([]);
   const [allLists, setAllLists] = useState([]);
-  const [rate, setRate] = useState([])
+  const [rate, setRate] = useState([]);
   const { id } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
-  const URIedit = `${baseUrl}games/`
-  const navigate = useNavigate()
+  const URIedit = `${baseUrl}games/`;
+  const navigate = useNavigate();
 
   useEffect( () => {
 
@@ -48,7 +48,7 @@ const Game = () => {
     getGameById();
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
-    
+
   }, []);
 
   useEffect( () => {
@@ -70,8 +70,10 @@ const Game = () => {
   }, [game]);
 
   useEffect( () => {
-    setRate(game.valoracion)
-  }, [game])
+
+    setRate( game.valoracion );
+
+  }, [game]);
 
   const getGameById = async () => {
 
@@ -241,7 +243,7 @@ const Game = () => {
 
                   Swal.fire({
                     title: 'Lista creada',
-                    text: '¡La lista ha sido creada con éxito!',
+                    text: '¡La lista ha sido creada con éxito! Ahora puedes añadir el juego a esta lista',
                     focusConfirm: false,
                     allowOutsideClick: false,
                     allowEscapeKey: false
@@ -287,16 +289,6 @@ const Game = () => {
 
           }
 
-        } else {
-
-          Swal.close();
-
-          Swal.fire(
-            'Quieres crear una lista',
-            'Creo que quieres crear una lista',
-            'error'
-          );
-
         }
 
       });
@@ -305,14 +297,16 @@ const Game = () => {
 
   };
 
-  const update = async (e) =>{
-    e.preventDefault()
-    await axios.put( URIedit + game.id , {
-      valoracion : rate
-    })
-    //navigate('/')
-    //navigate('/game/' + game.titulo)
-  }
+  const update = async ( e ) => {
+
+    e.preventDefault();
+    await axios.put( URIedit + game.id, {
+      valoracion: rate
+    });
+    //navigate( '/' );
+    //navigate( '/game/' + game.titulo );
+
+  };
 
 
   return (
@@ -452,11 +446,13 @@ const Game = () => {
         <div className="row container col-md-12 col-lg-9 col-xl-8 mt-2 mb-5">
 
           <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
-            
-            <form className="d-flex justify-content-evenly mt-2 mb-3" onSubmit={update}>
-              
-              <button className="btn btn-outline-dark ms-3 mt-2" id="valorar"
-                type='submit'>
+
+            <form className="d-flex justify-content-evenly mt-2 mb-3"
+              onSubmit={update}>
+
+              <button className="btn btn-outline-dark ms-3 mt-2"
+                id="valorar"
+                type="submit">
                 <i className="fa fa-star"></i> Valorar juego
               </button>
 
@@ -466,42 +462,47 @@ const Game = () => {
                   id="star5"
                   name="rate"
                   value="5"
-                  onChange={e=>setRate(e.target.value)} 
+                  onChange={e => setRate( e.target.value )}
                   checked={rate == 5}/>
-                <label htmlFor="star5" id="start"
+                <label htmlFor="star5"
+                  id="start"
                   title="5 estrellas">5 stars</label>
                 <input type="radio"
                   id="star4"
                   name="rate"
                   value="4"
-                  onChange={e=>setRate(e.target.value)} 
+                  onChange={e => setRate( e.target.value )}
                   checked={rate == 4}/>
-                <label htmlFor="star4" id="start"
+                <label htmlFor="star4"
+                  id="start"
                   title="4 estrellas">4 stars</label>
                 <input type="radio"
                   id="star3"
                   name="rate"
                   value="3"
-                  onChange={e=>setRate(e.target.value)}          
+                  onChange={e => setRate( e.target.value )}
                   checked={rate == 3}
-                    />
-                <label htmlFor="star3" id="start"
+                />
+                <label htmlFor="star3"
+                  id="start"
                   title="3 estrellas">3 stars</label>
                 <input type="radio"
                   id="star2"
                   name="rate"
                   value="2"
-                  onChange={e=>setRate(e.target.value)} 
+                  onChange={e => setRate( e.target.value )}
                   checked={rate == 2}/>
-                <label htmlFor="star2" id="start"
+                <label htmlFor="star2"
+                  id="start"
                   title="2 estrellas">2 stars</label>
                 <input type="radio"
                   id="star1"
                   name="rate"
                   value="1"
-                  onChange={e=>setRate(e.target.value)} 
+                  onChange={e => setRate( e.target.value )}
                   checked={rate == 1}/>
-                <label htmlFor="star1" id="start"
+                <label htmlFor="star1"
+                  id="start"
                   title="1 estrella">1 star</label>
               </div>
 

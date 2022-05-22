@@ -14,7 +14,7 @@ import { Global } from '../helper/Global.js';
 import { GamesPreviewList } from '../components/lists/GamesPreviewList.jsx';
 import axios from 'axios';
 
-const List = () => {
+const EditList = () => {
 
   const [games, setGames] = useState([]);
   const { id } = useParams();
@@ -35,9 +35,17 @@ const List = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
-    }
+      setUpList( id, setList, setGames );
 
-    setUpList( id, setList, setGames );
+    } else {
+
+      Swal.fire( 'No has iniciado sesión' ).then( () => {
+
+        navigate( '/' );
+
+      });
+
+    }
 
 
   }, []);
@@ -46,12 +54,25 @@ const List = () => {
 
     if ( list !== null && list.length > 0 ) {
 
-      axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
-        .then( res => {
+      if ( !comprobarDuenyo() ) {
 
-          setUser( res.data );
+        Swal.fire( 'No eres el dueño de esta lista, por lo que no puedes editarla' ).then( () => {
 
-        }).catch( err => console.log( err ) );
+          navigate( '/' );
+
+        });
+
+      } else {
+
+        axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
+          .then( res => {
+
+            setUser( res.data );
+
+          }).catch( err => console.log( err ) );
+
+
+      }
 
     }
 
@@ -116,6 +137,43 @@ const List = () => {
 
   };
 
+  function guardar() {
+
+    let name = '';
+    name = document.querySelector( 'input[name="nombre"]' ).value;
+    console.log( name );
+
+    if ( name === '' ) {
+
+      Swal.fire( 'El nombre de la lista no puede estar vacío' );
+
+    } else if ( name === 'Favoritos' ) {
+
+      Swal.fire( 'El nombre de la lista no puede ser Favoritos' );
+
+    } else {
+
+
+      axios.put( `${baseUrl}lists/${id}`, { nombre: name, nombre_usuario: user.nombre })
+
+        .then( res => {
+
+          Swal.fire(
+            '¡Lista guardada!',
+            '',
+            'success'
+          ).then( () => {
+
+            navigate( '/list/' + id );
+
+          });
+
+        }).catch( err => console.log( err ) );
+
+    }
+
+  }
+
   return (
     list !== null && user !== null
       ? <div>
@@ -134,15 +192,22 @@ const List = () => {
 
                 <div className="d-flex justify-content-between mt-3">
                   <div className="d-flex justify-content-between mt-0">
-                    <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
+                    <h1 className="text-dark fw-bold ms-3">
+                      <input type="text"
+                        className="form-control"
+                        placeholder="Nombre de la lista"
+                        name = "nombre"
+                        defaultValue={ list[0].nombre }
+                      />
+                    </h1>
                     <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
                   </div>
 
                   {comprobarDuenyo()
                     ? <div>
                       <button className="btn btn-outline-dark me-2 mb-3"
-                        onClick={ () => navigate( 'edit' )}>
-                        <i className="fa fa-pencil"></i> Editar lista
+                        onClick={ () => guardar() }>
+                        <i className="fa fa-pencil"></i> Guardar
                       </button>
                       <button className="btn btn-outline-dark me-3 mb-3"
                         onClick={ () => showAdvertenciaBorrar() }>
@@ -202,4 +267,4 @@ const List = () => {
 
 };
 
-export default List;
+export default EditList;

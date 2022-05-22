@@ -9,7 +9,7 @@ router.get('/user/:nombre_usuario/buscar/:nombre', ListController.getSearchedLis
 router.get('/:id_list', ListController.getList);
 router.get('/buscar/:nombre', ListController.getSearchedList);
 router.post('/', ListController.createList);
-router.put('/:nombre_usuario', ListController.updateList);
+router.put('/:id_list', ListController.updateList);
 router.delete('/:id_list', ListController.deleteList);
 
 module.exports = router;

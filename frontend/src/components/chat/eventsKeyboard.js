@@ -1,9 +1,10 @@
-export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group ) {
+export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group, setEnviarMensaje ) {
 
   event.preventDefault();
   if ( event.key === 'Enter' ) {
 
     document.getElementById( 'botonEnviar' ).click();
+    setEnviarMensaje( false );
 
   } else if ( event.key === 'ArrowUp' ) {
 

@@ -8,13 +8,14 @@ import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups/infoGroups';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, eliminarMensaje }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
   let numeroMensajeUser = 0;
   const messageEndRef = useRef( null );
+  const [enviarMensaje, setEnviarMensaje] = useState( true );
 
   useEffect( () => {
 
@@ -36,12 +37,18 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keyup', function ( event ) {
 
       event.preventDefault();
-      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
+      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group, setEnviarMensaje );
 
     });
 
 
   }, [mensajesDESC, receptor, group]);
+
+  useEffect( () => {
+
+    setEnviarMensaje( true );
+
+  }, [mensaje]);
 
   const formatDate = ( mensaje ) => {
 
@@ -82,8 +89,9 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const submit = async ( e ) => {
 
+
     e.preventDefault();
-    if ( eliminarEspaciosMensajes( mensaje ) ) {
+    if ( eliminarEspaciosMensajes( mensaje ) && enviarMensaje ) {
 
       Swal.showLoading();
       if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
@@ -102,7 +110,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       }
       socket.emit( 'mensaje' );
       setMensaje( '' );
-
 
       Swal.close();
 
@@ -200,6 +207,28 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                     <div className="pt-1">
                       <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
                     </div>
+                    <li className=" d-none nav-item dropdown">
+                      <button className="btn nav-link"
+                        id="navbarDropdownBtnChat"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="15"
+                          fill="currentColor"
+                          className="bi bi-three-dots-vertical">
+                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                        </svg>
+                      </button>
+                      <ul className="dropdown-menu"
+                        aria-labelledby="navbarDropdown">
+                        {mensaje.nombre_usuario_emisor === user.nombre
+                          ? <li><button className="dropdown-item"
+                            onClick={() => eliminarMensaje( mensaje )}>Eliminar mensaje</button></li>
+                          : <li/>}
+                      </ul>
+                    </li>
                   </div>
                 </div>
                 : <div key = {index}></div>
@@ -243,5 +272,6 @@ Conversacion.propTypes = {
   setMensaje: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   myGroups: PropTypes.array.isRequired,
-  setGroup: PropTypes.func.isRequired
+  setGroup: PropTypes.func.isRequired,
+  eliminarMensaje: PropTypes.func.isRequired
 };

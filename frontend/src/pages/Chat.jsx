@@ -10,6 +10,8 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 import { IniciarChat } from '../components/chat/IniciarChat';
+import axios from 'axios';
+import { Global } from '../helper/Global';
 
 export const Chat = () => {
 
@@ -27,6 +29,7 @@ export const Chat = () => {
   const [conMensajes, setConMensajes] = useState( false );
   const [iniciandoChat, setIniciandoChat] = useState( false );
   const [configurationGroups, setConfigurationGroups] = useState( '' );
+  const baseUrl = Global.baseUrl;
 
   useEffect( () => {
 
@@ -108,6 +111,13 @@ export const Chat = () => {
 
   }, [mensajes, myGroups, user]);
 
+  const eliminarMensaje = ( mensaje ) => {
+
+    axios.delete( `${baseUrl}chats/${mensaje.id}` );
+    setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+
+  };
+
   return (
     user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || myGroups.length === 0
       ? <div></div>
@@ -157,6 +167,7 @@ export const Chat = () => {
                           group={ group }
                           myGroups={ myGroups }
                           setGroup={ setGroup }
+                          eliminarMensaje={ eliminarMensaje }
                         />
                       </div>
                     </div>
