@@ -13,12 +13,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const UserSettings = () => {
 
   const [lists, setLists] = useState([]);
+  const [nombre, setNombre] = useState( '' );
   const [description, setDescription] = useState( '' );
   const [email, setEmail] = useState( '' );
   const [birthDate, setBirthDate] = useState( '' );
   const [creationDate, setCreationDate] = useState( '' );
   const [avatar, setAvatar] = useState( '' );
   const [userOptions, setUserOptions] = useState( '' );
+  const [errorRow, setErrorRow] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const [favoritos, setFavoritos] = useState( '' );
   const { name } = useParams();
@@ -26,6 +28,7 @@ const UserSettings = () => {
   const baseUrl = Global.baseUrl;
   let URILists = '';
   let URIFavourites = '';
+  let error = '';
   const URI = `${baseUrl}users/name/`;
 
   useEffect( () => {
@@ -59,6 +62,7 @@ const UserSettings = () => {
 
     const res = await axios.get( URI + name );
     
+    setNombre(name );
     setDescription( res.data.descripcion );
     setEmail( res.data.email );
     setBirthDate( res.data.fecha_nacimiento );
@@ -103,12 +107,10 @@ const UserSettings = () => {
           <hr/>
           <div className="row">
             <div className="col-sm-12">
-              <button className="btn btn-outline-dark m-1">
-                <i className="fa-solid fa-user"></i> Editar perfil
-              </button>
-              <button className="btn btn-outline-dark m-1">
-                <i className="fa-solid fa-key"></i> Cambiar contraseña
-              </button>
+            <Link to={'/user/' + name}>
+              <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+            </Link>
+              <button className="btn btn-outline-success m-1"><i class="fa-solid fa-check"></i> Guardar cambios</button>
             </div>
           </div>
         </>
@@ -117,6 +119,80 @@ const UserSettings = () => {
       setUserOptions()
     }
   }
+
+  const showError = async () => {
+    if (error != '') {
+      setErrorRow(
+      <><div className="row">
+          <p className='text-center text-danger'>{error}</p>
+      </div><hr /></>
+      )
+    } else {
+      setErrorRow();
+    }
+  }
+
+  const update = async ( e ) => {
+
+    e.preventDefault();
+
+    error = 'Usuario ya existente';
+    showError();
+
+    /*comprobarUser();
+    if ( !validator.isEmail( m ) ) {
+
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
+
+      document.getElementById( 'errorm' ).classList.add( 'mostrar' );
+
+    } else if ( values.password !== values.rpassword ) {
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+
+      document.getElementById( 'error' ).classList.add( 'mostrar' );
+
+    } else if ( comprobarUser() ) {
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+      document.getElementById( 'erroru' ).classList.add( 'mostrar' );
+
+    } else if ( comprobarEmail() ) {
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+      document.getElementById( 'errore' ).classList.add( 'mostrar' );
+
+    } else {
+
+      await axios.post( URI, { nombre: u, email: m, password: values.password });
+      await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
+      axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
+
+      document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
+      document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
+      document.getElementById( 'errore' ).classList.remove( 'mostrar' );
+      document.getElementById( 'error' ).classList.remove( 'mostrar' );
+
+      Swal.fire(
+        'Usuario creado con éxito',
+        '',
+        'success'
+      );
+
+    }*/
+
+  };
 
   return (
     <div>
@@ -138,45 +214,65 @@ const UserSettings = () => {
             <div className="col-md-8">
 
               <div className="card mb-3 information">
+              <form onSubmit={update}>
                 <div className="card-body">
+                  { errorRow }
                   <div className="row">
                     <div className="col-sm-3 ">
                       <p>Nombre</p>
                     </div>
-                    <div className="col-sm-9 text-secondary "><input type="text" class="form-control" maxLength={15} defaultValue={name} /></div>
+                    <div className="col-sm-9 text-secondary ">
+                      <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} />
+                    </div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3 ">
                       <p>Descripción</p>
                     </div>
-                    <div className="col-sm-9 text-secondary "><textarea rows="2" class="form-control" maxLength={200} defaultValue={description}></textarea></div>
+                    <div className="col-sm-9 text-secondary ">
+                      <textarea rows="2" class="form-control" maxLength={200} value={description} onChange={ ( e ) => setDescription( e.target.value )}></textarea>
+                    </div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3">
                     <p>Email</p>
                     </div>
-                    <div className="col-sm-9 text-secondary "><input type="email" maxLength={50} class="form-control" defaultValue={email} /></div>
+                    <div className="col-sm-9 text-secondary ">
+                      <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )}/>
+                    </div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3 ">
                     <p>Fecha de nacimiento</p>
                     </div>
-                    <div className="col-sm-9 text-secondary "><input type="date" class="form-control" defaultValue={birthDate} /></div>
+                    <div className="col-sm-9 text-secondary ">
+                      <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} />
+                    </div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3 ">
                     <p>URL de imagen de perfil</p>
                     </div>
-                    <div className="col-sm-9 text-secondary "><textarea rows="1" maxLength={500} class="form-control" defaultValue={avatar}></textarea></div>
+                    <div className="col-sm-9 text-secondary ">
+                      <input type="url" class="form-control" maxLength={500} value={avatar} onChange={ ( e ) => setAvatar( e.target.value )} />
+                    </div>
+                  </div>
+                  <hr/>
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <Link to={'/user/' + name}>
+                        <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+                      </Link>
+                        <button className="btn btn-outline-success m-1"><i class="fa-solid fa-check" type="submit"></i> Guardar cambios</button>
+                    </div>
                   </div>
 
-                  { userOptions }
-
                 </div>
+              </form>
               </div>
 
             </div>
