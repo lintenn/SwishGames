@@ -9,6 +9,7 @@ import Game from './pages/game.jsx';
 import User from './pages/user.jsx';
 import Lists from './pages/lists.jsx';
 import List from './pages/list.jsx';
+import EditList from './pages/editList.jsx';
 import Users from './pages/users.jsx';
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
             element={<Lists/>}/>
           <Route path="/list/:id"
             element={<List/>}/>
+          <Route path="/list/:id/edit"
+            element={<EditList/>}/>
           <Route path="/users/"
             element={<Users/>}/>
         </Routes>
