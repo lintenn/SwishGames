@@ -48,7 +48,7 @@ const createRating = async (req, res) => {
 
     try{
 
-        await db.query(`INSERT INTO Valoraciones (id_usuario, id_juego) VALUES (${req.body.id_usuario}, ${req.body.id_usuario})`, { type: Sequelize.QueryTypes.INSERT });
+        await db.query(`INSERT INTO Valoraciones (id_usuario, id_juego, valoracion) VALUES (${req.body.id_usuario}, ${req.body.id_usuario}), ${req.body.valoracion}`, { type: Sequelize.QueryTypes.INSERT });
         res.json({ message: "Lista creada correctamente" });
 
     } catch( error ){
