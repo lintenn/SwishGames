@@ -20,10 +20,12 @@ const User = () => {
   const [avatar, setAvatar] = useState( '' );
   const [userOptions, setUserOptions] = useState( '' );
   const [conexion, setConexion] = useState( '' );
+  const [favoritos, setFavoritos] = useState( '' );
   const { name } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
   let URILists = '';
+  let URIFavourites = '';
   const URI = `${baseUrl}users/name/`;
 
   useEffect( () => {
@@ -41,6 +43,7 @@ const User = () => {
 
     URILists = `${baseUrl}lists/user/${name}/`;
     getLists();
+    getFavouritesNumber();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -81,6 +84,14 @@ const User = () => {
     }
 
   };
+
+  const getFavouritesNumber = async () => {
+
+    URIFavourites = `${baseUrl}contentsLists/count/favoritos/${name}/`;
+    const res = await axios.get( URIFavourites );
+    setFavoritos( res.data );
+
+  }
 
   const checkUserOptions = async () => {
     const token = localStorage.getItem( 'user' );
@@ -140,7 +151,7 @@ const User = () => {
                 <li className="list-group-item">
                   <div className="row ms-1">
                     <div className="col">
-                      <p className="text-end fs-1 fw-bolder pad0">50</p>
+                      <p className="text-end fs-1 fw-bolder pad0">{favoritos.length}</p>
                     </div>
                     <div className="col-8">
                       <p className="text-center pad1">Videojuegos favoritos</p>

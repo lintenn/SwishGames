@@ -63,7 +63,7 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Borrar',
+      confirmButtonText: 'Quitar',
       cancelButtonText: 'Cancelar'
     }).then( ( result ) => {
 
