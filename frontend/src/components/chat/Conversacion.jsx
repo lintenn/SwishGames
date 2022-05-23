@@ -1,10 +1,9 @@
 import Input from '@material-ui/core/Input';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import socket from './Socket';
 import { Global } from '../../helper/Global';
-import { eventKeyboard } from './eventsKeyboard';
 import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups/infoGroups';
 
@@ -13,9 +12,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
-  let numeroMensajeUser = 0;
   const messageEndRef = useRef( null );
-  const [enviarMensaje, setEnviarMensaje] = useState( true );
 
   useEffect( () => {
 
@@ -31,24 +28,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     messageEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
 
   });
-
-  useEffect( () => {
-
-    document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keyup', function ( event ) {
-
-      event.preventDefault();
-      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group, setEnviarMensaje );
-
-    });
-
-
-  }, [mensajesDESC, receptor, group]);
-
-  useEffect( () => {
-
-    setEnviarMensaje( true );
-
-  }, [mensaje]);
 
   const formatDate = ( mensaje ) => {
 
@@ -89,9 +68,8 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const submit = async ( e ) => {
 
-
     e.preventDefault();
-    if ( eliminarEspaciosMensajes( mensaje ) && enviarMensaje ) {
+    if ( eliminarEspaciosMensajes( mensaje ) ) {
 
       Swal.showLoading();
       if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
@@ -170,6 +148,33 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   };
 
+  const mostrarOpcionesMensaje = ( mensaje ) => {
+
+    Swal.fire({
+      title: 'Opciones',
+      html: `<div class="col-12">
+                <button class="btn btn-danger btn-block" id="eliminarMensaje">Eliminar Mensaje</button>
+              </div>`,
+      background: '#f0eeee',
+      showCloseButton: true,
+      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+      showCancelButton: false,
+      showConfirmButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+
+        document.querySelector( '#eliminarMensaje' ).addEventListener( 'click', () => {
+
+          eliminarMensaje( mensaje );
+
+        });
+
+      }
+    });
+
+  };
+
   return (
     <div className="col-md-6 col-lg-7 col-xl-8 row-10"
       id="panelChat">
@@ -207,12 +212,12 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                     <div className="pt-1">
                       <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
                     </div>
-                    <li className=" d-none nav-item dropdown">
+                    <li className=" d-none nav-item">
                       <button className="btn nav-link"
                         id="navbarDropdownBtnChat"
                         role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                        aria-expanded="false"
+                        onClick={() => mostrarOpcionesMensaje( mensaje )}>
                         <svg xmlns="http://www.w3.org/2000/svg"
                           width="12"
                           height="15"
@@ -221,13 +226,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                           <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                         </svg>
                       </button>
-                      <ul className="dropdown-menu"
-                        aria-labelledby="navbarDropdown">
-                        {mensaje.nombre_usuario_emisor === user.nombre
-                          ? <li><button className="dropdown-item"
-                            onClick={() => eliminarMensaje( mensaje )}>Eliminar mensaje</button></li>
-                          : <li/>}
-                      </ul>
                     </li>
                   </div>
                 </div>
@@ -238,24 +236,24 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
         </div>
       </div>
 
-      <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
-        <Input className="input2"
-          id="inputMensaje-enviar-chat"
-          type="text"
-          value={mensaje}
-          placeholder="Escribe un mensaje aquí"
-          onChange={( e ) => setMensaje( e.target.value )}
-        />
-        <a className="ms-1 text-muted divObjectsSend align-items-center"
-          href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
-        <a className="ms-3 text-muted divObjectsSend align-items-center"
-          href="#!"><i className="fas fa-smile emogiIcon"></i></a>
-        <form onSubmit={submit}>
+      <form method="post"
+        onSubmit={submit}>
+        <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
+          <Input className="input2"
+            id="inputMensaje-enviar-chat"
+            type="text"
+            value={mensaje}
+            placeholder="Escribe un mensaje aquí"
+            onChange={( e ) => setMensaje( e.target.value )}
+          />
+          <a className="ms-1 text-muted divObjectsSend align-items-center"
+            href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
+          <a className="ms-3 text-muted divObjectsSend align-items-center"
+            href="#!"><i className="fas fa-smile emogiIcon"></i></a>
           <button className="ms-3 botonTransparente divObjectsSend align-items-center"
             id="botonEnviar"><i className="fas fa-paper-plane sendIcon"></i></button>
-        </form>
-      </div>
-
+        </div>
+      </form>
     </div>
   );
 

@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat ) => {
 
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -12,6 +12,7 @@ export const chatUsers = ( user, users, receptor, setReceptor, setConection, gro
     focusConfirm: false,
     allowOutsideClick: false,
     width: '25%',
+    heightAuto: false,
     didOpen: () => {
 
       addClickButton( receptor, setReceptor, setConection, group, setGroup, setIniciandoChat );

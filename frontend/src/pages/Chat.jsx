@@ -113,8 +113,36 @@ export const Chat = () => {
 
   const eliminarMensaje = ( mensaje ) => {
 
-    axios.delete( `${baseUrl}chats/${mensaje.id}` );
-    setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+    Swal.fire({
+      title: `¿Estás seguro de que quieres borrar el mensaje '${mensaje.mensaje}'?`,
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then( ( result ) => {
+
+      if ( result.value ) {
+
+        axios.delete( `${baseUrl}chats/${mensaje.id}` );
+
+        Swal.fire(
+          '¡Borrado!',
+          `El mensaje '${mensaje.mensaje}' ha sido borrada`,
+          'success'
+        ).then( () => {
+
+          setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+          socket.emit( 'mensaje' );
+
+        });
+
+      }
+
+    });
+
 
   };
 
@@ -154,6 +182,7 @@ export const Chat = () => {
                           configurationGroups={ configurationGroups }
                           setConfigurationGroups={ setConfigurationGroups }
                           setIniciandoChat={ setIniciandoChat }
+                          mensajesDESC={ mensajesDESC }
                         />
                         <Conversacion
                           users={ users }

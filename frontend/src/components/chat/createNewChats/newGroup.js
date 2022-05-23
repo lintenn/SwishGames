@@ -9,7 +9,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
 
   participantesAñadidios = [];
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -18,6 +18,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     focusConfirm: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
+    heightAuto: false,
     width: '50%',
     didOpen: () => {
 
@@ -77,7 +78,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
 
         Swal.close();
         Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
           background: '#f0eeee',
           showCloseButton: false,
           closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -87,6 +88,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           allowOutsideClick: false,
           allowEscapeKey: false,
           width: '25%',
+          heightAuto: false,
           didOpen: () => {
 
             addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
@@ -104,7 +106,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
         }).then( () => {
 
           Swal.fire({
-            html: `<div style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
+            html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
             background: '#f0eeee',
             showCloseButton: true,
             closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -114,6 +116,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             allowOutsideClick: false,
             allowEscapeKey: false,
             width: '50%',
+            heightAuto: false,
             didOpen: () => {
 
               addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );

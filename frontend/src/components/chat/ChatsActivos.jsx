@@ -7,14 +7,16 @@ import { chatUsers } from './createNewChats/newChat';
 import { chatGroups } from './createNewChats/newGroup';
 import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
+import { eventKeyboard } from './eventsKeyboard';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
   const URIGroup = `${baseUrl}groups/`;
   const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
+  let numeroMensajeUser = 0;
 
   useEffect( () => {
 
@@ -24,22 +26,74 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   useEffect( () => {
 
-    let i = 0;
-    const idGroups = [];
+    if ( receptor.nombre === undefined && group.nombre === undefined ) {
 
-    myGroups.forEach( ( group ) => {
+      let i = 0;
+      const idGroups = [];
 
-      idGroups.push( group.id );
+      myGroups.forEach( ( group ) => {
 
-    });
+        idGroups.push( group.id );
 
-    mensajes.forEach( men => {
+      });
 
-      if ( i === 0 ) {
+      mensajes.forEach( men => {
 
-        if ( men.nombre_usuario_emisor === user.nombre ) {
+        if ( i === 0 ) {
 
-          if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
+          if ( men.nombre_usuario_emisor === user.nombre ) {
+
+            if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
+
+              myGroups.forEach( ( group ) => {
+
+                if ( group.id === men.id_grupo_receptor ) {
+
+                  setReceptor( '' );
+                  setMiembrosGrupo( group.id );
+                  setGroup( group );
+
+                }
+
+              });
+              i++;
+
+              if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+                document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+              }
+
+
+            } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
+
+              setConection( men.nombre_usuario_receptor );
+              setReceptor( men.nombre_usuario_receptor );
+              setGroup({});
+              i++;
+
+              if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+                document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+              }
+
+            }
+
+          } else if ( men.nombre_usuario_receptor === user.nombre ) {
+
+            setConection( men.nombre_usuario_emisor );
+            setReceptor( men.nombre_usuario_emisor );
+            setGroup({});
+            i++;
+
+            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
+
+              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+            }
+
+          } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
 
             myGroups.forEach( ( group ) => {
 
@@ -52,6 +106,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               }
 
             });
+
             i++;
 
             if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
@@ -59,63 +114,29 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
 
             }
-
-
-          } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
-
-            setConection( men.nombre_usuario_receptor );
-            setReceptor( men.nombre_usuario_receptor );
-            setGroup({});
-            i++;
-
-            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-            }
-
-          }
-
-        } else if ( men.nombre_usuario_receptor === user.nombre ) {
-
-          setConection( men.nombre_usuario_emisor );
-          setReceptor( men.nombre_usuario_emisor );
-          setGroup({});
-          i++;
-
-          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-          }
-
-        } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
-
-          myGroups.forEach( ( group ) => {
-
-            if ( group.id === men.id_grupo_receptor ) {
-
-              setReceptor( '' );
-              setMiembrosGrupo( group.id );
-              setGroup( group );
-
-            }
-
-          });
-
-          i++;
-
-          if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-            document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
 
           }
 
         }
 
+      });
+
+    } else {
+
+
+      document.querySelectorAll( '.chatSeleccionado' ).forEach( document => {
+
+        document.classList.remove( 'chatSeleccionado' );
+
+      });
+
+      if ( document.getElementById( `${( receptor.nombre === undefined && group.nombre !== undefined ) ? group.id : receptor.nombre}` ) !== null ) {
+
+        document.getElementById( `${( receptor.nombre === undefined && group.nombre !== undefined ) ? group.id : receptor.nombre}` ).classList.add( 'chatSeleccionado' );
+
       }
 
-    });
+    }
 
   }, [mensajes]);
 
@@ -129,6 +150,17 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     }
 
   }, [configurationGroups]);
+
+  useEffect( () => {
+
+    document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keyup', function ( event ) {
+
+      event.preventDefault();
+      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
+
+    });
+
+  }, []);
 
   const formatDate = ( date ) => {
 
@@ -436,6 +468,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                         id = {`${nombreEmisorOrId( men )}`}
                         onClick={() => {
 
+
                           if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
 
                             document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
@@ -502,5 +535,6 @@ ChatsActivos.propTypes = {
   myGroups: PropTypes.array.isRequired,
   setConfigurationGroups: PropTypes.func.isRequired,
   configurationGroups: PropTypes.node.isRequired,
-  setIniciandoChat: PropTypes.func.isRequired
+  setIniciandoChat: PropTypes.func.isRequired,
+  mensajesDESC: PropTypes.array.isRequired
 };

@@ -7,10 +7,10 @@
 
 div:hover > li {
     display: inline-block !important;
- }
+}
 
-.navbarDropdownBtnChat:focus li {
-    display: inline-block !important;
+.max-tamaño-swal-Chat{
+    max-height: 80vh;
 }
 
 .ocultar {

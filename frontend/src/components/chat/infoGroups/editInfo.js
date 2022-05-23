@@ -7,7 +7,7 @@ const baseUrl = Global.baseUrl;
 export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
 
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -16,6 +16,7 @@ export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, part
     focusConfirm: false,
     allowOutsideClick: false,
     width: '50%',
+    heightAuto: false,
     didOpen: () => {
 
       addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
@@ -127,7 +128,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
       ).then( () => {
 
         Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
           background: '#f0eeee',
           showCloseButton: true,
           closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -136,6 +137,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
           focusConfirm: false,
           allowOutsideClick: false,
           width: '50%',
+          heightAuto: false,
           didOpen: () => {
 
             addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
