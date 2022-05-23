@@ -28,7 +28,7 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
   ).then( () => {
 
     Swal.fire({
-      html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+      html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
       background: '#f0eeee',
       showCloseButton: true,
       closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -37,6 +37,7 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
       focusConfirm: false,
       allowOutsideClick: false,
       width: '50%',
+      heightAuto: false,
       didOpen: () => {
 
 
