@@ -2,8 +2,13 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
 import { infoGroup } from '../infoGroups/infoGroups';
+import { Global } from '../../../helper/Global';
+import socket from '../Socket';
 
 let participantesAñadidios = [];
+const baseUrl = Global.baseUrl;
+const URIMensajes = `${baseUrl}chats/`;
+
 
 export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
 
@@ -247,9 +252,11 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
       }
       if ( participantesAñadidios.length > 0 ) {
 
-        participantesAñadidios.push( user.nombre );
+        const participantesAAnadir = [];
+        participantesAAnadir.push( user.nombre );
+        participantesAAnadir.push( ...participantesAñadidios );
 
-        participantesAñadidios.forEach( ( participante ) => {
+        participantesAAnadir.forEach( ( participante ) => {
 
           axios.get( URIGroupLastByNameUser )
             .then( res => {
@@ -258,6 +265,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
               setReceptor( '' );
               setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
+              axios.post( URIMensajes, { id_grupo_receptor: res.data.id, mensaje: participante === user.nombre ? `${user.nombre} ha creado el grupo` : `${user.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
 
             });
 
@@ -273,6 +281,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
         }).then( ( result ) => {
 
           setIniciandoChat( true );
+          socket.emit( 'mensaje' );
 
         });
 

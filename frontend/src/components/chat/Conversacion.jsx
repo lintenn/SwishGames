@@ -38,14 +38,14 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   };
 
-  const getOrientation = ( user, mensaje ) => user.nombre === mensaje.nombre_usuario_emisor ? 'justify-content-end' : 'justify-content-start';
-  const getOrigenMensaje = ( user, mensaje ) => user.nombre === mensaje.nombre_usuario_emisor ? 'mensajeActualizadoMio' : 'mensajeActualizadoOtro';
+  const getOrientation = ( user, mensaje ) => !mensaje.administracion ? user.nombre === mensaje.nombre_usuario_emisor ? 'justify-content-end' : 'justify-content-start' : 'justify-content-center';
+  const getOrigenMensaje = ( user, mensaje ) => !mensaje.administracion ? user.nombre === mensaje.nombre_usuario_emisor ? 'mensajeActualizadoMio' : 'mensajeActualizadoOtro' : 'mensajeAdministracion';
 
 
   const getMargen = ( mensaje ) => {
 
     let margin = '';
-    nombreAnterior === mensaje.nombre_usuario_emisor ? margin = 'mt-0' : margin = 'mt-4';
+    ( nombreAnterior === mensaje.nombre_usuario_emisor && !mensaje.administracion ) ? margin = 'mt-0' : margin = 'mt-4';
     return margin;
 
   };
@@ -204,29 +204,32 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                   key = {index}>
                   <div className={`d-flex flex-row ${getOrigenMensaje( user, mensaje )} ${getMargen( mensaje )}`}>
                     <div className="pt-1 tamañoMaximoMensaje">
-                      {( group !== {} && receptor === '' && mensaje.nombre_usuario_emisor !== user.nombre && mensaje.nombre_usuario_emisor !== nombreAnterior )
+                      {( group !== {} && receptor === '' && mensaje.nombre_usuario_emisor !== user.nombre && mensaje.nombre_usuario_emisor !== nombreAnterior && !mensaje.administracion )
                         ? <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
                         : <div></div>}
-                      <p className="small cols-4">{mensaje.mensaje}</p>
+                      <p className="small cols-12">{mensaje.mensaje}</p>
                     </div>
                     <div className="pt-1">
                       <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
                     </div>
-                    <li className=" d-none nav-item">
-                      <button className="btn nav-link"
-                        id="navbarDropdownBtnChat"
-                        role="button"
-                        aria-expanded="false"
-                        onClick={() => mostrarOpcionesMensaje( mensaje )}>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                          width="12"
-                          height="15"
-                          fill="currentColor"
-                          className="bi bi-three-dots-vertical">
-                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                        </svg>
-                      </button>
-                    </li>
+                    {!mensaje.administracion
+                      ? <li className=" d-none nav-item">
+                        <button className="btn nav-link"
+                          id="navbarDropdownBtnChat"
+                          role="button"
+                          aria-expanded="false"
+                          onClick={() => mostrarOpcionesMensaje( mensaje )}>
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="15"
+                            fill="currentColor"
+                            className="bi bi-three-dots-vertical">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                          </svg>
+                        </button>
+                      </li>
+                      : <div></div>}
+
                   </div>
                 </div>
                 : <div key = {index}></div>
