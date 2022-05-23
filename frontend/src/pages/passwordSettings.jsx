@@ -17,14 +17,13 @@ const PasswordSettings = () => {
   const [nombre, setNombre] = useState( '' );
   const [description, setDescription] = useState( '' );
   const [password, setPassword] = useState( '' );
+  const [currentPassword, setCurrentPassword] = useState( '' );
   const [newPassword, setNewPassword] = useState( '' );
   const [newPassword2, setNewPassword2] = useState( '' );
   const [email, setEmail] = useState( '' );
-  const [ogEmail, setOgEmail] = useState( '' );
   const [birthDate, setBirthDate] = useState( '' );
   const [avatar, setAvatar] = useState( '' );
   const [errorRow, setErrorRow] = useState( '' );
-  const [users, setUsers] = useState([]);
   const { name } = useParams();
   const isauthorized = isAuthorized();
   const navigate = useNavigate();
@@ -43,7 +42,6 @@ const PasswordSettings = () => {
     }
 
     getUserByName();
-    getUsers();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -59,7 +57,6 @@ const PasswordSettings = () => {
     setDescription( res.data.descripcion );
     setPassword( res.data.password );
     setEmail( res.data.email );
-    setOgEmail( res.data.email );
     setBirthDate( res.data.fecha_nacimiento );
     setAvatar( res.data.imagen );
 
@@ -77,44 +74,7 @@ const PasswordSettings = () => {
     }
   }
 
-  const getUsers = async () => {
-
-    const res = await axios.get( `${baseUrl}users` );
-    setUsers( res.data );
-
-  };
-
-  function usernameExists() {
-
-    let exists = false;
-
-    users.forEach( ( user ) => {
-      if ( nombre !== name && user.nombre === nombre ) {
-        exists = true;
-      }
-
-    });
-
-    return exists;
-
-  }
-
-  function emailExists() {
-
-    let exists = false;
-
-    users.forEach( ( user ) => {
-      if ( email !== ogEmail && user.email === email ) {
-        exists = true;
-      }
-
-    });
-
-    return exists;
-
-  }
-
-  function dateNotValid() {
+  function checkCurrentPassword() {
     let date = new Date(birthDate)
     let now = new Date()
 
@@ -130,23 +90,27 @@ const PasswordSettings = () => {
 
     e.preventDefault();
 
-    if (usernameExists()) {
-      error = 'Nombre de usuario ya existente. Por favor, introduzca un nuevo nombre de usuario.';
+    if (newPassword.length < 8) {
+      error = 'La nueva contraseña debe contener mínimo 8 caracteres. Por favor, introdúzcala de nuevo.';
+      setNewPassword( '' );
+      setNewPassword2( '' );
       showError();
-    } else if (emailExists()) {
-      error = 'Email ya existente. Por favor, introduzca un nuevo email.';
+    } else if (newPassword !== newPassword2) {
+      error = 'La nueva contraseña no coincide en los campos de texto requeridos. Por favor, introdúzcala de nuevo.';
+      setNewPassword( '' );
+      setNewPassword2( '' );
       showError();
-    } else if (dateNotValid()) {
-      error = 'La fecha de nacimiento debe ser anterior al presente. Por favor, introduzca una nueva fecha.';
+    } else if (password !== currentPassword) {
+      error = 'La contraseña actual introducida es incorrecta. Por favor, introdúzcala de nuevo.';
+      setCurrentPassword( '' );
       showError();
     } else {
       error = '';
       showError();
 
-      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: avatar });
-      localStorage.setItem( 'user', JSON.stringify({ id: id, nombre: nombre, email: email, password: password }) );
+      await axios.put( `${baseUrl}users/${id}`, { password: newPassword });
 
-      Swal.fire( 'Cambios guardados', 'Tu datos se han modificado con éxito.', 'success' ).then( () => {
+      Swal.fire( 'Cambios guardados', 'Tu contraseña ha sido modificada con éxito.', 'success' ).then( () => {
         navigate( `/user/${nombre}` );
       });
     }
@@ -177,11 +141,11 @@ const PasswordSettings = () => {
                 <div className="card-body">
                   { errorRow }
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Contraseña actual</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <input type="password" class="form-control" maxLength={15} value={password} onChange={ ( e ) => setPassword( e.target.value )} />
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <input type="password" class="form-control" maxLength={15} value={currentPassword} onChange={ ( e ) => setCurrentPassword( e.target.value )} />
                     </div>
                   </div>
                   <hr/>
@@ -189,17 +153,17 @@ const PasswordSettings = () => {
                     <div className="col-sm-3 d-flex align-items-center">
                       <p>Nueva contraseña</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <p className="small text-muted mx-0 my-0">La contraseña debe tener mínimo 8 caracteres</p>
+                    <div className="col-sm-9 text-secondary">
+                      <p className="small text-muted mx-0 my-0">La contraseña debe contener mínimo 8 caracteres.</p>
                       <input type="password" class="form-control" maxLength={15} value={newPassword} onChange={ ( e ) => setNewPassword( e.target.value )} />
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Confirmar nueva contraseña</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="password" class="form-control" maxLength={15} value={newPassword2} onChange={ ( e ) => setNewPassword2( e.target.value )} />
                     </div>
                   </div>
