@@ -175,46 +175,46 @@ const UserSettings = () => {
                 <div className="card-body">
                   { errorRow }
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Nombre de usuario</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} />
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Descripción</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <textarea rows="2" class="form-control" maxLength={200} value={description} onChange={ ( e ) => setDescription( e.target.value )}></textarea>
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 d-flex align-items-center">
                     <p>Email</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )}/>
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                     <p>Fecha de nacimiento</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} />
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                     <p>URL de imagen de perfil</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="url" class="form-control" maxLength={500} value={avatar} onChange={ ( e ) => setAvatar( e.target.value )} />
                     </div>
                   </div>
