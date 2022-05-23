@@ -179,7 +179,7 @@ const UserSettings = () => {
                       <p>Nombre de usuario</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} />
+                      <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} minLength="6" required />
                     </div>
                   </div>
                   <hr/>
@@ -197,7 +197,7 @@ const UserSettings = () => {
                     <p>Email</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )}/>
+                      <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
