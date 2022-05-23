@@ -14,15 +14,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const PasswordSettings = () => {
 
   const [id, setId] = useState( '' );
-  const [nombre, setNombre] = useState( '' );
-  const [description, setDescription] = useState( '' );
   const [password, setPassword] = useState( '' );
   const [currentPassword, setCurrentPassword] = useState( '' );
   const [newPassword, setNewPassword] = useState( '' );
   const [newPassword2, setNewPassword2] = useState( '' );
-  const [email, setEmail] = useState( '' );
-  const [birthDate, setBirthDate] = useState( '' );
-  const [avatar, setAvatar] = useState( '' );
   const [errorRow, setErrorRow] = useState( '' );
   const { name } = useParams();
   const isauthorized = isAuthorized();
@@ -53,12 +48,7 @@ const PasswordSettings = () => {
     const res = await axios.get( URI + name );
     
     setId( res.data.id );
-    setNombre( name );
-    setDescription( res.data.descripcion );
     setPassword( res.data.password );
-    setEmail( res.data.email );
-    setBirthDate( res.data.fecha_nacimiento );
-    setAvatar( res.data.imagen );
 
   };
 
@@ -72,18 +62,6 @@ const PasswordSettings = () => {
     } else {
       setErrorRow();
     }
-  }
-
-  function checkCurrentPassword() {
-    let date = new Date(birthDate)
-    let now = new Date()
-
-    if (date > now) {
-      return true;
-    } else {
-      return false;
-    }
-
   }
 
   const update = async ( e ) => {
@@ -111,7 +89,7 @@ const PasswordSettings = () => {
       await axios.put( `${baseUrl}users/${id}`, { password: newPassword });
 
       Swal.fire( 'Cambios guardados', 'Tu contraseña ha sido modificada con éxito.', 'success' ).then( () => {
-        navigate( `/user/${nombre}` );
+        navigate( `/user/${name}` );
       });
     }
 
