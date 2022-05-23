@@ -11,6 +11,7 @@ import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
 import { setUpLists } from '../helper/SetUpLists.js';
 import Swal from 'sweetalert2';
+import { Params } from '../../node_modules/react-router-dom/index.js';
 
 const Game = () => {
 
@@ -19,12 +20,13 @@ const Game = () => {
   const [containedLists, setContainedLists] = useState([]);
   const [allLists, setAllLists] = useState([]);
   const [rate, setRate] = useState([]);
+  const [averageRate, setAverageRate] = useState([]);
   const { id } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
-  const URIedit = `${baseUrl}games/`;
   const URIrate = `${baseUrl}rating/`;
+  const URIaverage = `${baseUrl}rating/media/`
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -73,9 +75,23 @@ const Game = () => {
   
   useEffect( () => {
 
-    getRating()
+    if(game.length != 0){
+
+      getRating()
+
+    }
 
   }, [game]);
+
+  useEffect( () => {
+
+    if(rate.length != 0){
+
+      getAverageRating()
+
+    }
+    
+  }, [rate]);
 
   const getGameById = async () => {
 
@@ -292,17 +308,32 @@ const Game = () => {
 
   };
 
-  /*
-  const update = async ( e ) => {
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    e.preventDefault();
-    await axios.put( URIedit + game.id, {
-      valoracion: rate
-    });
-    //navigate( '/' );
-    //navigate( '/game/' + game.titulo );
+  const getAverageRating = async() => {
 
-  }; */
+    try{
+
+      const res = await axios.get( URIaverage + game.id );
+      const averageRate = res.data[0].media
+      
+      if(averageRate != null){
+
+        setAverageRate( parseFloat(averageRate).toFixed(1) )
+
+      }else{
+
+        setAverageRate(0)
+
+      }
+
+    }catch (error){
+
+      setAverageRate(0)
+
+    }
+
+  }
 
   const getRating = async () => {
 
@@ -310,38 +341,60 @@ const Game = () => {
     const us = JSON.parse( token );
 
     try{
+
       const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
       setRate( res.data[0].valoracion );
-      //console.log( res.data[0].valoracion)
-      //console.log(URIrate + 'usuario/' + us.id + '/' + game.id )
+
     }catch (error){
+
       setRate(0)
+
     }
 
   };
 
-  const rateGame = () => {
+  const rateGame = (selectedRate) => {
 
     Swal.fire({
-      title: '¿Desea valorar ' + game.titulo + ' con ' + rate + ( rate === 1 ? ' estrella' : ' estrellas' ) + '?',
+
+      title: '¿Desea valorar ' + game.titulo + ' con ' + selectedRate + ( selectedRate == 1 ? ' estrella' : ' estrellas' ) + '?',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar'
+
     }).then( ( result ) => {
 
-      if ( result.value ) {
+      if ( result.value ) { 
 
-        axios.put( URIedit + game.id, {
-          valoracion: rate
-        });
+        const token = localStorage.getItem( 'user' );
+        const us = JSON.parse( token );
+
+        if(rate == 0){
+
+          axios.post(URIrate, {
+            id_usuario:us.id,
+            id_juego:game.id,
+            valoracion:selectedRate
+          })
+
+        }else{
+
+          axios.put(URIrate + '/' + game.id + '/' + us.id, {
+            valoracion:selectedRate
+          })
+
+        }
+
+        setRate(selectedRate)
 
       }
 
     });
 
   };
+
 
   return (
     <div>
@@ -428,7 +481,7 @@ const Game = () => {
                       viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
-                    <p className="text-center text-break fs-2 fw-bold">{rate}</p>
+                    <p className="text-center text-break fs-2 fw-bold">{averageRate}</p>
                   </div>
                 </td>
               </tr>
@@ -466,7 +519,7 @@ const Game = () => {
                         viewBox="0 0 16 16">
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                       </svg>
-                      <p className="text-center text-break fs-2 fw-bold">{rate}</p>
+                      <p className="text-center text-break fs-2 fw-bold">{averageRate}</p>
                     </div>
                   </td>
                 </tr>
@@ -482,14 +535,14 @@ const Game = () => {
           <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
 
             <div className="d-flex justify-content-evenly mt-2 mb-3">
-              {/* onSubmit={rateGame} */}
+              {/* onSubmit={rateGame} 
 
               <button className="btn btn-outline-dark ms-3 mt-2"
                 id="valorar"
                 type="submit"
                 onClick={rateGame}>
                 <i className="fa fa-star"></i> Valorar juego
-              </button>
+              </button>*/}
 
               <div className="me-3 mb-2"
                 id="rate">
@@ -497,8 +550,8 @@ const Game = () => {
                   id="star5"
                   name="rate"
                   value="5"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 5}/>
+                  onChange={e => rateGame(e.target.value)}
+                  checked={rate == 5}/>
                 <label htmlFor="star5"
                   id="start"
                   title="5 estrellas">5 stars</label>
@@ -506,8 +559,8 @@ const Game = () => {
                   id="star4"
                   name="rate"
                   value="4"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 4}/>
+                  onChange={e => rateGame( e.target.value )}
+                  checked={rate == 4}/>
                 <label htmlFor="star4"
                   id="start"
                   title="4 estrellas">4 stars</label>
@@ -515,8 +568,8 @@ const Game = () => {
                   id="star3"
                   name="rate"
                   value="3"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 3}
+                  onChange={e => rateGame( e.target.value )}
+                  checked={rate == 3}
                 />
                 <label htmlFor="star3"
                   id="start"
@@ -525,8 +578,8 @@ const Game = () => {
                   id="star2"
                   name="rate"
                   value="2"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 2}/>
+                  onChange={e => rateGame( e.target.value )}
+                  checked={rate == 2}/>
                 <label htmlFor="star2"
                   id="start"
                   title="2 estrellas">2 stars</label>
@@ -534,8 +587,8 @@ const Game = () => {
                   id="star1"
                   name="rate"
                   value="1"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 1}/>
+                  onChange={e => rateGame( e.target.value )}
+                  checked={rate == 1}/>
                 <label htmlFor="star1"
                   id="start"
                   title="1 estrella">1 star</label>

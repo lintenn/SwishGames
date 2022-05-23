@@ -30,6 +30,20 @@ const getRatingsByGame = async(req, res) => {
 
 };
 
+const getAverageRatingsByGame = async(req, res) => {
+
+    try{
+
+        const Ratings = await db.query(`SELECT AVG(V.valoracion) media FROM Valoraciones V WHERE V.id_juego = ${req.params.id_juego} `, { type: Sequelize.QueryTypes.SELECT });
+        res.json(Ratings)
+    } catch (error){
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
 const getRatingsByUserAndGame = async(req, res) => {
 
     try{
@@ -90,6 +104,7 @@ const deleteRating = async (req, res) => {
 module.exports = {
     gettAllRatings,
     getRatingsByGame, 
+    getAverageRatingsByGame,
     getRatingsByUserAndGame,
     createRating,
     updateRating,
