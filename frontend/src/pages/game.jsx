@@ -24,6 +24,7 @@ const Game = () => {
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
   const URIedit = `${baseUrl}games/`;
+  const URIrate = `${baseUrl}rating/`;
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -69,9 +70,10 @@ const Game = () => {
 
   }, [game]);
 
+  
   useEffect( () => {
 
-    setRate( game.valoracion );
+    getRating()
 
   }, [game]);
 
@@ -301,6 +303,22 @@ const Game = () => {
     //navigate( '/game/' + game.titulo );
 
   }; */
+
+  const getRating = async () => {
+
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+
+    try{
+      const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
+      setRate( res.data[0].valoracion );
+      //console.log( res.data[0].valoracion)
+      //console.log(URIrate + 'usuario/' + us.id + '/' + game.id )
+    }catch (error){
+      setRate(0)
+    }
+
+  };
 
   const rateGame = () => {
 
