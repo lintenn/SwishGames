@@ -12,6 +12,7 @@ import List from './pages/list.jsx';
 import EditList from './pages/editList.jsx';
 import Users from './pages/users.jsx';
 import UserSettings from './pages/userSettings.jsx';
+import PasswordSettings from './pages/passwordSettings.jsx';
 
 function App() {
 
@@ -43,6 +44,8 @@ function App() {
             element={<Users/>}/>
           <Route path="/userSettings/:name"
             element={<UserSettings/>}/>
+          <Route path="/passwordSettings/:name"
+            element={<PasswordSettings/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -106,9 +106,9 @@ const User = () => {
               <Link to={'/userSettings/' + name}><button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-user"></i> Editar perfil
               </button></Link>
-              <button className="btn btn-outline-dark m-1">
+              <Link to={'/passwordSettings/' + name}><button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-key"></i> Cambiar contraseña
-              </button>
+              </button></Link>
             </div>
           </div>
         </>
@@ -166,31 +166,31 @@ const User = () => {
               <div className="card mb-3 information">
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-sm-3 textito">
+                    <div className="col-sm-3 textito d-flex align-items-center">
                       Nombre de usuario
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{name}</div>
+                    <div className="col-sm-9 text-secondary textito d-flex align-items-center">{name}</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
+                    <div className="col-sm-3 textito d-flex align-items-center">
                       Email
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{email}</div>
+                    <div className="col-sm-9 text-secondary textito d-flex align-items-center">{email}</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
+                    <div className="col-sm-3 textito d-flex align-items-center">
                       Fecha de nacimiento
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{ new Date(birthDate).toLocaleString('en-GB').split(",")[0] }</div>
+                    <div className="col-sm-9 text-secondary textito d-flex align-items-center">{ new Date(birthDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 textito">
+                    <div className="col-sm-3 textito d-flex align-items-center">
                       Fecha de creación de la cuenta
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{ new Date(creationDate).toLocaleString('en-GB').split(",")[0] }</div>
+                    <div className="col-sm-9 text-secondary textito d-flex align-items-center">{ new Date(creationDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
 
                   { userOptions }
