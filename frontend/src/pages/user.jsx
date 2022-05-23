@@ -97,15 +97,15 @@ const User = () => {
     const token = localStorage.getItem( 'user' );
     const us = JSON.parse( token );
 
-    if (us.nombre == name) {
+    if (us.nombre === name) {
       setUserOptions(
         <>
           <hr/>
           <div className="row">
             <div className="col-sm-12">
-              <button className="btn btn-outline-dark m-1">
+              <Link to={'/userSettings/' + name}><button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-user"></i> Editar perfil
-              </button>
+              </button></Link>
               <button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-key"></i> Cambiar contraseña
               </button>
@@ -167,7 +167,7 @@ const User = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3 textito">
-                      Nombre
+                      Nombre de usuario
                     </div>
                     <div className="col-sm-9 text-secondary textito">{name}</div>
                   </div>
@@ -183,14 +183,14 @@ const User = () => {
                     <div className="col-sm-3 textito">
                       Fecha de nacimiento
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{birthDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{ new Date(birthDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
                   <hr/>
                   <div className="row">
                     <div className="col-sm-3 textito">
                       Fecha de creación de la cuenta
                     </div>
-                    <div className="col-sm-9 text-secondary textito">{creationDate}</div>
+                    <div className="col-sm-9 text-secondary textito">{ new Date(creationDate).toLocaleString('en-GB').split(",")[0] }</div>
                   </div>
 
                   { userOptions }

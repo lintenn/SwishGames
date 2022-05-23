@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../helper/isAuthorized.js';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/game.css';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
@@ -24,6 +24,7 @@ const Game = () => {
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
   const URIedit = `${baseUrl}games/`;
+  const URIrate = `${baseUrl}rating/`;
   const navigate = useNavigate();
 
   useEffect( () => {
@@ -69,9 +70,10 @@ const Game = () => {
 
   }, [game]);
 
+  
   useEffect( () => {
 
-    setRate( game.valoracion );
+    getRating()
 
   }, [game]);
 
@@ -121,18 +123,14 @@ const Game = () => {
     let contains = false;
     lists.forEach( l => {
 
-      console.log( 'l.id = ' + l.id );
-      console.log( 'idList = ' + idList );
-      console.log( l.id + ' === ' + idList + ' ? -> ' + ( l.id === idList ) );
-
-      if ( l.id === idList ) {
+      if ( ( l.id + '' ) === ( idList + '' ) ) {
 
         contains = true;
 
       }
 
     });
-    console.log( contains );
+
     return contains;
 
   }
@@ -187,7 +185,7 @@ const Game = () => {
     let name = '';
     lists.forEach( l => {
 
-      if ( l.id === id ) {
+      if ( ( l.id + '' ) === ( id + '' ) ) {
 
         name = l.nombre;
 
@@ -207,9 +205,6 @@ const Game = () => {
         e.preventDefault();
 
         if ( boton.value !== null ) {
-
-          console.log( boton.value );
-          console.log( containedLists );
 
           if ( boton.value === 'new' ) {
 
@@ -297,17 +292,56 @@ const Game = () => {
 
   };
 
+  /*
   const update = async ( e ) => {
 
     e.preventDefault();
     await axios.put( URIedit + game.id, {
       valoracion: rate
     });
-    navigate( '/' );
-    navigate( '/game/' + game.titulo );
+    //navigate( '/' );
+    //navigate( '/game/' + game.titulo );
+
+  }; */
+
+  const getRating = async () => {
+
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+
+    try{
+      const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
+      setRate( res.data[0].valoracion );
+      //console.log( res.data[0].valoracion)
+      //console.log(URIrate + 'usuario/' + us.id + '/' + game.id )
+    }catch (error){
+      setRate(0)
+    }
 
   };
 
+  const rateGame = () => {
+
+    Swal.fire({
+      title: '¿Desea valorar ' + game.titulo + ' con ' + rate + ( rate === 1 ? ' estrella' : ' estrellas' ) + '?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then( ( result ) => {
+
+      if ( result.value ) {
+
+        axios.put( URIedit + game.id, {
+          valoracion: rate
+        });
+
+      }
+
+    });
+
+  };
 
   return (
     <div>
@@ -394,7 +428,7 @@ const Game = () => {
                       viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
-                    <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                    <p className="text-center text-break fs-2 fw-bold">{rate}</p>
                   </div>
                 </td>
               </tr>
@@ -432,7 +466,7 @@ const Game = () => {
                         viewBox="0 0 16 16">
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                       </svg>
-                      <p className="text-center text-break fs-2 fw-bold">{game.valoracion}</p>
+                      <p className="text-center text-break fs-2 fw-bold">{rate}</p>
                     </div>
                   </td>
                 </tr>
@@ -447,12 +481,13 @@ const Game = () => {
 
           <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
 
-            <form className="d-flex justify-content-evenly mt-2 mb-3"
-              onSubmit={update}>
+            <div className="d-flex justify-content-evenly mt-2 mb-3">
+              {/* onSubmit={rateGame} */}
 
               <button className="btn btn-outline-dark ms-3 mt-2"
                 id="valorar"
-                type="submit">
+                type="submit"
+                onClick={rateGame}>
                 <i className="fa fa-star"></i> Valorar juego
               </button>
 
@@ -463,7 +498,7 @@ const Game = () => {
                   name="rate"
                   value="5"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 5}/>
+                  checked={rate === 5}/>
                 <label htmlFor="star5"
                   id="start"
                   title="5 estrellas">5 stars</label>
@@ -472,7 +507,7 @@ const Game = () => {
                   name="rate"
                   value="4"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 4}/>
+                  checked={rate === 4}/>
                 <label htmlFor="star4"
                   id="start"
                   title="4 estrellas">4 stars</label>
@@ -481,7 +516,7 @@ const Game = () => {
                   name="rate"
                   value="3"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 3}
+                  checked={rate === 3}
                 />
                 <label htmlFor="star3"
                   id="start"
@@ -491,7 +526,7 @@ const Game = () => {
                   name="rate"
                   value="2"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 2}/>
+                  checked={rate === 2}/>
                 <label htmlFor="star2"
                   id="start"
                   title="2 estrellas">2 stars</label>
@@ -500,13 +535,13 @@ const Game = () => {
                   name="rate"
                   value="1"
                   onChange={e => setRate( e.target.value )}
-                  checked={rate == 1}/>
+                  checked={rate === 1}/>
                 <label htmlFor="star1"
                   id="start"
                   title="1 estrella">1 star</label>
               </div>
 
-            </form>
+            </div>
 
           </div>
 
