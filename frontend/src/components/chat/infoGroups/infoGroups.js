@@ -3,6 +3,7 @@ import { Global } from '../../../helper/Global';
 import axios from 'axios';
 import { editInfo } from './editInfo';
 import { copyInfo } from './copyInfo';
+import socket from '../Socket';
 
 const baseUrl = Global.baseUrl;
 
@@ -163,6 +164,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
             'success'
           ).then( () => {
 
+            socket.emit( 'mensaje' );
             window.location.reload();
 
           });
@@ -201,6 +203,8 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
             'success'
           ).then( () => {
 
+            axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha salido del grupo`, administracion: 1 });
+            socket.emit( 'mensaje' );
             window.location.reload();
 
           });
@@ -291,7 +295,8 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
         participantesAñadidos.forEach( ( participante ) => {
 
           axios.post( `${baseUrl}participantsGroups/`, { id_grupo: groupAct.id, nombre_usuario: participante });
-
+          axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
+          socket.emit( 'mensaje' );
 
         });
 
@@ -512,6 +517,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
           if ( result.value ) {
 
             axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${nombreParticipante}` );
+            axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha eliminado del grupo a ${nombreParticipante}`, administracion: 1 });
 
             Swal.fire(
               '¡Eliminado!',
@@ -519,6 +525,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
               'success'
             ).then( () => {
 
+              socket.emit( 'mensaje' );
               axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
                 .then( res => {
 

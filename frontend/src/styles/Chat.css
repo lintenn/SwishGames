@@ -151,7 +151,12 @@ a {
     background-color: #d9fdd3;
 }
 
-.mensajeActualizadoMio, .mensajeActualizadoOtro {
+.mensajeAdministracion{
+    background-color: #fdd9d9;
+    max-width: 100% !important;
+}
+
+.mensajeActualizadoMio, .mensajeActualizadoOtro, .mensajeAdministracion {
     margin-bottom: 5px;
     border-radius: 5px;
     max-width: 70%;
