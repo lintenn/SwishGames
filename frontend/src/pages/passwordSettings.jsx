@@ -123,7 +123,7 @@ const PasswordSettings = () => {
                       <p>Contraseña actual</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="password" class="form-control" maxLength={15} value={currentPassword} onChange={ ( e ) => setCurrentPassword( e.target.value )} />
+                      <input type="password" class="form-control" maxLength={15} value={currentPassword} onChange={ ( e ) => setCurrentPassword( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
@@ -133,7 +133,7 @@ const PasswordSettings = () => {
                     </div>
                     <div className="col-sm-9 text-secondary">
                       <p className="small text-muted mx-0 my-0">La contraseña debe contener mínimo 8 caracteres.</p>
-                      <input type="password" class="form-control" maxLength={15} value={newPassword} onChange={ ( e ) => setNewPassword( e.target.value )} />
+                      <input type="password" class="form-control" maxLength={15} value={newPassword} onChange={ ( e ) => setNewPassword( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
@@ -142,7 +142,7 @@ const PasswordSettings = () => {
                       <p>Confirmar nueva contraseña</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="password" class="form-control" maxLength={15} value={newPassword2} onChange={ ( e ) => setNewPassword2( e.target.value )} />
+                      <input type="password" class="form-control" maxLength={15} value={newPassword2} onChange={ ( e ) => setNewPassword2( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
