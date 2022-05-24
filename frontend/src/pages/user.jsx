@@ -7,6 +7,7 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
+import Swal from 'sweetalert2';
 import '../styles/user.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -93,11 +94,19 @@ const User = () => {
 
   }
 
+  const redirect = () => {
+    if ( !isauthorized ) {
+
+      Swal.fire( 'No has iniciado sesión' )
+
+    }
+  }
+
   const checkUserOptions = async () => {
     const token = localStorage.getItem( 'user' );
     const us = JSON.parse( token );
 
-    if (us.nombre === name) {
+    if (us != null && us.nombre === name) {
       setUserOptions(
         <>
           <hr/>
@@ -114,7 +123,16 @@ const User = () => {
         </>
       )
     } else {
-      setUserOptions()
+      setUserOptions(
+        <>
+          <hr/>
+          <div className="row">
+            <div className="col-sm-12">
+                <button className="btn btn-outline-dark m-1" onClick={() => redirect()}><i class="fa-solid fa-comment-dots"></i> Enviar mensaje</button>
+            </div>
+          </div>
+        </>
+      )
     }
   }
 

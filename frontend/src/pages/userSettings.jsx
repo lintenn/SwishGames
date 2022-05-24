@@ -38,6 +38,12 @@ const UserSettings = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
+      if (us.nombre !== name) {
+        navigate( '/' );
+      }
+
+    } else {
+      navigate( '/' );
     }
 
     getUserByName();
@@ -206,7 +212,7 @@ const UserSettings = () => {
                     <p>Fecha de nacimiento</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} />
+                      <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
