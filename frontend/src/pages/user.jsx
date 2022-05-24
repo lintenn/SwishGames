@@ -114,7 +114,16 @@ const User = () => {
         </>
       )
     } else {
-      setUserOptions()
+      setUserOptions(
+        <>
+          <hr/>
+          <div className="row">
+            <div className="col-sm-12">
+                <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-comment-dots"></i> Enviar mensaje</button>
+            </div>
+          </div>
+        </>
+      )
     }
   }
 
