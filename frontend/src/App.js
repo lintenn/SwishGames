@@ -30,6 +30,8 @@ function App() {
             element={<Main/>}/>
           <Route path="/chat"
             element={<Chat/>}/>
+          <Route path="/chat/:receptorActual"
+            element={<Chat/>}/>
           <Route path="/game/:id"
             element={<Game/>}/>
           <Route path="/user/:name"

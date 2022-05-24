@@ -10,6 +10,7 @@ import { Global } from '../helper/Global.js';
 import Swal from 'sweetalert2';
 import '../styles/user.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from '../../node_modules/react-router/index';
 
 const User = () => {
 
@@ -28,6 +29,7 @@ const User = () => {
   let URILists = '';
   let URIFavourites = '';
   const URI = `${baseUrl}users/name/`;
+  const navigate = useNavigate();
 
   useEffect( () => {
 
@@ -128,7 +130,7 @@ const User = () => {
           <hr/>
           <div className="row">
             <div className="col-sm-12">
-                <button className="btn btn-outline-dark m-1" onClick={() => redirect()}><i class="fa-solid fa-comment-dots"></i> Enviar mensaje</button>
+                <button className="btn btn-outline-dark m-1" onClick={() => {navigate(`/chat/${name}`)}}><i class="fa-solid fa-comment-dots"></i> Enviar mensaje</button>
             </div>
           </div>
         </>

@@ -26,7 +26,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   useEffect( () => {
 
-    if ( receptor.nombre === undefined && group.nombre === undefined ) {
+    if ( receptor === '' && group.nombre === undefined ) {
 
       let i = 0;
       const idGroups = [];
@@ -123,6 +123,17 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     } else {
 
+      if ( receptor !== '' && group.nombre === undefined ) {
+
+        setGroup({});
+        setConection( receptor );
+
+      } else if ( receptor === '' && group.nombre !== undefined ) {
+
+        setReceptor( '' );
+        setMiembrosGrupo( group.id );
+
+      }
 
       document.querySelectorAll( '.chatSeleccionado' ).forEach( document => {
 
@@ -130,9 +141,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       });
 
-      if ( document.getElementById( `${( receptor.nombre === undefined && group.nombre !== undefined ) ? group.id : receptor.nombre}` ) !== null ) {
+      if ( document.getElementById( `${( receptor === '' && group.nombre !== undefined ) ? group.id : receptor}` ) !== null ) {
 
-        document.getElementById( `${( receptor.nombre === undefined && group.nombre !== undefined ) ? group.id : receptor.nombre}` ).classList.add( 'chatSeleccionado' );
+        document.getElementById( `${( receptor === '' && group.nombre !== undefined ) ? group.id : receptor}` ).classList.add( 'chatSeleccionado' );
 
       }
 
