@@ -7,7 +7,6 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
-import Swal from 'sweetalert2';
 import '../styles/user.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from '../../node_modules/react-router/index';
@@ -94,14 +93,6 @@ const User = () => {
     const res = await axios.get( URIFavourites );
     setFavoritos( res.data );
 
-  }
-
-  const redirect = () => {
-    if ( !isauthorized ) {
-
-      Swal.fire( 'No has iniciado sesión' )
-
-    }
   }
 
   const checkUserOptions = async () => {
