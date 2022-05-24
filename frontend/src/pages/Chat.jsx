@@ -5,7 +5,7 @@ import { Conversacion } from '../components/chat/Conversacion';
 import Swal from 'sweetalert2';
 import '../styles/Chat.css';
 import { isAuthorized } from '../helper/isAuthorized.js';
-import { useNavigate } from '../../node_modules/react-router/index';
+import { useNavigate, useParams } from '../../node_modules/react-router/index';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
@@ -30,6 +30,7 @@ export const Chat = () => {
   const [iniciandoChat, setIniciandoChat] = useState( false );
   const [configurationGroups, setConfigurationGroups] = useState( '' );
   const baseUrl = Global.baseUrl;
+  const { receptorActual } = useParams();
 
   useEffect( () => {
 
@@ -45,6 +46,11 @@ export const Chat = () => {
     } else {
 
       setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
+      if ( receptorActual !== undefined ) {
+
+        setReceptor( receptorActual );
+
+      }
 
     }
 
