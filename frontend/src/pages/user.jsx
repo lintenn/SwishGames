@@ -7,6 +7,7 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
+import Swal from 'sweetalert2';
 import '../styles/user.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from '../../node_modules/react-router/index';
@@ -95,6 +96,63 @@ const User = () => {
 
   }
 
+  const showFinalDeletionSwal = ( errorMessage ) => {
+    Swal.fire({
+      html: `<div style="background-color: #f0eeee">
+              <p class="text-center" style="color:red">${errorMessage}</p>
+              <h5>Introduzca su contraseña para confirmar la eliminación de la cuenta.</h5></br>
+              <p class="text-center">Contraseña:</p>
+              <input type="password" class="form-control" maxLength="15" size="15" id="dltpwd"/>
+            </div>`,
+      background: '#f0eeee',
+      showCloseButton: true,
+      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+      showCancelButton: false,
+      showConfirmButton: true,
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      focusConfirm: false,
+    }).then( ( result ) => {
+
+      if ( result.value ) {
+        const token = localStorage.getItem( 'user' );
+        const us = JSON.parse( token );
+        const pass = document.getElementById( 'dltpwd' ).value;
+
+        if (pass.length === 0 || pass !== us.password) {
+          showFinalDeletionSwal( "La contraseña introducida es incorrecta." )
+        } else {
+          localStorage.clear();
+          axios.delete(`${baseUrl}users/${us.id}`);
+
+          Swal.fire( 'Cuenta eliminada', 'Tu cuenta ha sido eliminada con éxito.', 'success' ).then( () => {
+            navigate( '/' );
+          });
+        }
+      }
+
+    });
+  }
+
+  const showDeletionSwal = () => {
+    Swal.fire({
+      title: `¿Estás seguro de que quieres eliminar tu cuenta?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#292b2c',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      focusCancel: true
+    }).then( ( result ) => {
+
+      if ( result.value ) {
+        showFinalDeletionSwal( "" )
+      }
+
+    });
+  }
+
   const checkUserOptions = async () => {
     const token = localStorage.getItem( 'user' );
     const us = JSON.parse( token );
@@ -111,6 +169,9 @@ const User = () => {
               <Link to={'/passwordSettings/' + name}><button className="btn btn-outline-dark m-1">
                 <i className="fa-solid fa-key"></i> Cambiar contraseña
               </button></Link>
+              <button className="btn btn-outline-danger m-1" onClick={() => showDeletionSwal()}>
+                <i class="fa-solid fa-xmark"></i> Eliminar cuenta
+              </button>
             </div>
           </div>
         </>
