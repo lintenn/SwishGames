@@ -38,6 +38,12 @@ const UserSettings = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
+      if (us.nombre !== name) {
+        navigate( '/' );
+      }
+
+    } else {
+      navigate( '/' );
     }
 
     getUserByName();
