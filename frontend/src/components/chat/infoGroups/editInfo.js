@@ -1,8 +1,10 @@
 import Swal from 'sweetalert2';
 import { Global } from '../../../helper/Global';
 import axios from 'axios';
+import socket from '../Socket';
 
 const baseUrl = Global.baseUrl;
+const URIMensajes = `${baseUrl}chats/`;
 
 export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
 
@@ -90,6 +92,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
         groupAct.descripcion = descripcion;
         axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
         tipo = 'La descripcion';
+        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la descripción del grupo`, administracion: 1 });
         break;
       case 'nombre':
         nombre = document.querySelector( '#nombre-edit-group' ).value;
@@ -106,6 +109,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
           groupAct.nombre = nombre;
           axios.put( `${baseUrl}groups/${groupAct.id}`, { nombre });
           tipo = 'El nombre';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado el nombre del grupo`, administracion: 1 });
 
         }
         break;
@@ -114,6 +118,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
         groupAct.imagen = imagen;
         axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
         tipo = 'La imagen';
+        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
         break;
 
     }
@@ -121,35 +126,46 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
     if ( nombre !== '' ) {
 
-      Swal.fire(
-        'Editado!',
-        `${tipo} del grupo ha sido editada`,
-        'success'
-      ).then( () => {
+      axios.get( `${baseUrl}users` )
+        .then(
 
-        Swal.fire({
-          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          heightAuto: false,
-          didOpen: () => {
+          socket.emit( 'mensaje' )
 
-            addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+        );
 
-            axios.get( `${baseUrl}groups/${groupAct.id}` )
-              .then( res => setGroup( res.data ) );
+      axios.get( `${baseUrl}groups/${groupAct.id}` )
+        .then( res => {
 
-          }
+          Swal.fire(
+            'Editado!',
+            `${tipo} del grupo ha sido editada`,
+            'success'
+          ).then( () => {
+
+            Swal.fire({
+              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+              background: '#f0eeee',
+              showCloseButton: true,
+              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              width: '50%',
+              heightAuto: false,
+              didOpen: () => {
+
+                addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+                setGroup( res.data );
+
+              }
+
+            });
+
+          });
 
         });
 
-      });
 
     }
 

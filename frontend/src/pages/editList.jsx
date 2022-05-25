@@ -39,11 +39,7 @@ const EditList = () => {
 
     } else {
 
-      Swal.fire( 'No has iniciado sesión' ).then( () => {
-
-        navigate( '/' );
-
-      });
+      navigate( '/noLogin' );
 
     }
 

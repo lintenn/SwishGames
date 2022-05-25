@@ -152,7 +152,7 @@ a {
 }
 
 .mensajeAdministracion{
-    background-color: #fdd9d9;
+    background-color: #f8e1b1;
     max-width: 100% !important;
 }
 
@@ -264,6 +264,24 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+.centrar-vertical-padre {
+	position: absolute !important;
+	color: black !important;
+	font-size: 14px !important;
+	top: 50% !important;
+	left: 50% !important;
+	margin: -100px 0 0 -208px !important;
+	width:416px !important;
+	height:200px !important;
+}
+
+.centrar-vertical-hijo {
+    width: 416px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+ }
 
 @media only screen and (max-height: 500px) {
     .my-custom-scrollbar {

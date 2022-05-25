@@ -13,6 +13,7 @@ import EditList from './pages/editList.jsx';
 import Users from './pages/users.jsx';
 import UserSettings from './pages/userSettings.jsx';
 import PasswordSettings from './pages/passwordSettings.jsx';
+import { NoLogin } from './pages/noLogin.jsx';
 
 function App() {
 
@@ -48,6 +49,8 @@ function App() {
             element={<UserSettings/>}/>
           <Route path="/passwordSettings/:name"
             element={<PasswordSettings/>}/>
+          <Route path="/noLogin/"
+            element={<NoLogin/>}/>
         </Routes>
       </BrowserRouter>
     </div>

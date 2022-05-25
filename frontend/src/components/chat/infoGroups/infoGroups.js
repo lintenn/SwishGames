@@ -296,7 +296,6 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
 
           axios.post( `${baseUrl}participantsGroups/`, { id_grupo: groupAct.id, nombre_usuario: participante });
           axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
-          socket.emit( 'mensaje' );
 
         });
 
@@ -307,11 +306,12 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
         ).then( () => {
 
 
+          socket.emit( 'mensaje' );
           axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
             .then( res => {
 
               Swal.fire({
-                html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, res.data, userAct )}</div>`,
+                html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( res.data, admin, userAct )}</div>`,
                 background: '#f0eeee',
                 showCloseButton: true,
                 closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -323,7 +323,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
                 heightAuto: false,
                 didOpen: () => {
 
-                  addClickButton( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+                  addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
 
                 }
 
@@ -339,7 +339,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
           .then( res => {
 
             Swal.fire({
-              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, res.data, userAct )}</div>`,
+              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( res.data, admin, userAct )}</div>`,
               background: '#f0eeee',
               showCloseButton: true,
               closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -351,7 +351,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
               heightAuto: false,
               didOpen: () => {
 
-                addClickButton( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+                addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
 
               }
 
