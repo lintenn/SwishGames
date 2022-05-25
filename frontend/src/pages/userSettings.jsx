@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import socket from '../components/chat/Socket';
-import Input from '@material-ui/core/Input';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
@@ -49,6 +48,7 @@ const UserSettings = () => {
 
     getUserByName();
     getUsers();
+    loadImageControl();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -69,6 +69,32 @@ const UserSettings = () => {
     setAvatar( res.data.imagen );
 
   };
+
+  const loadImageControl = async () => {
+    document.querySelectorAll( 'input[type="file"]' ).forEach( ( input ) => {
+
+      input.addEventListener( 'change', async ( e ) => {
+  
+        e.preventDefault();
+        const file = e.target.files;
+        const formData = new FormData();
+        formData.append( 'file', file[0]);
+        formData.append( 'upload_preset', 'FotosGrupos' );
+        const res = await fetch(
+          'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
+          {
+            method: 'POST',
+            body: formData
+          }
+        );
+        const result = await res.json();
+        let imagen = result.secure_url;
+        document.getElementById( 'img-photo-create-group' ).src = imagen;
+  
+      });
+  
+    });
+  }
 
   const showError = async () => {
     if (error !== '') {
@@ -148,7 +174,7 @@ const UserSettings = () => {
       error = '';
       showError();
 
-      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: avatar });
+      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: document.getElementById( 'img-photo-create-group' ).src });
       localStorage.setItem( 'user', JSON.stringify({ id: id, nombre: nombre, email: email, password: password }) );
 
       Swal.fire( 'Cambios guardados', 'Tu datos se han modificado con éxito.', 'success' ).then( () => {
@@ -184,11 +210,11 @@ const UserSettings = () => {
                   <div className="row">
                     <div className="col-sm-3 d-flex align-items-center">
                       <p>Imagen de perfil</p>
-                      </div>
-                        <div className="col-sm-9 text-secondary d-flex align-items-center">
-                          <img src={ avatar } className="d-flex align-self-center m-3 imagen-perfil-chat" alt="..." width="100" height="100"/>
-                          <input accept="image/*" type="file" id="photito"/>
-                        </div>
+                    </div>
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <img src={ avatar } className="d-flex align-self-center m-3" id ="img-photo-create-group" alt="..." width="100" height="100"/>
+                      <input accept="image/*" type="file" id="photo-create-group"/>
+                    </div>
                       </div>
                   <hr/>
                   <div className="row">
