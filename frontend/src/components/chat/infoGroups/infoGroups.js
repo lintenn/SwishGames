@@ -7,7 +7,7 @@ import socket from '../Socket';
 
 const baseUrl = Global.baseUrl;
 
-export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct, setGroup ) => {
+export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct, setGroup, setReceptor, setConection ) => {
 
   let groupAct = {};
   let usuarioReceptor = {};
@@ -55,7 +55,7 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
     width: '50%',
     didOpen: () => {
 
-      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
 
     }
 
@@ -64,7 +64,7 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
 
 };
 
-function addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
+function addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
 
   if ( receptor === '' ) {
 
@@ -74,7 +74,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
       botonCopiarDescripcion.addEventListener( 'click', ( event ) => {
 
         event.preventDefault();
-        copyInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton );
+        copyInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup );
 
       });
 
@@ -84,7 +84,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
     botonCopiarNombre.addEventListener( 'click', ( event ) => {
 
       event.preventDefault();
-      copyInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton );
+      copyInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup );
 
     });
 
@@ -104,9 +104,39 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
         heightAuto: false,
         didOpen: () => {
 
-          addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+          addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
 
         }
+
+      });
+
+    });
+
+  } else {
+
+    const botonVerGruposEnComun = document.querySelector( 'button[name="verGrupos"]' );
+    botonVerGruposEnComun.addEventListener( 'click', ( event ) => {
+
+      axios.get( `${baseUrl}groups/groups/${userAct.nombre}/${usuarioReceptor.nombre}` ).then( res => {
+
+        Swal.fire({
+          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showGroups( res.data )}</div>`,
+          background: '#f0eeee',
+          showCloseButton: true,
+          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+          showCancelButton: false,
+          showConfirmButton: false,
+          focusConfirm: false,
+          allowOutsideClick: false,
+          width: '50%',
+          heightAuto: false,
+          didOpen: () => {
+
+            addClickButtonViewGroups( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
+
+          }
+        });
+
 
       });
 
@@ -120,7 +150,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
     botonEditarDescripcion.addEventListener( 'click', ( event ) => {
 
       event.preventDefault();
-      editInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      editInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
     });
 
@@ -128,7 +158,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
     botonEditarNombre.addEventListener( 'click', ( event ) => {
 
       event.preventDefault();
-      editInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      editInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
     });
 
@@ -136,7 +166,7 @@ function addClickButton( groupAct, admin, receptor, usuarioReceptor, participant
     botonEditarImagen.addEventListener( 'click', ( event ) => {
 
       event.preventDefault();
-      editInfo( 'imagen', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      editInfo( 'imagen', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
     });
 
@@ -258,7 +288,7 @@ function showAddParticipantes( user, users ) {
 
 }
 
-function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
+function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
 
   const participantesAñadidos = [];
 
@@ -323,7 +353,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
                 heightAuto: false,
                 didOpen: () => {
 
-                  addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+                  addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
 
                 }
 
@@ -351,7 +381,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
               heightAuto: false,
               didOpen: () => {
 
-                addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+                addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
 
               }
 
@@ -429,6 +459,9 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
     <br/>
     <br/>
     <h5>${usuarioReceptor.descripcion}</h5>
+    <br/>
+    <br/>
+    <button style="border-radius: 20px" class="btn btn-primary" name="verGrupos">Ver grupos en común</button>
   `;
 
   }
@@ -467,9 +500,10 @@ function showMembers( users, admin, userAct ) {
                       ${remove}
                     </button>`
       : buttonRemove = '';
+    const goProfile = us.nombre !== userAct.nombre ? 'newChat' : '';
     friends += `
         <div class="d-flex flex-row mb-3">
-          <button style="background-color: white; border-radius: 20px" value="${us.nombre}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+          <button style="background-color: white; border-radius: 20px" name="${goProfile}" value="${us.nombre}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
             <div class="align-items-center divObjectsSend">
               <img src=${us.imagen}
                 alt="avatar"
@@ -493,7 +527,48 @@ function showMembers( users, admin, userAct ) {
 
 }
 
-function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct ) {
+function showGroups( groups ) {
+
+  let friends = '';
+
+  groups.forEach( ( group ) => {
+
+    if ( group.id !== 1 ) {
+
+      const descripcion = formatDescription( group.descripcion );
+
+      friends += `
+            <div class="d-flex flex-row mb-3">
+            <button style="background-color: white; border-radius: 20px" name="viewGroup" value="${group.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+              <div class="align-items-center divObjectsSend">
+                <img src=${group.imagen}
+                  alt="avatar"
+                  class="d-flex align-self-center m-3 imagen-perfil-chat"
+                  width="50"
+                  height="50" />
+              </div>
+              <div class="pt-1">
+                <p class="fw-bold mb-0">${group.nombre}</p>
+                <p class="small text-muted">${descripcion}</p>
+              </div>
+            </button>
+          </div>`;
+
+    }
+
+  });
+
+  if ( friends === '' ) {
+
+    friends += '<h1>No hay grupos en común</h1>';
+
+  }
+
+  return ( friends );
+
+}
+
+function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
 
   if ( admin ) {
 
@@ -542,7 +617,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
                     heightAuto: false,
                     didOpen: () => {
 
-                      addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+                      addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
 
                     }
 
@@ -580,7 +655,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
             heightAuto: false,
             didOpen: () => {
 
-              addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct );
+              addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
 
             }
 
@@ -592,5 +667,63 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
     });
 
   }
+
+  document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
+
+    boton.addEventListener( 'click', ( e ) => {
+
+      e.preventDefault();
+      if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
+
+        document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+      }
+      setReceptor( boton.value );
+      setConection( boton.value );
+      setGroup({});
+      if ( document.getElementById( `${boton.value}` ) !== null ) {
+
+        document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
+
+      }
+
+      Swal.close();
+
+    });
+
+  });
+
+}
+
+function addClickButtonViewGroups( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
+
+  document.querySelectorAll( 'button[name="viewGroup"]' ).forEach( ( boton ) => {
+
+    boton.addEventListener( 'click', ( e ) => {
+
+      e.preventDefault();
+      axios.get( `${baseUrl}groups/${boton.value}` ).then( res => {
+
+        if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
+
+          document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+
+        }
+        setReceptor( '' );
+        setConection( '' );
+        setGroup( res.data );
+        if ( document.getElementById( `${boton.value}` ) !== null ) {
+
+          document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
+
+        }
+
+        Swal.close();
+
+      });
+
+    });
+
+  });
 
 }

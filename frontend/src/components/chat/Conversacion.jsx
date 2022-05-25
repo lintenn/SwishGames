@@ -11,7 +11,7 @@ import editarMensaje from './optionsMessage/editMessage';
 import reenviarMensaje from './optionsMessage/resendMessage';
 import copiarMensaje from './optionsMessage/copyMessage';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -51,6 +51,36 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     let margin = '';
     ( nombreAnterior === mensaje.nombre_usuario_emisor && !mensaje.administracion ) ? margin = 'mt-0' : margin = 'mt-4';
     return margin;
+
+  };
+
+  const setConection = ( rec ) => {
+
+    users.forEach( ( us ) => {
+
+      if ( us.nombre === rec ) {
+
+        if ( us.online ) {
+
+          setConexion(
+            <div id="divOnline">
+              <div id="online"></div>
+              Online
+            </div> );
+
+        } else {
+
+          setConexion(
+            <div id="divOffline">
+              <div id="offline"></div>
+              Offline
+            </div> );
+
+        }
+
+      }
+
+    });
 
   };
 
@@ -146,7 +176,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     axios.get( `${baseUrl}participantsGroups/users/${id}` )
       .then( res => {
 
-        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup );
+        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup, setReceptor, setConection );
 
       });
 
@@ -319,5 +349,7 @@ Conversacion.propTypes = {
   setMensaje: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   myGroups: PropTypes.array.isRequired,
-  setGroup: PropTypes.func.isRequired
+  setGroup: PropTypes.func.isRequired,
+  setReceptor: PropTypes.func.isRequired,
+  setConexion: PropTypes.func.isRequired
 };
