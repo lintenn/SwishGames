@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import socket from '../components/chat/Socket';
+import Input from '@material-ui/core/Input';
 import { Header } from '../components/header.jsx';
 import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
@@ -182,6 +183,16 @@ const UserSettings = () => {
                   { errorRow }
                   <div className="row">
                     <div className="col-sm-3 d-flex align-items-center">
+                      <p>Imagen de perfil</p>
+                      </div>
+                        <div className="col-sm-9 text-secondary d-flex align-items-center">
+                          <img src={ avatar } className="d-flex align-self-center m-3 imagen-perfil-chat" alt="..." width="100" height="100"/>
+                          <input accept="image/*" type="file" id="photito"/>
+                        </div>
+                      </div>
+                  <hr/>
+                  <div className="row">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Nombre de usuario</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
@@ -213,15 +224,6 @@ const UserSettings = () => {
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} required />
-                    </div>
-                  </div>
-                  <hr/>
-                  <div className="row">
-                    <div className="col-sm-3 d-flex align-items-center">
-                    <p>URL de imagen de perfil</p>
-                    </div>
-                    <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <input type="url" class="form-control" maxLength={500} value={avatar} onChange={ ( e ) => setAvatar( e.target.value )} />
                     </div>
                   </div>
                   <hr/>
