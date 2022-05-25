@@ -9,6 +9,7 @@ import { infoGroup } from './infoGroups/infoGroups';
 import eliminarMensaje from './optionsMessage/removeMessage';
 import editarMensaje from './optionsMessage/editMessage';
 import reenviarMensaje from './optionsMessage/resendMessage';
+import copiarMensaje from './optionsMessage/copyMessage';
 
 export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
 
@@ -171,6 +172,9 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       title: 'Opciones',
       html: `<div class="col-12">
                 <button class="btn btn-primary btn-block" id="reenviarMensaje">Reenviar Mensaje</button>
+                <br/>
+                <br/>
+                <button class="btn btn-success btn-block" id="copiarMensaje">Copiar Mensaje</button>
                 ${opciones}
               </div>`,
       background: '#f0eeee',
@@ -201,6 +205,12 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
         document.querySelector( '#reenviarMensaje' ).addEventListener( 'click', () => {
 
           reenviarMensaje( mensaje, users, myGroups, user );
+
+        });
+
+        document.querySelector( '#copiarMensaje' ).addEventListener( 'click', () => {
+
+          copiarMensaje( mensaje, users, myGroups, user );
 
         });
 
@@ -244,6 +254,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                       <p className="small cols-12">{mensaje.mensaje}</p>
                     </div>
                     <div className="pt-1">
+                      {mensaje.editado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Editado</p> : <div></div>}
                       {mensaje.reenviado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Reenviado</p> : <div></div>}
                       <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
                     </div>
