@@ -213,7 +213,7 @@ const User = () => {
                   className="px-5 pt-3 rounded-circle"
                   alt="..."/>
                 <div className="card-body">
-                  <p className="text-center text-nowrap fs-2 fw-bolder title">{name}</p>
+                  <h1 className="text-center text-nowrap fs-2 fw-bolder title">{name}</h1>
                   { conexion }
                   <p className="text-center text">{description}</p>
                 </div>
@@ -290,7 +290,7 @@ const User = () => {
                           <i className="fa-solid fa-list"></i>
                           <div className="d-flex w-100 justify-content-center">
 
-                            <h4 className="mb-1 ttexte"> &nbsp; {list.nombre}</h4>
+                            <h4 className="mb-1 ttexte">{list.nombre}</h4> ‍‍‍‍‍‎
 
                           </div>
                         </div>
