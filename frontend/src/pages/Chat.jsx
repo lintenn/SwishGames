@@ -36,11 +36,7 @@ export const Chat = () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión' ).then( () => {
-
-        navigate( '/' );
-
-      });
+      navigate( '/noLogin' );
 
 
     } else {

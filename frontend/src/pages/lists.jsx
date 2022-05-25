@@ -26,11 +26,7 @@ const Lists = () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión' ).then( () => {
-
-        navigate( '/' );
-
-      });
+      navigate( '/noLogin' );
 
     } else {
 
