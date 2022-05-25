@@ -212,7 +212,7 @@ const UserSettings = () => {
                       <p>Imagen de perfil</p>
                     </div>
                     <div className="col-sm-9 text-secondary d-flex align-items-center">
-                      <img src={ avatar } className="d-flex align-self-center m-3" id ="img-photo-create-group" alt="..." width="100" height="100"/>
+                      <img src={ avatar } className="d-flex align-self-center m-3 imagen-perfil-chat" id ="img-photo-create-group" alt="..." height="100"/>
                       <input accept="image/*" type="file" id="photo-create-group"/>
                     </div>
                       </div>
