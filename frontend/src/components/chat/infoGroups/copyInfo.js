@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton ) {
+export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup ) {
 
   let tipo = '';
   let descripcion = null;
@@ -41,7 +41,7 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
       didOpen: () => {
 
 
-        addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, userAct );
+        addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
 
       }
 

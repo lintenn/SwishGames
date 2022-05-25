@@ -159,6 +159,8 @@ export const Chat = () => {
                           group={ group }
                           myGroups={ myGroups }
                           setGroup={ setGroup }
+                          setReceptor={ setReceptor }
+                          setConexion={ setConexion }
                         />
                       </div>
                     </div>

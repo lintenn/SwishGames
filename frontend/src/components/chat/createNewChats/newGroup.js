@@ -360,7 +360,7 @@ const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipants
       <ul className="dropdown-menu"
         aria-labelledby="dropdownMenuButton1">
         <li><button className="dropdown-item"
-          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup )}>Ver información del grupo</button></li>
+          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup, setReceptor, setConection )}>Ver información del grupo</button></li>
       </ul>
     </div> );
 

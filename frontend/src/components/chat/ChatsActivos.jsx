@@ -269,7 +269,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => infoGroup( myGroups, id, '', users, res.data, user, setGroup )}>Ver información del grupo</button></li>
+                onClick={() => infoGroup( myGroups, id, '', users, res.data, user, setGroup, setReceptor, setConection )}>Ver información del grupo</button></li>
             </ul>
           </div> ) );
 

@@ -6,7 +6,7 @@ import socket from '../Socket';
 const baseUrl = Global.baseUrl;
 const URIMensajes = `${baseUrl}chats/`;
 
-export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
@@ -21,7 +21,7 @@ export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, part
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
     }
 
@@ -73,7 +73,7 @@ function showEdit( type, group ) {
 }
 
 
-function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
 
   const botonEditar = document.querySelector( 'button[name="editGrupoSwal"]' );
   botonEditar.addEventListener( 'click', ( event ) => {
@@ -100,7 +100,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
           });
 
@@ -155,7 +155,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
               heightAuto: false,
               didOpen: () => {
 
-                addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+                addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
                 setGroup( res.data );
 
               }
