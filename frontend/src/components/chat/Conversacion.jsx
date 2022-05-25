@@ -6,8 +6,10 @@ import socket from './Socket';
 import { Global } from '../../helper/Global';
 import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups/infoGroups';
+import eliminarMensaje from './optionsMessage/removeMessage';
+import editarMensaje from './optionsMessage/editMessage';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, eliminarMensaje }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -153,6 +155,9 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     Swal.fire({
       title: 'Opciones',
       html: `<div class="col-12">
+                <button class="btn btn-primary btn-block" id="editarMensaje">Editar Mensaje</button>
+                <br/>
+                <br/>
                 <button class="btn btn-danger btn-block" id="eliminarMensaje">Eliminar Mensaje</button>
               </div>`,
       background: '#f0eeee',
@@ -163,6 +168,12 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       focusConfirm: false,
       allowOutsideClick: false,
       didOpen: () => {
+
+        document.querySelector( '#editarMensaje' ).addEventListener( 'click', () => {
+
+          editarMensaje( mensaje );
+
+        });
 
         document.querySelector( '#eliminarMensaje' ).addEventListener( 'click', () => {
 
@@ -273,6 +284,5 @@ Conversacion.propTypes = {
   setMensaje: PropTypes.func.isRequired,
   group: PropTypes.object.isRequired,
   myGroups: PropTypes.array.isRequired,
-  setGroup: PropTypes.func.isRequired,
-  eliminarMensaje: PropTypes.func.isRequired
+  setGroup: PropTypes.func.isRequired
 };
