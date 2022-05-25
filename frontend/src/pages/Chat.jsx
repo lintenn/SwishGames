@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { setUpChat } from '../helper/SetUpChat';
 import { ChatsActivos } from '../components/chat/ChatsActivos.jsx';
 import { Conversacion } from '../components/chat/Conversacion';
-import Swal from 'sweetalert2';
 import '../styles/Chat.css';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import { useNavigate, useParams } from '../../node_modules/react-router/index';
@@ -10,8 +9,6 @@ import socket from '../components/chat/Socket';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 import { IniciarChat } from '../components/chat/IniciarChat';
-import axios from 'axios';
-import { Global } from '../helper/Global';
 
 export const Chat = () => {
 
@@ -29,7 +26,6 @@ export const Chat = () => {
   const [conMensajes, setConMensajes] = useState( false );
   const [iniciandoChat, setIniciandoChat] = useState( false );
   const [configurationGroups, setConfigurationGroups] = useState( '' );
-  const baseUrl = Global.baseUrl;
   const { receptorActual } = useParams();
 
   useEffect( () => {
@@ -113,41 +109,6 @@ export const Chat = () => {
 
   }, [mensajes, myGroups, user]);
 
-  const eliminarMensaje = ( mensaje ) => {
-
-    Swal.fire({
-      title: `¿Estás seguro de que quieres borrar el mensaje '${mensaje.mensaje}'?`,
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Borrar',
-      cancelButtonText: 'Cancelar'
-    }).then( ( result ) => {
-
-      if ( result.value ) {
-
-        axios.delete( `${baseUrl}chats/${mensaje.id}` );
-
-        Swal.fire(
-          '¡Borrado!',
-          `El mensaje '${mensaje.mensaje}' ha sido borrada`,
-          'success'
-        ).then( () => {
-
-          setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
-          socket.emit( 'mensaje' );
-
-        });
-
-      }
-
-    });
-
-
-  };
-
   return (
     user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || myGroups.length === 0
       ? <div></div>
@@ -198,7 +159,6 @@ export const Chat = () => {
                           group={ group }
                           myGroups={ myGroups }
                           setGroup={ setGroup }
-                          eliminarMensaje={ eliminarMensaje }
                         />
                       </div>
                     </div>

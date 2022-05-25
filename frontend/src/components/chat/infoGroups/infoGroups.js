@@ -275,7 +275,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
 
       } else {
 
-        participantesAñadidos.pop( boton.value );
+        participantesAñadidos.splice( participantesAñadidos.indexOf( boton.value ), 1 );
         document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#ffffff';
 
       }
