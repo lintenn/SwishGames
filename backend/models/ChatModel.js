@@ -8,6 +8,7 @@ const ChatModel = db.define('Chats', {
     mensaje: {type: DataTypes.STRING},
     fecha_envio: {type: DataTypes.DATE},
     administracion: {type: DataTypes.BOOLEAN},
+    editado: {type: DataTypes.BOOLEAN},
     reenviado: {type: DataTypes.BOOLEAN}
 })
 
