@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups/infoGroups';
 import eliminarMensaje from './optionsMessage/removeMessage';
 import editarMensaje from './optionsMessage/editMessage';
+import reenviarMensaje from './optionsMessage/resendMessage';
 
 export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup }) => {
 
@@ -152,13 +153,25 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const mostrarOpcionesMensaje = ( mensaje ) => {
 
+    let opciones = '';
+
+    if ( mensaje.nombre_usuario_emisor === user.nombre ) {
+
+      opciones = `
+                  <br/>
+                  <br/>
+                  <button class="btn btn-primary btn-block" id="editarMensaje">Editar Mensaje</button>
+                  <br/>
+                  <br/>
+                  <button class="btn btn-danger btn-block" id="eliminarMensaje">Eliminar Mensaje</button>`;
+
+    }
+
     Swal.fire({
       title: 'Opciones',
       html: `<div class="col-12">
-                <button class="btn btn-primary btn-block" id="editarMensaje">Editar Mensaje</button>
-                <br/>
-                <br/>
-                <button class="btn btn-danger btn-block" id="eliminarMensaje">Eliminar Mensaje</button>
+                <button class="btn btn-primary btn-block" id="reenviarMensaje">Reenviar Mensaje</button>
+                ${opciones}
               </div>`,
       background: '#f0eeee',
       showCloseButton: true,
@@ -169,15 +182,25 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       allowOutsideClick: false,
       didOpen: () => {
 
-        document.querySelector( '#editarMensaje' ).addEventListener( 'click', () => {
+        if ( mensaje.nombre_usuario_emisor === user.nombre ) {
 
-          editarMensaje( mensaje );
+          document.querySelector( '#editarMensaje' ).addEventListener( 'click', () => {
 
-        });
+            editarMensaje( mensaje );
 
-        document.querySelector( '#eliminarMensaje' ).addEventListener( 'click', () => {
+          });
 
-          eliminarMensaje( mensaje );
+          document.querySelector( '#eliminarMensaje' ).addEventListener( 'click', () => {
+
+            eliminarMensaje( mensaje );
+
+          });
+
+        }
+
+        document.querySelector( '#reenviarMensaje' ).addEventListener( 'click', () => {
+
+          reenviarMensaje( mensaje, users, myGroups, user );
 
         });
 
@@ -221,6 +244,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                       <p className="small cols-12">{mensaje.mensaje}</p>
                     </div>
                     <div className="pt-1">
+                      {mensaje.reenviado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Reenviado</p> : <div></div>}
                       <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
                     </div>
                     {!mensaje.administracion

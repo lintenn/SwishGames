@@ -230,7 +230,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       } else {
 
-        participantesAñadidios.pop( boton.value );
+        participantesAñadidios.splice( participantesAñadidios.indexOf( boton.value ), 1 );
         document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#ffffff';
 
       }

@@ -7,8 +7,6 @@ const baseUrl = Global.baseUrl;
 
 function editarMensaje( mensaje ) {
 
-  console.log( mensaje );
-
   Swal.fire({
     title: 'Editar mensaje',
     input: 'text',

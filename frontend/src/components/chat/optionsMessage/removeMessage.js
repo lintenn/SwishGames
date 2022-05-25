@@ -7,7 +7,6 @@ const baseUrl = Global.baseUrl;
 
 function eliminarMensaje( mensaje ) {
 
-  console.log( mensaje );
   Swal.fire({
     title: `¿Estás seguro de que quieres borrar el mensaje '${mensaje.mensaje}'?`,
     text: 'Esta acción no se puede deshacer',
