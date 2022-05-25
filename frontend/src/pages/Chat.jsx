@@ -122,7 +122,7 @@ export const Chat = () => {
 
             } }
           />
-          <section className="botonTransparente mt-5">
+          <section className="botonTransparente mt-5 mb-5">
             <div className="container py-5 botonTransparente" >
               <div className="row botonTransparente">
                 <div className="col-md-12 botonTransparente">

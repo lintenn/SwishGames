@@ -1,5 +1,5 @@
 import Input from '@material-ui/core/Input';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import socket from './Socket';
@@ -17,6 +17,10 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
   const messageEndRef = useRef( null );
+  const [responder, setResponder] = useState( false );
+  const [idMensajeRespuesta, setIdMensajeRespuesta] = useState( '' );
+  const [mensajeRespuesta, setMensajeRespuesta] = useState( '' );
+  const [nombreMensajeRespuesta, setNombreMensajeRespuesta] = useState( '' );
 
   useEffect( () => {
 
@@ -51,6 +55,16 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     let margin = '';
     ( nombreAnterior === mensaje.nombre_usuario_emisor && !mensaje.administracion ) ? margin = 'mt-0' : margin = 'mt-4';
     return margin;
+
+  };
+
+  const getEnlace = ( mensaje ) => {
+
+    let enlace = '#';
+
+    enlace += mensaje.respuesta;
+
+    return enlace;
 
   };
 
@@ -113,11 +127,38 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
       }
       if ( receptor === '' && group !== {}) {
 
-        await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
+        if ( responder ) {
+
+          await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+          setResponder( false );
+          setIdMensajeRespuesta( '' );
+          setMensajeRespuesta( '' );
+          setNombreMensajeRespuesta( '' );
+          document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
+
+        } else {
+
+          console.log( 'mensaje' );
+          await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
+
+        }
 
       } else {
 
-        await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
+        if ( responder ) {
+
+          await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+          setResponder( false );
+          setIdMensajeRespuesta( '' );
+          setMensajeRespuesta( '' );
+          setNombreMensajeRespuesta( '' );
+          document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
+
+        } else {
+
+          await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
+
+        }
 
       }
       socket.emit( 'mensaje' );
@@ -201,6 +242,9 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     Swal.fire({
       title: 'Opciones',
       html: `<div class="col-12">
+                <button class="btn btn-primary btn-block" id="responderMensaje">Responder Mensaje</button>
+                <br/>
+                <br/>
                 <button class="btn btn-primary btn-block" id="reenviarMensaje">Reenviar Mensaje</button>
                 <br/>
                 <br/>
@@ -244,6 +288,17 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         });
 
+        document.querySelector( '#responderMensaje' ).addEventListener( 'click', () => {
+
+          setResponder( true );
+          setIdMensajeRespuesta( mensaje.id );
+          setMensajeRespuesta( mensaje.mensaje );
+          setNombreMensajeRespuesta( mensaje.nombre_usuario_emisor );
+          document.querySelector( '#botonResponder' ).classList.remove( 'ocultar' );
+          Swal.close();
+
+        });
+
       }
     });
 
@@ -275,11 +330,27 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
               ( mensaje.nombre_usuario_emisor === user.nombre && mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_receptor === user.nombre && mensaje.nombre_usuario_emisor === receptor ) || group.id === mensaje.id_grupo_receptor
                 ? <div className={`d-flex flex-row ${getOrientation( user, mensaje )}`}
+                  id={mensaje.id}
                   key = {index}>
                   <div className={`d-flex flex-row ${getOrigenMensaje( user, mensaje )} ${getMargen( mensaje )}`}>
                     <div className="pt-1 tamañoMaximoMensaje">
                       {( group !== {} && receptor === '' && mensaje.nombre_usuario_emisor !== user.nombre && mensaje.nombre_usuario_emisor !== nombreAnterior && !mensaje.administracion )
                         ? <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
+                        : <div></div>}
+                      {mensaje.respuesta !== null
+                        ? mensaje.nombre_usuario_emisor === user.nombre
+                          ? <a href={getEnlace( mensaje )}>
+                            <div className="mensajeRespuestaMio">
+                              <p className="fw-bold mb-0">{mensaje.nombreEmisorRespuesta}</p>
+                              <p className="small cols-12">{mensaje.mensajeRespuesta}</p>
+                            </div>
+                          </a>
+                          : <a href={getEnlace( mensaje )}>
+                            <div className="mensajeRespuestaOtro">
+                              <p className="fw-bold mb-0">{mensaje.nombreEmisorRespuesta}</p>
+                              <p className="small cols-12">{mensaje.mensajeRespuesta}</p>
+                            </div>
+                          </a>
                         : <div></div>}
                       <p className="small cols-12">{mensaje.mensaje}</p>
                     </div>
@@ -315,24 +386,46 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
         </div>
       </div>
 
-      <form method="post"
-        onSubmit={submit}>
-        <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
-          <Input className="input2"
-            id="inputMensaje-enviar-chat"
-            type="text"
-            value={mensaje}
-            placeholder="Escribe un mensaje aquí"
-            onChange={( e ) => setMensaje( e.target.value )}
-          />
-          <a className="ms-1 text-muted divObjectsSend align-items-center"
-            href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
-          <a className="ms-3 text-muted divObjectsSend align-items-center"
-            href="#!"><i className="fas fa-smile emogiIcon"></i></a>
+
+      <div className="text-muted d-flex justify-content-start pe-3 pt-3 mt-2 divObjectsSend">
+        <Input className="input2"
+          id="inputMensaje-enviar-chat"
+          type="text"
+          value={mensaje}
+          placeholder="Escribe un mensaje aquí"
+          onChange={( e ) => setMensaje( e.target.value )}
+        />
+        <div className="ocultar"
+          id="botonResponder">
           <button className="ms-3 botonTransparente divObjectsSend align-items-center"
-            id="botonEnviar"><i className="fas fa-paper-plane sendIcon"></i></button>
+            onClick={() => {
+
+              setResponder( false );
+              setIdMensajeRespuesta( '' );
+              setMensajeRespuesta( '' );
+              setNombreMensajeRespuesta( '' );
+              document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
+
+            }}>
+            <svg xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              className="bi bi-x responseIcon"
+              viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+            Responder</button>
         </div>
-      </form>
+        <a className="ms-1 text-muted divObjectsSend align-items-center"
+          href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
+        <form method="post"
+          onSubmit={submit}>
+          <button className="ms-3 botonTransparente divObjectsSend align-items-center"
+            type="submit"
+            id="botonEnviar"><i className="fas fa-paper-plane sendIcon"></i></button>
+        </form>
+      </div>
     </div>
   );
 

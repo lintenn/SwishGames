@@ -9,7 +9,10 @@ const ChatModel = db.define('Chats', {
     fecha_envio: {type: DataTypes.DATE},
     administracion: {type: DataTypes.BOOLEAN},
     editado: {type: DataTypes.BOOLEAN},
-    reenviado: {type: DataTypes.BOOLEAN}
+    reenviado: {type: DataTypes.BOOLEAN},
+    respuesta: {type: DataTypes.INTEGER},
+    mensajeRespuesta: {type: DataTypes.STRING},
+    nombreEmisorRespuesta: {type: DataTypes.STRING}
 })
 
 module.exports = ChatModel
