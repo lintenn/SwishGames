@@ -12,15 +12,15 @@ function editarMensaje( mensaje ) {
     input: 'text',
     inputValue: mensaje.mensaje,
     showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
+    confirmButtonColor: '#198754',
+    cancelButtonColor: '#dc3545',
     confirmButtonText: 'Editar',
     cancelButtonText: 'Cancelar'
   }).then( ( result ) => {
 
     if ( result.value ) {
 
-      axios.put( `${baseUrl}chats/${mensaje.id}`, { mensaje: result.value });
+      axios.put( `${baseUrl}chats/${mensaje.id}`, { mensaje: result.value, editado: true, reenviado: false });
 
       Swal.fire(
         '¡Editado!',
