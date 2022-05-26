@@ -225,12 +225,12 @@ export const SidePanel = ({game}) => {
         <section className="col-12 border card">
 
             <div className="d-flex justify-content-center mt-3">
-                <h5 className="d-none d-lg-block fw-bold">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</h5>
+                <p className="d-none d-lg-block fs-5 fw-bold">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
             </div>
 
             <div className="d-flex justify-content-center mb-3">
 
-                <h5 className="d-lg-none fw-bold mt-3">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</h5>
+                <p className="d-lg-none fs-5 fw-bold mt-3">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
 
                 <fieldset className=" " id="rate">
 
@@ -287,7 +287,7 @@ export const SidePanel = ({game}) => {
         :
         <section className="col-12 border card">
             <div className="d-flex justify-content-center my-4">
-                <h5 className="fw-bold"><a href='/login'>Regístrate para valorar el juego</a></h5>
+                <p className="fs-5 fw-bold"><a href='/login'>Regístrate para valorar el juego</a></p>
             </div>
         </section>
         }
