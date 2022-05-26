@@ -4,16 +4,18 @@ import socket from '../Socket';
 import { Global } from '../../../helper/Global';
 
 const baseUrl = Global.baseUrl;
-const participantesAñadidios = [];
-const gruposAñadidios = [];
+let participantesAñadidios = [];
+let gruposAñadidios = [];
 const URIMensajes = `${baseUrl}chats/`;
 
 function reenviarMensaje( mensaje, users, myGroups, user ) {
 
+  const reenviarMensaje = mensaje.mensaje === null ? 'la imagen' : 'el mensaje "' + mensaje.mensaje + '"';
+
   Swal.fire({
     html: `
             <div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">
-                <h1>¿Estás seguro de reenviar el mensaje '${mensaje.mensaje}'?</h1>
+                <h1>¿Estás seguro de reenviar ${reenviarMensaje}?</h1>
                 <br/>
                 <br/>
                 <button class="btn btn-primary" id="selectParticipants">Seleccionar participantes/grupos para reenviar</button>
@@ -180,15 +182,11 @@ function addClickResend( mensaje, users, myGroups, user ) {
 
         gruposAñadidios.push( boton.value );
         document.getElementById( `${boton.value}Reenviar` ).style.backgroundColor = '#c6daf8';
-        console.log( 'Añadido' );
-        console.log( gruposAñadidios );
 
       } else {
 
         gruposAñadidios.splice( gruposAñadidios.indexOf( boton.value ), 1 );
         document.getElementById( `${boton.value}Reenviar` ).style.backgroundColor = '#ffffff';
-        console.log( 'Eliminado' );
-        console.log( gruposAñadidios );
 
       }
 
@@ -205,16 +203,36 @@ function addClickResend( mensaje, users, myGroups, user ) {
       participantesAñadidios.forEach( ( participante ) => {
 
         console.log( user.nombre, participante, mensaje );
-        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+        if ( mensaje.mensaje === null ) {
+
+          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
+
+        } else {
+
+          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+
+        }
 
       });
 
       gruposAñadidios.forEach( ( participante ) => {
 
         console.log( 'grupo', participante );
-        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+        if ( mensaje.mensaje === null ) {
+
+          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
+
+        } else {
+
+          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+
+        }
 
       });
+
+
+      participantesAñadidios = [];
+      gruposAñadidios = [];
 
       Swal.close();
 

@@ -10,16 +10,18 @@ import eliminarMensaje from './optionsMessage/removeMessage';
 import editarMensaje from './optionsMessage/editMessage';
 import reenviarMensaje from './optionsMessage/resendMessage';
 import copiarMensaje from './optionsMessage/copyMessage';
+import editarImagen from './optionsMessage/editImage';
+import enviarImagen from './attach/newImage';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion, responder, setResponder }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}chats/`;
   const messageEndRef = useRef( null );
-  const [responder, setResponder] = useState( false );
   const [idMensajeRespuesta, setIdMensajeRespuesta] = useState( '' );
   const [mensajeRespuesta, setMensajeRespuesta] = useState( '' );
+  const [imagenRespuesta, setImagenRespuesta] = useState( '' );
   const [nombreMensajeRespuesta, setNombreMensajeRespuesta] = useState( '' );
 
   useEffect( () => {
@@ -48,6 +50,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const getOrientation = ( user, mensaje ) => !mensaje.administracion ? user.nombre === mensaje.nombre_usuario_emisor ? 'justify-content-end' : 'justify-content-start' : 'justify-content-center';
   const getOrigenMensaje = ( user, mensaje ) => !mensaje.administracion ? user.nombre === mensaje.nombre_usuario_emisor ? 'mensajeActualizadoMio' : 'mensajeActualizadoOtro' : 'mensajeAdministracion';
+  const getOrigenMensajeRespuesta = ( mensaje ) => mensaje.nombre_usuario_emisor === user.nombre ? 'mensajeRespuestaMio' : 'mensajeRespuestaOtro';
 
 
   const getMargen = ( mensaje ) => {
@@ -129,16 +132,25 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         if ( responder ) {
 
-          await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+          if ( mensajeRespuesta !== '' ) {
+
+            await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+
+          } else {
+
+            await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+
+          }
+
           setResponder( false );
           setIdMensajeRespuesta( '' );
           setMensajeRespuesta( '' );
+          setImagenRespuesta( '' );
           setNombreMensajeRespuesta( '' );
           document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
 
         } else {
 
-          console.log( 'mensaje' );
           await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
 
         }
@@ -147,10 +159,20 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         if ( responder ) {
 
-          await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+          if ( mensajeRespuesta !== '' ) {
+
+            await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+
+          } else {
+
+            await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+
+          }
+
           setResponder( false );
           setIdMensajeRespuesta( '' );
           setMensajeRespuesta( '' );
+          setImagenRespuesta( '' );
           setNombreMensajeRespuesta( '' );
           document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
 
@@ -227,9 +249,20 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
     let opciones = '';
 
+
+    if ( mensaje.mensaje !== null ) {
+
+      opciones += `
+                  <br/>
+                  <br/>
+                  <button class="btn btn-success btn-block" id="copiarMensaje">Copiar Mensaje</button>
+                  `;
+
+    }
+
     if ( mensaje.nombre_usuario_emisor === user.nombre ) {
 
-      opciones = `
+      opciones += `
                   <br/>
                   <br/>
                   <button class="btn btn-primary btn-block" id="editarMensaje">Editar Mensaje</button>
@@ -246,9 +279,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                 <br/>
                 <br/>
                 <button class="btn btn-primary btn-block" id="reenviarMensaje">Reenviar Mensaje</button>
-                <br/>
-                <br/>
-                <button class="btn btn-success btn-block" id="copiarMensaje">Copiar Mensaje</button>
                 ${opciones}
               </div>`,
       background: '#f0eeee',
@@ -264,7 +294,15 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
           document.querySelector( '#editarMensaje' ).addEventListener( 'click', () => {
 
-            editarMensaje( mensaje );
+            if ( mensaje.mensaje !== null ) {
+
+              editarMensaje( mensaje );
+
+            } else {
+
+              editarImagen( mensaje );
+
+            }
 
           });
 
@@ -276,15 +314,19 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         }
 
+        if ( mensaje.mensaje !== null ) {
+
+          document.querySelector( '#copiarMensaje' ).addEventListener( 'click', () => {
+
+            copiarMensaje( mensaje, users, myGroups, user );
+
+          });
+
+        }
+
         document.querySelector( '#reenviarMensaje' ).addEventListener( 'click', () => {
 
           reenviarMensaje( mensaje, users, myGroups, user );
-
-        });
-
-        document.querySelector( '#copiarMensaje' ).addEventListener( 'click', () => {
-
-          copiarMensaje( mensaje, users, myGroups, user );
 
         });
 
@@ -292,10 +334,47 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
           setResponder( true );
           setIdMensajeRespuesta( mensaje.id );
-          setMensajeRespuesta( mensaje.mensaje );
+          if ( mensaje.mensaje !== null ) {
+
+            setMensajeRespuesta( mensaje.mensaje );
+            setImagenRespuesta( '' );
+
+          } else {
+
+            setMensajeRespuesta( '' );
+            setImagenRespuesta( mensaje.imagen );
+
+          }
           setNombreMensajeRespuesta( mensaje.nombre_usuario_emisor );
           document.querySelector( '#botonResponder' ).classList.remove( 'ocultar' );
           Swal.close();
+
+        });
+
+      }
+    });
+
+  };
+
+  const mostrarPosibilidadesEnviar = () => {
+
+    Swal.fire({
+      html: `<div class="col-12">
+                <button class="btn btn-primary btn-block" id="enviarImagen">Enviar Imagen</button>
+              </div>`,
+      background: '#f0eeee',
+      showCloseButton: true,
+      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+      showCancelButton: false,
+      showConfirmButton: false,
+      focusConfirm: false,
+      allowOutsideClick: false,
+      didOpen: () => {
+
+
+        document.querySelector( '#enviarImagen' ).addEventListener( 'click', () => {
+
+          enviarImagen( user, receptor, group );
 
         });
 
@@ -338,21 +417,31 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                         ? <p className="fw-bold mb-0">{mensaje.nombre_usuario_emisor}</p>
                         : <div></div>}
                       {mensaje.respuesta !== null
-                        ? mensaje.nombre_usuario_emisor === user.nombre
+                        ? mensaje.mensajeRespuesta !== null
                           ? <a href={getEnlace( mensaje )}>
-                            <div className="mensajeRespuestaMio">
+                            <div className={getOrigenMensajeRespuesta( mensaje )}>
                               <p className="fw-bold mb-0">{mensaje.nombreEmisorRespuesta}</p>
                               <p className="small cols-12">{mensaje.mensajeRespuesta}</p>
                             </div>
                           </a>
                           : <a href={getEnlace( mensaje )}>
-                            <div className="mensajeRespuestaOtro">
+                            <div className={getOrigenMensajeRespuesta( mensaje )}>
                               <p className="fw-bold mb-0">{mensaje.nombreEmisorRespuesta}</p>
-                              <p className="small cols-12">{mensaje.mensajeRespuesta}</p>
+                              <p className="small cols-12">
+                                <img alt="imagenEnviada"
+                                  src={mensaje.imagenRespuesta}
+                                  className="tamañoMaximoImagen"></img>
+                              </p>
                             </div>
                           </a>
                         : <div></div>}
-                      <p className="small cols-12">{mensaje.mensaje}</p>
+                      {mensaje.mensaje !== null
+                        ? <p className="small cols-12">{mensaje.mensaje}</p>
+                        : <p className="small cols-12">
+                          <img alt="imagenEnviada"
+                            src={mensaje.imagen}
+                            className="tamañoMaximoImagen"></img>
+                        </p>}
                     </div>
                     <div className="pt-1">
                       {mensaje.editado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Editado</p> : <div></div>}
@@ -403,6 +492,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
               setResponder( false );
               setIdMensajeRespuesta( '' );
               setMensajeRespuesta( '' );
+              setImagenRespuesta( '' );
               setNombreMensajeRespuesta( '' );
               document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
 
@@ -417,8 +507,8 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
             </svg>
             Responder</button>
         </div>
-        <a className="ms-1 text-muted divObjectsSend align-items-center"
-          href="#!"><i className="fas fa-paperclip clipIcon"></i></a>
+        <button className="btn ms-1 text-muted divObjectsSend align-items-center"
+          onClick={() => mostrarPosibilidadesEnviar()}><i className="fas fa-paperclip clipIcon"></i></button>
         <form method="post"
           onSubmit={submit}>
           <button className="ms-3 botonTransparente divObjectsSend align-items-center"
@@ -444,5 +534,7 @@ Conversacion.propTypes = {
   myGroups: PropTypes.array.isRequired,
   setGroup: PropTypes.func.isRequired,
   setReceptor: PropTypes.func.isRequired,
-  setConexion: PropTypes.func.isRequired
+  setConexion: PropTypes.func.isRequired,
+  responder: PropTypes.bool.isRequired,
+  setResponder: PropTypes.func.isRequired
 };

@@ -12,7 +12,9 @@ const ChatModel = db.define('Chats', {
     reenviado: {type: DataTypes.BOOLEAN},
     respuesta: {type: DataTypes.INTEGER},
     mensajeRespuesta: {type: DataTypes.STRING},
-    nombreEmisorRespuesta: {type: DataTypes.STRING}
+    imagenRespuesta: {type: DataTypes.STRING},
+    nombreEmisorRespuesta: {type: DataTypes.STRING},
+    imagen: {type: DataTypes.STRING}
 })
 
 module.exports = ChatModel

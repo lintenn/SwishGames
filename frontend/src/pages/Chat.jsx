@@ -27,6 +27,7 @@ export const Chat = () => {
   const [iniciandoChat, setIniciandoChat] = useState( false );
   const [configurationGroups, setConfigurationGroups] = useState( '' );
   const { receptorActual } = useParams();
+  const [responder, setResponder] = useState( false );
 
   useEffect( () => {
 
@@ -122,7 +123,7 @@ export const Chat = () => {
 
             } }
           />
-          <section className="botonTransparente mt-5 mb-5">
+          <section className="botonTransparente mt-5">
             <div className="container py-5 botonTransparente" >
               <div className="row botonTransparente">
                 <div className="col-md-12 botonTransparente">
@@ -146,6 +147,7 @@ export const Chat = () => {
                           setConfigurationGroups={ setConfigurationGroups }
                           setIniciandoChat={ setIniciandoChat }
                           mensajesDESC={ mensajesDESC }
+                          setResponder={ setResponder }
                         />
                         <Conversacion
                           users={ users }
@@ -161,6 +163,8 @@ export const Chat = () => {
                           setGroup={ setGroup }
                           setReceptor={ setReceptor }
                           setConexion={ setConexion }
+                          responder={ responder }
+                          setResponder={ setResponder }
                         />
                       </div>
                     </div>

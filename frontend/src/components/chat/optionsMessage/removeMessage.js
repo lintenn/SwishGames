@@ -7,8 +7,10 @@ const baseUrl = Global.baseUrl;
 
 function eliminarMensaje( mensaje ) {
 
+  let eliminarMensaje = mensaje.mensaje === null ? 'la imagen' : 'el mensaje "' + mensaje.mensaje + '"';
+
   Swal.fire({
-    title: `¿Estás seguro de que quieres borrar el mensaje '${mensaje.mensaje}'?`,
+    title: `¿Estás seguro de que quieres borrar ${eliminarMensaje}?`,
     text: 'Esta acción no se puede deshacer',
     icon: 'warning',
     showCancelButton: true,
@@ -22,9 +24,11 @@ function eliminarMensaje( mensaje ) {
 
       axios.delete( `${baseUrl}chats/${mensaje.id}` );
 
+      eliminarMensaje = mensaje.mensaje === null ? 'La imagen' : 'El mensaje "' + mensaje.mensaje + '"';
+
       Swal.fire(
         '¡Borrado!',
-        `El mensaje '${mensaje.mensaje}' ha sido borrada`,
+        `${eliminarMensaje} ha sido borrada`,
         'success'
       ).then( () => {
 
