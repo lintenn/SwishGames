@@ -352,18 +352,9 @@ const Game = () => {
 
           </section>
 
-             
+          <SidePanel game={game}></SidePanel>
 
-            <SidePanel game={game}></SidePanel>
-
-            
-
-          
-
-
-
-
-          <div className="mt-2 col-md-12 col-lg-8 border card d-flex justify-content-center">
+          <section className="col-md-12 col-lg-8 border card d-flex justify-content-center mt-2">
 
             <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
@@ -376,7 +367,7 @@ const Game = () => {
               </iframe>
             </div>
 
-          </div>
+          </section>
           
           
           {/*
