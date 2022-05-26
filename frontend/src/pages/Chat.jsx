@@ -134,7 +134,7 @@ export const Chat = () => {
                       <div className="row botonTransparente">
                         <ChatsActivos
                           users={ users }
-                          mensajes={ mensajesDESC }
+                          mensajes={ mensajes }
                           user={ user }
                           setReceptor={ setReceptor }
                           setConexion={ setConexion }

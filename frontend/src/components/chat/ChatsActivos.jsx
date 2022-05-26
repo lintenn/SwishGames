@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '@material-ui/core/Input';
 import PropTypes from 'prop-types';
 import socket from './Socket';
@@ -17,6 +17,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
   const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
   let numeroMensajeUser = 0;
+  const [buscar, setBuscar] = useState( '' );
+  const [mensajesBuscar, setMensajesBuscar] = useState([]);
 
   useEffect( () => {
 
@@ -37,7 +39,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       });
 
-      mensajes.forEach( men => {
+      mensajesDESC.forEach( men => {
 
         if ( i === 0 ) {
 
@@ -173,6 +175,27 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   }, []);
 
+  useEffect( () => {
+
+    if ( buscar !== '' ) {
+
+      axios.get( `${baseUrl}chats/chat_by_entry/${buscar}/${user.nombre}` )
+        .then( res => {
+
+          setMensajesBuscar( res.data );
+
+        });
+
+    } else {
+
+      setMensajesBuscar( mensajes );
+      console.log( mensajesDESC );
+      console.log( mensajes );
+
+    }
+
+  }, [buscar]);
+
   const formatDate = ( date ) => {
 
     const d = new Date( date );
@@ -211,7 +234,11 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const putUsers2 = ( men ) => {
 
-    users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
+    if ( mensajesBuscar.length === mensajes.length ) {
+
+      users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
+
+    }
     return <div></div>;
 
   };
@@ -433,7 +460,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             size="15"
             placeholder="Busca un chat"
             aria-label="Search"
-            aria-describedby="search-addon" />
+            aria-describedby="search-addon"
+            onChange={( e ) => setBuscar( e.target.value )} />
           <span className="input-group-text border-0 botonTransparente"
             id="search-addon">
             <i className="fas fa-search searchIcon"></i>
@@ -470,7 +498,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="list-unstyled mb-0">
 
               {
-                ( users.length !== 0 && mensajes.length !== 0 ) && mensajes.filter( men => ( filterMensajes( men ) ) ).map( ( men, index ) => (
+                ( users.length !== 0 && mensajesBuscar.length !== 0 ) && mensajesBuscar.filter( men => ( filterMensajes( men ) ) ).reverse().map( ( men, index ) => (
 
                   ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor !== null && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( men.id_grupo_receptor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
