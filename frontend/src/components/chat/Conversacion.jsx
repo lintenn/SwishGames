@@ -452,7 +452,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
                       ? <li className=" d-none nav-item">
                         <button className="btn nav-link"
                           id="navbarDropdownBtnChat"
-                          role="button"
                           aria-expanded="false"
                           onClick={() => mostrarOpcionesMensaje( mensaje )}>
                           <svg xmlns="http://www.w3.org/2000/svg"

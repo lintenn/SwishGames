@@ -28,6 +28,7 @@ export const Chat = () => {
   const [configurationGroups, setConfigurationGroups] = useState( '' );
   const { receptorActual } = useParams();
   const [responder, setResponder] = useState( false );
+  const [mensajesBuscar, setMensajesBuscar] = useState([]);
 
   useEffect( () => {
 
@@ -79,6 +80,8 @@ export const Chat = () => {
   useEffect( () => {
 
     if ( mensajes.length !== 0 && myGroups.length !== 0 && user !== null ) {
+
+      setMensajesBuscar( mensajes );
 
       const idGroups = [];
 
@@ -148,6 +151,8 @@ export const Chat = () => {
                           setIniciandoChat={ setIniciandoChat }
                           mensajesDESC={ mensajesDESC }
                           setResponder={ setResponder }
+                          mensajesBuscar={ mensajesBuscar }
+                          setMensajesBuscar={ setMensajesBuscar }
                         />
                         <Conversacion
                           users={ users }

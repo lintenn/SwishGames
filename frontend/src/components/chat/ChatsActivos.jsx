@@ -9,7 +9,7 @@ import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 import { eventKeyboard } from './eventsKeyboard';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder, mensajesBuscar, setMensajesBuscar }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
@@ -18,7 +18,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
   let numeroMensajeUser = 0;
   const [buscar, setBuscar] = useState( '' );
-  const [mensajesBuscar, setMensajesBuscar] = useState([]);
 
   useEffect( () => {
 
@@ -39,7 +38,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       });
 
-      mensajesDESC.forEach( men => {
+      mensajesBuscar.reverse().forEach( men => {
 
         if ( i === 0 ) {
 
@@ -151,7 +150,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     }
 
-  }, [mensajes]);
+  }, [mensajesBuscar, buscar]);
 
   useEffect( () => {
 
@@ -189,8 +188,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     } else {
 
       setMensajesBuscar( mensajes );
-      console.log( mensajesDESC );
-      console.log( mensajes );
 
     }
 
@@ -454,18 +451,14 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
       <div className="p-3 botonTransparente">
 
-        <div className="input-group rounded mb-3 botonTransparente">
+        <div className="input-group rounded mb-3 botonTransparente divObjectsSend">
           <Input className="input3"
             type="search"
             size="15"
-            placeholder="Busca un chat"
+            placeholder="Busca un mensaje"
             aria-label="Search"
             aria-describedby="search-addon"
             onChange={( e ) => setBuscar( e.target.value )} />
-          <span className="input-group-text border-0 botonTransparente"
-            id="search-addon">
-            <i className="fas fa-search searchIcon"></i>
-          </span>
           <div className="dropdown">
             <button className="botonTransparente2 btnAñadirChats"
               type="button"
@@ -578,5 +571,7 @@ ChatsActivos.propTypes = {
   configurationGroups: PropTypes.node.isRequired,
   setIniciandoChat: PropTypes.func.isRequired,
   mensajesDESC: PropTypes.array.isRequired,
-  setResponder: PropTypes.func.isRequired
+  setResponder: PropTypes.func.isRequired,
+  mensajesBuscar: PropTypes.array.isRequired,
+  setMensajesBuscar: PropTypes.func.isRequired
 };

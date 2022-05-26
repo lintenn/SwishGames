@@ -18,6 +18,8 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
       nombre = document.querySelector( '#nombreGrupo' );
       navigator.clipboard.writeText( nombre.innerText );
       break;
+    default:
+      break;
 
   }
 
