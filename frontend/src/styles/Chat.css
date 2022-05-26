@@ -97,6 +97,10 @@ p{
     display: inline-block;
 }
 
+.tamañoMaximoImagen{
+    max-width: 100%;
+}
+
 #chat3 {
     border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;

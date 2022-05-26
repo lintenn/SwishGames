@@ -9,7 +9,7 @@ import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 import { eventKeyboard } from './eventsKeyboard';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
@@ -182,7 +182,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const formatMessage = ( mensaje ) => {
 
-    let ultimoMensaje = mensaje;
+    let ultimoMensaje = mensaje.mensaje === null ? 'imagen' : mensaje.mensaje;
     if ( ultimoMensaje.length > 15 ) {
 
       ultimoMensaje = ultimoMensaje.substring( 0, 12 );
@@ -479,6 +479,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                         id = {`${nombreEmisorOrId( men )}`}
                         onClick={() => {
 
+                          setResponder( false );
+                          document.querySelector( '#botonResponder' ).classList.add( 'ocultar' );
 
                           if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
 
@@ -509,7 +511,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                           <div className="pt-1">
                             {putUsers2( men )}
                             <p className="fw-bold mb-0">{nombreEmisor( men )}</p>
-                            <p className="small text-muted">{formatMessage( men.mensaje )}</p>
+                            <p className="small text-muted">{formatMessage( men )}</p>
                           </div>
                         </div>
                         <div className="pt-1">
@@ -547,5 +549,6 @@ ChatsActivos.propTypes = {
   setConfigurationGroups: PropTypes.func.isRequired,
   configurationGroups: PropTypes.node.isRequired,
   setIniciandoChat: PropTypes.func.isRequired,
-  mensajesDESC: PropTypes.array.isRequired
+  mensajesDESC: PropTypes.array.isRequired,
+  setResponder: PropTypes.func.isRequired
 };
