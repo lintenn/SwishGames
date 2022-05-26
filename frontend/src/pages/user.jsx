@@ -41,6 +41,7 @@ const User = () => {
 
     }
 
+    checkUser();
     getUserByName();
     checkUserOptions();
 
@@ -185,6 +186,13 @@ const User = () => {
     });
 
   };
+
+  const checkUser = async () => {
+    const res = await axios.get( URI + name );
+    if (res.data.id == null) {
+      navigate( '/' );
+    }
+  }
 
   const checkUserOptions = async () => {
 
