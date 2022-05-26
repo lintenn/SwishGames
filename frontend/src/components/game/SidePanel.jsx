@@ -165,7 +165,7 @@ export const SidePanel = ({game}) => {
                 <tr>
                     <td id="tdcontent">
                     <div id="content"
-                        className="col-12 mb-3 d-flex justify-content-center">
+                        className="col-12 mb-2 d-flex justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
                         width="64"
                         height="64"
@@ -203,7 +203,7 @@ export const SidePanel = ({game}) => {
                 <tr>
                   <td id="tdcontent">
                     <div id="content"
-                      className="mb-4 d-flex justify-content-center">
+                      className="mb-2 d-flex justify-content-center">
                       <svg xmlns="http://www.w3.org/2000/svg"
                         width="64"
                         height="64"
@@ -224,13 +224,13 @@ export const SidePanel = ({game}) => {
         {isauthorized ?
         <section className="col-12 border card">
 
-            <div className="d-flex justify-content-center mt-3">
+            <div className="d-flex justify-content-center mt-1">
                 <p className="d-none d-lg-block fs-5 fw-bold">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
             </div>
 
-            <div className="d-flex justify-content-center mb-3">
+            <div className="d-flex justify-content-center mb-2">
 
-                <p className="d-lg-none fs-5 fw-bold mt-3">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
+                <p className="d-lg-none fs-5 fw-bold mt-1">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
 
                 <fieldset className=" " id="rate">
 
