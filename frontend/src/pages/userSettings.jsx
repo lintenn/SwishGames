@@ -38,10 +38,17 @@ const UserSettings = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
+      if (us.nombre !== name) {
+        navigate( '/' );
+      }
+
+    } else {
+      navigate( '/' );
     }
 
     getUserByName();
     getUsers();
+    loadImageControl();
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -62,6 +69,32 @@ const UserSettings = () => {
     setAvatar( res.data.imagen );
 
   };
+
+  const loadImageControl = async () => {
+    document.querySelectorAll( 'input[type="file"]' ).forEach( ( input ) => {
+
+      input.addEventListener( 'change', async ( e ) => {
+  
+        e.preventDefault();
+        const file = e.target.files;
+        const formData = new FormData();
+        formData.append( 'file', file[0]);
+        formData.append( 'upload_preset', 'FotosGrupos' );
+        const res = await fetch(
+          'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
+          {
+            method: 'POST',
+            body: formData
+          }
+        );
+        const result = await res.json();
+        let imagen = result.secure_url;
+        document.getElementById( 'img-photo-create-group' ).src = imagen;
+  
+      });
+  
+    });
+  }
 
   const showError = async () => {
     if (error !== '') {
@@ -141,7 +174,7 @@ const UserSettings = () => {
       error = '';
       showError();
 
-      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: avatar });
+      await axios.put( `${baseUrl}users/${id}`, { nombre: nombre, descripcion: description, email: email, fecha_nacimiento: new Date(birthDate), imagen: document.getElementById( 'img-photo-create-group' ).src });
       localStorage.setItem( 'user', JSON.stringify({ id: id, nombre: nombre, email: email, password: password }) );
 
       Swal.fire( 'Cambios guardados', 'Tu datos se han modificado con éxito.', 'success' ).then( () => {
@@ -175,47 +208,48 @@ const UserSettings = () => {
                 <div className="card-body">
                   { errorRow }
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
+                      <p>Imagen de perfil</p>
+                    </div>
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <img src={ avatar } className="d-flex align-self-center m-3 imagen-perfil-chat" id ="img-photo-create-group" alt="..." height="100"/>
+                      <input accept="image/*" type="file" id="photo-create-group"/>
+                    </div>
+                      </div>
+                  <hr/>
+                  <div className="row">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Nombre de usuario</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} />
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <input type="text" class="form-control" maxLength={15} value={nombre} onChange={ ( e ) => setNombre( e.target.value )} minLength="6" required />
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                       <p>Descripción</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
                       <textarea rows="2" class="form-control" maxLength={200} value={description} onChange={ ( e ) => setDescription( e.target.value )}></textarea>
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3 d-flex align-items-center">
                     <p>Email</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )}/>
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <input type="email" maxLength={50} class="form-control" value={email} onChange={ ( e ) => setEmail( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>
                   <div className="row">
-                    <div className="col-sm-3 ">
+                    <div className="col-sm-3 d-flex align-items-center">
                     <p>Fecha de nacimiento</p>
                     </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} />
-                    </div>
-                  </div>
-                  <hr/>
-                  <div className="row">
-                    <div className="col-sm-3 ">
-                    <p>URL de imagen de perfil</p>
-                    </div>
-                    <div className="col-sm-9 text-secondary ">
-                      <input type="url" class="form-control" maxLength={500} value={avatar} onChange={ ( e ) => setAvatar( e.target.value )} />
+                    <div className="col-sm-9 text-secondary d-flex align-items-center">
+                      <input type="date" class="form-control" value={birthDate} onChange={ ( e ) => setBirthDate( e.target.value )} required />
                     </div>
                   </div>
                   <hr/>

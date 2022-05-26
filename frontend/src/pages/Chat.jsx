@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { setUpChat } from '../helper/SetUpChat';
 import { ChatsActivos } from '../components/chat/ChatsActivos.jsx';
 import { Conversacion } from '../components/chat/Conversacion';
-import Swal from 'sweetalert2';
 import '../styles/Chat.css';
 import { isAuthorized } from '../helper/isAuthorized.js';
-import { useNavigate } from '../../node_modules/react-router/index';
+import { useNavigate, useParams } from '../../node_modules/react-router/index';
 import socket from '../components/chat/Socket';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 import { IniciarChat } from '../components/chat/IniciarChat';
-import axios from 'axios';
-import { Global } from '../helper/Global';
 
 export const Chat = () => {
 
@@ -29,22 +26,25 @@ export const Chat = () => {
   const [conMensajes, setConMensajes] = useState( false );
   const [iniciandoChat, setIniciandoChat] = useState( false );
   const [configurationGroups, setConfigurationGroups] = useState( '' );
-  const baseUrl = Global.baseUrl;
+  const { receptorActual } = useParams();
+  const [responder, setResponder] = useState( false );
+  const [mensajesBuscar, setMensajesBuscar] = useState([]);
 
   useEffect( () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión' ).then( () => {
-
-        navigate( '/' );
-
-      });
+      navigate( '/noLogin' );
 
 
     } else {
 
       setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
+      if ( receptorActual !== undefined ) {
+
+        setReceptor( receptorActual );
+
+      }
 
     }
 
@@ -81,6 +81,8 @@ export const Chat = () => {
 
     if ( mensajes.length !== 0 && myGroups.length !== 0 && user !== null ) {
 
+      setMensajesBuscar( mensajes );
+
       const idGroups = [];
 
       myGroups.forEach( ( group ) => {
@@ -111,13 +113,6 @@ export const Chat = () => {
 
   }, [mensajes, myGroups, user]);
 
-  const eliminarMensaje = ( mensaje ) => {
-
-    axios.delete( `${baseUrl}chats/${mensaje.id}` );
-    setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
-
-  };
-
   return (
     user === null || users.length === 0 || mensajes.length === 0 || mensajesDESC.length === 0 || myGroups.length === 0
       ? <div></div>
@@ -142,7 +137,7 @@ export const Chat = () => {
                       <div className="row botonTransparente">
                         <ChatsActivos
                           users={ users }
-                          mensajes={ mensajesDESC }
+                          mensajes={ mensajes }
                           user={ user }
                           setReceptor={ setReceptor }
                           setConexion={ setConexion }
@@ -154,6 +149,10 @@ export const Chat = () => {
                           configurationGroups={ configurationGroups }
                           setConfigurationGroups={ setConfigurationGroups }
                           setIniciandoChat={ setIniciandoChat }
+                          mensajesDESC={ mensajesDESC }
+                          setResponder={ setResponder }
+                          mensajesBuscar={ mensajesBuscar }
+                          setMensajesBuscar={ setMensajesBuscar }
                         />
                         <Conversacion
                           users={ users }
@@ -167,7 +166,10 @@ export const Chat = () => {
                           group={ group }
                           myGroups={ myGroups }
                           setGroup={ setGroup }
-                          eliminarMensaje={ eliminarMensaje }
+                          setReceptor={ setReceptor }
+                          setConexion={ setConexion }
+                          responder={ responder }
+                          setResponder={ setResponder }
                         />
                       </div>
                     </div>

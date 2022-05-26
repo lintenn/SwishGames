@@ -2,14 +2,19 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import React from 'react';
 import { infoGroup } from '../infoGroups/infoGroups';
+import { Global } from '../../../helper/Global';
+import socket from '../Socket';
 
 let participantesAñadidios = [];
+const baseUrl = Global.baseUrl;
+const URIMensajes = `${baseUrl}chats/`;
+
 
 export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
 
   participantesAñadidios = [];
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -18,6 +23,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     focusConfirm: false,
     allowOutsideClick: false,
     allowEscapeKey: false,
+    heightAuto: false,
     width: '50%',
     didOpen: () => {
 
@@ -77,7 +83,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
 
         Swal.close();
         Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
           background: '#f0eeee',
           showCloseButton: false,
           closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -87,6 +93,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           allowOutsideClick: false,
           allowEscapeKey: false,
           width: '25%',
+          heightAuto: false,
           didOpen: () => {
 
             addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
@@ -104,7 +111,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
         }).then( () => {
 
           Swal.fire({
-            html: `<div style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
+            html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
             background: '#f0eeee',
             showCloseButton: true,
             closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -114,6 +121,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
             allowOutsideClick: false,
             allowEscapeKey: false,
             width: '50%',
+            heightAuto: false,
             didOpen: () => {
 
               addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
@@ -222,7 +230,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
       } else {
 
-        participantesAñadidios.pop( boton.value );
+        participantesAñadidios.splice( participantesAñadidios.indexOf( boton.value ), 1 );
         document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#ffffff';
 
       }
@@ -244,9 +252,11 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
       }
       if ( participantesAñadidios.length > 0 ) {
 
-        participantesAñadidios.push( user.nombre );
+        const participantesAAnadir = [];
+        participantesAAnadir.push( user.nombre );
+        participantesAAnadir.push( ...participantesAñadidios );
 
-        participantesAñadidios.forEach( ( participante ) => {
+        participantesAAnadir.forEach( ( participante ) => {
 
           axios.get( URIGroupLastByNameUser )
             .then( res => {
@@ -255,6 +265,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
               setReceptor( '' );
               setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
+              axios.post( URIMensajes, { id_grupo_receptor: res.data.id, mensaje: participante === user.nombre ? `${user.nombre} ha creado el grupo` : `${user.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
 
             });
 
@@ -270,6 +281,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
         }).then( ( result ) => {
 
           setIniciandoChat( true );
+          socket.emit( 'mensaje' );
 
         });
 
@@ -348,7 +360,7 @@ const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipants
       <ul className="dropdown-menu"
         aria-labelledby="dropdownMenuButton1">
         <li><button className="dropdown-item"
-          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup )}>Ver información del grupo</button></li>
+          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup, setReceptor, setConection )}>Ver información del grupo</button></li>
       </ul>
     </div> );
 

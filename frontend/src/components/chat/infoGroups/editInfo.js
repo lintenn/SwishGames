@@ -1,13 +1,15 @@
 import Swal from 'sweetalert2';
 import { Global } from '../../../helper/Global';
 import axios from 'axios';
+import socket from '../Socket';
 
 const baseUrl = Global.baseUrl;
+const URIMensajes = `${baseUrl}chats/`;
 
-export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
 
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -16,9 +18,10 @@ export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, part
     focusConfirm: false,
     allowOutsideClick: false,
     width: '50%',
+    heightAuto: false,
     didOpen: () => {
 
-      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
     }
 
@@ -49,6 +52,8 @@ function showEdit( type, group ) {
         <Input accept="image/*" type="file" id="imagen-edit-group">
         <img src=${group.imagen} name="img-photo-edit-group" id="img-photo-edit-group" class="align-self-center m-3 imagen-perfil-chat" width ="300" height ="300">`;
       break;
+    default:
+      break;
 
   }
 
@@ -70,7 +75,7 @@ function showEdit( type, group ) {
 }
 
 
-function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
 
   const botonEditar = document.querySelector( 'button[name="editGrupoSwal"]' );
   botonEditar.addEventListener( 'click', ( event ) => {
@@ -89,6 +94,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
         groupAct.descripcion = descripcion;
         axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
         tipo = 'La descripcion';
+        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la descripción del grupo`, administracion: 1 });
         break;
       case 'nombre':
         nombre = document.querySelector( '#nombre-edit-group' ).value;
@@ -96,7 +102,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
 
           });
 
@@ -105,6 +111,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
           groupAct.nombre = nombre;
           axios.put( `${baseUrl}groups/${groupAct.id}`, { nombre });
           tipo = 'El nombre';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado el nombre del grupo`, administracion: 1 });
 
         }
         break;
@@ -113,6 +120,9 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
         groupAct.imagen = imagen;
         axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
         tipo = 'La imagen';
+        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
+        break;
+      default:
         break;
 
     }
@@ -120,34 +130,46 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
     if ( nombre !== '' ) {
 
-      Swal.fire(
-        'Editado!',
-        `${tipo} del grupo ha sido editada`,
-        'success'
-      ).then( () => {
+      axios.get( `${baseUrl}users` )
+        .then(
 
-        Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          didOpen: () => {
+          socket.emit( 'mensaje' )
 
-            addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+        );
 
-            axios.get( `${baseUrl}groups/${groupAct.id}` )
-              .then( res => setGroup( res.data ) );
+      axios.get( `${baseUrl}groups/${groupAct.id}` )
+        .then( res => {
 
-          }
+          Swal.fire(
+            'Editado!',
+            `${tipo} del grupo ha sido editada`,
+            'success'
+          ).then( () => {
+
+            Swal.fire({
+              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+              background: '#f0eeee',
+              showCloseButton: true,
+              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+              showCancelButton: false,
+              showConfirmButton: false,
+              focusConfirm: false,
+              allowOutsideClick: false,
+              width: '50%',
+              heightAuto: false,
+              didOpen: () => {
+
+                addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
+                setGroup( res.data );
+
+              }
+
+            });
+
+          });
 
         });
 
-      });
 
     }
 

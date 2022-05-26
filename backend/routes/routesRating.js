@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/', RatingController.gettAllRatings);
 router.get('/juego/:id_juego', RatingController.getRatingsByGame);
+router.get('/media/:id_juego', RatingController.getAverageRatingsByGame);
 router.get('/usuario/:id_usuario/:id_juego', RatingController.getRatingsByUserAndGame);
 router.post('/', RatingController.createRating);
 router.put('/:id_juego/:id_usuario', RatingController.updateRating);

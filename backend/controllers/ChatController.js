@@ -1,6 +1,6 @@
 const ChatModel = require( '../models/ChatModel.js' );
-const ParticipantsGroupsController = require( './ParticipantsGroupsController' );
-const { Op } = require( 'sequelize' );
+const { Op, Sequelize } = require( 'sequelize' );
+const db = require("../database/mysql.js")
 
 const getAllMessages = async ( req, res ) => {
 
@@ -133,12 +133,26 @@ const getMessageByUser = async ( req, res ) => {
 
 };
 
+const getMessageByUserByEntry = async ( req, res ) => {
+  
+  try{
+
+    const Chat = await db.query(`SELECT c.* FROM Chats c where c.mensaje != 'null' and c.administracion != 1 and (c.mensaje like '%${req.params.buscar}%') and (c.nombre_usuario_emisor = '${req.params.nombre_user}' or c.nombre_usuario_receptor = '${req.params.nombre_user}' or (c.id_grupo_receptor in (SELECT p.id_grupo From ParticipantesGrupos p, Usuarios u where p.nombre_usuario=u.nombre and u.nombre='${req.params.nombre_user}')));`, { type: Sequelize.QueryTypes.SELECT });
+    res.json( Chat );
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+}
+
 const createMessage = async ( req, res ) => {
 
   try {
 
     await ChatModel.create( req.body );
-    res.json({ message: '¡Registro creado correctamente!' });
 
   } catch ( error ) {
 
@@ -182,4 +196,4 @@ const deleteMessage = async ( req, res ) => {
 
 };
 
-module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, getMessageByUser, createMessage, updateMessage, deleteMessage };
+module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, getMessageByUser, getMessageByUserByEntry, createMessage, updateMessage, deleteMessage };

@@ -11,6 +11,8 @@ import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
 import { setUpLists } from '../helper/SetUpLists.js';
 import Swal from 'sweetalert2';
+import { Params } from '../../node_modules/react-router-dom/index.js';
+import { SidePanel } from '../components/game/SidePanel.jsx'
 
 const Game = () => {
 
@@ -23,9 +25,7 @@ const Game = () => {
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
   const URI = `${baseUrl}games/mostrar/`;
-  const URIedit = `${baseUrl}games/`;
-  const URIrate = `${baseUrl}rating/`;
-  const navigate = useNavigate();
+
 
   useEffect( () => {
 
@@ -71,11 +71,6 @@ const Game = () => {
   }, [game]);
 
   
-  useEffect( () => {
-
-    getRating()
-
-  }, [game]);
 
   const getGameById = async () => {
 
@@ -292,56 +287,35 @@ const Game = () => {
 
   };
 
-  /*
-  const update = async ( e ) => {
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    e.preventDefault();
-    await axios.put( URIedit + game.id, {
-      valoracion: rate
-    });
-    //navigate( '/' );
-    //navigate( '/game/' + game.titulo );
 
-  }; */
+  const [hid, setHid] = useState(false);
+  const [count, setCount] = React.useState(0);
 
-  const getRating = async () => {
-
-    const token = localStorage.getItem( 'user' );
-    const us = JSON.parse( token );
-
-    try{
-      const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
-      setRate( res.data[0].valoracion );
-      //console.log( res.data[0].valoracion)
-      //console.log(URIrate + 'usuario/' + us.id + '/' + game.id )
-    }catch (error){
-      setRate(0)
+  function divclicked() {
+    if (!hid) {
+      setHid(true)
     }
+   else {
+      setHid(false)
+   }
+  }
 
-  };
-
-  const rateGame = () => {
+  const publicReview = () => {
 
     Swal.fire({
-      title: '¿Desea valorar ' + game.titulo + ' con ' + rate + ( rate === 1 ? ' estrella' : ' estrellas' ) + '?',
+
+      title: '¿Está seguro que desea publicar esta review del juego ' + game.titulo + '?',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar'
-    }).then( ( result ) => {
 
-      if ( result.value ) {
+    })
 
-        axios.put( URIedit + game.id, {
-          valoracion: rate
-        });
-
-      }
-
-    });
-
-  };
+  }
 
   return (
     <div>
@@ -354,11 +328,11 @@ const Game = () => {
         } }
       />
 
-      <main className="row justify-content-center mt-5">
+      <main className="row d-flex justify-content-center mt-5">
 
-        <div className="row container col-md-12 col-lg-9 col-xl-8 mt-5">
+        <div className="row container col-md-12 col-lg-10 col-xl-9 col-xxl-8 mt-5">
 
-          <div className="col-12 border card">
+          <section className="col-12 border card">
 
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex justify-content-between">
@@ -376,9 +350,11 @@ const Game = () => {
 
             </div>
 
-          </div>
+          </section>
 
-          <div className="mt-2 col-md-12 col-lg-8 border card d-flex justify-content-center">
+          <SidePanel game={game}></SidePanel>
+
+          <section className="col-md-12 col-lg-8 border card d-flex justify-content-center mt-2">
 
             <div className="col-4 ratio ratio-16x9 my-2">
               <iframe width="560"
@@ -391,9 +367,14 @@ const Game = () => {
               </iframe>
             </div>
 
-          </div>
+          </section>
+          
+          
+          {/*
 
-          <div className="d-none d-lg-block col-lg-4 row ms-0 mt-2 border card">
+////////////////////////////////////////////
+
+          <section className="d-none d-lg-block col-lg-4 me-0 mt-2 border card">
 
             <table id="gameinfo">
               <tr>
@@ -428,13 +409,18 @@ const Game = () => {
                       viewBox="0 0 16 16">
                       <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                     </svg>
-                    <p className="text-center text-break fs-2 fw-bold">{rate}</p>
+                    <p className="text-center text-break fs-2 fw-bold">{averageRate}</p>
                   </div>
                 </td>
               </tr>
             </table>
 
-          </div>
+          </section>
+
+
+
+////////////////////////////////////////////////////////
+
 
           <div className="col-12 d-lg-none row ms-0 mt-2 border card">
             <div className="col-12 my-3 d-flex justify-content-center">
@@ -466,7 +452,7 @@ const Game = () => {
                         viewBox="0 0 16 16">
                         <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                       </svg>
-                      <p className="text-center text-break fs-2 fw-bold">{rate}</p>
+                      <p className="text-center text-break fs-2 fw-bold">{averageRate}</p>
                     </div>
                   </td>
                 </tr>
@@ -474,89 +460,132 @@ const Game = () => {
 
             </div>
           </div>
-
+*/}
         </div>
+{/* 
+        <div className="row container col-md-12 col-lg-10 col-xl-9 col-xxl-8 mt-2 mb-5">
 
-        <div className="row container col-md-12 col-lg-9 col-xl-8 mt-2 mb-5">
-
-          <div className="col-md-6 col-lg-8 col-xl-7 col-xxl-6 border card">
-
-            <div className="d-flex justify-content-evenly mt-2 mb-3">
-              {/* onSubmit={rateGame} */}
-
-              <button className="btn btn-outline-dark ms-3 mt-2"
-                id="valorar"
-                type="submit"
-                onClick={rateGame}>
-                <i className="fa fa-star"></i> Valorar juego
-              </button>
-
-              <div className="me-3 mb-2"
-                id="rate">
-                <input type="radio"
-                  id="star5"
-                  name="rate"
-                  value="5"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 5}/>
-                <label htmlFor="star5"
-                  id="start"
-                  title="5 estrellas">5 stars</label>
-                <input type="radio"
-                  id="star4"
-                  name="rate"
-                  value="4"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 4}/>
-                <label htmlFor="star4"
-                  id="start"
-                  title="4 estrellas">4 stars</label>
-                <input type="radio"
-                  id="star3"
-                  name="rate"
-                  value="3"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 3}
-                />
-                <label htmlFor="star3"
-                  id="start"
-                  title="3 estrellas">3 stars</label>
-                <input type="radio"
-                  id="star2"
-                  name="rate"
-                  value="2"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 2}/>
-                <label htmlFor="star2"
-                  id="start"
-                  title="2 estrellas">2 stars</label>
-                <input type="radio"
-                  id="star1"
-                  name="rate"
-                  value="1"
-                  onChange={e => setRate( e.target.value )}
-                  checked={rate === 1}/>
-                <label htmlFor="star1"
-                  id="start"
-                  title="1 estrella">1 star</label>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div className="col-md-6 col-lg-4 col-xl-5 col-xxl-6 border card">
+          <div className="col-md-6 col-lg-7 col-xl-7 col-xxl-8 border card alto"></div>
+{/*
+          <div className="col-md-6 col-lg-5 col-xl-5 col-xxl-6 border card alto">
             <div className="d-flex justify-content-end mt-2 mb-3">
+            
+            {/* 
+            <p className='mt-3'>
+            <i class="fa-solid fa-thumbs-up me-2"></i>Reviews positivas</p>
+
+            <p className='mt-3 fs-6 h6 lh-base'>
+              ¡Publica tu review!
+            </p>
+              
+
               <button className="btn btn-outline-dark me-2 mt-2"
                 id="valorar"
-                onClick={() => newGameInList()}>
-                <i className="fa-solid fa-message"></i> Publicar review
+                onClick={divclicked}>
+                <i className="fa-solid fa-message"></i> {(hid) ? "Descartar" : "Publicar"} review
               </button>
+           
             </div>
+
           </div>
 
-        </div>
+          
+          <div id="seconddiv" className={(hid) ? "coolclass col-6" : "col-6"}></div>
 
+          <div id="seconddiv" className={(hid) ? "coolclass col-6 border card" : "col-6"}>
+
+            <div className='d-flex justify-content-between'>
+              <h4 className="fw-bold ms-2 mt-3">
+                Escribe tu review
+              </h4>
+              <p className=' mt-3'>Caracteres restantes: {200 - count}</p>
+            </div>
+
+            <div>
+              <textarea className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  onChange={e => setCount(e.target.value.length)}></textarea>
+            </div>
+
+            <div className='d-flex justify-content-start'>
+              <p className=''>¿Recomiendas el juego?</p>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
+                <label class="form-check-label" for="inlineRadio1">Si</label>
+              </div>
+              <div class="form-check form-check-inline mt-2">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+            </div>
+
+            <button className="btn btn-outline-dark me-2 my-2"
+                id="valorar"
+                onClick={publicReview}>
+                <i className="fa-solid fa-message"></i> Publicar
+              </button>
+
+
+
+          </div> 
+          
+          
+
+          
+          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
+            <div className='d-flex justify-content-between'>
+              <p className='fw-bold fs-5'>Usuario123</p>
+              <p className='fst-italic'>
+              <i class="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
+            </div>
+
+            <div className='d-flex justify-content-start'>
+              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
+            </div>
+
+            <div className='d-flex justify-content-end'>
+              <p>25/05/2022</p>
+            </div>
+
+          </div>
+
+          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
+          <i src="https://res.cloudinary.com/duvhgityi/image/upload/v1650761808/FotosGrupos/585e4bf3cb11b227491c339a_1_bwucjs.png"></i>
+            <div className='d-flex justify-content-between'>
+              <p className='fw-bold fs-5'>Usuario123</p>
+              <p className='fst-italic'>
+              <i class="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
+            </div>
+
+            <div className='d-flex justify-content-start'>
+              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
+            </div>
+
+            <div className='d-flex justify-content-end'>
+              <p>25/05/2022</p>
+            </div>
+
+          </div>
+
+          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
+            <div className='d-flex justify-content-between'>
+              <p className='fw-bold fs-5'>Usuario123</p>
+              <p className='fst-italic'>
+              <i class="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>
+            </div>
+
+            <div className='d-flex justify-content-start'>
+              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
+            </div>
+
+            <div className='d-flex justify-content-end'>
+              <p>25/05/2022</p>
+            </div>
+
+          </div>
+
+
+
+        </div>
+*/}
         <Footer/>
       </main>
     </div>

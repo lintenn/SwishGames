@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton ) {
+export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup ) {
 
   let tipo = '';
   let descripcion = null;
@@ -18,6 +18,8 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
       nombre = document.querySelector( '#nombreGrupo' );
       navigator.clipboard.writeText( nombre.innerText );
       break;
+    default:
+      break;
 
   }
 
@@ -28,7 +30,7 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
   ).then( () => {
 
     Swal.fire({
-      html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+      html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
       background: '#f0eeee',
       showCloseButton: true,
       closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -37,10 +39,11 @@ export function copyInfo( type, groupAct, admin, receptor, usuarioReceptor, part
       focusConfirm: false,
       allowOutsideClick: false,
       width: '50%',
+      heightAuto: false,
       didOpen: () => {
 
 
-        addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, userAct );
+        addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
 
       }
 
