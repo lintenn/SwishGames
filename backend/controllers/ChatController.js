@@ -137,7 +137,7 @@ const getMessageByUserByEntry = async ( req, res ) => {
   
   try{
 
-    const Chat = await db.query(`SELECT c.* FROM Chats c where c.mensaje != 'null' and (c.nombre_usuario_emisor like '%${req.params.buscar}%' or c.nombre_usuario_receptor like '%${req.params.buscar}%' or c.mensaje like '%${req.params.buscar}%') and (c.nombre_usuario_emisor = '${req.params.nombre_user}' or c.nombre_usuario_receptor = '${req.params.nombre_user}' or (c.id_grupo_receptor in (SELECT p.id_grupo From ParticipantesGrupos p, Usuarios u where p.nombre_usuario=u.nombre and u.nombre='${req.params.nombre_user}')));`, { type: Sequelize.QueryTypes.SELECT });
+    const Chat = await db.query(`SELECT c.* FROM Chats c where c.mensaje != 'null' and c.administracion != 1 and (c.mensaje like '%${req.params.buscar}%') and (c.nombre_usuario_emisor = '${req.params.nombre_user}' or c.nombre_usuario_receptor = '${req.params.nombre_user}' or (c.id_grupo_receptor in (SELECT p.id_grupo From ParticipantesGrupos p, Usuarios u where p.nombre_usuario=u.nombre and u.nombre='${req.params.nombre_user}')));`, { type: Sequelize.QueryTypes.SELECT });
     res.json( Chat );
 
   } catch ( error ) {

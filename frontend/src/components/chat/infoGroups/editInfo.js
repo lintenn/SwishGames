@@ -52,6 +52,8 @@ function showEdit( type, group ) {
         <Input accept="image/*" type="file" id="imagen-edit-group">
         <img src=${group.imagen} name="img-photo-edit-group" id="img-photo-edit-group" class="align-self-center m-3 imagen-perfil-chat" width ="300" height ="300">`;
       break;
+    default:
+      break;
 
   }
 
@@ -119,6 +121,8 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
         axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
         tipo = 'La imagen';
         axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
+        break;
+      default:
         break;
 
     }

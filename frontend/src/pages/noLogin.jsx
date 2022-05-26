@@ -21,7 +21,7 @@ export const NoLogin = () => {
     <div className="centrar-vertical-padre">
       <div>
         <h1>No has iniciado sesión</h1>
-        <div className=" centrar-vertical-hijo">
+        <div className="centrar-vertical-hijo">
           <button className="btn btn-primary"
             onClick={
               () => {
