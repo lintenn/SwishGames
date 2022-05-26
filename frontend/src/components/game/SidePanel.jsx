@@ -1,4 +1,3 @@
-import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { isAuthorized } from '../../helper/isAuthorized.js';
@@ -6,6 +5,7 @@ import { Global } from '../../helper/Global.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/game.css';
 import Swal from 'sweetalert2';
+import Link from '../../../node_modules/react-scroll/modules/components/Link.js';
 
 
 export const SidePanel = ({game}) => {
@@ -13,6 +13,8 @@ export const SidePanel = ({game}) => {
     const baseUrl = Global.baseUrl;
     const URIaverage = `${baseUrl}rating/media/`
     const URIrate = `${baseUrl}rating/`;
+    const URIlogin = `http://localhost:3000/login`
+    const isauthorized = isAuthorized();
     const [rate, setRate] = useState([]);
     const [averageRate, setAverageRate] = useState([]);
 
@@ -172,6 +174,7 @@ export const SidePanel = ({game}) => {
 
         </section>
 
+        {isauthorized ?
         <section className="col-12 border card">
 
             <div className="d-flex justify-content-center mt-3">
@@ -230,7 +233,14 @@ export const SidePanel = ({game}) => {
                 </fieldset>
             </div>
 
+        </section>  
+        :
+        <section className="col-12 border card">
+            <div className="d-flex justify-content-center my-4">
+            <h5 className="fw-bold"><a href='/login'>Regístrate para valorar el juego</a></h5>
+            </div>
         </section>
+        }
     </div>
 
     )
