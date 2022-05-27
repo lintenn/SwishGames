@@ -29,6 +29,7 @@ export const Chat = () => {
   const { receptorActual } = useParams();
   const [responder, setResponder] = useState( false );
   const [mensajesBuscar, setMensajesBuscar] = useState([]);
+  const [recienEnviado, setRecienEnviado] = useState( false );
 
   useEffect( () => {
 
@@ -54,7 +55,7 @@ export const Chat = () => {
 
     if ( user !== null ) {
 
-      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar );
 
     }
 
@@ -64,7 +65,7 @@ export const Chat = () => {
 
     socket.on( 'mensajes', () => {
 
-      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups );
+      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar );
 
     });
 
@@ -80,8 +81,6 @@ export const Chat = () => {
   useEffect( () => {
 
     if ( mensajes.length !== 0 && myGroups.length !== 0 && user !== null ) {
-
-      setMensajesBuscar( mensajes );
 
       const idGroups = [];
 
@@ -153,6 +152,8 @@ export const Chat = () => {
                           setResponder={ setResponder }
                           mensajesBuscar={ mensajesBuscar }
                           setMensajesBuscar={ setMensajesBuscar }
+                          recienEnviado={ recienEnviado }
+                          setRecienEnviado={ setRecienEnviado }
                         />
                         <Conversacion
                           users={ users }
@@ -170,6 +171,7 @@ export const Chat = () => {
                           setConexion={ setConexion }
                           responder={ responder }
                           setResponder={ setResponder }
+                          setRecienEnviado={ setRecienEnviado }
                         />
                       </div>
                     </div>
