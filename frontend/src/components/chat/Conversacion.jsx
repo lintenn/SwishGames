@@ -13,7 +13,7 @@ import copiarMensaje from './optionsMessage/copyMessage';
 import editarImagen from './optionsMessage/editImage';
 import enviarImagen from './attach/newImage';
 
-export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion, responder, setResponder }) => {
+export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensajesDESC, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion, responder, setResponder, setRecienEnviado }) => {
 
   let nombreAnterior = '';
   const baseUrl = Global.baseUrl;
@@ -117,9 +117,8 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   };
 
-  const submit = async ( e ) => {
+  const submit = async ( ) => {
 
-    e.preventDefault();
     if ( eliminarEspaciosMensajes( mensaje ) ) {
 
       Swal.showLoading();
@@ -134,11 +133,11 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
           if ( mensajeRespuesta !== '' ) {
 
-            await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+            axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
 
           } else {
 
-            await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+            axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
 
           }
 
@@ -151,7 +150,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         } else {
 
-          await axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
+          axios.post( URI, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: group.id, mensaje: mensaje });
 
         }
 
@@ -161,11 +160,11 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
           if ( mensajeRespuesta !== '' ) {
 
-            await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+            axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, mensajeRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
 
           } else {
 
-            await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
+            axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje, respuesta: idMensajeRespuesta, imagenRespuesta: imagenRespuesta, nombreEmisorRespuesta: nombreMensajeRespuesta });
 
           }
 
@@ -178,13 +177,21 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
         } else {
 
-          await axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje: mensaje });
+          axios.post( URI, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: receptor, mensaje });
 
         }
 
       }
-      socket.emit( 'mensaje' );
       setMensaje( '' );
+      setRecienEnviado( true );
+
+      await axios.get( `${baseUrl}chats` )
+        .then( ( res ) => {
+
+          socket.emit( 'mensaje' );
+
+        }
+        );
 
       Swal.close();
 
@@ -508,12 +515,10 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
         </div>
         <button className="btn ms-1 text-muted divObjectsSend align-items-center"
           onClick={() => mostrarPosibilidadesEnviar()}><i className="fas fa-paperclip clipIcon"></i></button>
-        <form method="post"
-          onSubmit={submit}>
-          <button className="ms-3 botonTransparente divObjectsSend align-items-center"
-            type="submit"
-            id="botonEnviar"><i className="fas fa-paper-plane sendIcon"></i></button>
-        </form>
+        <button className="ms-3 botonTransparente divObjectsSend align-items-center"
+          type="submit"
+          id="botonEnviar"
+          onClick={() => submit()}><i className="fas fa-paper-plane sendIcon"></i></button>
       </div>
     </div>
   );
@@ -535,5 +540,6 @@ Conversacion.propTypes = {
   setReceptor: PropTypes.func.isRequired,
   setConexion: PropTypes.func.isRequired,
   responder: PropTypes.bool.isRequired,
-  setResponder: PropTypes.func.isRequired
+  setResponder: PropTypes.func.isRequired,
+  setRecienEnviado: PropTypes.func.isRequired
 };

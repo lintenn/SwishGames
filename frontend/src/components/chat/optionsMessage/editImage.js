@@ -63,6 +63,17 @@ function addClickButtonEdit( mensaje ) {
     mensaje.imagen = imagen;
     axios.put( `${baseUrl}chats/${mensaje.id}`, { imagen, editado: true });
 
+    axios.get( `${baseUrl}chats/response/${mensaje.id}` )
+      .then( ( res ) => {
+
+        res.data.forEach( ( mensaje2 ) => {
+
+          axios.put( `${baseUrl}chats/${mensaje2.id}`, { imagenRespuesta: imagen });
+
+        });
+
+      });
+
     Swal.fire(
       'Editado!',
       'La imagen ha sido editada',
