@@ -10,6 +10,7 @@ const participantsGroupsRoutes = require('./routes/routesParticipantsGroups.js')
 const listsRoutes = require('./routes/routesList.js')
 const contentsListsRoutes = require('./routes/routesContentsLists.js')
 const ratingRoutes = require('./routes/routesRating.js')
+const reviewRoutes = require('./routes/routesReview.js')
 const socketio = require('socket.io');
 const path = require('path')
 
@@ -29,6 +30,7 @@ app.use('/participantsGroups',participantsGroupsRoutes)
 app.use('/lists',listsRoutes)
 app.use('/contentsLists',contentsListsRoutes)
 app.use('/rating',ratingRoutes)
+app.use('/review',reviewRoutes)
 app.get('/*'),(req, res)=>{
     res.sendFile(__dirname + './public/index.html'),(err)=>{
         if(err){

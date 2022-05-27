@@ -63,7 +63,7 @@ const updateReview = async (req, res) => {
 
     try{
 
-        await db.query(`UPDATE Reviews SET review = ${req.body.valoracion}, recomendado = ${req.body.recomendado} WHERE id_usuario = ${req.params.id_usuario} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.UPDATE });
+        await db.query(`UPDATE Reviews SET review = ${req.body.review}, recomendado = ${req.body.recomendado} WHERE id_usuario = ${req.params.id_usuario} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.UPDATE });
         res.json({ message: "Review actualizada correctamente" });
 
     } catch (error) {
