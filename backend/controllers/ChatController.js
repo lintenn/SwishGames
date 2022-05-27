@@ -148,6 +148,21 @@ const getMessageByUserByEntry = async ( req, res ) => {
 
 }
 
+const getMessageResponse = async (req, res) => {
+
+  try{
+
+    const Chat = await db.query(`SELECT c.* FROM Chats c WHERE c.respuesta = ${req.params.id_mensaje}`,  { type: Sequelize.QueryTypes.SELECT });
+    res.json( Chat );
+
+  } catch (error){
+
+    res.json({ message: error.message });
+
+  }
+
+}
+
 const createMessage = async ( req, res ) => {
 
   try {
@@ -196,4 +211,4 @@ const deleteMessage = async ( req, res ) => {
 
 };
 
-module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, getMessageByUser, getMessageByUserByEntry, createMessage, updateMessage, deleteMessage };
+module.exports = { getAllMessages, getAllMessagesOfOnePerson, getAllMessagesOfOnePersonOrderByDate, getAllMessagesOrderByDate, getMessage, getMessageByUser, getMessageByUserByEntry, getMessageResponse, createMessage, updateMessage, deleteMessage };
