@@ -9,9 +9,41 @@ import Swal from 'sweetalert2';
 export const ReviewPanel = ({game}) => {
 
     const baseUrl = Global.baseUrl;
+    const URIreview = `${baseUrl}review/`;
     const isauthorized = isAuthorized();
     const [shown, setShown] = useState(false);
-    const [count, setCount] = React.useState(0);
+    const [count, setCount] = useState(0);
+    const [reviews, setReviews] = useState([]);
+
+    useEffect( () => {
+
+        if(game.length !== 0){
+
+            getReviews()
+
+        }
+    }, [game]);
+
+    useEffect( () => {
+
+        console.log(reviews)
+
+    }, [reviews])
+
+    const getReviews = async () => {
+
+        try{
+    
+            axios.get( URIreview + '/game/' + game.id )
+            .then( res => {
+                setReviews(res.data)
+            });
+
+        }catch (error){
+            setReviews([])
+        }
+
+    }
   
     function writeReview() {
       if (!shown) {
@@ -40,12 +72,13 @@ export const ReviewPanel = ({game}) => {
 
     return (
     
-        <section className="col-12 mb-5 border card">
+    <div className='px-0 mb-5'>
+        <section className="col-12 mt-2 border card">
 
             <div className="d-flex justify-content-between mt-3">
-            <div className="d-flex justify-content-between">
-                <h2 className="fw-bold ms-2">Reviews</h2>
-            </div>
+                <div className="d-flex justify-content-between">
+                    <h2 className="fw-bold ms-2">Reviews</h2>
+                </div>
 
             {isauthorized
                 ? <button className="btn btn-outline-dark me-2 mb-3"
@@ -59,43 +92,58 @@ export const ReviewPanel = ({game}) => {
 
             
             <div id="textarea" className={(shown) ? "d-flex justify-content-end" : "d-none d-flex justify-content-end"}>
-
             
-            <div className='col-6 border px-2 py-2 mb-2'>
+                <div className='col-6 border px-2 py-2 mb-2'>
 
-                <div className='d-flex justify-content-between'>
-                    <label for="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
-                    <p className=' mt-3'>Caracteres restantes: {200 - count}</p>
-                </div>
-
-                <div>
-                    <textarea id="textarea" className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  onChange={e => setCount(e.target.value.length)}></textarea>
-                </div>
-
-                <fieldset className='d-flex justify-content-start'>
-                    <p className=''>¿Recomiendas el juego?</p>
-                    <div class="form-check form-check-inline mt-2">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                        <label class="form-check-label" for="inlineRadio1">Si</label>
+                    <div className='d-flex justify-content-between'>
+                        <label for="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
+                        <p className=' mt-3'>Caracteres restantes: {200 - count}</p>
                     </div>
-                    <div class="form-check form-check-inline mt-2">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
-                        <label class="form-check-label" for="inlineRadio2">No</label>
+
+                    <div>
+                        <textarea id="textarea" className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  onChange={e => setCount(e.target.value.length)}></textarea>
                     </div>
-                </fieldset>
 
-                <button className="btn btn-outline-dark me-2 my-2"
-                    id="valorar"
-                    onClick={publicReview}>
-                    <i className="fa-solid fa-message"></i> Publicar
-                </button>
+                    <fieldset className='d-flex justify-content-start'>
+                        <p className=''>¿Recomiendas el juego?</p>
+                        <div class="form-check form-check-inline mt-2">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
+                            <label class="form-check-label" for="inlineRadio1">Si</label>
+                        </div>
+                        <div class="form-check form-check-inline mt-2">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
+                            <label class="form-check-label" for="inlineRadio2">No</label>
+                        </div>
+                    </fieldset>
 
-            </div> 
+                    <button className="btn btn-outline-dark me-2 my-2"
+                        id="valorar"
+                        onClick={publicReview}>
+                        <i className="fa-solid fa-message"></i> Publicar
+                    </button>
+
+                </div>
 
             </div>
 
         </section>
-    
+
+        <section className="col-12 d-flex justify-content-center mt-0 mb-5">
+
+            {(reviews.length === 0) ? 
+
+            <div className='col-12 border card'>
+                <div className='d-flex justify-content-center'>
+                    <p className="fw-bold fs-5 ms-2">Aún no se ha publicado ninguna review</p>
+                </div>
+            </div>
+            : 
+            
+            <div></div>
+
+            }
+        </section>
+    </div>
 
     )
 }
