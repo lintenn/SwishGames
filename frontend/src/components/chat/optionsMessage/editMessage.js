@@ -22,6 +22,17 @@ function editarMensaje( mensaje ) {
 
       axios.put( `${baseUrl}chats/${mensaje.id}`, { mensaje: result.value, editado: true, reenviado: false });
 
+      axios.get( `${baseUrl}chats/response/${mensaje.id}` )
+        .then( ( res ) => {
+
+          res.data.forEach( ( mensaje2 ) => {
+
+            axios.put( `${baseUrl}chats/${mensaje2.id}`, { mensajeRespuesta: result.value });
+
+          });
+
+        });
+
       Swal.fire(
         '¡Editado!',
         `El mensaje '${mensaje.mensaje}' ha sido editado por '${result.value}'`,

@@ -9,7 +9,7 @@ import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 import { eventKeyboard } from './eventsKeyboard';
 
-export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder, mensajesBuscar, setMensajesBuscar }) => {
+export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder, mensajesBuscar, setMensajesBuscar, recienEnviado, setRecienEnviado }) => {
 
   const users2 = [];
   const baseUrl = Global.baseUrl;
@@ -231,7 +231,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const putUsers2 = ( men ) => {
 
-    if ( mensajesBuscar.length === mensajes.length ) {
+    if ( mensajesBuscar.length === mensajes.length || recienEnviado ) {
 
       users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
 
@@ -458,7 +458,12 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             placeholder="Busca un mensaje"
             aria-label="Search"
             aria-describedby="search-addon"
-            onChange={( e ) => setBuscar( e.target.value )} />
+            onChange={( e ) => {
+
+              setBuscar( e.target.value );
+              setRecienEnviado( false );
+
+            }} />
           <div className="dropdown">
             <button className="botonTransparente2 btnAñadirChats"
               type="button"
@@ -573,5 +578,7 @@ ChatsActivos.propTypes = {
   mensajesDESC: PropTypes.array.isRequired,
   setResponder: PropTypes.func.isRequired,
   mensajesBuscar: PropTypes.array.isRequired,
-  setMensajesBuscar: PropTypes.func.isRequired
+  setMensajesBuscar: PropTypes.func.isRequired,
+  recienEnviado: PropTypes.bool.isRequired,
+  setRecienEnviado: PropTypes.func.isRequired
 };

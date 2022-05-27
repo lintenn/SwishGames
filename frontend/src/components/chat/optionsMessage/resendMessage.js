@@ -70,7 +70,7 @@ function addClickParticipantes( mensaje, users, myGroups, user ) {
 
 function showFriendsAndGroups( users, myGroups, user ) {
 
-  let friends = 'Usuarios';
+  let friends = '<hr/>Usuarios<br/><hr/>';
 
   users.forEach( ( us ) => {
 
@@ -99,7 +99,7 @@ function showFriendsAndGroups( users, myGroups, user ) {
 
   });
 
-  friends += '<hr/>Grupos';
+  friends += '<hr/>Grupos<br/><hr/>';
 
 
   myGroups.forEach( ( group ) => {

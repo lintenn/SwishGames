@@ -40,7 +40,7 @@
 }
 
 #gameinfo {
-    min-height: 400px;
+    min-height: 350px;
     height: 100%; width: 100%
 }
 
@@ -55,29 +55,3 @@
 #stars{
     width: 100%;
 }
-
-/*
-#valorar {
-    height:45px;
-    display:block;
-}*/
-
-
-   
-   #seconddiv.coolclass{
-    max-height:100%;
-    display:block
-   }
-   
-   #seconddiv {
-    max-height: 0%;
-    transition: 0.5s;
-    overflow: hidden;
-    display: none;
-   }
-
-.alto{
-    height: 80px;
-}
-
-
