@@ -16,6 +16,7 @@ export const ReviewPanel = ({game}) => {
     const [count, setCount] = useState(0);
     const [reviews, setReviews] = useState([]);
     const [userReview, setUserReview] = useState([])
+    const [liked, setLiked] = useState()
 
     useEffect( () => {
 
@@ -43,10 +44,17 @@ export const ReviewPanel = ({game}) => {
     }
 
     useEffect(() =>{
-        console.log(userReview)
+
         if(userReview.length !== 0){
             setCount(userReview[0].review.length)
+            if(userReview[0].recomendado === 1){
+                setLiked(1)
+            }else{
+                setLiked(0)
+            }
+
         }
+
     }, [userReview])
 
     const getUserReview = async () => {
@@ -78,6 +86,9 @@ export const ReviewPanel = ({game}) => {
 
     const publicReview = () => {
 
+        const token = localStorage.getItem( 'user' );
+        const user = JSON.parse( token );
+
         Swal.fire({
     
           title: '¿Está seguro que desea publicar esta review del juego ' + game.titulo + '?',
@@ -90,6 +101,45 @@ export const ReviewPanel = ({game}) => {
     
         })
     
+    }
+
+    const deleteReview = () => {
+
+        const token = localStorage.getItem( 'user' );
+        const user = JSON.parse( token );
+
+        if(userReview.length !== 0){
+            Swal.fire({
+    
+                title: '¿Estás seguro que deseas eliminar tu review del juego ' + game.titulo + '?',
+                text: 'No podrás recuperar tu review tras eliminarla',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+          
+              }).then( (result) => {
+                  
+                if(result.value){
+
+                    axios.delete( URIreview + game.id + '/' + user.id)
+
+                    Swal.fire(
+                        '¡Borrada!',
+                        'Tu review ha sido borrada correctamente',
+                        'success'
+                    ).then( () => {
+            
+                       getReviews()
+                       setUserReview([])
+                       setLiked(undefined)
+                       setShown(false)
+            
+                    });
+                }
+              })
+        }
     }
 
     return (
@@ -115,7 +165,7 @@ export const ReviewPanel = ({game}) => {
                         <i className="fa-solid fa-pencil"></i> Editar review
                     </button>
 
-                    <button className="btn btn-danger me-3 mb-3" onClick={writeReview}>
+                    <button className="btn btn-danger me-3 mb-3" onClick={deleteReview}>
                         <i className="fa-solid fa-trash-can"></i> Eliminar review
                     </button>
                 </div>)
@@ -131,29 +181,29 @@ export const ReviewPanel = ({game}) => {
                 <div className='col-6 border px-2 py-2 mb-2 me-2'>
 
                     <div className='d-flex justify-content-between'>
-                        <label for="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
+                        <label htmlFor="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
                         <p className=' mt-3'>Caracteres restantes: {250 - count}</p>
                     </div>
 
                     <div>
                         <textarea id="textarea" 
                             className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  
-                            onChange={e => setCount(e.target.value.length)}
+                            onChange={e => setCount( e.target.value.length )}
                             defaultValue={(userReview.length === 0) ? "" : userReview[0].review}>
                         </textarea>
                     </div>
 
                     <fieldset className='d-flex justify-content-start'>
                         <p className=''>¿Recomiendas el juego?</p>
-                        <div class="form-check form-check-inline mt-2">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" 
-                            checked={(userReview.length === 0) ? "false" : (userReview[0].recomendado === 1)}/>
-                            <label class="form-check-label" for="inlineRadio1">Si</label>
+                        <div className="form-check form-check-inline mt-2">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" 
+                            checked={liked === 1} onClick={e => setLiked( parseInt(e.target.value) )}/>
+                            <label className="form-check-label" htmlFor="inlineRadio1">Si</label>
                         </div>
-                        <div class="form-check form-check-inline mt-2">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"
-                            checked={(userReview.length === 0) ? "false" : (userReview[0].recomendado === 0)}/>
-                            <label class="form-check-label" for="inlineRadio2">No</label>
+                        <div className="form-check form-check-inline mt-2">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0"
+                            checked={liked === 0} onClick={e => setLiked( parseInt(e.target.value) )}/>
+                            <label className="form-check-label" htmlFor="inlineRadio2">No</label>
                         </div>
                     </fieldset>
 

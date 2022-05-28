@@ -39,8 +39,8 @@ export const Review = ({review}) => {
                 <p className="fw-bold fs-5">{user[0].nombre}</p>
 
                 {(review.recomendado) 
-                ? <p className='fst-italic'><i class="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
-                : <p className='fst-italic'><i class="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>}
+                ? <p className='fst-italic'><i className="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
+                : <p className='fst-italic'><i className="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>}
             </div>
 
             <div className='d-flex justify-content-start mx-4'>
