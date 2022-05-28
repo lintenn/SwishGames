@@ -16,6 +16,7 @@ export const ReviewPanel = ({game}) => {
     const [count, setCount] = useState(0);
     const [reviews, setReviews] = useState([]);
     const [userReview, setUserReview] = useState([])
+    const [reviewText, setReviewText] = useState()
     const [liked, setLiked] = useState()
 
     useEffect( () => {
@@ -47,12 +48,16 @@ export const ReviewPanel = ({game}) => {
 
         if(userReview.length !== 0){
             setCount(userReview[0].review.length)
+            setReviewText(userReview[0].review)
             if(userReview[0].recomendado === 1){
                 setLiked(1)
             }else{
                 setLiked(0)
             }
 
+        }else{
+            setReviewText("")
+            setLiked(undefined)
         }
 
     }, [userReview])
@@ -73,6 +78,11 @@ export const ReviewPanel = ({game}) => {
             setUserReview([])
         }
 
+    }
+
+    function handleChange(event) {
+        setReviewText(event.target.value)
+        setCount(event.target.value.length)
     }
   
     function writeReview() {
@@ -99,9 +109,52 @@ export const ReviewPanel = ({game}) => {
           confirmButtonText: 'Confirmar',
           cancelButtonText: 'Cancelar'
     
+        }).then( (result) => {
+
+            if(result.value){
+
+                if(false){
+                    
+                }else if(false){
+
+                }else {
+                    
+                    if(userReview.length === 0){
+                        newReview(user)
+
+
+                    }else{
+                        
+                    }
+                    
+                    getReviews()
+                    getUserReview()
+                    setShown(false)
+
+                }
+            }
+
         })
     
     }
+
+    const newReview = (user) => {
+        axios.post(URIreview, {
+            id_usuario: user.id,
+            id_juego: game.id,
+            review: `'${reviewText}'`,
+            recomendado: liked
+        })
+        
+        Swal.fire(
+            '¡Review publicada!',
+            'Tu review ha sido publicada correctamente',
+            'success'
+        )
+
+    }
+
+
 
     const deleteReview = () => {
 
@@ -162,7 +215,7 @@ export const ReviewPanel = ({game}) => {
                 
                 <div>
                     <button className="btn btn-outline-dark me-3 mb-3" onClick={writeReview}>
-                        <i className="fa-solid fa-pencil"></i> Editar review
+                        <i className="fa-solid fa-pencil"></i> {(shown) ? "Descartar edición" : "Editar review"} 
                     </button>
 
                     <button className="btn btn-danger me-3 mb-3" onClick={deleteReview}>
@@ -188,8 +241,8 @@ export const ReviewPanel = ({game}) => {
                     <div>
                         <textarea id="textarea" 
                             className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  
-                            onChange={e => setCount( e.target.value.length )}
-                            defaultValue={(userReview.length === 0) ? "" : userReview[0].review}>
+                            onChange={e => handleChange(e)}
+                            value={reviewText}>
                         </textarea>
                     </div>
 
