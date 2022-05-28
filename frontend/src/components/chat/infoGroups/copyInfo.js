@@ -32,7 +32,7 @@ export function copyInfo( type, groupAct, receptor, participantes, userAct, setR
 
     const myGroups = [];
     myGroups.push( groupAct );
-    infoGroup( myGroups, groupAct.id, receptor, participantes, participantes, userAct, setGroup, setReceptor, setConexion );
+    infoGroup( myGroups, groupAct.id, participantes, userAct, setGroup, setReceptor, setConexion );
 
   });
 

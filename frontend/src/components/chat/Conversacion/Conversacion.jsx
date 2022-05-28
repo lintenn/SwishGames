@@ -8,6 +8,7 @@ import { fotoPerfil } from '../format/photoProfile';
 import { mostrarPosibilidadesEnviar } from '../attach/attach';
 import { submit } from '../send';
 import { Messages } from './showMessages';
+import { infoUser } from '../infoUser/infoUser';
 
 export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaje, setMensaje, group, myGroups, setGroup, setReceptor, setConexion, responder, setResponder, setRecienEnviado }) => {
 
@@ -35,12 +36,21 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
   const setMiembrosGrupo = ( id ) => {
 
-    axios.get( `${baseUrl}participantsGroups/users/${id}` )
-      .then( res => {
+    if ( group !== {} && receptor === '' ) {
 
-        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup, setReceptor, setConexion );
+      axios.get( `${baseUrl}participantsGroups/users/${id}` )
+        .then( res => {
 
-      });
+          infoGroup( myGroups, id, res.data, user, setGroup, setReceptor, setConexion );
+
+        });
+
+    } else if ( group.id === undefined && receptor !== '' ) {
+
+      console.log( 'entro' );
+      infoUser( users, receptor, user, setGroup, setReceptor );
+
+    }
 
   };
 

@@ -7,7 +7,7 @@ import { viewParticipantsGroup } from './viewParticipantsGroup';
 
 const baseUrl = Global.baseUrl;
 
-export function viewAddParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
+export function viewAddParticipantsGroup( groupAct, admin, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showAddParticipantes( userAct, participantes )}</div>`,
@@ -22,7 +22,7 @@ export function viewAddParticipantsGroup( groupAct, admin, receptor, usuarioRece
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, setGroup, userAct, setReceptor, setConexion );
+      addClickButtonAddParticipantes( groupAct, admin, setGroup, userAct, setReceptor, setConexion );
 
     }
 
@@ -67,7 +67,7 @@ function showAddParticipantes( user, users ) {
 
 }
 
-function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, setGroup, userAct, setReceptor, setConexion ) {
+function addClickButtonAddParticipantes( groupAct, admin, setGroup, userAct, setReceptor, setConexion ) {
 
   const participantesAñadidos = [];
 
@@ -119,7 +119,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
           axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
             .then( res => {
 
-              viewParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConexion );
+              viewParticipantsGroup( groupAct, admin, res.data, setGroup, userAct, setReceptor, setConexion );
 
             });
 
@@ -130,7 +130,7 @@ function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioRecep
         axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
           .then( res => {
 
-            viewParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConexion );
+            viewParticipantsGroup( groupAct, admin, res.data, setGroup, userAct, setReceptor, setConexion );
 
           });
 

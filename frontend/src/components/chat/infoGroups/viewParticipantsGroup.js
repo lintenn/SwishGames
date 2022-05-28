@@ -8,7 +8,7 @@ import { viewAddParticipantsGroup } from './viewAddParticipantsGroup';
 
 const baseUrl = Global.baseUrl;
 
-export function viewParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
+export function viewParticipantsGroup( groupAct, admin, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( participantes, admin, userAct )}</div>`,
@@ -23,7 +23,7 @@ export function viewParticipantsGroup( groupAct, admin, receptor, usuarioRecepto
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion );
+      addClickButtonViewParticipantes( groupAct, admin, participantes, setGroup, userAct, setReceptor, setConexion );
 
     }
 
@@ -74,7 +74,7 @@ function showMembers( users, admin, userAct ) {
 
 }
 
-function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
+function addClickButtonViewParticipantes( groupAct, admin, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   if ( admin ) {
 
@@ -85,7 +85,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
         event.preventDefault();
         const nombreParticipante = boton.value;
 
-        removePartivipant( groupAct, nombreParticipante, userAct, admin, receptor, usuarioReceptor, setGroup, setReceptor, setConexion );
+        removePartivipant( groupAct, nombreParticipante, userAct, admin, setGroup, setReceptor, setConexion );
 
       });
 
@@ -98,7 +98,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
       axios.get( `${baseUrl}participantsGroups/notUsers/${groupAct.id}` )
         .then( res => {
 
-          viewAddParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConexion );
+          viewAddParticipantsGroup( groupAct, admin, res.data, setGroup, userAct, setReceptor, setConexion );
 
         });
 
@@ -112,11 +112,13 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
     boton.addEventListener( 'click', ( e ) => {
 
       e.preventDefault();
-      if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
 
-        document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+      document.querySelectorAll( '.chatSeleccionado' ).forEach( ( chat ) => {
 
-      }
+        chat.classList.remove( 'chatSeleccionado' );
+
+      });
+
       setReceptor( boton.value );
 
       setConection( boton.value, participantes, setConexion );
@@ -135,7 +137,7 @@ function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioRece
 
 }
 
-function removePartivipant( groupAct, nombreParticipante, userAct, admin, receptor, usuarioReceptor, setGroup, setReceptor, setConexion ) {
+function removePartivipant( groupAct, nombreParticipante, userAct, admin, setGroup, setReceptor, setConexion ) {
 
   Swal.fire({
     title: '¿Estás seguro?',
@@ -162,7 +164,7 @@ function removePartivipant( groupAct, nombreParticipante, userAct, admin, recept
         axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
           .then( res => {
 
-            viewParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConexion );
+            viewParticipantsGroup( groupAct, admin, res.data, setGroup, userAct, setReceptor, setConexion );
 
           });
 

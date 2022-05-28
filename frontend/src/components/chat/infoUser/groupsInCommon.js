@@ -2,10 +2,11 @@ import { formatMessage } from '../format/formatMessage';
 import Swal from 'sweetalert2';
 import { Global } from '../../../helper/Global';
 import axios from 'axios';
+import { setConection } from '../format/setConection';
 
 const baseUrl = Global.baseUrl;
 
-export const viewGroupsInCommon = ( groupAct, receptor, setGroup, setReceptor, groups ) => {
+export const viewGroupsInCommon = ( setGroup, setReceptor, groups ) => {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showGroups( groups )}</div>`,
@@ -20,7 +21,7 @@ export const viewGroupsInCommon = ( groupAct, receptor, setGroup, setReceptor, g
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonViewGroups( groupAct, receptor, setGroup, setReceptor );
+      addClickButtonViewGroups( setGroup, setReceptor );
 
     }
   });
@@ -68,7 +69,7 @@ function showGroups( groups ) {
 
 }
 
-function addClickButtonViewGroups( groupAct, receptor, setGroup, setReceptor ) {
+function addClickButtonViewGroups( setGroup, setReceptor ) {
 
   document.querySelectorAll( 'button[name="viewGroup"]' ).forEach( ( boton ) => {
 
@@ -78,15 +79,14 @@ function addClickButtonViewGroups( groupAct, receptor, setGroup, setReceptor ) {
 
       axios.get( `${baseUrl}groups/${boton.value}` ).then( res => {
 
-        if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
+        document.querySelectorAll( '.chatSeleccionado' ).forEach( ( chat ) => {
 
-          document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
+          chat.classList.remove( 'chatSeleccionado' );
 
-        }
+        });
 
         setReceptor( '' );
-
-        // setConection( '' );
+        setConection( '', []);
         setGroup( res.data );
 
         if ( document.getElementById( `${boton.value}` ) !== null ) {
