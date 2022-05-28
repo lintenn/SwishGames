@@ -166,12 +166,15 @@ function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, s
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      document.querySelector( '#img-photo-edit-group' ).src = uploadImage( e.target.files );
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.querySelector( '#img-photo-edit-group' ).src = result;
+
+        });
 
     });
 
-
   });
-
 
 }

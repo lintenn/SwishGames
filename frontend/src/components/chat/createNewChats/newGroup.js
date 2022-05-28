@@ -112,10 +112,14 @@ const addClickButtonNewGroup = ( user, setGroup, users, group, receptor, setRece
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      document.getElementById( 'img-photo-create-group' ).src = uploadImage( e.target.files );
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.getElementById( 'img-photo-create-group' ).src = result;
+
+        });
 
     });
-
 
   });
 

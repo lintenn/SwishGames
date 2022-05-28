@@ -39,12 +39,11 @@ function showEdit() {
           <br/>
           <br/>
           <Input accept="image/*" type="file" id="imagen-edit">
-          <img src="" name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat" width ="300" height ="300">
+          <img src="" name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat">
           <br/>
           <br/>
           <button style="border-radius: 20px" class="btn btn-primary" name="editImagen">Siguiente</button>
         `;
-
 
   return ( edit );
 
@@ -81,7 +80,6 @@ function addClickButtonEdit( userAct, receptor, group ) {
 
     });
 
-
   });
 
   document.querySelectorAll( 'input[type="file"]' ).forEach( ( input ) => {
@@ -89,13 +87,16 @@ function addClickButtonEdit( userAct, receptor, group ) {
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      document.querySelector( '#img-photo-edit' ).src = uploadImage( e.target.files );
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.querySelector( '#img-photo-edit' ).src = result;
+
+        });
 
     });
 
-
   });
-
 
 }
 
