@@ -19,7 +19,6 @@ const Game = () => {
   const [lists, setLists] = useState([]);
   const [containedLists, setContainedLists] = useState([]);
   const [allLists, setAllLists] = useState([]);
-  const [rate, setRate] = useState([]);
   const { id } = useParams();
   const isauthorized = isAuthorized();
   const baseUrl = Global.baseUrl;
@@ -303,7 +302,7 @@ const Game = () => {
 
         <div className="row container col-md-12 col-lg-10 col-xl-9 col-xxl-8 mt-5">
 
-          <section className="col-12 border card">
+          <section className="col-12 border card me-4">
 
             <div className="d-flex justify-content-between mt-3">
               <div className="d-flex justify-content-between">

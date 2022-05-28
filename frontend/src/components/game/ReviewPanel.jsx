@@ -5,6 +5,7 @@ import { Global } from '../../helper/Global.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/game.css';
 import Swal from 'sweetalert2';
+import { Review } from '../game/Review.jsx';
 
 export const ReviewPanel = ({game}) => {
 
@@ -24,12 +25,6 @@ export const ReviewPanel = ({game}) => {
         }
     }, [game]);
 
-    useEffect( () => {
-
-        console.log(reviews)
-
-    }, [reviews])
-
     const getReviews = async () => {
 
         try{
@@ -46,12 +41,12 @@ export const ReviewPanel = ({game}) => {
     }
   
     function writeReview() {
-      if (!shown) {
-        setShown(true)
-      }
-     else {
-        setShown(false)
-     }
+        if (!shown) {
+            setShown(true)
+        }
+        else {
+            setShown(false)
+        }
     }
 
     const publicReview = () => {
@@ -72,7 +67,7 @@ export const ReviewPanel = ({game}) => {
 
     return (
     
-    <div className='px-0 mb-5'>
+    <div className='col-12 mb-5 px-0'>
         <section className="col-12 mt-2 border card">
 
             <div className="d-flex justify-content-between mt-3">
@@ -81,7 +76,7 @@ export const ReviewPanel = ({game}) => {
                 </div>
 
             {isauthorized
-                ? <button className="btn btn-outline-dark me-2 mb-3"
+                ? <button className="btn btn-outline-dark me-3 mb-3"
                 onClick={writeReview}>
                     <i className="fa-solid fa-message"></i> {(shown) ? "Descartar" : "Publicar"} review
                 </button>
@@ -128,7 +123,7 @@ export const ReviewPanel = ({game}) => {
 
         </section>
 
-        <section className="col-12 d-flex justify-content-center mt-0 mb-5">
+        <div className='row mx-0'>
 
             {(reviews.length === 0) ? 
 
@@ -139,10 +134,12 @@ export const ReviewPanel = ({game}) => {
             </div>
             : 
             
-            <div></div>
+            reviews.map( ( review, index ) => (<Review review={review}></Review>))
 
             }
-        </section>
+
+        </div>
+
     </div>
 
     )
