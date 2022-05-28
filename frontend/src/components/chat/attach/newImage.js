@@ -2,6 +2,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import socket from '../Socket';
 import { Global } from '../../../helper/Global';
+import { uploadImage } from '../uploadImage';
 
 const baseUrl = Global.baseUrl;
 
@@ -58,8 +59,8 @@ function addClickButtonEdit( userAct, receptor, group ) {
 
     let imagen = null;
 
-
     imagen = document.querySelector( '#img-photo-edit' ).src;
+
     if ( receptor === '' ) {
 
       axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, id_grupo_receptor: group.id, imagen });
@@ -88,20 +89,7 @@ function addClickButtonEdit( userAct, receptor, group ) {
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      const file = e.target.files;
-      const formData = new FormData();
-      formData.append( 'file', file[0]);
-      formData.append( 'upload_preset', 'FotosGrupos' );
-      const res = await fetch(
-        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-      const result = await res.json();
-      const imagen = result.secure_url;
-      document.querySelector( '#img-photo-edit' ).src = imagen;
+      document.querySelector( '#img-photo-edit' ).src = uploadImage( e.target.files );
 
     });
 

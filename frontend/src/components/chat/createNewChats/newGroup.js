@@ -1,18 +1,22 @@
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import React from 'react';
-import { infoGroup } from '../infoGroups/infoGroups';
 import { Global } from '../../../helper/Global';
 import socket from '../Socket';
+import { uploadImage } from '../uploadImage';
+import { setMiembrosGrupo } from '../format/setMiembrosGrupo';
+import { formatMessage } from '../format/formatMessage';
 
 let participantesAñadidios = [];
 const baseUrl = Global.baseUrl;
 const URIMensajes = `${baseUrl}chats/`;
+const URIGroup = `${baseUrl}groups/`;
+let URIGroupLastByNameUser = '';
+const URIparticipantsGroups = `${baseUrl}participantsGroups`;
 
-
-export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
+export const chatGroups = ( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
 
   participantesAñadidios = [];
+  URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
     background: '#f0eeee',
@@ -27,7 +31,7 @@ export const chatGroups = ( URIGroup, user, URIGroupLastByNameUser, URIparticipa
     width: '50%',
     didOpen: () => {
 
-      addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
+      addClickButtonNewGroup( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
 
     }
 
@@ -66,9 +70,9 @@ function showCreateNewGroup() {
 
 }
 
-const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
+const addClickButtonNewGroup = ( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
 
-  let imagen = 'https://res.cloudinary.com/duvhgityi/image/upload/v1650761563/FotosGrupos/585e4d1ccb11b227491c339b_1_g7fpkh.png';
+  const imagen = 'https://res.cloudinary.com/duvhgityi/image/upload/v1650761563/FotosGrupos/585e4d1ccb11b227491c339b_1_g7fpkh.png';
 
   document.querySelectorAll( 'button[name="newGroup"]' ).forEach( ( boton ) => {
 
@@ -82,25 +86,8 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
         axios.post( URIGroup, { nombre: document.getElementById( 'nameNewGroup' ).value, nombre_creador: user.nombre, imagen, descripcion });
 
         Swal.close();
-        Swal.fire({
-          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: false,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-          width: '25%',
-          heightAuto: false,
-          didOpen: () => {
 
-            addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
-
-          }
-
-        });
+        participantsGroups( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
 
       } else {
 
@@ -110,25 +97,7 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
           text: 'El nombre del grupo no puede estar vacio!'
         }).then( () => {
 
-          Swal.fire({
-            html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showCreateNewGroup( user, users )}</div>`,
-            background: '#f0eeee',
-            showCloseButton: true,
-            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-            showCancelButton: false,
-            showConfirmButton: false,
-            focusConfirm: false,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            width: '50%',
-            heightAuto: false,
-            didOpen: () => {
-
-              addClickButtonNewGroup( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
-
-            }
-
-          });
+          chatGroups( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
 
         });
 
@@ -143,23 +112,33 @@ const addClickButtonNewGroup = ( URIGroup, user, URIGroupLastByNameUser, URIpart
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      const file = e.target.files;
-      const formData = new FormData();
-      formData.append( 'file', file[0]);
-      formData.append( 'upload_preset', 'FotosGrupos' );
-      const res = await fetch(
-        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-      const result = await res.json();
-      imagen = result.secure_url;
-      document.getElementById( 'img-photo-create-group' ).src = imagen;
+      document.getElementById( 'img-photo-create-group' ).src = uploadImage( e.target.files );
 
     });
 
+
+  });
+
+};
+
+const participantsGroups = ( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
+
+  Swal.fire({
+    html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+    background: '#f0eeee',
+    showCloseButton: false,
+    closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
+    showCancelButton: false,
+    showConfirmButton: false,
+    focusConfirm: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    width: '25%',
+    didOpen: () => {
+
+      addClickButton( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
+
+    }
 
   });
 
@@ -173,7 +152,7 @@ function showFriends( user, users ) {
 
     if ( us.nombre !== user.nombre ) {
 
-      const descripcion = formatDescription( us.descripcion );
+      const descripcion = formatMessage( us.descripcion );
 
       friends += `
           <div class="d-flex flex-row mb-3">
@@ -202,20 +181,7 @@ function showFriends( user, users ) {
 
 }
 
-const formatDescription = ( descripcion ) => {
-
-  let ultimoDescripcion = descripcion;
-  if ( ultimoDescripcion.length > 15 ) {
-
-    ultimoDescripcion = ultimoDescripcion.substring( 0, 12 );
-    ultimoDescripcion += '...';
-
-  }
-  return ultimoDescripcion;
-
-};
-
-const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat ) => {
+const addClickButton = ( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -263,7 +229,8 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
 
               setGroup( res.data );
               setReceptor( '' );
-              setMiembrosGrupo( res.data.id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, res.data, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios );
+              myGroups.push( res.data );
+              setMiembrosGrupo( res.data.id, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConexion );
               axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
               axios.post( URIMensajes, { id_grupo_receptor: res.data.id, mensaje: participante === user.nombre ? `${user.nombre} ha creado el grupo` : `${user.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
 
@@ -278,7 +245,7 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
           focusConfirm: false,
           allowOutsideClick: false,
           allowEscapeKey: false
-        }).then( ( result ) => {
+        }).then( () => {
 
           setIniciandoChat( true );
           socket.emit( 'mensaje' );
@@ -293,76 +260,14 @@ const addClickButton = ( URIGroupLastByNameUser, setGroup, URIparticipantsGroups
           text: '¡No has añadido ningun participante al grupo! Añade al menos un participante.'
         }).then( () => {
 
-          Swal.fire({
-            html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
-            background: '#f0eeee',
-            showCloseButton: false,
-            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-            showCancelButton: false,
-            showConfirmButton: false,
-            focusConfirm: false,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            width: '25%',
-            didOpen: () => {
-
-              addClickButton( URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups );
-
-            }
-
-          });
+          participantsGroups( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups );
 
         });
 
       }
 
-
     });
 
   });
-
-};
-
-const setMiembrosGrupo = ( id, URIGroupLastByNameUser, setGroup, URIparticipantsGroups, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, participantesAñadidios ) => {
-
-  let groups = [];
-
-  const participants = [];
-
-  users.forEach( ( us ) => {
-
-    if ( participantesAñadidios.indexOf( us.nombre ) !== -1 ) {
-
-      participants.push( us );
-
-    }
-
-  });
-
-  groups = myGroups;
-  groups.push( group );
-  setConfigurationGroups(
-    <div className="dropdown">
-      <button className="botonTransparente2 btnAñadirChats"
-        type="button"
-        id="dropdownMenuButton1"
-        data-bs-toggle="dropdown"
-        aria-expanded="false">
-        <svg xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-three-dots-vertical"
-          viewBox="0 0 16 16">
-          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-        </svg>
-      </button>
-      <ul className="dropdown-menu"
-        aria-labelledby="dropdownMenuButton1">
-        <li><button className="dropdown-item"
-          onClick={() => infoGroup( groups, id, '', users, participants, user, setGroup, setReceptor, setConection )}>Ver información del grupo</button></li>
-      </ul>
-    </div> );
-
 
 };

@@ -111,7 +111,7 @@ export const Chats = ({ users, mensajesBuscar, receptor, group, setResponder, se
                       <div className="pt-1">
                         {putUsers2( men )}
                         <p className="fw-bold mb-0">{nombreEmisor( men )}</p>
-                        <p className="small text-muted">{formatMessage( men )}</p>
+                        <p className="small text-muted">{formatMessage( men.mensaje === null ? 'imagen' : men.mensaje )}</p>
                       </div>
                     </div>
                     <div className="pt-1">

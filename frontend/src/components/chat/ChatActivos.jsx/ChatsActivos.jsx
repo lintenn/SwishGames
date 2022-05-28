@@ -179,7 +179,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="dropdown-menu"
               aria-labelledby="dropdownMenuButton1">
               <li><button className="dropdown-item"
-                onClick={() => chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat )}>Nuevo chat</button></li>
+                onClick={() => chatUsers( user, users, receptor, setReceptor, group, setGroup, setIniciandoChat, setConexion )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
                 onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat )}>Nuevo grupo</button></li>
             </ul>
