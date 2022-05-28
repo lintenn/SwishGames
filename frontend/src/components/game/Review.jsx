@@ -52,10 +52,6 @@ export const Review = ({review}) => {
             <div className='d-flex justify-content-start mx-4'>
               <p>{review.review}</p>
             </div>
-            
-            <div className='d-flex justify-content-end'>
-                <p>{review.createdAT}</p>
-            </div>
 
         </div>
 

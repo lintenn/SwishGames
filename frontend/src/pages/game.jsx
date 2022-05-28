@@ -285,8 +285,6 @@ const Game = () => {
 
   };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
   return (
     <div>
       <Header
@@ -342,131 +340,8 @@ const Game = () => {
           <ReviewPanel game={game}></ReviewPanel>
 
         </div>
-{/* 
-        <div className="row container col-md-12 col-lg-10 col-xl-9 col-xxl-8 mt-2 mb-5">
 
-          <div className="col-md-6 col-lg-7 col-xl-7 col-xxl-8 border card alto"></div>
-
-          <div className="col-md-6 col-lg-5 col-xl-5 col-xxl-6 border card alto">
-            <div className="d-flex justify-content-end mt-2 mb-3">
-            
-            {/* 
-            <p className='mt-3'>
-            <i class="fa-solid fa-thumbs-up me-2"></i>Reviews positivas</p>
-
-            <p className='mt-3 fs-6 h6 lh-base'>
-              ¡Publica tu review!
-            </p>
-              
-
-              <button className="btn btn-outline-dark me-2 mt-2"
-                id="valorar"
-                onClick={divclicked}>
-                <i className="fa-solid fa-message"></i> {(hid) ? "Descartar" : "Publicar"} review
-              </button>
-           
-            </div>
-
-          </div>
-
-          
-          <div id="seconddiv" className={(hid) ? "coolclass col-6" : "col-6"}></div>
-
-          <div id="seconddiv" className={(hid) ? "coolclass col-6 border card" : "col-6"}>
-
-            <div className='d-flex justify-content-between'>
-              <h4 className="fw-bold ms-2 mt-3">
-                Escribe tu review
-              </h4>
-              <p className=' mt-3'>Caracteres restantes: {200 - count}</p>
-            </div>
-
-            <div>
-              <textarea className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  onChange={e => setCount(e.target.value.length)}></textarea>
-            </div>
-
-            <div className='d-flex justify-content-start'>
-              <p className=''>¿Recomiendas el juego?</p>
-              <div class="form-check form-check-inline mt-2">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                <label class="form-check-label" for="inlineRadio1">Si</label>
-              </div>
-              <div class="form-check form-check-inline mt-2">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
-                <label class="form-check-label" for="inlineRadio2">No</label>
-              </div>
-            </div>
-
-            <button className="btn btn-outline-dark me-2 my-2"
-                id="valorar"
-                onClick={publicReview}>
-                <i className="fa-solid fa-message"></i> Publicar
-              </button>
-
-
-
-          </div> 
-          
-          
-
-          
-          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
-            <div className='d-flex justify-content-between'>
-              <p className='fw-bold fs-5'>Usuario123</p>
-              <p className='fst-italic'>
-              <i class="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
-            </div>
-
-            <div className='d-flex justify-content-start'>
-              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
-            </div>
-
-            <div className='d-flex justify-content-end'>
-              <p>25/05/2022</p>
-            </div>
-
-          </div>
-
-          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
-          <i src="https://res.cloudinary.com/duvhgityi/image/upload/v1650761808/FotosGrupos/585e4bf3cb11b227491c339a_1_bwucjs.png"></i>
-            <div className='d-flex justify-content-between'>
-              <p className='fw-bold fs-5'>Usuario123</p>
-              <p className='fst-italic'>
-              <i class="fa-solid fa-thumbs-up me-1"></i>Recomienda el juego</p>
-            </div>
-
-            <div className='d-flex justify-content-start'>
-              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
-            </div>
-
-            <div className='d-flex justify-content-end'>
-              <p>25/05/2022</p>
-            </div>
-
-          </div>
-
-          <div className='col-md-12 col-lg-4 mt-2 border card mb-5'>
-            <div className='d-flex justify-content-between'>
-              <p className='fw-bold fs-5'>Usuario123</p>
-              <p className='fst-italic'>
-              <i class="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>
-            </div>
-
-            <div className='d-flex justify-content-start'>
-              <p>Este es un comentario de un usuario que que le ha gustado el juego mucho</p>
-            </div>
-
-            <div className='d-flex justify-content-end'>
-              <p>25/05/2022</p>
-            </div>
-
-          </div>
-
-
-
-        </div>
-
-        <Footer/>*/}
+        <Footer/>
       </main>
     </div>
 

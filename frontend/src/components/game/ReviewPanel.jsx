@@ -32,6 +32,7 @@ export const ReviewPanel = ({game}) => {
             axios.get( URIreview + '/game/' + game.id )
             .then( res => {
                 setReviews(res.data)
+                console.log(res.data)
             });
 
         }catch (error){
@@ -72,7 +73,7 @@ export const ReviewPanel = ({game}) => {
 
             <div className="d-flex justify-content-between mt-3">
                 <div className="d-flex justify-content-between">
-                    <h2 className="fw-bold ms-2">Reviews</h2>
+                    <h2 className="fw-bold ms-4">Reviews</h2>
                 </div>
 
             {isauthorized
@@ -88,7 +89,7 @@ export const ReviewPanel = ({game}) => {
             
             <div id="textarea" className={(shown) ? "d-flex justify-content-end" : "d-none d-flex justify-content-end"}>
             
-                <div className='col-6 border px-2 py-2 mb-2'>
+                <div className='col-6 border px-2 py-2 mb-2 me-2'>
 
                     <div className='d-flex justify-content-between'>
                         <label for="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
@@ -123,7 +124,7 @@ export const ReviewPanel = ({game}) => {
 
         </section>
 
-        <div className='row mx-0'>
+        <div className='row mx-0 mb-5'>
 
             {(reviews.length === 0) ? 
 
