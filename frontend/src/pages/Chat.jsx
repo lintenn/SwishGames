@@ -82,6 +82,7 @@ export const Chat = () => {
     if ( mensajes.length !== 0 && myGroups.length !== 0 && user !== null ) {
 
       const idGroups = [];
+      setMensajesBuscar( mensajes );
 
       myGroups.forEach( ( group ) => {
 

@@ -31,11 +31,9 @@ export const Chats = ({ users, mensajesBuscar, receptor, group, setResponder, se
 
   const putUsers2 = ( men ) => {
 
-
     if ( mensajesBuscar.length === mensajes.length || recienEnviado ) {
 
       users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
-      console.log( users2 );
 
     }
 
@@ -82,7 +80,7 @@ export const Chats = ({ users, mensajesBuscar, receptor, group, setResponder, se
 
       setReceptor( '' );
       setGroup( getGrupo( men.id_grupo_receptor, myGroups ) );
-      setMiembrosGrupo( men.id_grupo_receptor, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConection );
+      setMiembrosGrupo( men.id_grupo_receptor, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConexion );
 
     }
     setMensaje( '' );

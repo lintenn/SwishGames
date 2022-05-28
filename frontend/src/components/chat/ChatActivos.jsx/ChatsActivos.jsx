@@ -15,9 +15,6 @@ import { Chats } from './showChats';
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder, mensajesBuscar, setMensajesBuscar, recienEnviado, setRecienEnviado }) => {
 
   const baseUrl = Global.baseUrl;
-  const URIGroup = `${baseUrl}groups/`;
-  const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
-  const URIparticipantsGroups = `${baseUrl}participantsGroups`;
   const [buscar, setBuscar] = useState( '' );
 
   useEffect( () => {
@@ -73,7 +70,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
       } else if ( receptor === '' && group.nombre !== undefined ) {
 
         setReceptor( '' );
-        setMiembrosGrupo( group.id, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConection );
+        setMiembrosGrupo( group.id, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConexion );
 
       }
 
@@ -181,7 +178,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <li><button className="dropdown-item"
                 onClick={() => chatUsers( user, users, receptor, setReceptor, group, setGroup, setIniciandoChat, setConexion )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
-                onClick={() => chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat )}>Nuevo grupo</button></li>
+                onClick={() => chatGroups( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat )}>Nuevo grupo</button></li>
             </ul>
           </div>
         </div>

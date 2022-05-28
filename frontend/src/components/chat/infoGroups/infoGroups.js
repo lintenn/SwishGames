@@ -4,10 +4,12 @@ import axios from 'axios';
 import { editInfo } from './editInfo';
 import { copyInfo } from './copyInfo';
 import socket from '../Socket';
+import { viewGroupsInCommon } from '../infoUser/groupsInCommon';
+import { viewParticipantsGroup } from './viewParticipantsGroup';
 
 const baseUrl = Global.baseUrl;
 
-export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct, setGroup, setReceptor, setConection ) => {
+export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct, setGroup, setReceptor, setConexion ) => {
 
   let groupAct = {};
   let usuarioReceptor = {};
@@ -40,9 +42,14 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
 
   }
 
+  viewInfoGroup( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion );
+
+};
+
+function viewInfoGroup( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
-    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -55,350 +62,15 @@ export const infoGroup = ( myGroups, id, receptor, users, participantes, userAct
     width: '50%',
     didOpen: () => {
 
-      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
+      addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion );
 
     }
 
   });
-
-
-};
-
-function addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
-
-  if ( receptor === '' ) {
-
-    if ( groupAct.descripcion !== '' ) {
-
-      const botonCopiarDescripcion = document.querySelector( 'button[name="copiarDescripcionGrupo"]' );
-      botonCopiarDescripcion.addEventListener( 'click', ( event ) => {
-
-        event.preventDefault();
-        copyInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup );
-
-      });
-
-    }
-
-    const botonCopiarNombre = document.querySelector( 'button[name="copiarNombreGrupo"]' );
-    botonCopiarNombre.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      copyInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, userAct, showInfoGroups, addClickButton, setReceptor, setConection, setGroup );
-
-    });
-
-    document.querySelector( 'button[name="verParticipantes"]' ).addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      Swal.fire({
-        html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( participantes, admin, userAct )}</div>`,
-        background: '#f0eeee',
-        showCloseButton: true,
-        closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-        showCancelButton: false,
-        showConfirmButton: false,
-        focusConfirm: false,
-        allowOutsideClick: false,
-        width: '50%',
-        heightAuto: false,
-        didOpen: () => {
-
-          addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
-
-        }
-
-      });
-
-    });
-
-  } else {
-
-    const botonVerGruposEnComun = document.querySelector( 'button[name="verGrupos"]' );
-    botonVerGruposEnComun.addEventListener( 'click', ( event ) => {
-
-      axios.get( `${baseUrl}groups/groups/${userAct.nombre}/${usuarioReceptor.nombre}` ).then( res => {
-
-        Swal.fire({
-          html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showGroups( res.data )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          heightAuto: false,
-          didOpen: () => {
-
-            addClickButtonViewGroups( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
-
-          }
-        });
-
-
-      });
-
-    });
-
-  }
-
-  if ( admin ) {
-
-    const botonEditarDescripcion = document.querySelector( 'button[name="editDescripcionGrupo"]' );
-    botonEditarDescripcion.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      editInfo( 'descripcion', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
-
-    });
-
-    const botonEditarNombre = document.querySelector( 'button[name="editNombreGrupo"]' );
-    botonEditarNombre.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      editInfo( 'nombre', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
-
-    });
-
-    const botonEditarImagen = document.querySelector( 'button[name="editImagenGrupo"]' );
-    botonEditarImagen.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      editInfo( 'imagen', groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
-
-    });
-
-    const botonEliminarGrupo = document.querySelector( 'button[name="eliminarGrupo"]' );
-    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¡No podrás revertir esto!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, eliminarlo!'
-      }).then( ( result ) => {
-
-        if ( result.value ) {
-
-          axios.delete( `${baseUrl}groups/${groupAct.id}` );
-
-          Swal.fire(
-            '¡Eliminado!',
-            'El grupo ha sido eliminado',
-            'success'
-          ).then( () => {
-
-            socket.emit( 'mensaje' );
-            window.location.reload();
-
-          });
-
-        }
-
-      });
-
-
-    });
-
-  } else if ( receptor === '' ) {
-
-
-    const botonEliminarGrupo = document.querySelector( 'button[name="salirDelGrupo"]' );
-    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¡No podrás revertir esto!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, salir del grupo!'
-      }).then( ( result ) => {
-
-        if ( result.value ) {
-
-          axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${userAct.nombre}` );
-
-          Swal.fire(
-            '¡Eliminado!',
-            'Has salido del grupo',
-            'success'
-          ).then( () => {
-
-            axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha salido del grupo`, administracion: 1 });
-            socket.emit( 'mensaje' );
-            window.location.reload();
-
-          });
-
-        }
-
-      });
-
-
-    });
-
-  }
-
 
 }
 
-function showAddParticipantes( user, users ) {
-
-  let friends = '';
-
-  users.forEach( ( us ) => {
-
-    if ( us.nombre !== user.nombre ) {
-
-      const descripcion = formatDescription( us.descripcion );
-
-      friends += `
-          <div class="d-flex flex-row mb-3">
-            <button style="background-color: white; border-radius: 20px" name="añadir" value="${us.nombre}" id="${us.nombre}AñadirGrupo" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-              <div class="align-items-center divObjectsSend">
-                <img src=${us.imagen}
-                  alt="avatar"
-                  class="d-flex align-self-center m-3 imagen-perfil-chat"
-                  width="50"
-                  height="50" />
-              </div>
-              <div class="pt-1">
-                <p class="fw-bold mb-0">${us.nombre}</p>
-                <p class="small text-muted">${descripcion}</p>
-              </div>
-            </button>
-          </div>`;
-
-    }
-
-  });
-
-  friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Añadir participantes seleccionados</button>';
-
-  return ( friends );
-
-}
-
-function addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
-
-  const participantesAñadidos = [];
-
-  document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
-
-    boton.addEventListener( 'click', ( e ) => {
-
-      e.preventDefault();
-
-      if ( participantesAñadidos.indexOf( boton.value ) === -1 ) {
-
-        participantesAñadidos.push( boton.value );
-        document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#c6daf8';
-
-      } else {
-
-        participantesAñadidos.splice( participantesAñadidos.indexOf( boton.value ), 1 );
-        document.getElementById( `${boton.value}AñadirGrupo` ).style.backgroundColor = '#ffffff';
-
-      }
-
-    });
-
-  });
-
-  document.querySelectorAll( 'button[name="añadirParticipantes"]' ).forEach( ( boton ) => {
-
-    boton.addEventListener( 'click', ( e ) => {
-
-      e.preventDefault();
-
-      if ( participantesAñadidos.length > 0 ) {
-
-        participantesAñadidos.forEach( ( participante ) => {
-
-          axios.post( `${baseUrl}participantsGroups/`, { id_grupo: groupAct.id, nombre_usuario: participante });
-          axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
-
-        });
-
-        Swal.fire(
-          '¡Añadido!',
-          'Los participantes han sido añadidos',
-          'success'
-        ).then( () => {
-
-
-          socket.emit( 'mensaje' );
-          axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
-            .then( res => {
-
-              Swal.fire({
-                html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( res.data, admin, userAct )}</div>`,
-                background: '#f0eeee',
-                showCloseButton: true,
-                closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-                showCancelButton: false,
-                showConfirmButton: false,
-                focusConfirm: false,
-                allowOutsideClick: false,
-                width: '50%',
-                heightAuto: false,
-                didOpen: () => {
-
-                  addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
-
-                }
-
-              });
-
-            });
-
-        });
-
-      } else if ( participantesAñadidos.length === 0 ) {
-
-        axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
-          .then( res => {
-
-            Swal.fire({
-              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( res.data, admin, userAct )}</div>`,
-              background: '#f0eeee',
-              showCloseButton: true,
-              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              width: '50%',
-              heightAuto: false,
-              didOpen: () => {
-
-                addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
-
-              }
-
-            });
-
-          });
-
-      }
-
-
-    });
-
-  });
-
-};
-
-function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes, userAct ) {
+function showInfoGroups( group, admin, receptor, usuarioReceptor ) {
 
   let infoGroup = '';
 
@@ -471,258 +143,164 @@ function showInfoGroups( group, admin, receptor, usuarioReceptor, participantes,
 
 }
 
-const formatDescription = ( descripcion ) => {
+function addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
-  let ultimoDescripcion = descripcion;
-  if ( ultimoDescripcion.length > 15 ) {
+  if ( receptor === '' ) {
 
-    ultimoDescripcion = ultimoDescripcion.substring( 0, 12 );
-    ultimoDescripcion += '...';
+    if ( groupAct.descripcion !== '' ) {
+
+      const botonCopiarDescripcion = document.querySelector( 'button[name="copiarDescripcionGrupo"]' );
+      botonCopiarDescripcion.addEventListener( 'click', ( event ) => {
+
+        event.preventDefault();
+        copyInfo( 'descripcion', groupAct, receptor, participantes, userAct, setReceptor, setConexion, setGroup );
+
+      });
+
+    }
+
+    const botonCopiarNombre = document.querySelector( 'button[name="copiarNombreGrupo"]' );
+    botonCopiarNombre.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      copyInfo( 'nombre', groupAct, receptor, participantes, userAct, setReceptor, setConexion, setGroup );
+
+    });
+
+    document.querySelector( 'button[name="verParticipantes"]' ).addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      viewParticipantsGroup( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConexion );
+
+    });
+
+  } else {
+
+    const botonVerGruposEnComun = document.querySelector( 'button[name="verGrupos"]' );
+    botonVerGruposEnComun.addEventListener( 'click', ( event ) => {
+
+      axios.get( `${baseUrl}groups/groups/${userAct.nombre}/${usuarioReceptor.nombre}` ).then( res => {
+
+        viewGroupsInCommon( groupAct, receptor, setGroup, setReceptor, res.data );
+
+      });
+
+    });
 
   }
-  return ultimoDescripcion;
 
-};
+  if ( admin ) {
 
-function showMembers( users, admin, userAct ) {
+    const botonEditarDescripcion = document.querySelector( 'button[name="editDescripcionGrupo"]' );
+    botonEditarDescripcion.addEventListener( 'click', ( event ) => {
 
-  let friends = ' ';
+      event.preventDefault();
+      editInfo( 'descripcion', groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion );
 
-  users.forEach( ( us ) => {
+    });
 
-    const descripcion = formatDescription( us.descripcion );
+    const botonEditarNombre = document.querySelector( 'button[name="editNombreGrupo"]' );
+    botonEditarNombre.addEventListener( 'click', ( event ) => {
 
-    let remove = '';
-    let buttonRemove = '';
-    admin && us.nombre !== userAct.nombre ? remove = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-dash" viewBox="0 0 16 16"><path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/><path fill-rule="evenodd" d="M11 7.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z"/></svg>' : remove = '';
-    admin && us.nombre !== userAct.nombre
-      ? buttonRemove = `<button class="btn botonTransparente" name="removeParticipante" value=${us.nombre}>
-                      ${remove}
-                    </button>`
-      : buttonRemove = '';
-    const goProfile = us.nombre !== userAct.nombre ? 'newChat' : '';
-    friends += `
-        <div class="d-flex flex-row mb-3">
-          <button style="background-color: white; border-radius: 20px" name="${goProfile}" value="${us.nombre}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-            <div class="align-items-center divObjectsSend">
-              <img src=${us.imagen}
-                alt="avatar"
-                class="d-flex align-self-center m-3 imagen-perfil-chat"
-                width="50"
-                height="50" />
-            </div>
-            <div class="pt-1">
-              <p class="fw-bold mb-0">${us.nombre}</p>
-              <p class="small text-muted">${descripcion}</p>
-            </div>
-            ${buttonRemove}
-          </button>
-        </div>`;
+      event.preventDefault();
+      editInfo( 'nombre', groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion );
 
-  });
+    });
 
-  admin ? friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Añadir participantes al grupo</button>' : friends += '';
+    const botonEditarImagen = document.querySelector( 'button[name="editImagenGrupo"]' );
+    botonEditarImagen.addEventListener( 'click', ( event ) => {
 
-  return ( friends );
+      event.preventDefault();
+      editInfo( 'imagen', groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion );
+
+    });
+
+    const botonEliminarGrupo = document.querySelector( 'button[name="eliminarGrupo"]' );
+    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      deleteGroup( groupAct );
+
+    });
+
+  } else if ( receptor === '' ) {
+
+
+    const botonEliminarGrupo = document.querySelector( 'button[name="salirDelGrupo"]' );
+    botonEliminarGrupo.addEventListener( 'click', ( event ) => {
+
+      event.preventDefault();
+      exitGroup( groupAct, userAct );
+
+    });
+
+  }
+
 
 }
 
-function showGroups( groups ) {
+function exitGroup( groupAct, userAct ) {
 
-  let friends = '';
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: '¡No podrás revertir esto!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '¡Sí, salir del grupo!'
+  }).then( ( result ) => {
 
-  groups.forEach( ( group ) => {
+    if ( result.value ) {
 
-    if ( group.id !== 1 ) {
+      axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${userAct.nombre}` );
 
-      const descripcion = formatDescription( group.descripcion );
+      Swal.fire(
+        '¡Eliminado!',
+        'Has salido del grupo',
+        'success'
+      ).then( () => {
 
-      friends += `
-            <div class="d-flex flex-row mb-3">
-            <button style="background-color: white; border-radius: 20px" name="viewGroup" value="${group.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-              <div class="align-items-center divObjectsSend">
-                <img src=${group.imagen}
-                  alt="avatar"
-                  class="d-flex align-self-center m-3 imagen-perfil-chat"
-                  width="50"
-                  height="50" />
-              </div>
-              <div class="pt-1">
-                <p class="fw-bold mb-0">${group.nombre}</p>
-                <p class="small text-muted">${descripcion}</p>
-              </div>
-            </button>
-          </div>`;
+        axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha salido del grupo`, administracion: 1 });
+        socket.emit( 'mensaje' );
+        window.location.reload();
+
+      });
 
     }
 
   });
 
-  if ( friends === '' ) {
-
-    friends += '<h1>No hay grupos en común</h1>';
-
-  }
-
-  return ( friends );
-
 }
 
-function addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
+function deleteGroup( groupAct ) {
 
-  if ( admin ) {
+  Swal.fire({
+    title: '¿Estás seguro?',
+    text: '¡No podrás revertir esto!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '¡Sí, eliminarlo!'
+  }).then( ( result ) => {
 
-    document.querySelectorAll( 'button[name="removeParticipante"]' ).forEach( ( boton ) => {
+    if ( result.value ) {
 
-      boton.addEventListener( 'click', ( event ) => {
+      axios.delete( `${baseUrl}groups/${groupAct.id}` );
 
-        event.preventDefault();
-        const nombreParticipante = boton.value;
+      Swal.fire(
+        '¡Eliminado!',
+        'El grupo ha sido eliminado',
+        'success'
+      ).then( () => {
 
-        Swal.fire({
-          title: '¿Estás seguro?',
-          text: '¡No podrás revertir esto!',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: '¡Sí, eliminarlo!'
-        }).then( ( result ) => {
-
-          if ( result.value ) {
-
-            axios.delete( `${baseUrl}participantsGroups/${groupAct.id}/participant/${nombreParticipante}` );
-            axios.post( `${baseUrl}chats/`, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha eliminado del grupo a ${nombreParticipante}`, administracion: 1 });
-
-            Swal.fire(
-              '¡Eliminado!',
-              'El participante ha sido eliminado',
-              'success'
-            ).then( () => {
-
-              socket.emit( 'mensaje' );
-              axios.get( `${baseUrl}participantsGroups/users/${groupAct.id}` )
-                .then( res => {
-
-                  Swal.fire({
-                    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showMembers( res.data, admin, userAct )}</div>`,
-                    background: '#f0eeee',
-                    showCloseButton: true,
-                    closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-                    showCancelButton: false,
-                    showConfirmButton: false,
-                    focusConfirm: false,
-                    allowOutsideClick: false,
-                    width: '50%',
-                    heightAuto: false,
-                    didOpen: () => {
-
-                      addClickButtonViewParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
-
-                    }
-
-                  });
-
-                });
-
-            });
-
-          }
-
-        });
+        socket.emit( 'mensaje' );
+        window.location.reload();
 
       });
 
-    });
-
-    const botonAñadirParticipantes = document.querySelector( 'button[name="añadirParticipantes"]' );
-    botonAñadirParticipantes.addEventListener( 'click', ( event ) => {
-
-      event.preventDefault();
-      axios.get( `${baseUrl}participantsGroups/notUsers/${groupAct.id}` )
-        .then( res => {
-
-          Swal.fire({
-            html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showAddParticipantes( groupAct, res.data )}</div>`,
-            background: '#f0eeee',
-            showCloseButton: true,
-            closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-            showCancelButton: false,
-            showConfirmButton: false,
-            focusConfirm: false,
-            allowOutsideClick: false,
-            width: '50%',
-            heightAuto: false,
-            didOpen: () => {
-
-              addClickButtonAddParticipantes( groupAct, admin, receptor, usuarioReceptor, res.data, setGroup, userAct, setReceptor, setConection );
-
-            }
-
-          });
-
-        });
-
-
-    });
-
-  }
-
-  document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
-
-    boton.addEventListener( 'click', ( e ) => {
-
-      e.preventDefault();
-      if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
-
-        document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
-
-      }
-      setReceptor( boton.value );
-      setConection( boton.value );
-      setGroup({});
-      if ( document.getElementById( `${boton.value}` ) !== null ) {
-
-        document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
-
-      }
-
-      Swal.close();
-
-    });
-
-  });
-
-}
-
-function addClickButtonViewGroups( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection ) {
-
-  document.querySelectorAll( 'button[name="viewGroup"]' ).forEach( ( boton ) => {
-
-    boton.addEventListener( 'click', ( e ) => {
-
-      e.preventDefault();
-      axios.get( `${baseUrl}groups/${boton.value}` ).then( res => {
-
-        if ( document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ) !== null ) {
-
-          document.getElementById( `${( receptor === '' && groupAct !== {}) ? groupAct.id : receptor}` ).classList.remove( 'chatSeleccionado' );
-
-        }
-        setReceptor( '' );
-        setConection( '' );
-        setGroup( res.data );
-        if ( document.getElementById( `${boton.value}` ) !== null ) {
-
-          document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );
-
-        }
-
-        Swal.close();
-
-      });
-
-    });
+    }
 
   });
 

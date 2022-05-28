@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Global } from '../../../helper/Global';
 import { infoGroup } from '../infoGroups/infoGroups';
-import { setConection } from '../format/setConection';
 import { fotoPerfil } from '../format/photoProfile';
 import { mostrarPosibilidadesEnviar } from '../attach/attach';
 import { submit } from '../send';
@@ -39,7 +38,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
     axios.get( `${baseUrl}participantsGroups/users/${id}` )
       .then( res => {
 
-        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup, setReceptor, setConection );
+        infoGroup( myGroups, id, id !== undefined ? '' : receptor, users, res.data, user, setGroup, setReceptor, setConexion );
 
       });
 
