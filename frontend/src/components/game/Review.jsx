@@ -16,12 +16,6 @@ export const Review = ({review}) => {
 
     }, [review]);
 
-    useEffect( () => {
-
-        console.log(user)
-
-    }, [user]);
-
     const getUser = async () => {
 
         try{

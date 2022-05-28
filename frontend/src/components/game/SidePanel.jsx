@@ -63,11 +63,11 @@ export const SidePanel = ({game}) => {
     const getRating = async () => {
 
         const token = localStorage.getItem( 'user' );
-        const us = JSON.parse( token );
+        const user = JSON.parse( token );
     
         try{
     
-          const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
+          const res = await axios.get( URIrate + 'usuario/' + user.id + '/' + game.id );
           setRate( res.data[0].valoracion );
     
         }catch (error){
