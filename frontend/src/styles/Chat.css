@@ -21,6 +21,10 @@ div:hover > li {
     border-radius: 150px;
 }
 
+.margen-foto-chat-perfil{
+    margin: 16px 0px 16px 16px;
+}
+
 .marginChatActivos{
     margin-top: 15px;
 }

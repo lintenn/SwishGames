@@ -8,6 +8,10 @@ import { chatGroups } from './createNewChats/newGroup';
 import { infoGroup } from './infoGroups/infoGroups';
 import axios from 'axios';
 import { eventKeyboard } from './eventsKeyboard';
+import { formatDate } from './format/formatDate';
+import { formatMessage } from './format/formatMessage';
+import { setConection } from './format/setConection';
+import { fotoPerfil } from './format/photoProfile';
 
 export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups, setIniciandoChat, mensajesDESC, setResponder, mensajesBuscar, setMensajesBuscar, recienEnviado, setRecienEnviado }) => {
 
@@ -68,7 +72,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
             } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
 
-              setConection( men.nombre_usuario_receptor );
+              setConection( men.nombre_usuario_receptor, users, setConexion );
               setReceptor( men.nombre_usuario_receptor );
               setGroup({});
               i++;
@@ -83,7 +87,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           } else if ( men.nombre_usuario_receptor === user.nombre ) {
 
-            setConection( men.nombre_usuario_emisor );
+            setConection( men.nombre_usuario_emisor, users, setConexion );
             setReceptor( men.nombre_usuario_emisor );
             setGroup({});
             i++;
@@ -127,7 +131,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
       if ( receptor !== '' && group.nombre === undefined ) {
 
         setGroup({});
-        setConection( receptor );
+        setConection( receptor, users, setConexion );
 
       } else if ( receptor === '' && group.nombre !== undefined ) {
 
@@ -206,42 +210,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   }, [buscar]);
 
-  const formatDate = ( date ) => {
-
-    const d = new Date( date );
-    return d.getDate() + '-' + d.getMonth() + '-' + d.getFullYear() + ' ' + d.getHours() + ':' + ( d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes() );
-
-  };
-
-  const formatMessage = ( mensaje ) => {
-
-    let ultimoMensaje = mensaje.mensaje === null ? 'imagen' : mensaje.mensaje;
-    if ( ultimoMensaje.length > 15 ) {
-
-      ultimoMensaje = ultimoMensaje.substring( 0, 12 );
-      ultimoMensaje += '...';
-
-    }
-    return ultimoMensaje;
-
-  };
-
-  const nombreGrupoById = ( id ) => {
-
-    let nombre = '';
-    myGroups.forEach( ( group ) => {
-
-      if ( group.id === id ) {
-
-        nombre = group.nombre;
-
-      }
-
-    });
-    return nombre;
-
-  };
-
   const putUsers2 = ( men ) => {
 
     if ( mensajesBuscar.length === mensajes.length || recienEnviado ) {
@@ -250,36 +218,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     }
     return <div></div>;
-
-  };
-
-  const setConection = ( rec ) => {
-
-    users.forEach( ( us ) => {
-
-      if ( us.nombre === rec ) {
-
-        if ( us.online ) {
-
-          setConexion(
-            <div id="divOnline">
-              <div id="online"></div>
-              Online
-            </div> );
-
-        } else {
-
-          setConexion(
-            <div id="divOffline">
-              <div id="offline"></div>
-              Offline
-            </div> );
-
-        }
-
-      }
-
-    });
 
   };
 
@@ -313,40 +251,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   };
 
-  const encGroup = ( id ) => {
-
-    let enc = false;
-    myGroups.forEach( ( group ) => {
-
-      if ( group.id === id ) {
-
-        enc = true;
-
-      }
-
-    });
-    return enc;
-
-  };
-
-  const filterMensajes = ( men ) => {
-
-    let enc = false;
-
-    if ( ( men.nombre_usuario_emisor === user.nombre ) || ( men.nombre_usuario_receptor === user.nombre ) ) {
-
-      enc = true;
-
-    } else if ( encGroup( men.id_grupo_receptor ) ) {
-
-      enc = true;
-
-    }
-
-    return enc;
-
-  };
-
   const nombreEmisorOrId = ( men ) => {
 
     let nombre = '';
@@ -375,7 +279,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
-      nombre = nombreGrupoById( men.id_grupo_receptor );
+      nombre = getGrupo( men.id_grupo_receptor ).nombre;
 
     }
 
@@ -383,79 +287,21 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   };
 
-  const setGrupo = ( id ) => {
+  const getGrupo = ( id ) => {
+
+    let grupo = {};
 
     myGroups.forEach( ( group ) => {
 
       if ( group.id === id ) {
 
-        setGroup( group );
+        grupo = group;
 
       }
 
     });
 
-  };
-
-  const fotoPerfil = ( men ) => {
-
-    let imagen = '';
-
-    if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
-
-      myGroups.forEach( ( grupo ) => {
-
-        if ( grupo.id === men.id_grupo_receptor ) {
-
-          imagen =
-              <img src={grupo.imagen}
-                alt="avatar"
-                className="d-flex align-self-center m-3 imagen-perfil-chat"
-                width="60"
-                height="60" />;
-
-        }
-
-      });
-
-    } else {
-
-      let nombre = '';
-
-      if ( men.nombre_usuario_receptor !== user.nombre && men.nombre_usuario_emisor === user.nombre ) {
-
-        nombre = men.nombre_usuario_receptor;
-
-      } else if ( men.nombre_usuario_receptor === user.nombre && men.nombre_usuario_emisor !== user.nombre ) {
-
-        nombre = men.nombre_usuario_emisor;
-
-      } else if ( men.nombre_usuario_receptor === user.nombre && men.nombre_usuario_emisor === user.nombre ) {
-
-        nombre = men.nombre_usuario_emisor;
-
-      }
-
-      users.forEach( ( user ) => {
-
-        if ( user.nombre === nombre ) {
-
-          imagen =
-          <img src={user.imagen}
-            alt="avatar"
-            className="d-flex align-self-center m-3 imagen-perfil-chat"
-            width="60"
-            height="60" />;
-
-
-        }
-
-      });
-
-
-    }
-
-    return imagen;
+    return grupo;
 
   };
 
@@ -509,9 +355,9 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
             <ul className="list-unstyled mb-0">
 
               {
-                ( users.length !== 0 && mensajesBuscar.length !== 0 ) && mensajesBuscar.filter( men => ( filterMensajes( men ) ) ).reverse().map( ( men, index ) => (
+                ( users.length !== 0 && mensajesBuscar.length !== 0 ) && mensajesBuscar.filter( men => men.id_grupo_receptor !== 1 ).reverse().map( ( men, index ) => (
 
-                  ( ( men.nombre_usuario_emisor === user.nombre && men.nombre_usuario_receptor !== null && users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( men.nombre_usuario_receptor === user.nombre && users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( encGroup( men.id_grupo_receptor ) && users2.indexOf( men.id_grupo_receptor ) === -1 ) )
+                  ( ( users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( users2.indexOf( men.id_grupo_receptor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
                       <button className={'d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover'}
@@ -530,13 +376,13 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
                           if ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) {
 
                             setReceptor( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor );
-                            setConection( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor );
+                            setConection( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor, users, setConexion );
                             setGroup({});
 
                           } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
                             setReceptor( '' );
-                            setGrupo( men.id_grupo_receptor );
+                            setGroup( getGrupo( men.id_grupo_receptor ) );
                             setMiembrosGrupo( men.id_grupo_receptor );
 
                           }
@@ -544,8 +390,8 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
                         }}>
                         <div className="d-flex flex-row">
-                          <div className="align-items-center divObjectsSend">
-                            {fotoPerfil( men )}
+                          <div className="align-items-center divObjectsSend margen-foto-chat-perfil">
+                            {fotoPerfil( getGrupo( men.id_grupo_receptor ), men.nombre_usuario_receptor === null ? '' : ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ), users, 60 )}
                           </div>
                           <div className="pt-1">
                             {putUsers2( men )}

@@ -64,7 +64,7 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
           <button className="botonTransparente divObjectsSend align-items-center"
             onClick={() => setMiembrosGrupo( group.id )}>
             <div id="imagenUser">
-              {fotoPerfil( group, receptor, users )}
+              {fotoPerfil( group, receptor, users, 80 )}
             </div>
             <b><div id="labelNameUser">{ ( group !== {} && receptor === '' ) ? group.nombre : receptor }</div></b>
           </button>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const fotoPerfil = ( group, receptor, users ) => {
+export const fotoPerfil = ( group, receptor, users, tam ) => {
 
   let imagen = '';
 
@@ -10,11 +10,10 @@ export const fotoPerfil = ( group, receptor, users ) => {
               <img src={group.imagen}
                 alt="avatar"
                 className="d-flex align-self-center me-3 imagen-perfil-chat"
-                width="80"
-                height="80" />;
+                width={tam}
+                height={tam} />;
 
   } else if ( ( group.length === undefined && receptor !== '' ) ) {
-
 
     users.forEach( ( user ) => {
 
@@ -24,9 +23,8 @@ export const fotoPerfil = ( group, receptor, users ) => {
           <img src={user.imagen}
             alt="avatar"
             className="d-flex align-self-center me-3 imagen-perfil-chat"
-            width="80"
-            height="80" />;
-
+            width={tam}
+            height={tam} />;
 
       }
 

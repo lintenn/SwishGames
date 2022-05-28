@@ -18,7 +18,7 @@ export const Messages = ({ mensajes, user, receptor, group, users, myGroups, set
     <div>
       {
         mensajes.length !== 0 && mensajes.map( ( mensaje, index ) => (
-          ( mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor ) || group.id === mensaje.id_grupo_receptor
+          ( mensaje.nombre_usuario_receptor === receptor ) || ( mensaje.nombre_usuario_emisor === receptor ) || ( group.id === mensaje.id_grupo_receptor && group.id !== 1 )
             ? <div className={`d-flex flex-row ${getOrientation( user, mensaje )}`}
               id={mensaje.id}
               key = {index}>
@@ -57,7 +57,7 @@ export const Messages = ({ mensajes, user, receptor, group, users, myGroups, set
                 <div className="pt-1">
                   {mensaje.editado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Editado</p> : <div></div>}
                   {mensaje.reenviado ? <p className="small text-muted mb-1 cols-4 tamnyoHora">Reenviado</p> : <div></div>}
-                  <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje )}</p>
+                  <p className="small text-muted mb-1 cols-4 tamnyoHora">{formatDate( mensaje.fecha_envio )}</p>
                   {setNombreAnterior( mensaje.nombre_usuario_emisor )}
                 </div>
                 {!mensaje.administracion
