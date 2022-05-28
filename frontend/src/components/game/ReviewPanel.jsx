@@ -96,46 +96,57 @@ export const ReviewPanel = ({game}) => {
 
     const publicReview = () => {
 
-        const token = localStorage.getItem( 'user' );
-        const user = JSON.parse( token );
+        if(liked === undefined){
 
-        Swal.fire({
-    
-          title: '¿Está seguro que desea publicar esta review del juego ' + game.titulo + '?',
-          text: 'Podrá editar y eliminar su review posteriormente',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Confirmar',
-          cancelButtonText: 'Cancelar'
-    
-        }).then( (result) => {
+            console.log("recomienda")
 
-            if(result.value){
+        }else if(userReview.length !== 0 
+            && reviewText === userReview[0].review 
+            && liked === userReview[0].recomendado){
 
-                if(false){
-                    
-                }else if(false){
+            console.log("igual")
+        }else{
 
-                }else {
-                    
-                    if(userReview.length === 0){
-                        newReview(user)
+            const token = localStorage.getItem( 'user' );
+            const user = JSON.parse( token );
 
+            Swal.fire({
+        
+            title: '¿Está seguro que desea ' + (userReview.length === 0 ? "publicar": "editar") + ' esta review del juego ' + game.titulo + '?',
+            text: 'Podrá editar y eliminar su review posteriormente',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        
+            }).then( (result) => {
 
-                    }else{
+                if(result.value){
+
+                    if(false){
                         
+                    }else if(false){
+
+                    }else {
+                        
+                        if(userReview.length === 0){
+                            newReview(user)
+                        }else{
+                            editReview(user)
+                        }
+                        
+                        getReviews()
+                        getUserReview()
+                        setShown(false)
+
                     }
-                    
-                    getReviews()
-                    getUserReview()
-                    setShown(false)
-
                 }
-            }
 
-        })
-    
+            })
+
+        }
+
     }
 
     const newReview = (user) => {
@@ -154,6 +165,20 @@ export const ReviewPanel = ({game}) => {
 
     }
 
+    const editReview = (user) => {
+
+        axios.put(URIreview + '/' + game.id + '/' + user.id, {
+            review: `'${reviewText}'`,
+            recomendado: liked
+        })
+
+        Swal.fire(
+            '¡Review editada!',
+            'Tu review ha sido editada correctamente',
+            'success'
+        )
+
+    }
 
 
     const deleteReview = () => {
@@ -239,8 +264,8 @@ export const ReviewPanel = ({game}) => {
                     </div>
 
                     <div>
-                        <textarea id="textarea" 
-                            className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  
+                        <textarea id="textarea" maxlength="250"
+                            className="form-control my-1 border-black"  
                             onChange={e => handleChange(e)}
                             value={reviewText}>
                         </textarea>
