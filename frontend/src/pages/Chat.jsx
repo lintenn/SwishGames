@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { setUpChat } from '../helper/SetUpChat';
-import { ChatsActivos } from '../components/chat/ChatsActivos.jsx';
+import { ChatsActivos } from '../components/chat/ChatActivos.jsx/ChatsActivos.jsx';
 import { Conversacion } from '../components/chat/Conversacion/Conversacion';
 import '../styles/Chat.css';
 import { isAuthorized } from '../helper/isAuthorized.js';
