@@ -91,7 +91,7 @@ export const Chat = () => {
 
       mensajes.forEach( ( mensaje ) => {
 
-        if ( mensaje.nombre_usuario_emisor === user.nombre || mensaje.nombre_usuario_receptor === user.nombre || idGroups.indexOf( mensaje.id_grupo_receptor ) !== -1 ) {
+        if ( mensaje.id_grupo_receptor !== 1 ) {
 
           setConMensajes( true );
 
