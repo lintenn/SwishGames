@@ -20,7 +20,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
   const URIGroup = `${baseUrl}groups/`;
   const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
   const URIparticipantsGroups = `${baseUrl}participantsGroups`;
-  let numeroMensajeUser = 0;
   const [buscar, setBuscar] = useState( '' );
 
   useEffect( () => {
@@ -33,98 +32,38 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     if ( receptor === '' && group.nombre === undefined ) {
 
-      let i = 0;
-      const idGroups = [];
+      const messages = [];
+      mensajesBuscar.reverse().forEach( ( mensaje ) => {
 
-      myGroups.forEach( ( group ) => {
+        if ( mensaje.id_grupo_receptor !== 1 ) {
 
-        idGroups.push( group.id );
-
-      });
-
-      mensajesBuscar.reverse().forEach( men => {
-
-        if ( i === 0 ) {
-
-          if ( men.nombre_usuario_emisor === user.nombre ) {
-
-            if ( men.id_grupo_receptor !== null && men.nombre_usuario_receptor === null ) {
-
-              myGroups.forEach( ( group ) => {
-
-                if ( group.id === men.id_grupo_receptor ) {
-
-                  setReceptor( '' );
-                  setMiembrosGrupo( group.id );
-                  setGroup( group );
-
-                }
-
-              });
-              i++;
-
-              if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-                document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-              }
-
-
-            } else if ( men.id_grupo_receptor === null && men.nombre_usuario_receptor !== null ) {
-
-              setConection( men.nombre_usuario_receptor, users, setConexion );
-              setReceptor( men.nombre_usuario_receptor );
-              setGroup({});
-              i++;
-
-              if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-                document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-              }
-
-            }
-
-          } else if ( men.nombre_usuario_receptor === user.nombre ) {
-
-            setConection( men.nombre_usuario_emisor, users, setConexion );
-            setReceptor( men.nombre_usuario_emisor );
-            setGroup({});
-            i++;
-
-            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-            }
-
-          } else if ( idGroups.indexOf( men.id_grupo_receptor ) !== -1 ) {
-
-            myGroups.forEach( ( group ) => {
-
-              if ( group.id === men.id_grupo_receptor ) {
-
-                setReceptor( '' );
-                setMiembrosGrupo( group.id );
-                setGroup( group );
-
-              }
-
-            });
-
-            i++;
-
-            if ( document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ) !== null ) {
-
-              document.getElementById( `${( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) ? men.id_grupo_receptor : ( men.nombre_usuario_receptor === user.nombre ) ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
-
-            }
-
-          }
+          messages.push( mensaje );
 
         }
 
       });
+
+      const firstMessage = messages[0];
+
+      if ( firstMessage.id_grupo_receptor !== null ) {
+
+        setReceptor( '' );
+        setMiembrosGrupo( firstMessage.id_grupo_receptor );
+        setGroup( getGrupo( firstMessage.id_grupo_receptor ) );
+
+      } else if ( firstMessage.nombre_usuario_receptor !== null ) {
+
+        setConection( firstMessage.nombre_usuario_receptor !== user.nombre ? firstMessage.nombre_usuario_receptor : firstMessage.nombre_usuario_emisor, users, setConexion );
+        setReceptor( firstMessage.nombre_usuario_receptor !== user.nombre ? firstMessage.nombre_usuario_receptor : firstMessage.nombre_usuario_emisor );
+        setGroup({});
+
+      }
+
+      if ( document.getElementById( `${( firstMessage.nombre_usuario_receptor === null && firstMessage.id_grupo_receptor !== null ) ? firstMessage.id_grupo_receptor : ( firstMessage.nombre_usuario_receptor === user.nombre ) ? firstMessage.nombre_usuario_emisor : firstMessage.nombre_usuario_receptor}` ) !== null ) {
+
+        document.getElementById( `${( firstMessage.nombre_usuario_receptor === null && firstMessage.id_grupo_receptor !== null ) ? firstMessage.id_grupo_receptor : ( firstMessage.nombre_usuario_receptor === user.nombre ) ? firstMessage.nombre_usuario_emisor : firstMessage.nombre_usuario_receptor}` ).classList.add( 'chatSeleccionado' );
+
+      }
 
     } else {
 
@@ -172,7 +111,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
     document.querySelector( '#inputMensaje-enviar-chat' ).addEventListener( 'keyup', function ( event ) {
 
       event.preventDefault();
-      numeroMensajeUser = eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group );
+      eventKeyboard( event );
 
     });
 
@@ -195,11 +134,6 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
           }
 
-        })
-        .catch( () => {
-
-          setMensajesBuscar([]);
-
         });
 
     } else {
@@ -212,11 +146,14 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
   const putUsers2 = ( men ) => {
 
+
     if ( mensajesBuscar.length === mensajes.length || recienEnviado ) {
 
       users2.push( ( men.nombre_usuario_receptor !== null && men.id_grupo_receptor === null ) ? ( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor ) : ( men.id_grupo_receptor ) );
+      console.log( users2 );
 
     }
+
     return <div></div>;
 
   };
@@ -357,7 +294,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               {
                 ( users.length !== 0 && mensajesBuscar.length !== 0 ) && mensajesBuscar.filter( men => men.id_grupo_receptor !== 1 ).reverse().map( ( men, index ) => (
 
-                  ( ( users2.indexOf( men.nombre_usuario_receptor ) === -1 ) || ( users2.indexOf( men.nombre_usuario_emisor ) === -1 ) || ( users2.indexOf( men.id_grupo_receptor ) === -1 ) )
+                  ( ( users2.indexOf( men.nombre_usuario_receptor ) === -1 ) && ( users2.indexOf( men.nombre_usuario_emisor ) === -1 ) && ( users2.indexOf( men.id_grupo_receptor ) === -1 ) )
                     ? <li className="p-2 border-bottom"
                       key={index}>
                       <button className={'d-flex justify-content-between botonNaranja btn-chat-seleccionado-hover'}
