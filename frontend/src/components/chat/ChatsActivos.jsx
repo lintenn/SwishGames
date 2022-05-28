@@ -178,10 +178,23 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
 
     if ( buscar !== '' ) {
 
-      axios.get( `${baseUrl}chats/chat_by_entry/${buscar}/${user.nombre}` )
+      axios.post( `${baseUrl}chats/chat_by_entry/`, { buscar, nombre_user: user.nombre })
         .then( res => {
 
-          setMensajesBuscar( res.data );
+          if ( res.data[0] === undefined ) {
+
+            setMensajesBuscar([]);
+
+          } else {
+
+            setMensajesBuscar( res.data );
+
+          }
+
+        })
+        .catch( () => {
+
+          setMensajesBuscar([]);
 
         });
 

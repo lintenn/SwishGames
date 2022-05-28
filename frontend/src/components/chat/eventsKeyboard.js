@@ -1,4 +1,4 @@
-export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, numeroMensajeUser, group ) {
+export function eventKeyboard( event ) {
 
   event.preventDefault();
   if ( event.key === 'Enter' ) {
@@ -6,7 +6,5 @@ export function eventKeyboard( event, setMensaje, mensajesDESC, user, receptor, 
     document.querySelector( '#botonEnviar' ).click();
 
   }
-
-  return numeroMensajeUser;
 
 }

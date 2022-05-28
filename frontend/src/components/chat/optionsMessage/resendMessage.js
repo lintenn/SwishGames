@@ -157,7 +157,6 @@ function addClickResend( mensaje, users, myGroups, user ) {
 
       if ( participantesAñadidios.indexOf( boton.value ) === -1 ) {
 
-        console.log( 'Añadido' );
         participantesAñadidios.push( boton.value );
         document.getElementById( `${boton.value}Reenviar` ).style.backgroundColor = '#c6daf8';
 
@@ -202,7 +201,6 @@ function addClickResend( mensaje, users, myGroups, user ) {
 
       participantesAñadidios.forEach( ( participante ) => {
 
-        console.log( user.nombre, participante, mensaje );
         if ( mensaje.mensaje === null ) {
 
           axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
@@ -217,7 +215,6 @@ function addClickResend( mensaje, users, myGroups, user ) {
 
       gruposAñadidios.forEach( ( participante ) => {
 
-        console.log( 'grupo', participante );
         if ( mensaje.mensaje === null ) {
 
           axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });

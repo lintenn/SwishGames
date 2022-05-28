@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { setUpChat } from '../helper/SetUpChat';
 import { ChatsActivos } from '../components/chat/ChatsActivos.jsx';
-import { Conversacion } from '../components/chat/Conversacion';
+import { Conversacion } from '../components/chat/Conversacion/Conversacion';
 import '../styles/Chat.css';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import { useNavigate, useParams } from '../../node_modules/react-router/index';
@@ -12,31 +12,30 @@ import { IniciarChat } from '../components/chat/IniciarChat';
 
 export const Chat = () => {
 
-  const [mensajesDESC, setMensajesDESC] = useState([]);
-  const [mensajes, setMensajes] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState( null );
+  const isauthorized = isAuthorized();
+  const navigate = useNavigate();
+  const { receptorActual } = useParams();
   const [receptor, setReceptor] = useState( '' );
   const [conexion, setConexion] = useState( '' );
   const [mensaje, setMensaje] = useState( '' );
-  const [group, setGroup] = useState({});
-  const [myGroups, setMyGroups] = useState([]);
-  const isauthorized = isAuthorized();
-  const navigate = useNavigate();
+  const [configurationGroups, setConfigurationGroups] = useState( '' );
+  const [user, setUser] = useState( null );
   const [conMensajes, setConMensajes] = useState( false );
   const [iniciandoChat, setIniciandoChat] = useState( false );
-  const [configurationGroups, setConfigurationGroups] = useState( '' );
-  const { receptorActual } = useParams();
   const [responder, setResponder] = useState( false );
-  const [mensajesBuscar, setMensajesBuscar] = useState([]);
   const [recienEnviado, setRecienEnviado] = useState( false );
+  const [group, setGroup] = useState({});
+  const [mensajesDESC, setMensajesDESC] = useState([]);
+  const [mensajes, setMensajes] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [myGroups, setMyGroups] = useState([]);
+  const [mensajesBuscar, setMensajesBuscar] = useState([]);
 
   useEffect( () => {
 
     if ( !isauthorized ) {
 
       navigate( '/noLogin' );
-
 
     } else {
 
@@ -92,15 +91,7 @@ export const Chat = () => {
 
       mensajes.forEach( ( mensaje ) => {
 
-        if ( mensaje.nombre_usuario_emisor === user.nombre ) {
-
-          setConMensajes( true );
-
-        } else if ( mensaje.nombre_usuario_receptor === user.nombre ) {
-
-          setConMensajes( true );
-
-        } else if ( idGroups.indexOf( mensaje.id_grupo_receptor ) !== -1 ) {
+        if ( mensaje.nombre_usuario_emisor === user.nombre || mensaje.nombre_usuario_receptor === user.nombre || idGroups.indexOf( mensaje.id_grupo_receptor ) !== -1 ) {
 
           setConMensajes( true );
 
@@ -161,7 +152,6 @@ export const Chat = () => {
                           user={ user }
                           receptor={ receptor }
                           conexion={ conexion }
-                          mensajesDESC={ mensajesDESC }
                           mensaje={ mensaje }
                           setMensaje={ setMensaje }
                           group={ group }
