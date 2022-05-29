@@ -106,7 +106,7 @@ export const GamesPreviewList = ({ id, list, setList, games, setGames, buscado }
                     src={game.imagen}
                     width="200"
                     height="170"
-                    alt={`#ImgGame${game.titulo}`} />
+                    alt={`Carátula del juego ${game.titulo}`} />
                 </Link>
                 <div className="px-2">
                   <Link to={'/game/' + game.titulo}
