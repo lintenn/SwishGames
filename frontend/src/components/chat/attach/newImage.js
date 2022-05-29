@@ -39,7 +39,7 @@ function showEdit() {
           <br/>
           <br/>
           <Input accept="image/*" type="file" id="imagen-edit">
-          <img src="" name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat">
+          <img name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat tamañoMaximoImagenEditar">
           <br/>
           <br/>
           <button style="border-radius: 20px" class="btn btn-primary" name="editImagen">Siguiente</button>
@@ -60,25 +60,41 @@ function addClickButtonEdit( userAct, receptor, group ) {
 
     imagen = document.querySelector( '#img-photo-edit' ).src;
 
-    if ( receptor === '' ) {
+    if ( imagen === '' ) {
 
-      axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, id_grupo_receptor: group.id, imagen });
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Debes seleccionar una imagen'
+      }).then( () => {
+
+        enviarImagen( userAct, receptor, group );
+
+      });
 
     } else {
 
-      axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, nombre_usuario_receptor: receptor, imagen });
+      if ( receptor === '' ) {
+
+        axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, id_grupo_receptor: group.id, imagen });
+
+      } else {
+
+        axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, nombre_usuario_receptor: receptor, imagen });
+
+      }
+
+      Swal.fire(
+        'Enviado!',
+        'La imagen ha sido enviado',
+        'success'
+      ).then( () => {
+
+        socket.emit( 'mensaje' );
+
+      });
 
     }
-
-    Swal.fire(
-      'Enviado!',
-      'La imagen ha sido enviado',
-      'success'
-    ).then( () => {
-
-      socket.emit( 'mensaje' );
-
-    });
 
   });
 

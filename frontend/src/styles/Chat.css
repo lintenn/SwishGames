@@ -25,6 +25,10 @@ div:hover > li {
     margin: 16px 0px 16px 16px;
 }
 
+.tamañoMaximoImagenEditar {
+    max-width: 90%;
+}
+
 .marginChatActivos{
     margin-top: 15px;
 }

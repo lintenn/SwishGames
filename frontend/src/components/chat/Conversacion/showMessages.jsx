@@ -32,7 +32,7 @@ export const Messages = ({ mensajes, user, receptor, group, users, myGroups, set
                       ? <a href={getEnlace( mensaje )}>
                         <div className={getOrigenMensajeRespuesta( user, mensaje )}>
                           <p className="fw-bold mb-0">{mensaje.nombreEmisorRespuesta}</p>
-                          <p className="small cols-12">{mensaje.mensajeRespuesta}</p>
+                          <p className="small cols-12 mb-2">{mensaje.mensajeRespuesta}</p>
                         </div>
                       </a>
                       : <a href={getEnlace( mensaje )}>
@@ -41,7 +41,7 @@ export const Messages = ({ mensajes, user, receptor, group, users, myGroups, set
                           <p className="small cols-12">
                             <img alt="imagenEnviada"
                               src={mensaje.imagenRespuesta}
-                              className="tamañoMaximoImagen"></img>
+                              className="tamañoMaximoImagen mb-2"></img>
                           </p>
                         </div>
                       </a>

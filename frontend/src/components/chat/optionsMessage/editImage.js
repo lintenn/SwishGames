@@ -39,7 +39,7 @@ function showEdit( mensaje ) {
           <br/>
           <br/>
           <Input accept="image/*" type="file" id="imagen-edit">
-          <img src=${mensaje.imagen} name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat">
+          <img src=${mensaje.imagen} name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat tamañoMaximoImagenEditar">
           <br/>
           <br/>
           <button style="border-radius: 20px" class="btn btn-primary" name="editImagen">Siguiente</button>
