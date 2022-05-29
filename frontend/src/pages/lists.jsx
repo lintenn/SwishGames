@@ -50,13 +50,38 @@ const Lists = () => {
 
   }, [allLists]);
 
+  const nombreRepetido = ( nombre ) => {
+
+    console.log( 'nombre repetido' );
+
+    for ( let i = 0; i < allLists.length; i++ ) {
+
+      console.log( 'allLists[i].nombre = ' + allLists[i].nombre );
+      console.log( 'nombre = ' + nombre );
+
+      if ( allLists[i].nombre === nombre ) {
+
+        return true;
+
+      }
+
+    }
+
+    return false;
+
+
+  };
+
   const newList = () => {
+
+    console.log( 'newList' );
 
     Swal.fire({
       title: 'Introduce el nombre de la nueva lista',
       input: 'text',
       inputAttributes: {
-        autocapitalize: 'off'
+        autocapitalize: 'off',
+        maxlength: 30
       },
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
@@ -72,7 +97,14 @@ const Lists = () => {
 
           Swal.showValidationMessage( 'El nombre de la lista no puede ser Favoritos' );
 
+        } else if ( lists.find( list => list.nombre === name ) ) {
+
+          Swal.showValidationMessage( 'Ya existe una lista con ese nombre' );
+
         } else {
+
+          console.log( 'nombre = ' + name );
+          console.log( 'nombreRepetido( name ) = ' + nombreRepetido( name ) );
 
           const token = localStorage.getItem( 'user' );
           const us = JSON.parse( token );

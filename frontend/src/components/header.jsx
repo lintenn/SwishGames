@@ -36,7 +36,7 @@ export const Header = ({ buscado, setBuscado }) => {
           <img src={logo}
             width="80px"
             height="50px"
-            alt="Logo" >
+            alt="Logo de SwishGames" >
           </img>
         </NavLink>
         <button className="navbar-toggler"
