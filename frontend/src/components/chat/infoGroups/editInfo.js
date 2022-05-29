@@ -2,11 +2,13 @@ import Swal from 'sweetalert2';
 import { Global } from '../../../helper/Global';
 import axios from 'axios';
 import socket from '../Socket';
+import { infoGroup } from './infoGroups';
+import { uploadImage } from '../uploadImage';
 
 const baseUrl = Global.baseUrl;
 const URIMensajes = `${baseUrl}chats/`;
 
-export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
+export function editInfo( type, groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
@@ -21,7 +23,7 @@ export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, part
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
+      addClickButtonEdit( type, groupAct, receptor, participantes, userAct, setGroup, setReceptor, setConexion );
 
     }
 
@@ -75,7 +77,7 @@ function showEdit( type, group ) {
 }
 
 
-function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection ) {
+function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, setGroup, setReceptor, setConexion ) {
 
   const botonEditar = document.querySelector( 'button[name="editGrupoSwal"]' );
   botonEditar.addEventListener( 'click', ( event ) => {
@@ -102,7 +104,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton, setReceptor, setConection );
+            editInfo( type, groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion );
 
           });
 
@@ -127,8 +129,9 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
     }
 
-
     if ( nombre !== '' ) {
+
+      setGroup( groupAct );
 
       axios.get( `${baseUrl}users` )
         .then(
@@ -137,7 +140,7 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
 
         );
 
-      axios.get( `${baseUrl}groups/${groupAct.id}` )
+      axios.get( `${baseUrl}users` )
         .then( res => {
 
           Swal.fire(
@@ -146,30 +149,13 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
             'success'
           ).then( () => {
 
-            Swal.fire({
-              html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
-              background: '#f0eeee',
-              showCloseButton: true,
-              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              width: '50%',
-              heightAuto: false,
-              didOpen: () => {
-
-                addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, setReceptor, setConection );
-                setGroup( res.data );
-
-              }
-
-            });
+            const myGroups = [];
+            myGroups.push( groupAct );
+            infoGroup( myGroups, groupAct.id, participantes, userAct, setGroup, setReceptor, setConexion );
 
           });
 
         });
-
 
     }
 
@@ -180,25 +166,15 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      const file = e.target.files;
-      const formData = new FormData();
-      formData.append( 'file', file[0]);
-      formData.append( 'upload_preset', 'FotosGrupos' );
-      const res = await fetch(
-        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-      const result = await res.json();
-      const imagen = result.secure_url;
-      document.querySelector( '#img-photo-edit-group' ).src = imagen;
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.querySelector( '#img-photo-edit-group' ).src = result;
+
+        });
 
     });
 
-
   });
-
 
 }

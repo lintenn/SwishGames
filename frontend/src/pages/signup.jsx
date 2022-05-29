@@ -26,6 +26,7 @@ const Signup = () => {
   const URI = `${baseUrl}users`;
   const URIList = `${baseUrl}lists/`;
   const URIParticipantsGroups = `${baseUrl}participantsGroups`;
+  const URIMensajes = `${baseUrl}chats/`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -164,6 +165,7 @@ const Signup = () => {
       await axios.post( URI, { nombre: u, email: m, password: values.password });
       await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
       axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
+      axios.post( URIMensajes, { id_grupo_receptor: 1, mensaje: `${u} ha entrado en el grupo`, nombre_usuario_emisor: u, administracion: 1 });
 
       document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );

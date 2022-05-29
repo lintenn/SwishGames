@@ -2,6 +2,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import socket from '../Socket';
 import { Global } from '../../../helper/Global';
+import { formatMessage } from '../format/formatMessage';
 
 const baseUrl = Global.baseUrl;
 let participantesAñadidios = [];
@@ -76,7 +77,7 @@ function showFriendsAndGroups( users, myGroups, user ) {
 
     if ( us.nombre !== user.nombre ) {
 
-      const descripcion = formatDescription( us.descripcion );
+      const descripcion = formatMessage( us.descripcion );
 
       friends += `
         <div class="d-flex flex-row mb-3">
@@ -106,7 +107,7 @@ function showFriendsAndGroups( users, myGroups, user ) {
 
     if ( group.id !== 1 ) {
 
-      const descripcion = formatDescription( group.descripcion );
+      const descripcion = formatMessage( group.descripcion );
 
       friends += `
             <div class="d-flex flex-row mb-3">
@@ -136,19 +137,6 @@ function showFriendsAndGroups( users, myGroups, user ) {
 
 }
 
-const formatDescription = ( descripcion ) => {
-
-  let ultimoDescripcion = descripcion;
-  if ( ultimoDescripcion.length > 15 ) {
-
-    ultimoDescripcion = ultimoDescripcion.substring( 0, 12 );
-    ultimoDescripcion += '...';
-
-  }
-  return ultimoDescripcion;
-
-};
-
 function addClickResend( mensaje, users, myGroups, user ) {
 
   document.querySelectorAll( 'button[name="addFriend"]' ).forEach( ( boton ) => {
@@ -157,7 +145,6 @@ function addClickResend( mensaje, users, myGroups, user ) {
 
       if ( participantesAñadidios.indexOf( boton.value ) === -1 ) {
 
-        console.log( 'Añadido' );
         participantesAñadidios.push( boton.value );
         document.getElementById( `${boton.value}Reenviar` ).style.backgroundColor = '#c6daf8';
 
@@ -197,92 +184,75 @@ function addClickResend( mensaje, users, myGroups, user ) {
   document.querySelector( '#sendMessage' ).addEventListener( 'click', ( e ) => {
 
     e.preventDefault();
-
-    if ( participantesAñadidios.length > 0 || gruposAñadidios.length > 0 ) {
-
-      participantesAñadidios.forEach( ( participante ) => {
-
-        console.log( user.nombre, participante, mensaje );
-        if ( mensaje.mensaje === null ) {
-
-          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
-
-        } else {
-
-          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
-
-        }
-
-      });
-
-      gruposAñadidios.forEach( ( participante ) => {
-
-        console.log( 'grupo', participante );
-        if ( mensaje.mensaje === null ) {
-
-          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
-
-        } else {
-
-          axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
-
-        }
-
-      });
-
-
-      participantesAñadidios = [];
-      gruposAñadidios = [];
-
-      Swal.close();
-
-      Swal.fire({
-        title: 'Mensaje reenviado',
-        text: '¡El mensaje ha sido reenviado con éxito!',
-        focusConfirm: false,
-        allowOutsideClick: false,
-        allowEscapeKey: false
-      }).then( () => {
-
-        socket.emit( 'mensaje' );
-
-      });
-
-    } else if ( participantesAñadidios.length === 0 && gruposAñadidios.length === 0 ) {
-
-      Swal.fire({
-        type: 'error',
-        title: 'Oops...',
-        text: '¡No has añadido a nadie a quien reenviar el mensaje! Añade al menos a alguien a quien reenviar.'
-      }).then( () => {
-
-        Swal.fire({
-          html: `
-          <div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">
-              ${showFriendsAndGroups( users, myGroups, user )}
-          </div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          heightAuto: false,
-          didOpen: () => {
-
-            addClickResend( mensaje, users, myGroups );
-
-          }
-        });
-
-      });
-
-    }
-
+    sendMessage( mensaje, user, users, myGroups );
 
   });
+
+}
+
+function sendMessage( mensaje, user, users, myGroups ) {
+
+  if ( participantesAñadidios.length > 0 || gruposAñadidios.length > 0 ) {
+
+    participantesAñadidios.forEach( ( participante ) => {
+
+      if ( mensaje.mensaje === null ) {
+
+        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
+
+      } else {
+
+        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, nombre_usuario_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+
+      }
+
+    });
+
+    gruposAñadidios.forEach( ( participante ) => {
+
+      if ( mensaje.mensaje === null ) {
+
+        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, imagen: mensaje.imagen, reenviado: 1 });
+
+      } else {
+
+        axios.post( URIMensajes, { nombre_usuario_emisor: user.nombre, id_grupo_receptor: participante, mensaje: mensaje.mensaje, reenviado: 1 });
+
+      }
+
+    });
+
+
+    participantesAñadidios = [];
+    gruposAñadidios = [];
+
+    Swal.close();
+
+    Swal.fire({
+      title: 'Mensaje reenviado',
+      text: '¡El mensaje ha sido reenviado con éxito!',
+      focusConfirm: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false
+    }).then( () => {
+
+      socket.emit( 'mensaje' );
+
+    });
+
+  } else if ( participantesAñadidios.length === 0 && gruposAñadidios.length === 0 ) {
+
+    Swal.fire({
+      type: 'error',
+      title: 'Oops...',
+      text: '¡No has añadido a nadie a quien reenviar el mensaje! Añade al menos a alguien a quien reenviar.'
+    }).then( () => {
+
+      addClickParticipantes( mensaje, users, myGroups, user );
+
+    });
+
+  }
 
 }
 

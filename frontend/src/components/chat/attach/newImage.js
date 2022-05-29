@@ -2,6 +2,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import socket from '../Socket';
 import { Global } from '../../../helper/Global';
+import { uploadImage } from '../uploadImage';
 
 const baseUrl = Global.baseUrl;
 
@@ -38,12 +39,11 @@ function showEdit() {
           <br/>
           <br/>
           <Input accept="image/*" type="file" id="imagen-edit">
-          <img src="" name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat" width ="300" height ="300">
+          <img name="img-photo-edit" id="img-photo-edit" class="align-self-center m-3 imagen-mensaje-chat tamañoMaximoImagenEditar">
           <br/>
           <br/>
           <button style="border-radius: 20px" class="btn btn-primary" name="editImagen">Siguiente</button>
         `;
-
 
   return ( edit );
 
@@ -58,28 +58,43 @@ function addClickButtonEdit( userAct, receptor, group ) {
 
     let imagen = null;
 
-
     imagen = document.querySelector( '#img-photo-edit' ).src;
-    if ( receptor === '' ) {
 
-      axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, id_grupo_receptor: group.id, imagen });
+    if ( imagen === '' ) {
+
+      Swal.fire({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Debes seleccionar una imagen'
+      }).then( () => {
+
+        enviarImagen( userAct, receptor, group );
+
+      });
 
     } else {
 
-      axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, nombre_usuario_receptor: receptor, imagen });
+      if ( receptor === '' ) {
+
+        axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, id_grupo_receptor: group.id, imagen });
+
+      } else {
+
+        axios.post( `${baseUrl}chats/`, { nombre_usuario_emisor: userAct.nombre, nombre_usuario_receptor: receptor, imagen });
+
+      }
+
+      Swal.fire(
+        'Enviado!',
+        'La imagen ha sido enviado',
+        'success'
+      ).then( () => {
+
+        socket.emit( 'mensaje' );
+
+      });
 
     }
-
-    Swal.fire(
-      'Enviado!',
-      'La imagen ha sido enviado',
-      'success'
-    ).then( () => {
-
-      socket.emit( 'mensaje' );
-
-    });
-
 
   });
 
@@ -88,26 +103,16 @@ function addClickButtonEdit( userAct, receptor, group ) {
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      const file = e.target.files;
-      const formData = new FormData();
-      formData.append( 'file', file[0]);
-      formData.append( 'upload_preset', 'FotosGrupos' );
-      const res = await fetch(
-        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-      const result = await res.json();
-      const imagen = result.secure_url;
-      document.querySelector( '#img-photo-edit' ).src = imagen;
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.querySelector( '#img-photo-edit' ).src = result;
+
+        });
 
     });
 
-
   });
-
 
 }
 
