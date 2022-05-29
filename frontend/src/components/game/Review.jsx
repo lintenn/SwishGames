@@ -34,8 +34,8 @@ export const Review = ({review}) => {
 
     return (
 
-        <div className='col-md-6 col-lg-4 border card'>
-            <div className='d-flex justify-content-between mt-1 mx-4'>
+        <div className='col-md-6 col-xxl-4 border card px-3 py-2'>
+            <div className='d-flex justify-content-between'>
                 <p className="fw-bold fs-5">{user[0].nombre}</p>
 
                 {(review.recomendado) 
@@ -43,7 +43,7 @@ export const Review = ({review}) => {
                 : <p className='fst-italic'><i className="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>}
             </div>
 
-            <div className='d-flex justify-content-start mx-4'>
+            <div className='d-flex justify-content-start mx-2 mb-2'>
               <p>{review.review}</p>
             </div>
 
