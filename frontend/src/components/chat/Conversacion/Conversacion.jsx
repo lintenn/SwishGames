@@ -47,7 +47,6 @@ export const Conversacion = ({ users, mensajes, user, receptor, conexion, mensaj
 
     } else if ( group.id === undefined && receptor !== '' ) {
 
-      console.log( 'entro' );
       infoUser( users, receptor, user, setGroup, setReceptor );
 
     }

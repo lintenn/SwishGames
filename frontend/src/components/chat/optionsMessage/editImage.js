@@ -58,31 +58,42 @@ function addClickButtonEdit( mensaje ) {
 
     let imagen = null;
 
-
     imagen = document.querySelector( '#img-photo-edit' ).src;
-    mensaje.imagen = imagen;
-    axios.put( `${baseUrl}chats/${mensaje.id}`, { imagen, editado: true });
+    if ( imagen === mensaje.imagen ) {
 
-    axios.get( `${baseUrl}chats/response/${mensaje.id}` )
-      .then( ( res ) => {
+      Swal.fire( 'Error', 'La imagen no ha sido editada', 'error' ).then( () => {
 
-        res.data.forEach( ( mensaje2 ) => {
-
-          axios.put( `${baseUrl}chats/${mensaje2.id}`, { imagenRespuesta: imagen });
-
-        });
+        editarImagen( mensaje );
 
       });
 
-    Swal.fire(
-      'Editado!',
-      'La imagen ha sido editada',
-      'success'
-    ).then( () => {
+    } else {
 
-      socket.emit( 'mensaje' );
+      mensaje.imagen = imagen;
+      axios.put( `${baseUrl}chats/${mensaje.id}`, { imagen, editado: true });
 
-    });
+      axios.get( `${baseUrl}chats/response/${mensaje.id}` )
+        .then( ( res ) => {
+
+          res.data.forEach( ( mensaje2 ) => {
+
+            axios.put( `${baseUrl}chats/${mensaje2.id}`, { imagenRespuesta: imagen });
+
+          });
+
+        });
+
+      Swal.fire(
+        'Editado!',
+        'La imagen ha sido editada',
+        'success'
+      ).then( () => {
+
+        socket.emit( 'mensaje' );
+
+      });
+
+    }
 
   });
 

@@ -2,23 +2,10 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { Global } from '../../helper/Global';
 import socket from './Socket';
+import { eliminarEspaciosMensajes } from './format/removeSpacesMessages';
 
 const baseUrl = Global.baseUrl;
 const URI = `${baseUrl}chats/`;
-
-const eliminarEspaciosMensajes = ( mensaje ) => {
-
-  let mensajeNuevo = '';
-
-  while ( mensajeNuevo.length < mensaje.length ) {
-
-    mensajeNuevo += ' ';
-
-  }
-
-  return mensajeNuevo !== mensaje;
-
-};
 
 export const submit = async ( mensaje, receptor, group, responder, mensajeRespuesta, user, idMensajeRespuesta, nombreMensajeRespuesta, imagenRespuesta, setResponder, setIdMensajeRespuesta, setMensajeRespuesta, setImagenRespuesta, setNombreMensajeRespuesta, setMensaje, setRecienEnviado ) => {
 

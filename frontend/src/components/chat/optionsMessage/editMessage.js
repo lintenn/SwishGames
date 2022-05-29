@@ -2,6 +2,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import socket from '../Socket';
 import { Global } from '../../../helper/Global';
+import { eliminarEspaciosMensajes } from '../format/removeSpacesMessages';
 
 const baseUrl = Global.baseUrl;
 
@@ -18,7 +19,7 @@ function editarMensaje( mensaje ) {
     cancelButtonText: 'Cancelar'
   }).then( ( result ) => {
 
-    if ( result.value ) {
+    if ( eliminarEspaciosMensajes( result.value ) && result.value !== mensaje.mensaje ) {
 
       axios.put( `${baseUrl}chats/${mensaje.id}`, { mensaje: result.value, editado: true, reenviado: false });
 
@@ -40,6 +41,22 @@ function editarMensaje( mensaje ) {
       ).then( () => {
 
         socket.emit( 'mensaje' );
+
+      });
+
+    } else if ( !eliminarEspaciosMensajes( result.value ) ) {
+
+      Swal.fire( 'Error', 'El mensaje no puede estar vacio', 'error' ).then( () => {
+
+        editarMensaje( mensaje );
+
+      });
+
+    } else if ( result.value === mensaje.mensaje ) {
+
+      Swal.fire( 'Error', 'El mensaje no ha sido editado', 'error' ).then( () => {
+
+        editarMensaje( mensaje );
 
       });
 
