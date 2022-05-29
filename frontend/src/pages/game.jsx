@@ -202,12 +202,13 @@ const Game = () => {
           if ( boton.value === 'new' ) {
 
             Swal.fire({
-              title: 'Nueva lista',
+              title: 'Introduce el nombre de la nueva lista',
               input: 'text',
               inputAttributes: {
                 autocapitalize: 'off'
               },
               showCancelButton: true,
+              cancelButtonText: 'Cancelar',
               confirmButtonText: 'Crear',
               showLoaderOnConfirm: true,
               preConfirm: ( name ) => {
