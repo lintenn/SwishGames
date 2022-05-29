@@ -4,11 +4,12 @@ import axios from 'axios';
 import socket from '../Socket';
 import { infoGroup } from './infoGroups';
 import { uploadImage } from '../uploadImage';
+import { eliminarEspaciosMensajes } from '../format/removeSpacesMessages';
 
 const baseUrl = Global.baseUrl;
 const URIMensajes = `${baseUrl}chats/`;
 
-export function editInfo( type, groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion ) {
+export function editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
     html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
@@ -23,7 +24,7 @@ export function editInfo( type, groupAct, receptor, participantes, setGroup, use
     heightAuto: false,
     didOpen: () => {
 
-      addClickButtonEdit( type, groupAct, receptor, participantes, userAct, setGroup, setReceptor, setConexion );
+      addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
 
     }
 
@@ -77,7 +78,7 @@ function showEdit( type, group ) {
 }
 
 
-function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, setGroup, setReceptor, setConexion ) {
+function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion ) {
 
   const botonEditar = document.querySelector( 'button[name="editGrupoSwal"]' );
   botonEditar.addEventListener( 'click', ( event ) => {
@@ -100,11 +101,11 @@ function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, s
         break;
       case 'nombre':
         nombre = document.querySelector( '#nombre-edit-group' ).value;
-        if ( nombre === '' ) {
+        if ( !eliminarEspaciosMensajes( nombre ) ) {
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, receptor, participantes, setGroup, userAct, setReceptor, setConexion );
+            editInfo( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
 
           });
 
@@ -129,7 +130,7 @@ function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, s
 
     }
 
-    if ( nombre !== '' ) {
+    if ( nombre === null || eliminarEspaciosMensajes( nombre ) ) {
 
       setGroup( groupAct );
 
@@ -156,6 +157,14 @@ function addClickButtonEdit( type, groupAct, receptor, participantes, userAct, s
           });
 
         });
+
+    } else {
+
+      Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
+
+        editInfo( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
+
+      });
 
     }
 

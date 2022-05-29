@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import { infoGroup } from './infoGroups';
 
-export function copyInfo( type, groupAct, receptor, participantes, userAct, setReceptor, setConexion, setGroup ) {
+export function copyInfo( type, groupAct, participantes, userAct, setReceptor, setConexion, setGroup ) {
 
   let tipo = '';
   let descripcion = null;
