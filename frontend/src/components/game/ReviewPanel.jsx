@@ -256,6 +256,7 @@ export const ReviewPanel = ({game}) => {
                        setUserReview([])
                        setLiked(undefined)
                        setShown(false)
+                       setError("")
             
                     });
                 }
@@ -268,7 +269,7 @@ export const ReviewPanel = ({game}) => {
     <div className='col-12 mb-5 px-0'>
         <section className="col-12 mt-2 border card">
 
-            <div className="d-flex justify-content-between mt-3">
+            <div className="d-flex justify-content-between mt-3 pe-1">
                 <div className="d-flex justify-content-between">
                     <h2 className="fw-bold ms-4">Reviews</h2>
                 </div>
@@ -297,25 +298,25 @@ export const ReviewPanel = ({game}) => {
             </div>
 
             
-            <div id="textarea" className={(shown) ? "d-flex justify-content-end" : "d-none d-flex justify-content-end"}>
+            <div id="textarea" className={(shown) ? "d-flex justify-content-end mx-3 mb-2" : "d-none d-flex justify-content-end"}>
             
-                <div className='col-6 border px-2 py-2 mb-2 me-2'>
+                <div className='col-md-12 border px-2 py-2 mb-2 me-1'>
 
-                    <div className='d-flex justify-content-between'>
-                        <label htmlFor="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
-                        <p className=' mt-3'>Caracteres restantes: {250 - count}</p>
+                    <div className='d-flex justify-content-between px-3'>
+                        <label htmlFor="textarea"><h3 className="fw-bold ms-0 mt-1">Escribe tu review</h3></label>
+                        <p className='me-1 mt-1'>Caracteres restantes: {250 - count}</p>
                     </div>
 
-                    <div>
+                    <div className='px-3 my-1'>
                         <textarea id="textarea" maxlength="250"
-                            className="form-control my-1 border-black"  
+                            className="form-control border-black"  
                             onChange={e => handleChange(e)}
                             value={reviewText}>
                         </textarea>
                     </div>
 
-                    <fieldset className='d-flex justify-content-start'>
-                        <p className=''>¿Recomiendas el juego?</p>
+                    <fieldset className='d-flex justify-content-start px-3'>
+                        <p className='ms-0'>¿Recomiendas el juego?</p>
                         <div className="form-check form-check-inline mt-2">
                             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" 
                             checked={liked === 1} onClick={e => setLiked( parseInt(e.target.value) )}/>
@@ -328,7 +329,7 @@ export const ReviewPanel = ({game}) => {
                         </div>
                     </fieldset>
 
-                    <div className='d-flex d-flex justify-content-between'>
+                    <div className='d-flex d-flex justify-content-between px-3'>
 
                         <button className="btn btn-outline-dark me-3 my-2"
                             id="valorar"

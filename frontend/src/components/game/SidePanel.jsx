@@ -230,7 +230,7 @@ export const SidePanel = ({game}) => {
 
             <div className="d-flex justify-content-center mb-2">
 
-                <p className="d-lg-none fs-5 fw-bold mt-1">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
+                <p className="d-lg-none fs-5 fw-bold pt-2">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
 
                 <fieldset className=" " id="rate">
 
