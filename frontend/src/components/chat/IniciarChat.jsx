@@ -2,16 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { chatUsers } from './createNewChats/newChat';
 import { chatGroups } from './createNewChats/newGroup';
-import { Global } from '../../helper/Global';
 import Swal from 'sweetalert2';
-import { setConection } from './format/setConection';
 
 export const IniciarChat = ({ setIniciandoChat, users, user, setReceptor, setConexion, receptor, group, setGroup, myGroups, setConfigurationGroups }) => {
-
-  const baseUrl = Global.baseUrl;
-  const URIGroup = `${baseUrl}groups/`;
-  const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
-  const URIparticipantsGroups = `${baseUrl}participantsGroups`;
 
   const beginChat = () => {
 
@@ -60,7 +53,7 @@ export const IniciarChat = ({ setIniciandoChat, users, user, setReceptor, setCon
 
     newGroup.addEventListener( 'click', () => {
 
-      chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
+      chatGroups( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
 
     });
 
