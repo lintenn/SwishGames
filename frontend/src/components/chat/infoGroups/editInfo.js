@@ -89,15 +89,29 @@ function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, s
     let nombre = null;
     let imagen = null;
     let tipo = '';
+    let modificado = false;
 
     switch ( type ) {
 
       case 'descripcion':
         descripcion = document.querySelector( '#descripcion-edit-group' ).value;
-        groupAct.descripcion = descripcion;
-        axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
-        tipo = 'La descripcion';
-        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la descripción del grupo`, administracion: 1 });
+        if ( descripcion !== groupAct.descripcion ) {
+
+          groupAct.descripcion = descripcion;
+          axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
+          tipo = 'La descripcion';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la descripción del grupo`, administracion: 1 });
+          modificado = true;
+
+        } else {
+
+          Swal.fire( 'Error', 'La descripción no ha sido modificada', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        }
         break;
       case 'nombre':
         nombre = document.querySelector( '#nombre-edit-group' ).value;
@@ -105,7 +119,15 @@ function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, s
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        } else if ( nombre === groupAct.nombre ) {
+
+          Swal.fire( 'Error', 'El nombre no ha sido modificado', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
 
           });
 
@@ -115,22 +137,36 @@ function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, s
           axios.put( `${baseUrl}groups/${groupAct.id}`, { nombre });
           tipo = 'El nombre';
           axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado el nombre del grupo`, administracion: 1 });
+          modificado = true;
 
         }
         break;
       case 'imagen':
         imagen = document.querySelector( '#img-photo-edit-group' ).src;
-        groupAct.imagen = imagen;
-        axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
-        tipo = 'La imagen';
-        axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
+        if ( imagen !== groupAct.imagen ) {
+
+          groupAct.imagen = imagen;
+          axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
+          tipo = 'La imagen';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
+          modificado = true;
+
+        } else {
+
+          Swal.fire( 'Error', 'La imagen no ha sido modificada', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        }
         break;
       default:
         break;
 
     }
 
-    if ( nombre === null || eliminarEspaciosMensajes( nombre ) ) {
+    if ( modificado ) {
 
       setGroup( groupAct );
 
@@ -157,14 +193,6 @@ function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, s
           });
 
         });
-
-    } else {
-
-      Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
-
-        editInfo( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
-
-      });
 
     }
 
