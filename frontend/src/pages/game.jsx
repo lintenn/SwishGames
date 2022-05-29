@@ -10,7 +10,7 @@ import { Footer } from '../components/footer.jsx';
 import { Global } from '../helper/Global.js';
 import { setUpLists } from '../helper/SetUpLists.js';
 import Swal from 'sweetalert2';
-import { SidePanel } from '../components/game/SidePanel.jsx'
+import { SidePanel } from '../components/game/SidePanel.jsx';
 import { ReviewPanel } from '../components/game/ReviewPanel.jsx';
 
 const Game = () => {
@@ -68,7 +68,6 @@ const Game = () => {
 
   }, [game]);
 
-  
 
   const getGameById = async () => {
 
@@ -137,21 +136,22 @@ const Game = () => {
       contains( list.id, containedLists )
         ? divlists +=
             `<div class="d-flex flex-row mb-1">
-            <button style="background-color: grey; border-radius: 20px" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-              <div class="align-items-center divObjectsSend">
+            <button style="background-color: #c6daf8; border-radius: 20px; border-color: grey" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+              <div class="align-items-center divObjectsSend mx-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
               </svg>
               </div>
-              <div class="pb-1">
+              <div class="pb-1 mb-1">
                 <p class="fw-bold mb-0">${list.nombre}</p>
               </div>
+              <i class="fa-solid fa-square-check"></i>
             </button>
           </div>`
         : divlists +=
             `<div class="d-flex flex-row mb-1">
-            <button style="background-color: white; border-radius: 20px" name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
-              <div class="align-items-center divObjectsSend">
+            <button style="background-color: white; border-radius: 20px; border-color: grey " name="newGameInList" value="${list.id}" class="align-items-center divObjectsSend botonTransparente d-flex align-self-center me-3 w-100 mt-2 mb-2">
+              <div class="align-items-center divObjectsSend mx-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
               </svg>
@@ -165,8 +165,8 @@ const Game = () => {
     });
 
     // añadimos un botón para crear una nueva lista
-    divlists += `<button style="border-radius: 10px" name="newGameInList" value="new" class="button-dark align-items-center d-flex align-self-center me-3 mt-2 mb-2">
-      Crear nueva lista
+    divlists += `<button style="border-radius: 5px" name="newGameInList" value="new" class="btn btn-outline-dark align-items-center  align-self-center me-3 mt-2 mb-2">
+      <i class="fa fa-plus-circle"></i> Crear nueva lista
     </button>`;
 
     return divlists;
@@ -257,7 +257,11 @@ const Game = () => {
               'Ya está en la lista',
               '¡El juego ya se encuentra en esa lista!',
               'error'
-            );
+            ).then( () => {
+
+              newGameInList();
+
+            });
 
           } else {
 
@@ -336,7 +340,7 @@ const Game = () => {
             </div>
 
           </section>
-          
+
           <ReviewPanel game={game}></ReviewPanel>
 
         </div>

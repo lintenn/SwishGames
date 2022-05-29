@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -192,6 +192,12 @@ const List = () => {
               buscado={ buscado }
 
             />
+
+            <div className="mt-5">
+              <p className="text-muted">
+                <i className="fa-solid fa-plus"></i> Para añadir juegos a la lista, accede al juego que más te guste desde la página principal de <Link to={'/'}>juegos</Link> y añádelo.
+              </p>
+            </div>
 
           </div>
         </main>
