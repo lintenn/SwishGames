@@ -2,38 +2,6 @@ const GroupModel = require( '../models/GroupModel.js' );
 const { Op, Sequelize } = require( 'sequelize' );
 const db = require("../database/mysql.js")
 
-const getAllGroups = async ( req, res ) => {
-
-  try {
-
-    const Groups = await GroupModel.findAll();
-    res.json( Groups );
-
-  } catch ( error ) {
-
-    res.json({ message: error.message });
-
-  }
-
-};
-
-const getGroup = async ( req, res ) => {
-
-  try {
-
-    const Group = await GroupModel.findAll({
-      where: { id: req.params.id }
-    });
-    res.json( Group[0] );
-
-  } catch ( error ) {
-
-    res.json({ message: error.message });
-
-  }
-
-};
-
 const getLastGroupByNameUser = async ( req, res ) => {
 
   try {
@@ -117,4 +85,4 @@ const deleteGroup = async ( req, res ) => {
 
 };
 
-module.exports = { getAllGroups, getGroup, getLastGroupByNameUser, getGroupsAreInUser1AndUser2, createGroup, updateGroup, deleteGroup };
+module.exports = { getLastGroupByNameUser, getGroupsAreInUser1AndUser2, createGroup, updateGroup, deleteGroup };

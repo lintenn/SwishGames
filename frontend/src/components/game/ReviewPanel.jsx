@@ -15,12 +15,16 @@ export const ReviewPanel = ({game}) => {
     const [shown, setShown] = useState(false);
     const [count, setCount] = useState(0);
     const [reviews, setReviews] = useState([]);
+    const [userReview, setUserReview] = useState([])
+    const [reviewText, setReviewText] = useState()
+    const [liked, setLiked] = useState()
 
     useEffect( () => {
 
         if(game.length !== 0){
 
             getReviews()
+            getUserReview()
 
         }
     }, [game]);
@@ -32,13 +36,53 @@ export const ReviewPanel = ({game}) => {
             axios.get( URIreview + '/game/' + game.id )
             .then( res => {
                 setReviews(res.data)
-                console.log(res.data)
             });
 
         }catch (error){
             setReviews([])
         }
 
+    }
+
+    useEffect(() =>{
+
+        if(userReview.length !== 0){
+            setCount(userReview[0].review.length)
+            setReviewText(userReview[0].review)
+            if(userReview[0].recomendado === 1){
+                setLiked(1)
+            }else{
+                setLiked(0)
+            }
+
+        }else{
+            setReviewText("")
+            setLiked(undefined)
+        }
+
+    }, [userReview])
+
+    const getUserReview = async () => {
+
+        const token = localStorage.getItem( 'user' );
+        const user = JSON.parse( token );
+
+        try{
+
+            axios.get( URIreview + '/usuario/' + game.id + '/' + user.id)
+            .then( res => {
+                setUserReview(res.data)
+            });
+
+        }catch (error){
+            setUserReview([])
+        }
+
+    }
+
+    function handleChange(event) {
+        setReviewText(event.target.value)
+        setCount(event.target.value.length)
     }
   
     function writeReview() {
@@ -52,18 +96,128 @@ export const ReviewPanel = ({game}) => {
 
     const publicReview = () => {
 
-        Swal.fire({
-    
-          title: '¿Está seguro que desea publicar esta review del juego ' + game.titulo + '?',
-          text: 'Podrá editar y eliminar su review posteriormente',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Confirmar',
-          cancelButtonText: 'Cancelar'
-    
+        if(liked === undefined){
+
+            console.log("recomienda")
+
+        }else if(userReview.length !== 0 
+            && reviewText === userReview[0].review 
+            && liked === userReview[0].recomendado){
+
+            console.log("igual")
+        }else{
+
+            const token = localStorage.getItem( 'user' );
+            const user = JSON.parse( token );
+
+            Swal.fire({
+        
+            title: '¿Está seguro que desea ' + (userReview.length === 0 ? "publicar": "editar") + ' esta review del juego ' + game.titulo + '?',
+            text: 'Podrá editar y eliminar su review posteriormente',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        
+            }).then( (result) => {
+
+                if(result.value){
+
+                    if(false){
+                        
+                    }else if(false){
+
+                    }else {
+                        
+                        if(userReview.length === 0){
+                            newReview(user)
+                        }else{
+                            editReview(user)
+                        }
+                        
+                        getReviews()
+                        getUserReview()
+                        setShown(false)
+
+                    }
+                }
+
+            })
+
+        }
+
+    }
+
+    const newReview = (user) => {
+        axios.post(URIreview, {
+            id_usuario: user.id,
+            id_juego: game.id,
+            review: `'${reviewText}'`,
+            recomendado: liked
         })
+        
+        Swal.fire(
+            '¡Review publicada!',
+            'Tu review ha sido publicada correctamente',
+            'success'
+        )
+
+    }
+
+    const editReview = (user) => {
+
+        axios.put(URIreview + '/' + game.id + '/' + user.id, {
+            review: `'${reviewText}'`,
+            recomendado: liked
+        })
+
+        Swal.fire(
+            '¡Review editada!',
+            'Tu review ha sido editada correctamente',
+            'success'
+        )
+
+    }
+
+
+    const deleteReview = () => {
+
+        const token = localStorage.getItem( 'user' );
+        const user = JSON.parse( token );
+
+        if(userReview.length !== 0){
+            Swal.fire({
     
+                title: '¿Estás seguro que deseas eliminar tu review del juego ' + game.titulo + '?',
+                text: 'No podrás recuperar tu review tras eliminarla',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+          
+              }).then( (result) => {
+                  
+                if(result.value){
+
+                    axios.delete( URIreview + game.id + '/' + user.id)
+
+                    Swal.fire(
+                        '¡Borrada!',
+                        'Tu review ha sido borrada correctamente',
+                        'success'
+                    ).then( () => {
+            
+                       getReviews()
+                       setUserReview([])
+                       setLiked(undefined)
+                       setShown(false)
+            
+                    });
+                }
+              })
+        }
     }
 
     return (
@@ -77,10 +231,23 @@ export const ReviewPanel = ({game}) => {
                 </div>
 
             {isauthorized
-                ? <button className="btn btn-outline-dark me-3 mb-3"
-                onClick={writeReview}>
+                ? ((userReview.length === 0) 
+                ? 
+                <button className="btn btn-outline-dark me-3 mb-3" onClick={writeReview}>
                     <i className="fa-solid fa-message"></i> {(shown) ? "Descartar" : "Publicar"} review
-                </button>
+                </button> 
+                : 
+                
+                <div>
+                    <button className="btn btn-outline-dark me-3 mb-3" onClick={writeReview}>
+                        <i className="fa-solid fa-pencil"></i> {(shown) ? "Descartar edición" : "Editar review"} 
+                    </button>
+
+                    <button className="btn btn-danger me-3 mb-3" onClick={deleteReview}>
+                        <i className="fa-solid fa-trash-can"></i> Eliminar review
+                    </button>
+                </div>)
+
                 : <p className="fs-5 fw-bold mb-3"><a href='/login'>Regístrate para publicar una review</a></p>
             }
 
@@ -92,23 +259,29 @@ export const ReviewPanel = ({game}) => {
                 <div className='col-6 border px-2 py-2 mb-2 me-2'>
 
                     <div className='d-flex justify-content-between'>
-                        <label for="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
-                        <p className=' mt-3'>Caracteres restantes: {200 - count}</p>
+                        <label htmlFor="textarea"><h3 className="fw-bold ms-2 mt-3">Escribe tu review</h3></label>
+                        <p className=' mt-3'>Caracteres restantes: {250 - count}</p>
                     </div>
 
                     <div>
-                        <textarea id="textarea" className={(count > 0 && count < 201) ? "form-control my-1 border-success" : "form-control my-1 border-danger"}  onChange={e => setCount(e.target.value.length)}></textarea>
+                        <textarea id="textarea" maxlength="250"
+                            className="form-control my-1 border-black"  
+                            onChange={e => handleChange(e)}
+                            value={reviewText}>
+                        </textarea>
                     </div>
 
                     <fieldset className='d-flex justify-content-start'>
                         <p className=''>¿Recomiendas el juego?</p>
-                        <div class="form-check form-check-inline mt-2">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"/>
-                            <label class="form-check-label" for="inlineRadio1">Si</label>
+                        <div className="form-check form-check-inline mt-2">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" 
+                            checked={liked === 1} onClick={e => setLiked( parseInt(e.target.value) )}/>
+                            <label className="form-check-label" htmlFor="inlineRadio1">Si</label>
                         </div>
-                        <div class="form-check form-check-inline mt-2">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"/>
-                            <label class="form-check-label" for="inlineRadio2">No</label>
+                        <div className="form-check form-check-inline mt-2">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0"
+                            checked={liked === 0} onClick={e => setLiked( parseInt(e.target.value) )}/>
+                            <label className="form-check-label" htmlFor="inlineRadio2">No</label>
                         </div>
                     </fieldset>
 
