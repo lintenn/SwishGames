@@ -18,6 +18,7 @@ export const ReviewPanel = ({game}) => {
     const [userReview, setUserReview] = useState([])
     const [reviewText, setReviewText] = useState()
     const [liked, setLiked] = useState()
+    const [error, setError] = useState("")
 
     useEffect( () => {
 
@@ -88,37 +89,79 @@ export const ReviewPanel = ({game}) => {
     function writeReview() {
         if (!shown) {
             setShown(true)
+        }else if((reviewText === "" && liked === undefined)){
+            setShown(false)
+            setError("")
+        }else if(userReview.length !== 0 && (reviewText === userReview[0].review && liked === userReview[0].recomendado)){
+            setShown(false)
+            setError("")
         }
         else {
-            setShown(false)
+            Swal.fire({
+        
+                    title: '¿Estás seguro que deseas descartar la review que está escribiendo del juego ' + game.titulo + '?',
+                    text: 'Perderás toda la información introducida',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar'
+            
+                }).then( (result) => {
+
+                    if(result.value){
+
+                        if(userReview.length === 0){
+                            setReviewText("")
+                            setLiked(undefined)
+                        }else{
+                            setReviewText(userReview[0].review)
+                            if(userReview[0].recomendado === 1){
+                                setLiked(1)
+                            }else{
+                                setLiked(0)
+                            }
+                        }
+                        setShown(false)
+                        setError("")
+
+                    }
+                })
+
         }
     }
 
     const publicReview = () => {
 
-        if(liked === undefined){
+        if(reviewText.length === 0){
 
-            console.log("recomienda")
+            setError("No puedes publicar una review vacía")
+        
+        }else if(liked === undefined){
+
+            setError("Selecciona si recomiendas el juego antes de publicar")
 
         }else if(userReview.length !== 0 
             && reviewText === userReview[0].review 
             && liked === userReview[0].recomendado){
 
-            console.log("igual")
+            setError("No has realizado ningún cambio en la review")
+
         }else{
 
+            setError("")
             const token = localStorage.getItem( 'user' );
             const user = JSON.parse( token );
 
             Swal.fire({
         
-            title: '¿Está seguro que desea ' + (userReview.length === 0 ? "publicar": "editar") + ' esta review del juego ' + game.titulo + '?',
-            text: 'Podrá editar y eliminar su review posteriormente',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar'
+                title: '¿Estás seguro que deseas ' + (userReview.length === 0 ? "publicar": "editar") + ' esta review del juego ' + game.titulo + '?',
+                text: 'Podrás editar y eliminar su review posteriormente',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
         
             }).then( (result) => {
 
@@ -285,11 +328,23 @@ export const ReviewPanel = ({game}) => {
                         </div>
                     </fieldset>
 
-                    <button className="btn btn-outline-dark me-2 my-2"
-                        id="valorar"
-                        onClick={publicReview}>
-                        <i className="fa-solid fa-message"></i> Publicar
-                    </button>
+                    <div className='d-flex d-flex justify-content-between'>
+
+                        <button className="btn btn-outline-dark me-3 my-2"
+                            id="valorar"
+                            onClick={publicReview}>
+                            <i className="fa-solid fa-message"></i> Publicar
+                        </button>
+
+                        {(error !== "") ? 
+                        <div class="alert alert-danger d-flex align-items-center mb-0 py-0" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                            <div>
+                                {error}
+                            </div>
+                        </div> : <div></div>}
+
+                    </div>
 
                 </div>
 
