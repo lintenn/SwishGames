@@ -34,7 +34,7 @@ const getReviewsByUserAndGame = async(req, res) => {
 
     try{
 
-        const Ratings = await db.query(`SELECT R.review, R.recomendado FROM Reviews R WHERE R.id_usuario = ${req.params.id_usuario} AND R.id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.SELECT });
+        const Ratings = await db.query(`SELECT R.review, R.recomendado, R.createdAt FROM Reviews R WHERE R.id_usuario = ${req.params.id_usuario} AND R.id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.SELECT });
         res.json(Ratings)
     } catch (error){
 

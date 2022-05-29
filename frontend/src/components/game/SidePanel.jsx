@@ -17,7 +17,7 @@ export const SidePanel = ({game}) => {
 
     useEffect( () => {
 
-        if(game.length != 0){
+        if(game.length !== 0){
     
           getRating()
     
@@ -27,7 +27,7 @@ export const SidePanel = ({game}) => {
     
     useEffect( () => {
     
-        if(rate.length != 0){
+        if(rate.length !== 0){
     
           getAverageRating()
     
@@ -63,11 +63,11 @@ export const SidePanel = ({game}) => {
     const getRating = async () => {
 
         const token = localStorage.getItem( 'user' );
-        const us = JSON.parse( token );
+        const user = JSON.parse( token );
     
         try{
     
-          const res = await axios.get( URIrate + 'usuario/' + us.id + '/' + game.id );
+          const res = await axios.get( URIrate + 'usuario/' + user.id + '/' + game.id );
           setRate( res.data[0].valoracion );
     
         }catch (error){
@@ -84,7 +84,7 @@ export const SidePanel = ({game}) => {
             
             console.log("aaaaaaaaaa")
             Swal.fire({
-                title: 'Ya has valorado ' + game.titulo + ' con ' + selectedRate + ( selectedRate == 1 ? ' estrella' : ' estrellas' ),
+                title: 'Ya has valorado ' + game.titulo + ' con ' + selectedRate + ( selectedRate === 1 ? ' estrella' : ' estrellas' ),
                 confirmButtonText: 'OK'
             })
 
@@ -92,7 +92,7 @@ export const SidePanel = ({game}) => {
 
             Swal.fire({
     
-                title: '¿Desea valorar ' + game.titulo + ' con ' + selectedRate + ( selectedRate == 1 ? ' estrella' : ' estrellas' ) + '?',
+                title: '¿Desea valorar ' + game.titulo + ' con ' + selectedRate + ( selectedRate === 1 ? ' estrella' : ' estrellas' ) + '?',
                 text: 'Tras valorar podrá editar pero no eliminar la valoración',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -107,7 +107,7 @@ export const SidePanel = ({game}) => {
                   const token = localStorage.getItem( 'user' );
                   const us = JSON.parse( token );
           
-                  if(rate == 0){
+                  if(rate === 0){
           
                     axios.post(URIrate, {
                       id_usuario:us.id,
@@ -172,7 +172,7 @@ export const SidePanel = ({game}) => {
                         fill="red"
                         className="bi bi-star-fill"
                         viewBox="0 0 16 16">
-                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                         </svg>
                         <p className="text-center text-break fs-2 fw-bold">{averageRate}</p>
                     </div>
@@ -230,7 +230,7 @@ export const SidePanel = ({game}) => {
 
             <div className="d-flex justify-content-center mb-2">
 
-                <p className="d-lg-none fs-5 fw-bold mt-1">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
+                <p className="d-lg-none fs-5 fw-bold pt-2">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
 
                 <fieldset className=" " id="rate">
 
@@ -238,8 +238,8 @@ export const SidePanel = ({game}) => {
                         id="star5"
                         name="rate"
                         value="5"
-                        onClick={e => rateGame(e.target.value)}
-                        checked={rate == 5}/>
+                        onClick={e => rateGame( parseInt(e.target.value) )}
+                        checked={rate === 5}/>
                     <label htmlFor="star5"
                         id="start"
                         title="5 estrellas">5 estrellas</label>
@@ -247,8 +247,8 @@ export const SidePanel = ({game}) => {
                         id="star4"
                         name="rate"
                         value="4"
-                        onClick={e => rateGame( e.target.value )}
-                        checked={rate == 4}/>
+                        onClick={e => rateGame( parseInt(e.target.value) )}
+                        checked={rate === 4}/>
                     <label htmlFor="star4"
                         id="start"
                         title="4 estrellas">4 estrellas</label>
@@ -256,8 +256,8 @@ export const SidePanel = ({game}) => {
                         id="star3"
                         name="rate"
                         value="3"
-                        onClick={e => rateGame( e.target.value )}
-                        checked={rate == 3}/>
+                        onClick={e => rateGame( parseInt(e.target.value) )}
+                        checked={rate === 3}/>
                     <label htmlFor="star3"
                         id="start"
                         title="3 estrellas">3 estrellas</label>
@@ -265,8 +265,8 @@ export const SidePanel = ({game}) => {
                         id="star2"
                         name="rate"
                         value="2"
-                        onClick={e => rateGame( e.target.value )}
-                        checked={rate == 2}/>
+                        onClick={e => rateGame( parseInt(e.target.value) )}
+                        checked={rate === 2}/>
                     <label htmlFor="star2"
                         id="start"
                         title="2 estrellas">2 estrellas</label>
@@ -274,8 +274,8 @@ export const SidePanel = ({game}) => {
                         id="star1"
                         name="rate"
                         value="1"
-                        onClick={e => rateGame( e.target.value )}
-                        checked={rate == 1}/>
+                        onClick={e => rateGame( parseInt(e.target.value) )}
+                        checked={rate === 1}/>
                     <label htmlFor="star1"
                         id="start"
                         title="1 estrella">1 estrella</label>
