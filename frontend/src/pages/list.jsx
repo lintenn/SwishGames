@@ -138,11 +138,11 @@ const List = () => {
                     <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
                   </div>
 
-                  {comprobarDuenyo()
+                  {comprobarDuenyo() && list[0].nombre !== 'Favoritos'
                     ? <div>
                       <button className="btn btn-outline-dark me-2 mb-3"
                         onClick={ () => navigate( 'edit' )}>
-                        <i className="fa fa-pencil"></i> Editar lista
+                        <i className="fa fa-pencil"></i> Editar nombre
                       </button>
                       <button className="btn btn-outline-dark me-3 mb-3"
                         onClick={ () => showAdvertenciaBorrar() }>
@@ -193,11 +193,13 @@ const List = () => {
 
             />
 
-            <div className="mt-5">
-              <p className="text-muted">
-                <i className="fa-solid fa-plus"></i> Para añadir juegos a la lista, accede al juego que más te guste desde la página principal de <Link to={'/'}>juegos</Link> y añádelo.
-              </p>
-            </div>
+            {comprobarDuenyo()
+              ? <div className="mt-5">
+                <p className="text-muted">
+                  <i className="fa-solid fa-plus"></i> Para añadir juegos a la lista, accede al juego que más te guste desde la página principal de <Link to={'/'}>juegos</Link> y añádelo.
+                </p>
+              </div>
+              : <div></div>}
 
           </div>
         </main>

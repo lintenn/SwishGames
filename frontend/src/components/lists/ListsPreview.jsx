@@ -51,12 +51,22 @@ export const ListsPreview = ({ lists, setLists, buscado, setAllLists }) => {
             key = {index}>
             <div className="list-group-item list-group-item-action">
               <div className="d-flex w-100">
-                <i className="fa-solid fa-list"></i>
+
+                {list.nombre === 'Favoritos'
+                  ? <i className="fa-solid fa-heart fa-2xl mt-3"></i>
+                  : <i className="fa-solid fa-list fa-2xl mt-3"></i>}
+
                 <div className="d-flex w-100 justify-content-center">
 
-                  <h4 className="mb-1 ttexte"> &nbsp; {list.nombre}</h4>
+                  {list.nombre === 'Favoritos'
+                    ? <h4 className="mb-1 ttexte"> &nbsp; &nbsp; &nbsp; &nbsp; {list.nombre}</h4>
+                    : <h4 className="mb-1 ttexte"> &nbsp; {list.nombre}</h4>}
 
                 </div>
+
+                {list.nombre === 'Favoritos'
+                  ? <i className="fa-solid fa-heart fa-2xl mt-3"></i>
+                  : <div></div>}
               </div>
             </div>
           </Link>

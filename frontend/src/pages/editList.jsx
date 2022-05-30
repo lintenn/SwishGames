@@ -141,11 +141,11 @@ const EditList = () => {
 
     if ( name === '' ) {
 
-      Swal.fire( 'El nombre de la lista no puede estar vacío' );
+      Swal.fire( 'El nombre de la lista no puede estar vacío', '', 'error' );
 
     } else if ( name === 'Favoritos' ) {
 
-      Swal.fire( 'El nombre de la lista no puede ser Favoritos' );
+      Swal.fire( 'El nombre de la lista no puede ser Favoritos', '', 'error' );
 
     } else {
 
@@ -156,7 +156,7 @@ const EditList = () => {
 
           Swal.fire(
             '¡Lista guardada!',
-            '',
+            'Se ha cambiado el nombre de la lista a ' + name,
             'success'
           ).then( () => {
 
