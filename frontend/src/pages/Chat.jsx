@@ -39,10 +39,13 @@ export const Chat = () => {
 
     } else {
 
+      document.title = 'Chat';
       setUser( JSON.parse( localStorage.getItem( 'user' ) ) );
       if ( receptorActual !== undefined ) {
 
         setReceptor( receptorActual );
+        setIniciandoChat( true );
+        document.title = `Chateando con ${receptorActual}`;
 
       }
 
