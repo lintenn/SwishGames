@@ -36,6 +36,42 @@ const getListsByUser = async (req, res) => {
         
 };
 
+const getLastListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { nombre_usuario: req.params.nombre_usuario },
+            order: [['id', 'DESC']],
+            limit: 1
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
+const getFavListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { nombre_usuario: req.params.nombre_usuario, nombre: 'Favoritos' }
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
 const getListsByUserAndGame = async (req, res) => {
 
     try {
@@ -159,6 +195,8 @@ const deleteList = async (req, res) => {
 module.exports = {
     getAllLists,
     getListsByUser,
+    getLastListByUser,
+    getFavListByUser,
     getListsByUserAndGame,
     getList,
     getSearchedList,
