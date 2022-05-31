@@ -133,7 +133,6 @@ const Signup = () => {
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
       document.getElementById( 'errore' ).classList.remove( 'mostrar' );
       document.getElementById( 'error' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
 
       document.getElementById( 'errorm' ).classList.add( 'mostrar' );
 
