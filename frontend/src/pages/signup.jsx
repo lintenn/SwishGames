@@ -40,6 +40,7 @@ const Signup = () => {
       });
 
     }
+
     getUsers();
 
   }, []);
@@ -132,7 +133,6 @@ const Signup = () => {
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
       document.getElementById( 'errore' ).classList.remove( 'mostrar' );
       document.getElementById( 'error' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
 
       document.getElementById( 'errorm' ).classList.add( 'mostrar' );
 
@@ -232,7 +232,7 @@ const Signup = () => {
       </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
-          for="usuario"
+          id="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
@@ -243,7 +243,7 @@ const Signup = () => {
           onChange={ ( e ) => setNombre( e.target.value )}
           inputProps={{ minLength: 6, size: 15, required: true }}/>
         <InputLabel htmlFor="standard-adornment-password"
-          for="email"
+          id="email"
           style={{ color: 'black' }}>
           Email
         </InputLabel>
@@ -254,7 +254,7 @@ const Signup = () => {
           onChange={ ( e ) => setEmail( e.target.value )}
           inputProps={{ size: 50, required: true }} />
         <InputLabel htmlFor="standard-adornment-password"
-          for="password"
+          id="password"
           style={{ color: 'black' }}
           className="mb-0">
           Contraseña
@@ -278,7 +278,7 @@ const Signup = () => {
           }
         />
         <InputLabel htmlFor="standard-adornment-password"
-          for="rpassword"
+          id="rpassword"
           style={{ color: 'black' }}>
         Confirmar contraseña
         </InputLabel>

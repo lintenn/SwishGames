@@ -1,22 +1,22 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Signup from './signup.jsx';
+import Login from '../pages/login.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
-describe( 'Signup', () => {
+describe( 'Login', () => {
 
-  test( 'signUpFormShouldRender', () => {
+  test( 'loginFormShouldRender', () => {
 
     const component = render(
       <BrowserRouter>
-        <Signup/>
+        <Login/>
       </BrowserRouter>
     );
-    const inputNode = component.getByText( 'Usuario' );
+    const inputNode = component.getAllByText( 'Iniciar sesión' )[0];
 
     expect( inputNode ).toBeInTheDocument();
 
-  });
+  }); 
 
   test( 'clickingIniciarSesionButtonShouldCallComprobarUserOnce', () => {
 
@@ -24,10 +24,10 @@ describe( 'Signup', () => {
 
     const component = render(
       <BrowserRouter>
-        <Signup comprobarUser={comprobarUser() }/>
+        <Login comprobarUser={comprobarUser() }/>
       </BrowserRouter>
     );
-    const buttonNode = component.getByText( 'Registrarse' );
+    const buttonNode = component.getByText( 'Contraseña' );
 
     fireEvent.click( buttonNode );
 
