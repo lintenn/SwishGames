@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Signup from './signup.jsx';
+import Signup from '../pages/signup.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
 describe( 'Signup', () => {
@@ -18,7 +18,7 @@ describe( 'Signup', () => {
 
   });
 
-  test( 'clickingIniciarSesionButtonShouldCallComprobarUserOnce', () => {
+  test( 'clickingSignUpButtonShouldCallComprobarUserOnce', () => {
 
     const comprobarUser = jest.fn();
 
