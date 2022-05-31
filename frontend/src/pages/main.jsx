@@ -9,22 +9,36 @@ import { setUpMain } from '../helper/SetUpMain.js';
 import { setUpFavorites } from '../helper/SetUpFavorites.js';
 import Swal from 'sweetalert2';
 import { Games } from '../components/games/Games.jsx';
+import axios from 'axios';
+import { Global } from '../helper/Global.js';
 
 const Main = () => {
 
   const [games, setGames] = useState([]);
   const [favGames, setFavGames] = useState([]);
+  const [favList, setFavList] = useState([]);
   const [allGames, setAllGames] = useState([]);
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
+  const baseUrl = Global.baseUrl;
 
-  const montarFavGames = ( setFavGames ) => {
+  const montarFavGames = async ( setFavGames ) => {
 
     if ( isauthorized ) {
 
       const token = localStorage.getItem( 'user' );
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
+
+      await axios.get( `${baseUrl}lists/user/${us.nombre}/fav/` ).then( res => {
+
+        setFavList( res.data );
+
+      }).catch( err => {
+
+        console.log( err );
+
+      });
 
       setUpFavorites( us.nombre, setFavGames );
 
@@ -63,6 +77,7 @@ const Main = () => {
               setFavGames={ setFavGames }
               buscado={ buscado }
               setAllGames={ setAllGames }
+              favList={ favList }
             />
           </div>
         </main>

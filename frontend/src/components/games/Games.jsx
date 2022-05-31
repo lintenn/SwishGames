@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { setUpMain } from '../../helper/SetUpMain';
-import { Global } from '../../helper/Global';
+import { setUpMain } from '../../helper/SetUpMain.js';
+import { setUpFavorites } from '../../helper/SetUpFavorites.js';
+import { Global } from '../../helper/Global.js';
 import axios from 'axios';
 
 
-export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllGames }) => {
+export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllGames, favList }) => {
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
@@ -56,6 +57,41 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
 
   };
 
+  const addToFavoritos = async ( gameId ) => {
+
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+
+    await axios.post( `${baseUrl}contentsLists/`, { id_lista: favList[0].id, id_juego: gameId })
+      .then( res => {
+
+        setUpFavorites( us.nombre, setFavGames );
+
+        setUpMain( setGames, setAllGames );
+
+      }).catch( err => console.log( err ) );
+
+  };
+
+  const removeFromFavoritos = async ( gameId ) => {
+
+    console.log( gameId );
+    console.log( favList );
+
+    const token = localStorage.getItem( 'user' );
+    const us = JSON.parse( token );
+
+    await axios.delete( `${baseUrl}contentsLists/${favList[0].id}/${gameId}` )
+      .then( res => {
+
+        setUpFavorites( us.nombre, setFavGames );
+
+        setUpMain( setGames, setAllGames );
+
+      }).catch( err => console.log( err ) );
+
+  };
+
   return (
 
     <div>
@@ -90,8 +126,14 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                     </Link>
 
                     {contains( favGames, game.id )
-                      ? <i className="fa-solid fa-heart fa-2xl"></i>
-                      : <i className="fa-regular fa-heart fa-2xl"></i>}
+                      ? <button className="botonTransparente"
+                        onClick={() => removeFromFavoritos( game.id )}>
+                        <i className="fa-solid fa-heart fa-2xl"></i>
+                      </button>
+                      : <button className="botonTransparente"
+                        onClick={() => addToFavoritos( game.id )}>
+                        <i className="fa-regular fa-heart fa-2xl"></i>
+                      </button>}
                   </div>
                 </div>
               </div>
@@ -109,5 +151,6 @@ Games.propTypes = {
   buscado: PropTypes.string.isRequired,
   setAllGames: PropTypes.func.isRequired,
   favGames: PropTypes.array.isRequired,
-  setFavGames: PropTypes.func.isRequired
+  setFavGames: PropTypes.func.isRequired,
+  favList: PropTypes.array.isRequired
 };
