@@ -185,7 +185,7 @@ function showFriends( user, users ) {
 
 }
 
-const addClickButton = ( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
+const addClickButton = async ( setGroup, user, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat ) => {
 
   document.querySelectorAll( 'button[name="añadir"]' ).forEach( ( boton ) => {
 
@@ -209,9 +209,9 @@ const addClickButton = ( setGroup, user, users, group, receptor, setReceptor, se
 
   });
 
-  document.querySelectorAll( 'button[name="añadirParticipantes"]' ).forEach( ( boton ) => {
+  document.querySelectorAll( 'button[name="añadirParticipantes"]' ).forEach( async ( boton ) => {
 
-    boton.addEventListener( 'click', ( e ) => {
+    boton.addEventListener( 'click', async ( e ) => {
 
       e.preventDefault();
 
@@ -226,17 +226,17 @@ const addClickButton = ( setGroup, user, users, group, receptor, setReceptor, se
         participantesAAnadir.push( user.nombre );
         participantesAAnadir.push( ...participantesAñadidios );
 
-        participantesAAnadir.forEach( ( participante ) => {
+        participantesAAnadir.forEach( async ( participante ) => {
 
-          axios.get( URIGroupLastByNameUser )
-            .then( res => {
+          await axios.get( URIGroupLastByNameUser )
+            .then( async res => {
 
               setGroup( res.data );
               setReceptor( '' );
               myGroups.push( res.data );
               setMiembrosGrupo( res.data.id, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConexion );
-              axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
-              axios.post( URIMensajes, { id_grupo_receptor: res.data.id, mensaje: participante === user.nombre ? `${user.nombre} ha creado el grupo` : `${user.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
+              await axios.post( URIparticipantsGroups, { id_grupo: res.data.id, nombre_usuario: participante });
+              await axios.post( URIMensajes, { id_grupo_receptor: res.data.id, mensaje: participante === user.nombre ? `${user.nombre} ha creado el grupo` : `${user.nombre} ha añadido al grupo a ${participante}`, administracion: 1 });
 
             });
 

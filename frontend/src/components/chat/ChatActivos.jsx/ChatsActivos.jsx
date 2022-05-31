@@ -45,12 +45,14 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
         setReceptor( '' );
         setMiembrosGrupo( firstMessage.id_grupo_receptor, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConection );
         setGroup( getGrupo( firstMessage.id_grupo_receptor, myGroups ) );
+        document.title = `Chateando en ${getGrupo( firstMessage.id_grupo_receptor, myGroups ).nombre}`;
 
       } else if ( firstMessage.nombre_usuario_receptor !== null ) {
 
         setConection( firstMessage.nombre_usuario_receptor !== user.nombre ? firstMessage.nombre_usuario_receptor : firstMessage.nombre_usuario_emisor, users, setConexion );
         setReceptor( firstMessage.nombre_usuario_receptor !== user.nombre ? firstMessage.nombre_usuario_receptor : firstMessage.nombre_usuario_emisor );
         setGroup({});
+        document.title = `Chateando con ${firstMessage.nombre_usuario_receptor !== user.nombre ? firstMessage.nombre_usuario_receptor : firstMessage.nombre_usuario_emisor}`;
 
       }
 

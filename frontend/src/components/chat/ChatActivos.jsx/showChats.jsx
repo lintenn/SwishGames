@@ -75,12 +75,14 @@ export const Chats = ({ users, mensajesBuscar, receptor, group, setResponder, se
       setReceptor( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor );
       setConection( men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor, users, setConexion );
       setGroup({});
+      document.title = `Chateando con ${men.nombre_usuario_emisor !== user.nombre ? men.nombre_usuario_emisor : men.nombre_usuario_receptor}`;
 
     } else if ( men.nombre_usuario_receptor === null && men.id_grupo_receptor !== null ) {
 
       setReceptor( '' );
       setGroup( getGrupo( men.id_grupo_receptor, myGroups ) );
       setMiembrosGrupo( men.id_grupo_receptor, setConfigurationGroups, myGroups, users, user, setGroup, setReceptor, setConexion );
+      document.title = `Chateando en ${getGrupo( men.id_grupo_receptor, myGroups ).nombre}`;
 
     }
     setMensaje( '' );

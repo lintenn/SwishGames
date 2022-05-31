@@ -121,7 +121,7 @@ const Login = () => {
       </header>
       <div>
         <InputLabel
-          for="usuario"
+          htmlFor="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
@@ -133,7 +133,7 @@ const Login = () => {
           inputProps={{ required: true }}
         />
         <InputLabel
-          for="loginPsw"
+          htmlFor="loginPsw"
           style={{ color: 'black' }}>
           Contraseña
         </InputLabel>
@@ -149,7 +149,7 @@ const Login = () => {
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
-                tabindex="-1">
+                tabIndex="-1">
 
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
 
@@ -163,7 +163,7 @@ const Login = () => {
             value="lsRememberMe"
             id="rememberMe"/>
           <InputLabel style={{ color: 'black', marginTop: '3px', fontSize: '14px', fontFamily: 'Open sans' }}
-            for="rememberMe"> Recordarme</InputLabel>
+            htmlFor="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
