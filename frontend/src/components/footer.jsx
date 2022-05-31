@@ -20,14 +20,14 @@ export const Footer = () => {
             alt="logo_sin_letras"></img>
         </NavLink>
         <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-          <li className="nav-item"><a href="#Home"
-            className="nav-link px-2 text-muted"><span lang="en">Home</span></a></li>
+          <li className="nav-item"><a href="/"
+            className="nav-link px-2 text-muted"><span lang="es">Inicio</span></a></li>
           <li className="nav-item"><a href="#Contact"
-            className="nav-link px-2 text-muted"><span lang="en">Contact</span></a></li>
+            className="nav-link px-2 text-muted"><span lang="es">Contacto</span></a></li>
           <li className="nav-item"><a href="#FAQs"
             className="nav-link px-2 text-muted"><span lang="en">FAQs</span></a></li>
           <li className="nav-item"><a href="#About"
-            className="nav-link px-2 text-muted"><span lang="en">About</span></a></li>
+            className="nav-link px-2 text-muted"><span lang="es">Acerca de</span></a></li>
         </ul>
       </footer>
     </div>
