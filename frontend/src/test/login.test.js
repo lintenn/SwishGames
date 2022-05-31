@@ -12,11 +12,11 @@ describe( 'Login', () => {
         <Login/>
       </BrowserRouter>
     );
-    const inputNode = component.getByText( 'Usuario' );
+    const inputNode = component.getAllByText( 'Iniciar sesión' )[0];
 
     expect( inputNode ).toBeInTheDocument();
 
-  });
+  }); 
 
   test( 'clickingIniciarSesionButtonShouldCallComprobarUserOnce', () => {
 
@@ -27,7 +27,7 @@ describe( 'Login', () => {
         <Login comprobarUser={comprobarUser() }/>
       </BrowserRouter>
     );
-    const buttonNode = component.getAllByText( 'Iniciar sesión' )[1];
+    const buttonNode = component.getByText( 'Contraseña' );
 
     fireEvent.click( buttonNode );
 
