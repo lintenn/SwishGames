@@ -5,12 +5,14 @@ import { setUpMain } from '../../helper/SetUpMain.js';
 import { setUpFavorites } from '../../helper/SetUpFavorites.js';
 import { Global } from '../../helper/Global.js';
 import axios from 'axios';
+import { isAuthorized } from '../../helper/isAuthorized.js';
 
 
 export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllGames, favList }) => {
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
+  const isauthorized = isAuthorized();
 
   // const navigate = useNavigate();
 
@@ -125,15 +127,17 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                       <small className="text-muted subtexte"> &nbsp;&nbsp; Género: {game.genero}</small>
                     </Link>
 
-                    {contains( favGames, game.id )
-                      ? <button className="botonTransparente"
-                        onClick={() => removeFromFavoritos( game.id )}>
-                        <i className="fa-solid fa-heart fa-2xl"></i>
-                      </button>
-                      : <button className="botonTransparente"
-                        onClick={() => addToFavoritos( game.id )}>
-                        <i className="fa-regular fa-heart fa-2xl"></i>
-                      </button>}
+                    {isauthorized
+                      ? contains( favGames, game.id )
+                        ? <button className="botonTransparente"
+                          onClick={() => removeFromFavoritos( game.id )}>
+                          <i className="fa-solid fa-heart fa-2xl"></i>
+                        </button>
+                        : <button className="botonTransparente"
+                          onClick={() => addToFavoritos( game.id )}>
+                          <i className="fa-regular fa-heart fa-2xl"></i>
+                        </button>
+                      : <div></div>}
                   </div>
                 </div>
               </div>
