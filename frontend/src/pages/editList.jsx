@@ -19,6 +19,7 @@ const EditList = () => {
   const [games, setGames] = useState([]);
   const { id } = useParams();
   const [list, setList] = useState( null );
+  const [lists, setLists] = useState([]);
   const [user, setUser] = useState( null );
   const [buscado, setBuscado] = useState( '' );
   const isauthorized = isAuthorized();
@@ -35,7 +36,16 @@ const EditList = () => {
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
 
+      axios.get( `${baseUrl}lists/user/${us.nombre}/` )
+        .then( res => {
+
+          setLists( res.data );
+
+        })
+        .catch( err => console.log( err ) );
+
       setUpList( id, setList, setGames );
+
 
     } else {
 
@@ -146,6 +156,10 @@ const EditList = () => {
     } else if ( name === 'Favoritos' ) {
 
       Swal.fire( 'El nombre de la lista no puede ser Favoritos', '', 'error' );
+
+    } else if ( lists.find( list => list.nombre === name ) ) {
+
+      Swal.fire( 'Ya tienes una lista con ese nombre', '', 'error' );
 
     } else {
 
