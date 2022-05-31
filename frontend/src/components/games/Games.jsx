@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { setUpMain } from '../../helper/SetUpMain';
 import { Global } from '../../helper/Global';
 import axios from 'axios';
@@ -10,7 +10,8 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
 
   const baseUrl = Global.baseUrl;
   const URIGames = `${baseUrl}games/`;
-  const navigate = useNavigate();
+
+  // const navigate = useNavigate();
 
   useEffect( () => {
 
@@ -60,11 +61,11 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
     <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
-          <button
+          <Link
             key = {index}
-            onClick={() => navigate( `game/${game.titulo}` )}
+            to={`game/${game.titulo}`}
             className="botonGameTransparente">
-            <div className="list-group-item list-group-item-action">
+            <div className="list-group-item list-group-item-action mb-1">
               <div className="d-flex w-100 justify-content-between">
                 <img className="img-juego"
                   src={game.imagen}
@@ -88,7 +89,7 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                 </div>
               </div>
             </div>
-          </button>
+          </Link>
         ) )
         : <div className="mt-5 text-dark"><h1><b>Lo sentimos, pero no hemos encontrado el juego deseado :(</b></h1></div>}
     </div> );
