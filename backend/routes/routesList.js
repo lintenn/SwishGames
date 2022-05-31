@@ -4,6 +4,7 @@ const router = express.Router()
 
 router.get('/', ListController.getAllLists);
 router.get('/user/:nombre_usuario', ListController.getListsByUser);
+router.get('/user/:nombre_usuario/last/', ListController.getLastListByUser);
 router.get('/user/:nombre_usuario/game/:id_juego', ListController.getListsByUserAndGame);
 router.get('/user/:nombre_usuario/buscar/:nombre', ListController.getSearchedListByUser);
 router.get('/:id_list', ListController.getList);

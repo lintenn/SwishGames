@@ -189,11 +189,11 @@ const Game = () => {
 
   }
 
-  const addClickButton = () => {
+  const addClickButton = async () => {
 
-    document.querySelectorAll( 'button[name="newGameInList"]' ).forEach( ( boton ) => {
+    document.querySelectorAll( 'button[name="newGameInList"]' ).forEach( async ( boton ) => {
 
-      boton.addEventListener( 'click', ( e ) => {
+      boton.addEventListener( 'click', async ( e ) => {
 
         e.preventDefault();
 
@@ -211,7 +211,7 @@ const Game = () => {
               cancelButtonText: 'Cancelar',
               confirmButtonText: 'Crear',
               showLoaderOnConfirm: true,
-              preConfirm: ( name ) => {
+              preConfirm: async ( name ) => {
 
                 if ( name === '' ) {
 
@@ -230,19 +230,58 @@ const Game = () => {
                   const token = localStorage.getItem( 'user' );
                   const us = JSON.parse( token );
 
-                  axios.post( `${baseUrl}lists/`, { nombre: name, nombre_usuario: us.nombre });
+                  await axios.post( `${baseUrl}lists/`, { nombre: name, nombre_usuario: us.nombre });
 
                   Swal.close();
 
                   Swal.fire({
                     title: 'Lista creada',
-                    text: '¡La lista ha sido creada con éxito! Ahora puedes añadir el juego a esta lista',
-                    focusConfirm: false,
+                    text: '¡La lista ha sido creada con éxito! ¿Quieres añadir el juego a la nueva lista?',
+                    focusConfirm: true,
+                    confirmButtonText: 'Aceptar',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar',
                     allowOutsideClick: false,
                     allowEscapeKey: false
-                  }).then( () => {
+                  }).then( async ( result ) => {
 
-                    setUpLists( us.nombre, setLists, setAllLists );
+                    if ( result.value ) {
+
+                      const token = localStorage.getItem( 'user' );
+                      const us = JSON.parse( token );
+
+                      await axios.get( `${baseUrl}lists/user/${us.nombre}/last/` ).then( async ( response ) => {
+
+                        const list = response.data;
+
+                        await axios.post( `${baseUrl}contentsLists/`, { id_lista: list[0].id, id_juego: game.id }).then( async ( response ) => {
+
+                          Swal.close();
+
+                          Swal.fire(
+                            'Juego añadido',
+                            'El juego ha sido añadido a la lista ' + list[0].nombre,
+                            'success'
+                          ).then( () => {
+
+                            window.location.reload();
+
+                          });
+
+                        }).catch( ( error ) => {
+
+                          console.log( error );
+
+                        });
+
+                      });
+
+                    } else {
+
+                      setUpLists( us.nombre, setLists, setAllLists );
+
+                    }
+
 
                   });
 
