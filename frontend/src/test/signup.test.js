@@ -12,7 +12,7 @@ describe( 'Signup', () => {
         <Signup/>
       </BrowserRouter>
     );
-    const inputNode = component.getByText( 'Usuario' );
+    const inputNode = component.getByText( 'Contraseña' );
 
     expect( inputNode ).toBeInTheDocument();
 
