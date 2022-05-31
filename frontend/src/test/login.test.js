@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Login from './login.jsx';
+import Login from '../pages/login.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
 describe( 'Login', () => {
