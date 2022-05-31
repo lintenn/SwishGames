@@ -221,6 +221,10 @@ const Game = () => {
 
                   Swal.showValidationMessage( 'El nombre de la lista no puede ser Favoritos' );
 
+                } else if ( lists.find( list => list.nombre === name ) ) {
+
+                  Swal.showValidationMessage( 'Ya tienes una lista con ese nombre' );
+
                 } else {
 
                   const token = localStorage.getItem( 'user' );
