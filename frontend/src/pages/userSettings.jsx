@@ -49,6 +49,7 @@ const UserSettings = () => {
     getUserByName();
     getUsers();
     loadImageControl();
+    document.title = 'Configuración de tus datos';
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );

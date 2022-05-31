@@ -44,6 +44,8 @@ const Main = () => {
 
     }
 
+    document.title = 'Juegos';
+
   };
 
 

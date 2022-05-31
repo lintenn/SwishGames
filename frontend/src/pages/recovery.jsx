@@ -34,6 +34,7 @@ const Recovery = () => {
 
     setUpLogin( setUsers );
 
+    document.title = 'Recupera tu contraseña';
     document.getElementById( 'recoveryEmail' ).addEventListener( 'keyup', ( event ) => {
 
       if ( event.key === 'Enter' ) {
