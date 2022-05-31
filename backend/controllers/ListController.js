@@ -55,6 +55,23 @@ const getLastListByUser = async (req, res) => {
 
 };
 
+const getFavListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { nombre_usuario: req.params.nombre_usuario, nombre: 'Favoritos' }
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
 const getListsByUserAndGame = async (req, res) => {
 
     try {
@@ -179,6 +196,7 @@ module.exports = {
     getAllLists,
     getListsByUser,
     getLastListByUser,
+    getFavListByUser,
     getListsByUserAndGame,
     getList,
     getSearchedList,
