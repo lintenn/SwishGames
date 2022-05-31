@@ -5,12 +5,28 @@
     margin: 5px;
 }
 
+div:hover > li {
+    display: inline-block !important;
+}
+
+.max-tamaño-swal-Chat{
+    max-height: 80vh;
+}
+
 .ocultar {
     display: none;
 }
 
 .imagen-perfil-chat{
     border-radius: 150px;
+}
+
+.margen-foto-chat-perfil{
+    margin: 16px 0px 16px 16px;
+}
+
+.tamañoMaximoImagenEditar {
+    max-width: 90%;
 }
 
 .marginChatActivos{
@@ -89,6 +105,10 @@ p{
     display: inline-block;
 }
 
+.tamañoMaximoImagen{
+    max-width: 100%;
+}
+
 #chat3 {
     border-color: transparent;
     box-shadow: inset 0px 0px 0px 1px transparent;
@@ -143,7 +163,26 @@ a {
     background-color: #d9fdd3;
 }
 
-.mensajeActualizadoMio, .mensajeActualizadoOtro {
+.mensajeAdministracion{
+    background-color: #f8e1b1;
+    max-width: 100% !important;
+}
+
+.mensajeRespuestaMio{
+    background-color: #f7ffea;
+    border-radius: 10px;
+    color: black;
+    margin: 10px;
+}
+
+.mensajeRespuestaOtro{
+    background-color: #f1f5e9;
+    border-radius: 10px;
+    color: black;
+    margin: 10px;
+}
+
+.mensajeActualizadoMio, .mensajeActualizadoOtro, .mensajeAdministracion {
     margin-bottom: 5px;
     border-radius: 5px;
     max-width: 70%;
@@ -161,13 +200,13 @@ a {
     margin-left: 10px;
 }
 
-.sendIcon, .emogiIcon, .clipIcon, .searchIcon {
+.sendIcon, .emogiIcon, .clipIcon, .searchIcon, .responseIcon {
     color: #0d6efd;
     background-color: transparent;
 }
 
 .input3 { 
-	width: 50%; 
+	width: 80%; 
     height: 30px;
 	margin-top: 7px; 
 }
@@ -215,7 +254,7 @@ a {
 }
 
 .panelChatUsers {
-    margin-top: -17px;
+    margin-top: -5px;
 }
 
 .textoTransparente {
@@ -251,6 +290,24 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+.centrar-vertical-padre {
+	position: absolute !important;
+	color: black !important;
+	font-size: 14px !important;
+	top: 50% !important;
+	left: 50% !important;
+	margin: -100px 0 0 -208px !important;
+	width:416px !important;
+	height:200px !important;
+}
+
+.centrar-vertical-hijo {
+    width: 416px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+ }
 
 @media only screen and (max-height: 500px) {
     .my-custom-scrollbar {

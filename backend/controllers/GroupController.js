@@ -1,27 +1,14 @@
 const GroupModel = require( '../models/GroupModel.js' );
-const { Op } = require( 'sequelize' );
+const { Op, Sequelize } = require( 'sequelize' );
+const db = require("../database/mysql.js")
 
-const getAllGroups = async ( req, res ) => {
-
-  try {
-
-    const Groups = await GroupModel.findAll();
-    res.json( Groups );
-
-  } catch ( error ) {
-
-    res.json({ message: error.message });
-
-  }
-
-};
-
-const getGroup = async ( req, res ) => {
+const getLastGroupByNameUser = async ( req, res ) => {
 
   try {
 
     const Group = await GroupModel.findAll({
-      where: { id: req.params.id }
+      where: { nombre_creador: req.params.nombre_creador },
+      order: [['fecha_creacion', 'DESC']]
     });
     res.json( Group[0] );
 
@@ -33,14 +20,12 @@ const getGroup = async ( req, res ) => {
 
 };
 
-const getLastGroupByNameUser = async ( req, res ) => {
+const getGroupsAreInUser1AndUser2 = async ( req, res ) => {
 
   try {
 
-    const Group = await GroupModel.findAll({
-      where: { nombre_creador: req.params.nombre_creador },
-      order: [['fecha_creacion', 'DESC']]
-    });
+    const Group = await db.query(`Select g.* from Grupos g where g.id in (Select p.id_grupo From ParticipantesGrupos p, Usuarios u where u.nombre=p.nombre_usuario and u.nombre='${req.params.nombre_usuario1}' and p.id_grupo in (Select p.id_grupo From ParticipantesGrupos p, Usuarios u where u.nombre=p.nombre_usuario and u.nombre='${req.params.nombre_usuario2}'))`);
+
     res.json( Group[0] );
 
   } catch ( error ) {
@@ -100,4 +85,4 @@ const deleteGroup = async ( req, res ) => {
 
 };
 
-module.exports = { getAllGroups, getGroup, getLastGroupByNameUser,  createGroup, updateGroup, deleteGroup };
+module.exports = { getLastGroupByNameUser, getGroupsAreInUser1AndUser2, createGroup, updateGroup, deleteGroup };

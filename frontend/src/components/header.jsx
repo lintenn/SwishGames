@@ -36,7 +36,7 @@ export const Header = ({ buscado, setBuscado }) => {
           <img src={logo}
             width="80px"
             height="50px"
-            alt="Logo" >
+            alt="Logo de SwishGames" >
           </img>
         </NavLink>
         <button className="navbar-toggler"
@@ -73,6 +73,7 @@ export const Header = ({ buscado, setBuscado }) => {
             className="d-flex m-2"
             id="div-buscar-juegos-header">
             <input className="form-control me-2"
+              title="titulo"
               id="input-buscar-juegos-header"
               type="search"
               name="titulo"
@@ -81,7 +82,7 @@ export const Header = ({ buscado, setBuscado }) => {
               value={buscado}
               onChange={ ( b ) => setBuscado( b.target.value ) }/>
           </div>
-          
+
           {user !== null
             ? <Link to={'/user/' + user.nombre}>
               <button className="btn btn-outline-dark m-1">

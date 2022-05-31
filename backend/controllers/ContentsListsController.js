@@ -65,7 +65,27 @@ const getFavoritesContentsListsByUser = async (req, res) => {
         JOIN Listas L ON C.id_lista = L.id
         WHERE L.nombre_usuario = '${req.params.nombre_usuario}'
         AND L.id = (SELECT MIN(id) FROM Listas WHERE nombre_usuario=L.nombre_usuario)`, { type: Sequelize.QueryTypes.SELECT });
-        res.json(ContentsLists);
+        res.json( ContentsLists );
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
+const getFavoritesCountByUser = async (req, res) => {
+
+    try {
+
+        console.log(req.params.nombre_usuario);
+        const ContentsLists = await db.query(`SELECT J.id
+        FROM ContenidosListas C JOIN Juegos J ON C.id_juego = J.id
+        JOIN Listas L ON C.id_lista = L.id
+        WHERE L.nombre_usuario = '${req.params.nombre_usuario}'
+        AND L.id = (SELECT MIN(id) FROM Listas WHERE nombre_usuario=L.nombre_usuario)`, { type: Sequelize.QueryTypes.SELECT });
+        res.json( ContentsLists );
 
     } catch (error) {
 
@@ -80,7 +100,8 @@ const createContentsLists = async (req, res) => {
         
     try {
         
-        await ContentsListsModel.create(req.body);
+        //await ContentsListsModel.create(req.body);
+        await db.query(`INSERT INTO ContenidosListas (id_lista, id_juego) VALUES (${req.body.id_lista}, ${req.body.id_juego})`, { type: Sequelize.QueryTypes.INSERT });
         res.json({ message: "Lista creada correctamente" });
         
     } catch (error) {
@@ -95,9 +116,10 @@ const updateContentsLists = async (req, res) => {
             
     try {
             
-        await ContentsListsModel.update(req.body, {
+        /*await ContentsListsModel.update(req.body, {
             where: { id: req.params.id }
-        });
+        });*/
+        await db.query(`UPDATE ContenidosListas SET id_lista = ${req.body.id_lista}, id_juego = ${req.body.id_juego} WHERE id = ${req.params.id}`, { type: Sequelize.QueryTypes.UPDATE });
         res.json({ message: "Lista actualizada correctamente" });
             
     } catch (error) {
@@ -112,9 +134,10 @@ const deleteContentsLists = async (req, res) => {
                     
     try {
                     
-        await ContentsListsModel.destroy({
+        /*await ContentsListsModel.destroy({
             where: { id_lista: req.params.id_lista, id_juego: req.params.id_juego }
-        });
+        });*/
+        await db.query(`DELETE FROM ContenidosListas WHERE id_lista = ${req.params.id_lista} AND id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.DELETE });
         res.json({ message: "Lista eliminada correctamente" });
                     
     } catch (error) {
@@ -130,6 +153,7 @@ module.exports = {
     getContentsListsByList,
     getSearchedContentsListsByList,
     getFavoritesContentsListsByUser,
+    getFavoritesCountByUser,
     createContentsLists,
     updateContentsLists,
     deleteContentsLists

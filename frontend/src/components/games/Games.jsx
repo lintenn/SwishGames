@@ -56,6 +56,7 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
   };
 
   return (
+
     <div>
       {games.length !== 0
         ? games.map( ( game, index ) => (
@@ -69,7 +70,7 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
                   src={game.imagen}
                   width="200"
                   height="170"
-                  alt={`#ImgGame${game.titulo}`} />
+                  alt={`Carátula del juego ${game.titulo}`} />
                 <div className="px-2">
                   <div className="d-flex w-100 justify-content-between pt-1">
                     <h4 className="mb-1 ttexte"> &nbsp; {game.titulo}</h4>

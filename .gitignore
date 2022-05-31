@@ -4,3 +4,6 @@ dist
 dist-ssr
 *.local
 frontend/.env
+
+# Local Netlify folder
+.netlify

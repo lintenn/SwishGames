@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -128,20 +128,20 @@ const List = () => {
           <div className="col-lg-8 list-group mt-5"
             data-bs-spy="scroll">
 
-              <div className="d-flex w-100 justify-content-between">
+            <div className="d-flex w-100 justify-content-between">
 
-                <div className="col-12 border card mb-2">
+              <div className="col-12 border card mb-2">
 
-                  <div className="d-flex justify-content-between mt-3">
-                    <div className="d-flex justify-content-between">
-                      <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
-                      <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
-                    </div>
+                <div className="d-flex justify-content-between mt-3">
+                  <div className="d-flex justify-content-between mt-0">
+                    <h1 className="text-dark fw-bold ms-3">{list[0].nombre}</h1>
+                    <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
+                  </div>
 
-                    {comprobarDuenyo()
-                      ? 
-                    <div>
-                      <button className="btn btn-outline-dark me-2 mb-3">
+                  {comprobarDuenyo() && list[0].nombre !== 'Favoritos'
+                    ? <div>
+                      <button className="btn btn-outline-dark me-2 mb-3"
+                        onClick={ () => navigate( 'edit' )}>
                         <i className="fa fa-pencil"></i> Editar nombre
                       </button>
                       <button className="btn btn-outline-dark me-3 mb-3"
@@ -150,16 +150,16 @@ const List = () => {
                       </button>
                     </div>
                     : <div></div>}
-                  </div>
-
                 </div>
-                
-                
-                {/*
+
+              </div>
+
+
+              {/*
                 {comprobarDuenyo()
                   ? <div className="input-group rounded botonTransparente">
                     <div className="dropdown">
-                       
+
                       <button className="botonTransparente2 btnAñadirChats pb-1"
                         type="button"
                         id="dropdownMenuButton1"
@@ -178,11 +178,11 @@ const List = () => {
                       </ul>
                     </div>
                   </div>
-                  : <div></div>}*/}
+                  : <div></div>} */}
 
 
-              </div>
-            
+            </div>
+
             <GamesPreviewList
               id={ id }
               list={ list }
@@ -192,6 +192,14 @@ const List = () => {
               buscado={ buscado }
 
             />
+
+            {comprobarDuenyo()
+              ? <div className="mt-5">
+                <p className="text-muted">
+                  <i className="fa-solid fa-plus"></i> Para añadir juegos a la lista, accede al juego que más te guste desde la página principal de <Link to={'/'}>juegos</Link> y añádelo.
+                </p>
+              </div>
+              : <div></div>}
 
           </div>
         </main>

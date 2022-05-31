@@ -26,6 +26,7 @@ const Signup = () => {
   const URI = `${baseUrl}users`;
   const URIList = `${baseUrl}lists/`;
   const URIParticipantsGroups = `${baseUrl}participantsGroups`;
+  const URIMensajes = `${baseUrl}chats/`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -164,6 +165,7 @@ const Signup = () => {
       await axios.post( URI, { nombre: u, email: m, password: values.password });
       await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
       axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
+      axios.post( URIMensajes, { id_grupo_receptor: 1, mensaje: `${u} ha entrado en el grupo`, nombre_usuario_emisor: u, administracion: 1 });
 
       document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
@@ -239,9 +241,7 @@ const Signup = () => {
           type="text"
           value={u}
           onChange={ ( e ) => setNombre( e.target.value )}
-          minLength="6"
-          size="15"
-          required={true} />
+          inputProps={{ minLength: 6, size: 15, required: true }}/>
         <InputLabel htmlFor="standard-adornment-password"
           for="email"
           style={{ color: 'black' }}>
@@ -252,22 +252,20 @@ const Signup = () => {
           type="text"
           value={m}
           onChange={ ( e ) => setEmail( e.target.value )}
-          size="50"
-          required={true} />
+          inputProps={{ size: 50, required: true }} />
         <InputLabel htmlFor="standard-adornment-password"
           for="password"
           style={{ color: 'black' }}
           className="mb-0">
           Contraseña
         </InputLabel>
-        <p className="small text-muted my-0">La contraseña debe tener mínimo 8 caracteres</p>
+        <p className="small text-muted mx-0 my-0">La contraseña debe tener mínimo 8 caracteres</p>
         <Input className="input"
           id="password"
           type={values.showPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'password' )}
           value={values.password}
-          inputProps={{ minLength: 8, size: 15 }}
-          required={true}
+          inputProps={{ minLength: 8, size: 15, required: true }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -289,7 +287,7 @@ const Signup = () => {
           type={values.showrPassword ? 'text' : 'password'}
           onChange={handlePasswordChange( 'rpassword' )}
           value={values.rpassword}
-          required={true}
+          inputProps={{ required: true }}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -360,16 +358,16 @@ const Signup = () => {
         <div id="erroru"
           className="alert alert-danger ocultar"
           role="alert">
-          <span id="closebtnm"
-            className="closebtn"
+          <span id="closebtnu"
+            className="closebtnu"
             onClick={ cerraru} >&times;</span>
                 Usuario ya existente.
         </div>
         <div id="errore"
           className="alert alert-danger ocultar"
           role="alert">
-          <span id="closebtnm"
-            className="closebtn"
+          <span id="closebtne"
+            className="closebtne"
             onClick={ cerrare} >&times;</span>
                 Email ya existente.
         </div>

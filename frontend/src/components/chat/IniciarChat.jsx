@@ -2,45 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { chatUsers } from './createNewChats/newChat';
 import { chatGroups } from './createNewChats/newGroup';
-import { Global } from '../../helper/Global';
 import Swal from 'sweetalert2';
 
-export const IniciarChat = ({ setIniciandoChat, users, mensajes, user, setReceptor, setConexion, setMensaje, receptor, group, setGroup, myGroups, configurationGroups, setConfigurationGroups }) => {
-
-  const baseUrl = Global.baseUrl;
-  const URIGroup = `${baseUrl}groups/`;
-  const URIGroupLastByNameUser = `${baseUrl}groups/groupByNameUser/${user.nombre}`;
-  const URIparticipantsGroups = `${baseUrl}participantsGroups`;
-
-  const setConection = ( rec ) => {
-
-    users.forEach( ( us ) => {
-
-      if ( us.nombre === rec ) {
-
-        if ( us.online ) {
-
-          setConexion(
-            <div id="divOnline">
-              <div id="online"></div>
-              Online
-            </div> );
-
-        } else {
-
-          setConexion(
-            <div id="divOffline">
-              <div id="offline"></div>
-              Offline
-            </div> );
-
-        }
-
-      }
-
-    });
-
-  };
+export const IniciarChat = ({ setIniciandoChat, users, user, setReceptor, setConexion, receptor, group, setGroup, myGroups, setConfigurationGroups }) => {
 
   const beginChat = () => {
 
@@ -83,13 +47,13 @@ export const IniciarChat = ({ setIniciandoChat, users, mensajes, user, setRecept
 
     newChat.addEventListener( 'click', () => {
 
-      chatUsers( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat );
+      chatUsers( user, users, receptor, setReceptor, group, setGroup, setIniciandoChat, setConexion );
 
     });
 
     newGroup.addEventListener( 'click', () => {
 
-      chatGroups( URIGroup, user, URIGroupLastByNameUser, URIparticipantsGroups, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, setConection, myGroups, setIniciandoChat );
+      chatGroups( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat );
 
     });
 
@@ -129,15 +93,12 @@ export const IniciarChat = ({ setIniciandoChat, users, mensajes, user, setRecept
 IniciarChat.propTypes = {
   setIniciandoChat: PropTypes.func.isRequired,
   users: PropTypes.array.isRequired,
-  mensajes: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   setReceptor: PropTypes.func.isRequired,
   setConexion: PropTypes.func.isRequired,
-  setMensaje: PropTypes.func.isRequired,
   receptor: PropTypes.string.isRequired,
   group: PropTypes.object.isRequired,
   setGroup: PropTypes.func.isRequired,
   myGroups: PropTypes.array.isRequired,
-  setConfigurationGroups: PropTypes.func.isRequired,
-  configurationGroups: PropTypes.string.isRequired
+  setConfigurationGroups: PropTypes.func.isRequired
 };
