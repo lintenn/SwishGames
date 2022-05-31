@@ -41,6 +41,7 @@ const Signup = () => {
 
     }
 
+    document.title = 'Registro';
     getUsers();
 
   }, []);

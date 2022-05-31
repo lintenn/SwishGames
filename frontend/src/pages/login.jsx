@@ -33,6 +33,7 @@ const Login = () => {
 
     }
     setUpLogin( setUsers );
+    document.title = 'Login';
     document.getElementById( 'loginPsw' ).addEventListener( 'keyup', ( event ) => {
 
       if ( event.key === 'Enter' ) {

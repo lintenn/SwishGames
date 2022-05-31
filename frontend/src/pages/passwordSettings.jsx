@@ -37,6 +37,8 @@ const PasswordSettings = () => {
       if (us.nombre !== name) {
         navigate( '/' );
       }
+      
+      document.title = 'Cambiando tu contraseña';
 
     } else {
       navigate( '/' );

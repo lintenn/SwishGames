@@ -15,6 +15,8 @@ export const NoLogin = () => {
 
     }
 
+    document.title = 'Inicia sesión';
+
   }, []);
 
   return (
