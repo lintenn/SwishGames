@@ -34,6 +34,7 @@ const Recovery = () => {
 
     setUpLogin( setUsers );
 
+    document.title = 'Recupera tu contraseña';
     document.getElementById( 'recoveryEmail' ).addEventListener( 'keyup', ( event ) => {
 
       if ( event.key === 'Enter' ) {
@@ -170,14 +171,14 @@ const Recovery = () => {
                 alt="logo_sin_letras"></img>
             </NavLink>
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-              <li className="nav-item"><a href="#Home"
-                className="nav-link px-2 text-muted">Home</a></li>
+              <li className="nav-item"><a href="/"
+                className="nav-link px-2 text-muted">Inicio</a></li>
               <li className="nav-item"><a href="#Contact"
-                className="nav-link px-2 text-muted">Contact</a></li>
+                className="nav-link px-2 text-muted">Contacto</a></li>
               <li className="nav-item"><a href="#FAQs"
                 className="nav-link px-2 text-muted">FAQs</a></li>
               <li className="nav-item"><a href="#About"
-                className="nav-link px-2 text-muted">About</a></li>
+                className="nav-link px-2 text-muted">Acerca de</a></li>
             </ul>
           </footer>
         </div>

@@ -1,33 +1,33 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import Login from './login.jsx';
+import Signup from '../pages/signup.jsx';
 import { BrowserRouter } from 'react-router-dom';
 
-describe( 'Login', () => {
+describe( 'Signup', () => {
 
-  test( 'loginFormShouldRender', () => {
+  test( 'signUpFormShouldRender', () => {
 
     const component = render(
       <BrowserRouter>
-        <Login/>
+        <Signup/>
       </BrowserRouter>
     );
-    const inputNode = component.getByText( 'Usuario' );
+    const inputNode = component.getByText( 'Contraseña' );
 
     expect( inputNode ).toBeInTheDocument();
 
   });
 
-  test( 'clickingIniciarSesionButtonShouldCallComprobarUserOnce', () => {
+  test( 'clickingSignUpButtonShouldCallComprobarUserOnce', () => {
 
     const comprobarUser = jest.fn();
 
     const component = render(
       <BrowserRouter>
-        <Login comprobarUser={comprobarUser() }/>
+        <Signup comprobarUser={comprobarUser() }/>
       </BrowserRouter>
     );
-    const buttonNode = component.getAllByText( 'Iniciar sesión' )[1];
+    const buttonNode = component.getByText( 'Registrarse' );
 
     fireEvent.click( buttonNode );
 

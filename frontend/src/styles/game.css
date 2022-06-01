@@ -40,6 +40,7 @@
 }
 
 #gameinfo {
+    min-height: 350px;
     height: 100%; width: 100%
 }
 
@@ -54,9 +55,3 @@
 #stars{
     width: 100%;
 }
-
-/*
-#valorar {
-    height:45px;
-    display:block;
-}*/

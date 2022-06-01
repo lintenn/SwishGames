@@ -1,8 +1,8 @@
 const ListModel = require("../models/ListModel.js")
 const ContentsListsModel = require("../models/ContentsListsModel.js")
 const GroupModel = require("../models/GroupModel.js")
-const { Op } = require("sequelize")
-
+const { Op, Sequelize } = require("sequelize")
+const db = require("../database/mysql.js");
 
 const getAllLists = async (req, res) => {
     
@@ -34,6 +34,59 @@ const getListsByUser = async (req, res) => {
         
     }
         
+};
+
+const getLastListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { nombre_usuario: req.params.nombre_usuario },
+            order: [['id', 'DESC']],
+            limit: 1
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
+const getFavListByUser = async (req, res) => {
+
+    try {
+
+        const Lists = await ListModel.findAll({
+            where: { nombre_usuario: req.params.nombre_usuario, nombre: 'Favoritos' }
+        });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
+};
+
+const getListsByUserAndGame = async (req, res) => {
+
+    try {
+
+        const Lists = await db.query(`SELECT L.id, L.nombre_usuario, L.nombre, L.createdAt, L.updatedAt
+        FROM Listas L JOIN ContenidosListas C ON L.id = C.id_lista
+        WHERE L.nombre_usuario = '${req.params.nombre_usuario}' AND C.id_juego = ${req.params.id_juego}`, { type: Sequelize.QueryTypes.SELECT });
+        res.json(Lists);
+
+    } catch (error) {
+
+        res.json({ message: error.message });
+
+    }
+
 };
 
 const getList = async (req, res) => {
@@ -142,6 +195,9 @@ const deleteList = async (req, res) => {
 module.exports = {
     getAllLists,
     getListsByUser,
+    getLastListByUser,
+    getFavListByUser,
+    getListsByUserAndGame,
     getList,
     getSearchedList,
     getSearchedListByUser,

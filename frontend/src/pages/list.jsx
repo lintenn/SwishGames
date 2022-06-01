@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import '../styles/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -46,6 +46,7 @@ const List = () => {
 
     if ( list !== null && list.length > 0 ) {
 
+      document.title = `Lista ${list[0].nombre} de ${list[0].nombre_usuario}`;
       axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
         .then( res => {
 
@@ -138,9 +139,10 @@ const List = () => {
                     <h6 className="text-muted overtexte mt-4 ms-3">Lista de {list[0].nombre_usuario}</h6>
                   </div>
 
-                  {comprobarDuenyo()
+                  {comprobarDuenyo() && list[0].nombre !== 'Favoritos'
                     ? <div>
-                      <button className="btn btn-outline-dark me-2 mb-3">
+                      <button className="btn btn-outline-dark me-2 mb-3"
+                        onClick={ () => navigate( 'edit' )}>
                         <i className="fa fa-pencil"></i> Editar nombre
                       </button>
                       <button className="btn btn-outline-dark me-3 mb-3"
@@ -191,6 +193,14 @@ const List = () => {
               buscado={ buscado }
 
             />
+
+            {comprobarDuenyo()
+              ? <div className="mt-5">
+                <p className="text-muted">
+                  <i className="fa-solid fa-plus"></i> Para añadir juegos a la lista, accede al juego que más te guste desde la página principal de <Link to={'/'}>juegos</Link> y añádelo.
+                </p>
+              </div>
+              : <div></div>}
 
           </div>
         </main>

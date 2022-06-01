@@ -1,9 +1,11 @@
 import Swal from 'sweetalert2';
+import { setConection } from '../format/setConection';
+import { formatMessage } from '../format/formatMessage';
 
-export const chatUsers = ( user, users, receptor, setReceptor, setConection, group, setGroup, setIniciandoChat ) => {
+export const chatUsers = ( user, users, receptor, setReceptor, group, setGroup, setIniciandoChat, setConexion ) => {
 
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showFriends( user, users )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -12,9 +14,10 @@ export const chatUsers = ( user, users, receptor, setReceptor, setConection, gro
     focusConfirm: false,
     allowOutsideClick: false,
     width: '25%',
+    heightAuto: false,
     didOpen: () => {
 
-      addClickButton( receptor, setReceptor, setConection, group, setGroup, setIniciandoChat );
+      addClickButton( receptor, setReceptor, group, setGroup, setIniciandoChat, users, setConexion );
 
     }
 
@@ -31,7 +34,7 @@ function showFriends( user, users ) {
 
     if ( us.nombre !== user.nombre ) {
 
-      const descripcion = formatDescription( us.descripcion );
+      const descripcion = formatMessage( us.descripcion );
 
       // const imagen = fotoPerfil( user );
       friends += `
@@ -59,34 +62,24 @@ function showFriends( user, users ) {
 
 }
 
-const formatDescription = ( descripcion ) => {
-
-  let ultimoDescripcion = descripcion;
-  if ( ultimoDescripcion.length > 15 ) {
-
-    ultimoDescripcion = ultimoDescripcion.substring( 0, 12 );
-    ultimoDescripcion += '...';
-
-  }
-  return ultimoDescripcion;
-
-};
-
-const addClickButton = ( receptor, setReceptor, setConection, group, setGroup, setIniciandoChat ) => {
+const addClickButton = ( receptor, setReceptor, group, setGroup, setIniciandoChat, users, setConexion ) => {
 
   document.querySelectorAll( 'button[name="newChat"]' ).forEach( ( boton ) => {
 
     boton.addEventListener( 'click', ( e ) => {
 
       e.preventDefault();
+
       if ( document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ) !== null ) {
 
         document.getElementById( `${( receptor === '' && group !== {}) ? group.id : receptor}` ).classList.remove( 'chatSeleccionado' );
 
       }
+
       setReceptor( boton.value );
-      setConection( boton.value );
+      setConection( boton.value, users, setConexion );
       setGroup({});
+
       if ( document.getElementById( `${boton.value}` ) !== null ) {
 
         document.getElementById( `${boton.value}` ).classList.add( 'chatSeleccionado' );

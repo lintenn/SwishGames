@@ -26,6 +26,7 @@ const Signup = () => {
   const URI = `${baseUrl}users`;
   const URIList = `${baseUrl}lists/`;
   const URIParticipantsGroups = `${baseUrl}participantsGroups`;
+  const URIMensajes = `${baseUrl}chats/`;
   const isauthorized = isAuthorized();
 
   useEffect( () => {
@@ -39,6 +40,8 @@ const Signup = () => {
       });
 
     }
+
+    document.title = 'Registro';
     getUsers();
 
   }, []);
@@ -131,7 +134,6 @@ const Signup = () => {
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
       document.getElementById( 'errore' ).classList.remove( 'mostrar' );
       document.getElementById( 'error' ).classList.remove( 'mostrar' );
-      document.getElementById( 'errorl' ).classList.remove( 'mostrar' );
 
       document.getElementById( 'errorm' ).classList.add( 'mostrar' );
 
@@ -164,6 +166,7 @@ const Signup = () => {
       await axios.post( URI, { nombre: u, email: m, password: values.password });
       await axios.post( URIParticipantsGroups, { nombre_usuario: u, id_grupo: 1 });
       axios.post( URIList, { nombre: 'Favoritos', nombre_usuario: u });
+      axios.post( URIMensajes, { id_grupo_receptor: 1, mensaje: `${u} ha entrado en el grupo`, nombre_usuario_emisor: u, administracion: 1 });
 
       document.getElementById( 'errorm' ).classList.remove( 'mostrar' );
       document.getElementById( 'erroru' ).classList.remove( 'mostrar' );
@@ -230,7 +233,7 @@ const Signup = () => {
       </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
-          for="usuario"
+          id="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
@@ -241,7 +244,7 @@ const Signup = () => {
           onChange={ ( e ) => setNombre( e.target.value )}
           inputProps={{ minLength: 6, size: 15, required: true }}/>
         <InputLabel htmlFor="standard-adornment-password"
-          for="email"
+          id="email"
           style={{ color: 'black' }}>
           Email
         </InputLabel>
@@ -252,7 +255,7 @@ const Signup = () => {
           onChange={ ( e ) => setEmail( e.target.value )}
           inputProps={{ size: 50, required: true }} />
         <InputLabel htmlFor="standard-adornment-password"
-          for="password"
+          id="password"
           style={{ color: 'black' }}
           className="mb-0">
           Contraseña
@@ -276,7 +279,7 @@ const Signup = () => {
           }
         />
         <InputLabel htmlFor="standard-adornment-password"
-          for="rpassword"
+          id="rpassword"
           style={{ color: 'black' }}>
         Confirmar contraseña
         </InputLabel>
@@ -325,14 +328,14 @@ const Signup = () => {
                 alt="logo_sin_letras"></img>
             </NavLink>
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-              <li className="nav-item"><a href="#Home"
-                className="nav-link px-2 text-muted">Home</a></li>
+              <li className="nav-item"><a href="/"
+                className="nav-link px-2 text-muted">Inicio</a></li>
               <li className="nav-item"><a href="#Contact"
-                className="nav-link px-2 text-muted">Contact</a></li>
+                className="nav-link px-2 text-muted">Contacto</a></li>
               <li className="nav-item"><a href="#FAQs"
                 className="nav-link px-2 text-muted">FAQs</a></li>
               <li className="nav-item"><a href="#About"
-                className="nav-link px-2 text-muted">About</a></li>
+                className="nav-link px-2 text-muted">Acerca de</a></li>
             </ul>
           </footer>
         </div>

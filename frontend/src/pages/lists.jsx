@@ -26,14 +26,11 @@ const Lists = () => {
 
     if ( !isauthorized ) {
 
-      Swal.fire( 'No has iniciado sesión' ).then( () => {
-
-        navigate( '/' );
-
-      });
+      navigate( '/noLogin' );
 
     } else {
 
+      document.title = 'Tus listas';
       const token = localStorage.getItem( 'user' );
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
@@ -57,124 +54,42 @@ const Lists = () => {
   const newList = () => {
 
     Swal.fire({
-      html: `<div style="background-color: #f0eeee">${showCreateNewList()}</div>`,
-      background: '#f0eeee',
-      showCloseButton: true,
-      closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-      showCancelButton: false,
-      showConfirmButton: false,
-      focusConfirm: false,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      width: '35%',
-      didOpen: () => {
+      title: 'Introduce el nombre de la nueva lista',
+      input: 'text',
+      inputAttributes: {
+        autocapitalize: 'off',
+        maxlength: 30
+      },
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Crear',
+      showLoaderOnConfirm: true,
+      preConfirm: ( name ) => {
 
-        addClickButtonNewList();
+        if ( name === '' ) {
 
-      }
+          Swal.showValidationMessage( 'El nombre de la lista no puede estar vacío' );
 
-    });
+        } else if ( name === 'Favoritos' ) {
 
-  };
+          Swal.showValidationMessage( 'El nombre de la lista no puede ser Favoritos' );
 
-  const showCreateNewList = () => {
+        } else if ( lists.find( list => list.nombre === name ) ) {
 
-    let formList = '';
-
-    formList += `
-          <br/>
-          <h1>Crear nueva lista</h1>
-          <br/>
-          <br/>
-          Nombre
-          <br/>
-          <input type="text" id="nameNewList"/>
-          <br/>
-          <br/>
-          <button style="background-color: white; border-radius: 5px" name="newList">Crear</button>
-          `;
-
-    return ( formList );
-
-  };
-
-  const addClickButtonNewList = () => {
-
-    document.querySelectorAll( 'button[name="newList"]' ).forEach( ( boton ) => {
-
-      boton.addEventListener( 'click', ( e ) => {
-
-        e.preventDefault();
-        if ( document.getElementById( 'nameNewList' ).value === '' ) {
-
-          Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: '¡El nombre de la lista no puede estar vacio!'
-          }).then( () => {
-
-            Swal.fire({
-              html: `<div style="background-color: #f0eeee">${showCreateNewList()}</div>`,
-              background: '#f0eeee',
-              showCloseButton: true,
-              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              width: '35%',
-              didOpen: () => {
-
-                addClickButtonNewList();
-
-              }
-
-            });
-
-          });
-
-        } else if ( document.getElementById( 'nameNewList' ).value === 'Favoritos' ) {
-
-          Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: '¡No puedes crear otra lista de Favoritos! Prueba con otro nombre.'
-          }).then( () => {
-
-            Swal.fire({
-              html: `<div style="background-color: #f0eeee">${showCreateNewList()}</div>`,
-              background: '#f0eeee',
-              showCloseButton: true,
-              closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-              showCancelButton: false,
-              showConfirmButton: false,
-              focusConfirm: false,
-              allowOutsideClick: false,
-              allowEscapeKey: false,
-              width: '35%',
-              didOpen: () => {
-
-                addClickButtonNewList();
-
-              }
-
-            });
-
-          });
+          Swal.showValidationMessage( 'Ya tienes una lista con ese nombre' );
 
         } else {
 
           const token = localStorage.getItem( 'user' );
           const us = JSON.parse( token );
 
-          axios.post( `${baseUrl}lists/`, { nombre: document.getElementById( 'nameNewList' ).value, nombre_usuario: us.nombre });
+          axios.post( `${baseUrl}lists/`, { nombre: name, nombre_usuario: us.nombre });
 
           Swal.close();
 
           Swal.fire({
             title: 'Lista creada',
-            text: '¡La lista ha sido creada con éxito!',
+            text: '¡La lista ' + name + ' ha sido creada con éxito!',
             focusConfirm: false,
             allowOutsideClick: false,
             allowEscapeKey: false
@@ -186,12 +101,11 @@ const Lists = () => {
 
         }
 
-      });
+      }
 
     });
 
   };
-
 
   return (
     allLists.length === 0
@@ -207,11 +121,11 @@ const Lists = () => {
             data-bs-spy="scroll">
             <div className="d-flex w-100 justify-content-between">
               <h1 className="mt-1 text-dark fw-bold px-3"> Tus listas: </h1>
-              <button className="btn btn-outline-dark btn-lg mb-1"
+              <button className="btn btn-outline-dark btn-lg mb-2 mt-1"
                 data-toggle="modal"
                 data-target="#exampleModal"
                 onClick={() => newList()}>
-                <i className="fa-solid fa-plus"></i> Crear lista
+                <i className="fa-solid fa-plus-circle"></i> Crear lista
               </button>
             </div>
             <ListsPreview

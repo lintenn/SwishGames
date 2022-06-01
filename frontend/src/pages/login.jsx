@@ -33,6 +33,7 @@ const Login = () => {
 
     }
     setUpLogin( setUsers );
+    document.title = 'Login';
     document.getElementById( 'loginPsw' ).addEventListener( 'keyup', ( event ) => {
 
       if ( event.key === 'Enter' ) {
@@ -121,7 +122,7 @@ const Login = () => {
       </header>
       <div>
         <InputLabel
-          for="usuario"
+          htmlFor="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
@@ -133,7 +134,7 @@ const Login = () => {
           inputProps={{ required: true }}
         />
         <InputLabel
-          for="loginPsw"
+          htmlFor="loginPsw"
           style={{ color: 'black' }}>
           Contraseña
         </InputLabel>
@@ -149,7 +150,7 @@ const Login = () => {
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
-                tabindex="-1">
+                tabIndex="-1">
 
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
 
@@ -163,7 +164,7 @@ const Login = () => {
             value="lsRememberMe"
             id="rememberMe"/>
           <InputLabel style={{ color: 'black', marginTop: '3px', fontSize: '14px', fontFamily: 'Open sans' }}
-            for="rememberMe"> Recordarme</InputLabel>
+            htmlFor="rememberMe"> Recordarme</InputLabel>
         </nav>
         <nav className="botones"
           style={{ marginTop: '5px' }}>
@@ -208,14 +209,14 @@ const Login = () => {
                 alt="logo_sin_letras"></img>
             </NavLink>
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
-              <li className="nav-item"><a href="#Home"
-                className="nav-link px-2 text-muted">Home</a></li>
+              <li className="nav-item"><a href="/"
+                className="nav-link px-2 text-muted">Inicio</a></li>
               <li className="nav-item"><a href="#Contact"
-                className="nav-link px-2 text-muted">Contact</a></li>
+                className="nav-link px-2 text-muted">Contacto</a></li>
               <li className="nav-item"><a href="#FAQs"
                 className="nav-link px-2 text-muted">FAQs</a></li>
               <li className="nav-item"><a href="#About"
-                className="nav-link px-2 text-muted">About</a></li>
+                className="nav-link px-2 text-muted">Acerca de</a></li>
             </ul>
           </footer>
         </div>

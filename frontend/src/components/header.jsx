@@ -36,7 +36,7 @@ export const Header = ({ buscado, setBuscado }) => {
           <img src={logo}
             width="80px"
             height="50px"
-            alt="Logo" >
+            alt="Logo de SwishGames" >
           </img>
         </NavLink>
         <button className="navbar-toggler"
@@ -111,6 +111,7 @@ export const Header = ({ buscado, setBuscado }) => {
                 Swal.fire( 'Has cerrado sesión', 'La sesión ha sido cerrada con éxito.', 'success' ).then( () => {
 
                   navigate( '/' );
+                  window.location.reload();
 
                 });
                 setUser( null );

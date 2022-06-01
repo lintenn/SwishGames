@@ -1,13 +1,18 @@
 import Swal from 'sweetalert2';
 import { Global } from '../../../helper/Global';
 import axios from 'axios';
+import socket from '../Socket';
+import { infoGroup } from './infoGroups';
+import { uploadImage } from '../uploadImage';
+import { eliminarEspaciosMensajes } from '../format/removeSpacesMessages';
 
 const baseUrl = Global.baseUrl;
+const URIMensajes = `${baseUrl}chats/`;
 
-export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+export function editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion ) {
 
   Swal.fire({
-    html: `<div style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
+    html: `<div class="max-tamaño-swal-Chat" style="background-color: #f0eeee">${showEdit( type, groupAct )}</div>`,
     background: '#f0eeee',
     showCloseButton: true,
     closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
@@ -16,9 +21,10 @@ export function editInfo( type, groupAct, admin, receptor, usuarioReceptor, part
     focusConfirm: false,
     allowOutsideClick: false,
     width: '50%',
+    heightAuto: false,
     didOpen: () => {
 
-      addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+      addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion );
 
     }
 
@@ -49,6 +55,8 @@ function showEdit( type, group ) {
         <Input accept="image/*" type="file" id="imagen-edit-group">
         <img src=${group.imagen} name="img-photo-edit-group" id="img-photo-edit-group" class="align-self-center m-3 imagen-perfil-chat" width ="300" height ="300">`;
       break;
+    default:
+      break;
 
   }
 
@@ -70,7 +78,7 @@ function showEdit( type, group ) {
 }
 
 
-function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton ) {
+function addClickButtonEdit( type, groupAct, participantes, userAct, setGroup, setReceptor, setConexion ) {
 
   const botonEditar = document.querySelector( 'button[name="editGrupoSwal"]' );
   botonEditar.addEventListener( 'click', ( event ) => {
@@ -81,22 +89,45 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
     let nombre = null;
     let imagen = null;
     let tipo = '';
+    let modificado = false;
 
     switch ( type ) {
 
       case 'descripcion':
         descripcion = document.querySelector( '#descripcion-edit-group' ).value;
-        groupAct.descripcion = descripcion;
-        axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
-        tipo = 'La descripcion';
+        if ( descripcion !== groupAct.descripcion ) {
+
+          groupAct.descripcion = descripcion;
+          axios.put( `${baseUrl}groups/${groupAct.id}`, { descripcion });
+          tipo = 'La descripcion';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la descripción del grupo`, administracion: 1 });
+          modificado = true;
+
+        } else {
+
+          Swal.fire( 'Error', 'La descripción no ha sido modificada', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        }
         break;
       case 'nombre':
         nombre = document.querySelector( '#nombre-edit-group' ).value;
-        if ( nombre === '' ) {
+        if ( !eliminarEspaciosMensajes( nombre ) ) {
 
           Swal.fire( 'Error', 'El nombre no puede estar vacio', 'error' ).then( () => {
 
-            editInfo( type, groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct, showInfoGroups, addClickButton );
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        } else if ( nombre === groupAct.nombre ) {
+
+          Swal.fire( 'Error', 'El nombre no ha sido modificado', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
 
           });
 
@@ -105,49 +136,63 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
           groupAct.nombre = nombre;
           axios.put( `${baseUrl}groups/${groupAct.id}`, { nombre });
           tipo = 'El nombre';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado el nombre del grupo`, administracion: 1 });
+          modificado = true;
 
         }
         break;
       case 'imagen':
         imagen = document.querySelector( '#img-photo-edit-group' ).src;
-        groupAct.imagen = imagen;
-        axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
-        tipo = 'La imagen';
+        if ( imagen !== groupAct.imagen ) {
+
+          groupAct.imagen = imagen;
+          axios.put( `${baseUrl}groups/${groupAct.id}`, { imagen });
+          tipo = 'La imagen';
+          axios.post( URIMensajes, { id_grupo_receptor: groupAct.id, mensaje: `${userAct.nombre} ha modificado la foto de perfil del grupo `, administracion: 1 });
+          modificado = true;
+
+        } else {
+
+          Swal.fire( 'Error', 'La imagen no ha sido modificada', 'error' ).then( () => {
+
+            editInfo( type, groupAct, participantes, setGroup, userAct, setReceptor, setConexion );
+
+          });
+
+        }
+        break;
+      default:
         break;
 
     }
 
+    if ( modificado ) {
 
-    if ( nombre !== '' ) {
+      setGroup( groupAct );
 
-      Swal.fire(
-        'Editado!',
-        `${tipo} del grupo ha sido editada`,
-        'success'
-      ).then( () => {
+      axios.get( `${baseUrl}users` )
+        .then(
 
-        Swal.fire({
-          html: `<div style="background-color: #f0eeee">${showInfoGroups( groupAct, admin, receptor, usuarioReceptor, participantes, userAct )}</div>`,
-          background: '#f0eeee',
-          showCloseButton: true,
-          closeButtonHtml: '<i class="fas fa-times" style="color: red"></i>',
-          showCancelButton: false,
-          showConfirmButton: false,
-          focusConfirm: false,
-          allowOutsideClick: false,
-          width: '50%',
-          didOpen: () => {
+          socket.emit( 'mensaje' )
 
-            addClickButton( groupAct, admin, receptor, usuarioReceptor, participantes, setGroup, userAct );
+        );
 
-            axios.get( `${baseUrl}groups/${groupAct.id}` )
-              .then( res => setGroup( res.data ) );
+      axios.get( `${baseUrl}users` )
+        .then( res => {
 
-          }
+          Swal.fire(
+            'Editado!',
+            `${tipo} del grupo ha sido editada`,
+            'success'
+          ).then( () => {
+
+            const myGroups = [];
+            myGroups.push( groupAct );
+            infoGroup( myGroups, groupAct.id, participantes, userAct, setGroup, setReceptor, setConexion );
+
+          });
 
         });
-
-      });
 
     }
 
@@ -158,25 +203,15 @@ function addClickButtonEdit( type, groupAct, admin, receptor, usuarioReceptor, p
     input.addEventListener( 'change', async ( e ) => {
 
       e.preventDefault();
-      const file = e.target.files;
-      const formData = new FormData();
-      formData.append( 'file', file[0]);
-      formData.append( 'upload_preset', 'FotosGrupos' );
-      const res = await fetch(
-        'https://api.cloudinary.com/v1_1/duvhgityi/image/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      );
-      const result = await res.json();
-      const imagen = result.secure_url;
-      document.querySelector( '#img-photo-edit-group' ).src = imagen;
+      uploadImage( e.target.files )
+        .then( ( result ) => {
+
+          document.querySelector( '#img-photo-edit-group' ).src = result;
+
+        });
 
     });
 
-
   });
-
 
 }
