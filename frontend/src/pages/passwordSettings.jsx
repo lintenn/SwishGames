@@ -14,10 +14,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const PasswordSettings = () => {
 
   const [id, setId] = useState( '' );
+  const [nombre, setNombre] = useState( '' );
   const [password, setPassword] = useState( '' );
   const [currentPassword, setCurrentPassword] = useState( '' );
   const [newPassword, setNewPassword] = useState( '' );
   const [newPassword2, setNewPassword2] = useState( '' );
+  const [email, setEmail] = useState( '' );
   const [errorRow, setErrorRow] = useState( '' );
   const { name } = useParams();
   const isauthorized = isAuthorized();
@@ -56,7 +58,9 @@ const PasswordSettings = () => {
     const res = await axios.get( URI + name );
     
     setId( res.data.id );
+    setNombre( name );
     setPassword( res.data.password );
+    setEmail( res.data.email );
 
   };
 
@@ -95,6 +99,7 @@ const PasswordSettings = () => {
       showError();
 
       await axios.put( `${baseUrl}users/${id}`, { password: newPassword });
+      localStorage.setItem( 'user', JSON.stringify({ id: id, nombre: nombre, email: email, password: password }) );
 
       Swal.fire( 'Cambios guardados', 'Tu contraseña ha sido modificada con éxito.', 'success' ).then( () => {
         navigate( `/user/${name}` );
@@ -156,10 +161,10 @@ const PasswordSettings = () => {
                   <hr/>
                   <div className="row">
                     <div className="col-sm-12">
+                    <button type="submit" className="btn btn-outline-success m-1"><i class="fa-solid fa-check"></i> Cambiar contraseña</button>
                       <Link to={'/user/' + name}>
                         <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-xmark"></i> Cancelar</button>
                       </Link>
-                        <button className="btn btn-outline-success m-1"><i class="fa-solid fa-check" type="submit"></i> Cambiar contraseña</button>
                     </div>
                   </div>
 
