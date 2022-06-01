@@ -13,6 +13,7 @@ import { Global } from '../helper/Global';
 import { isAuthorized } from '../helper/isAuthorized.js';
 import logo from '../static/SwishGamesLogo.png';
 import Swal from 'sweetalert2';
+import { setUpLogin } from '../helper/SetUpLogin';
 import logoSinLetras from '../static/SwishGamesLogo_sin_letras.png';
 
 
@@ -40,19 +41,12 @@ const Signup = () => {
       });
 
     }
+    setUpLogin( setUsers );
 
     document.title = 'Registro';
-    getUsers();
 
   }, []);
 
-  // procedimineto para obtener todos los usuarios
-  const getUsers = async () => {
-
-    const res = await axios.get( URI );
-    setUsers( res.data );
-
-  };
 
   function comprobarUser() {
 
@@ -177,7 +171,11 @@ const Signup = () => {
         'Usuario creado con éxito',
         '',
         'success'
-      );
+      ).then( function() {
+
+        navigate( '/login/' );
+
+      });
 
     }
 
