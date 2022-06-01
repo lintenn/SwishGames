@@ -67,7 +67,7 @@ export const Chat = () => {
 
     socket.on( 'mensajes', () => {
 
-      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar );
+      setUpChat( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar, false );
 
     });
 
