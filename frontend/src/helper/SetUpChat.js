@@ -4,9 +4,13 @@ import Swal from 'sweetalert2';
 
 const baseUrl = Global.baseUrl;
 
-export const setUpChat = ( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar ) => {
+export const setUpChat = ( user, setUsers, setMensajes, setMensajesDESC, setMyGroups, setMensajesBuscar, inicio = true ) => {
 
-  Swal.showLoading();
+  if ( inicio ) {
+
+    Swal.showLoading();
+
+  }
 
   axios.get( `${baseUrl}chats/${user.nombre}` )
     .then( res => setMensajesBuscar( res.data ) );
@@ -27,6 +31,10 @@ export const setUpChat = ( user, setUsers, setMensajes, setMensajesDESC, setMyGr
   axios.get( `${baseUrl}participantsGroups/grupos/${user.nombre}` )
     .then( res => setMyGroups( res.data ) );
 
-  Swal.close();
+  if ( inicio ) {
+
+    Swal.close();
+
+  }
 
 };
