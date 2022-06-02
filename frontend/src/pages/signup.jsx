@@ -235,6 +235,7 @@ const Signup = () => {
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
+        <p className="small text-muted mx-0 my-0">El nombre debe tener mínimo 6 caracteres</p>
         <Input className="input"
           id="usuario"
           type="text"
