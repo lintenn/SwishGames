@@ -124,7 +124,7 @@ export const ReviewPanel = ({game}) => {
                         }
                         setShown(false)
                         setError("")
-
+                        
                     }
                 })
 
@@ -182,7 +182,7 @@ export const ReviewPanel = ({game}) => {
                         getReviews()
                         getUserReview()
                         setShown(false)
-
+                        window.location.reload()
                     }
                 }
 
@@ -257,7 +257,8 @@ export const ReviewPanel = ({game}) => {
                        setLiked(undefined)
                        setShown(false)
                        setError("")
-            
+                       window.location.reload()
+                       
                     });
                 }
               })
@@ -298,12 +299,13 @@ export const ReviewPanel = ({game}) => {
             </div>
 
             
-            <div id="textarea" className={(shown) ? "d-flex justify-content-end mx-3 mb-2" : "d-none d-flex justify-content-end"}>
+            <div className={(shown) ? "d-flex justify-content-end mx-3 mb-2" : "d-none d-flex justify-content-end"}>
             
                 <div className='col-md-12 border px-2 py-2 mb-2 me-1'>
 
                     <div className='d-flex justify-content-between px-3'>
-                        <label htmlFor="textarea"><h3 className="fw-bold ms-0 mt-1">Escribe tu review</h3></label>
+                        <h3 className="fw-bold ms-0 mt-1">Escribe tu review</h3>
+                        <label htmlFor="textarea"><p className="d-none">Redacta tu opinión acerca del juego</p></label>
                         <p className='me-1 mt-1'>Caracteres restantes: {250 - count}</p>
                     </div>
 
