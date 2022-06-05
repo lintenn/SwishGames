@@ -124,7 +124,8 @@ export const SidePanel = ({game}) => {
                   }
           
                   setRate(selectedRate)
-          
+                  window.location.reload()
+
                 }
           
             });
@@ -142,8 +143,7 @@ export const SidePanel = ({game}) => {
 
                 <tr>
                     <td>
-                    <div id="content"
-                        className="col-12 mt-4 d-flex justify-content-center">
+                    <div className="col-12 mt-4 d-flex justify-content-center content">
                         <img className="img-juego"
                         src={game.imagen}
                         width="75%"
@@ -154,18 +154,16 @@ export const SidePanel = ({game}) => {
                 </tr>
 
                 <tr>
-                    <td id="tdcontent">
-                    <div id="content"
-                        className="col-12 my-2 d-flex justify-content-center">
+                    <td className="tdcontent">
+                    <div className="col-12 my-2 d-flex justify-content-center content">
                         <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
                     </div>
                     </td>
                 </tr>
 
                 <tr>
-                    <td id="tdcontent">
-                    <div id="content"
-                        className="col-12 mb-2 d-flex justify-content-center">
+                    <td className="tdcontent">
+                    <div className="col-12 mb-2 d-flex justify-content-center content">
                         <svg xmlns="http://www.w3.org/2000/svg"
                         width="64"
                         height="64"
@@ -193,17 +191,15 @@ export const SidePanel = ({game}) => {
 
               <table className="col-5 ms-3">
                 <tr>
-                  <td id="tdcontent">
-                    <div id="content"
-                      className="d-flex justify-content-center">
+                  <td className="tdcontent">
+                    <div className="d-flex justify-content-center content">
                       <p className="text-center text-break fs-6 h6 lh-base">{game.descripcion}</p>
                     </div>
                   </td>
                 </tr>
                 <tr>
-                  <td id="tdcontent">
-                    <div id="content"
-                      className="mb-2 d-flex justify-content-center">
+                  <td className="tdcontent">
+                    <div className="mb-2 d-flex justify-content-center content">
                       <svg xmlns="http://www.w3.org/2000/svg"
                         width="64"
                         height="64"
@@ -232,7 +228,7 @@ export const SidePanel = ({game}) => {
 
                 <p className="d-lg-none fs-5 fw-bold pt-2">{(rate === 0) ? "Realiza tu valoracion" : "Mi valoracion"}</p>
 
-                <fieldset className=" " id="rate">
+                <fieldset id="rate">
 
                     <input type="radio"
                         id="star5"

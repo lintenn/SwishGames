@@ -44,11 +44,11 @@
     height: 100%; width: 100%
 }
 
-#tdcontent {
+.tdcontent {
     height: 100%;
 }
 
-#content {
+.content {
     overflow: auto;
 }
 

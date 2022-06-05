@@ -51,6 +51,7 @@ const User = () => {
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
+    document.title = `Usuario: ${name}`;
 
   }, [name]);
 

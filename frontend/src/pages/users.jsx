@@ -30,6 +30,7 @@ const Users = () => {
 
 
     setUpUsers( setUsers );
+    document.title = 'Usuarios';
 
   }, []);
 

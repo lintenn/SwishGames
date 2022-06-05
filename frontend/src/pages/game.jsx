@@ -39,6 +39,7 @@ const Game = () => {
         .then( res => {
 
           setContainedLists( res.data );
+          document.title = `Juego: ${id}`;
 
         }).catch( err => console.log( err ) );
 

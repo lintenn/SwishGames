@@ -49,6 +49,7 @@ const UserSettings = () => {
     getUserByName();
     getUsers();
     loadImageControl();
+    document.title = 'Configuración de tus datos';
 
     document.getElementById( 'div-buscar-juegos-header' ).classList.add( 'ocultar' );
     document.getElementById( 'input-buscar-juegos-header' ).classList.add( 'ocultar' );
@@ -255,10 +256,10 @@ const UserSettings = () => {
                   <hr/>
                   <div className="row">
                     <div className="col-sm-12">
+                    <button type="submit" className="btn btn-outline-success m-1"><i class="fa-solid fa-check"></i> Guardar cambios</button>
                       <Link to={'/user/' + name}>
                         <button className="btn btn-outline-dark m-1"><i class="fa-solid fa-xmark"></i> Cancelar</button>
                       </Link>
-                        <button className="btn btn-outline-success m-1"><i class="fa-solid fa-check" type="submit"></i> Guardar cambios</button>
                     </div>
                   </div>
 

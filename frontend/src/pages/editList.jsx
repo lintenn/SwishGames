@@ -46,7 +46,6 @@ const EditList = () => {
 
       setUpList( id, setList, setGames );
 
-
     } else {
 
       navigate( '/noLogin' );
@@ -70,6 +69,7 @@ const EditList = () => {
 
       } else {
 
+        document.title = `Editando la lista ${list[0].nombre}`;
         axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
           .then( res => {
 

@@ -46,6 +46,7 @@ const List = () => {
 
     if ( list !== null && list.length > 0 ) {
 
+      document.title = `Lista ${list[0].nombre} de ${list[0].nombre_usuario}`;
       axios.get( `${baseUrl}users/${list[0].nombre_usuario}/` )
         .then( res => {
 

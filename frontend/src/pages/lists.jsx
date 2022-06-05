@@ -30,6 +30,7 @@ const Lists = () => {
 
     } else {
 
+      document.title = 'Tus listas';
       const token = localStorage.getItem( 'user' );
       const us = JSON.parse( token );
       socket.emit( 'conectado', us.nombre );
