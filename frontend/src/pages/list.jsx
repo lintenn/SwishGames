@@ -145,7 +145,7 @@ const List = () => {
                         onClick={ () => navigate( 'edit' )}>
                         <i className="fa fa-pencil"></i> Editar nombre
                       </button>
-                      <button className="btn btn-outline-dark me-3 mb-3"
+                      <button className="btn btn-outline-danger me-3 mb-3"
                         onClick={ () => showAdvertenciaBorrar() }>
                         <i className="fa fa-trash-can"></i> Eliminar lista
                       </button>
