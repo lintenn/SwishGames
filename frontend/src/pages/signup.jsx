@@ -235,7 +235,7 @@ const Signup = () => {
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
-        <p className="small text-muted mx-0 my-0">El nombre debe tener mínimo 6 caracteres</p>
+        <p className="small greytext mx-0 my-0 greytext">El nombre debe tener mínimo 6 caracteres</p>
         <Input className="input"
           id="usuario"
           type="text"
@@ -259,7 +259,8 @@ const Signup = () => {
           className="mb-0">
           Contraseña
         </InputLabel>
-        <p className="small text-muted mx-0 my-0">La contraseña debe tener mínimo 8 caracteres</p>
+        <p className="small greytext mx-0 my-0"
+        >La contraseña debe tener mínimo 8 caracteres</p>
         <Input className="input"
           id="password"
           type={values.showPassword ? 'text' : 'password'}
