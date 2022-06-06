@@ -39,6 +39,7 @@ const Users = () => {
     if ( users.length !== 0 ) {
 
       document.getElementById( 'input-buscar-juegos-header' ).placeholder = 'Buscar usuarios';
+      document.getElementById( 'input-buscar-juegos-header' ).title = 'Buscar usuarios';
 
     }
 

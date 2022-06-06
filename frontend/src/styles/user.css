@@ -67,11 +67,11 @@
 }
 
 #divOnline {
-    color: rgb(4, 196, 4);
+    color: rgb(0, 135, 0);
 }
 
 #divOffline {
-    color: red;
+    color: rgb(235, 0, 0);
 }
 
 #divOnline, #divOffline {

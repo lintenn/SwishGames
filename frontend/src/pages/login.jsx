@@ -210,13 +210,13 @@ const Login = () => {
             </NavLink>
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
               <li className="nav-item"><a href="/"
-                className="nav-link px-2 greytext">Inicio</a></li>
+                className="nav-link px-2 greytext"><span lang="es">Inicio</span></a></li>
               <li className="nav-item"><a href="#Contact"
-                className="nav-link px-2 greytext">Contacto</a></li>
+                className="nav-link px-2 greytext"><span lang="es">Contacto</span></a></li>
               <li className="nav-item"><a href="#FAQs"
-                className="nav-link px-2 greytext">FAQs</a></li>
+                className="nav-link px-2 greytext"><span lang="en">FAQs</span></a></li>
               <li className="nav-item"><a href="#About"
-                className="nav-link px-2 greytext">Acerca de</a></li>
+                className="nav-link px-2 greytext"><span lang="es">Acerca de</span></a></li>
             </ul>
           </footer>
         </div>
