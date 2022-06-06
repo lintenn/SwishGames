@@ -231,7 +231,7 @@ const Signup = () => {
       </header>
       <form onSubmit={store}>
         <InputLabel htmlFor="standard-adornment-password"
-          id="usuario"
+          for="usuario"
           style={{ color: 'black' }}>
           Usuario
         </InputLabel>
@@ -243,7 +243,7 @@ const Signup = () => {
           onChange={ ( e ) => setNombre( e.target.value )}
           inputProps={{ minLength: 6, size: 15, required: true }}/>
         <InputLabel htmlFor="standard-adornment-password"
-          id="email"
+          for="email"
           style={{ color: 'black' }}>
           Email
         </InputLabel>
@@ -254,7 +254,7 @@ const Signup = () => {
           onChange={ ( e ) => setEmail( e.target.value )}
           inputProps={{ size: 50, required: true }} />
         <InputLabel htmlFor="standard-adornment-password"
-          id="password"
+          for="password"
           style={{ color: 'black' }}
           className="mb-0">
           Contraseña
@@ -279,7 +279,7 @@ const Signup = () => {
           }
         />
         <InputLabel htmlFor="standard-adornment-password"
-          id="rpassword"
+          for="rpassword"
           style={{ color: 'black' }}>
         Confirmar contraseña
         </InputLabel>
