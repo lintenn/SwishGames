@@ -73,7 +73,7 @@ export const Header = ({ buscado, setBuscado }) => {
             className="d-flex m-2"
             id="div-buscar-juegos-header">
             <input className="form-control me-2"
-              title="titulo"
+              title="Buscar juego"
               id="input-buscar-juegos-header"
               type="search"
               name="titulo"
