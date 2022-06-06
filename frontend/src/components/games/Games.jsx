@@ -101,7 +101,6 @@ export const Games = ({ games, setGames, favGames, setFavGames, buscado, setAllG
         ? games.map( ( game, index ) => (
           <div
             key = {index}
-            to={`game/${game.titulo}`}
             className="botonGameTransparente">
             <div className="list-group-item list-group-item-action mb-1">
               <div className="d-flex w-100 justify-content-between">
