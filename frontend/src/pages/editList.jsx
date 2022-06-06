@@ -98,51 +98,6 @@ const EditList = () => {
 
   };
 
-  const showAdvertenciaBorrar = () => {
-
-    if ( list[0].nombre === 'Favoritos' ) {
-
-      Swal.fire(
-        'No puedes borrar esta lista',
-        '',
-        'error'
-      );
-
-    } else {
-
-      Swal.fire({
-        title: '¿Estás seguro de que quieres borrar la lista?',
-        text: 'Esta acción no se puede deshacer',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Borrar',
-        cancelButtonText: 'Cancelar'
-      }).then( ( result ) => {
-
-        if ( result.value ) {
-
-          axios.delete( `${baseUrl}lists/${id}` );
-
-          Swal.fire(
-            '¡Borrada!',
-            'La lista ha sido borrada',
-            'success'
-          ).then( () => {
-
-            navigate( '/lists/' );
-
-          });
-
-        }
-
-      });
-
-    }
-
-  };
-
   function guardar() {
 
     let name = '';
@@ -217,11 +172,11 @@ const EditList = () => {
                     ? <div>
                       <button className="btn btn-outline-dark me-2 mb-3"
                         onClick={ () => guardar() }>
-                        <i className="fa fa-pencil"></i> Guardar
+                        <i className="fa-solid fa-floppy-disk"></i> Guardar
                       </button>
-                      <button className="btn btn-outline-dark me-3 mb-3"
-                        onClick={ () => showAdvertenciaBorrar() }>
-                        <i className="fa fa-trash-can"></i> Eliminar lista
+                      <button className="btn btn-outline-danger me-3 mb-3"
+                        onClick={ () => navigate( '/list/' + id ) }>
+                        <i className="fa-solid fa-xmark fa-xl"></i> Cancelar
                       </button>
                     </div>
                     : <div></div>}

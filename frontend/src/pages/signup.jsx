@@ -271,6 +271,7 @@ const Signup = () => {
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
+                tabIndex="-1"
               >
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
@@ -293,6 +294,7 @@ const Signup = () => {
               <IconButton
                 onClick={handleClickShowrPassword}
                 onMouseDown={handleMouseDownrPassword}
+                tabIndex="-1"
               >
                 {values.showrPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
@@ -316,7 +318,7 @@ const Signup = () => {
         <div className="container-fluid fixed-bottom tamañoFooter">
           <footer className="d-flex flex-wrap justify-content-between align-items-center py-1 my-1">
             <div className="col-md-4 d-flex align-items-center px-3">
-              <span className="text-muted">© 2022 SwishGames, Inc</span>
+              <span className="greytext">© 2022 SwishGames, Inc</span>
             </div>
             <NavLink to="/"
               className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -328,13 +330,13 @@ const Signup = () => {
             </NavLink>
             <ul className="nav col-md-4 justify-content-end list-unstyled d-flex px-3">
               <li className="nav-item"><a href="/"
-                className="nav-link px-2 text-muted">Inicio</a></li>
+                className="nav-link px-2 greytext">Inicio</a></li>
               <li className="nav-item"><a href="#Contact"
-                className="nav-link px-2 text-muted">Contacto</a></li>
+                className="nav-link px-2 greytext">Contacto</a></li>
               <li className="nav-item"><a href="#FAQs"
-                className="nav-link px-2 text-muted">FAQs</a></li>
+                className="nav-link px-2 greytext">FAQs</a></li>
               <li className="nav-item"><a href="#About"
-                className="nav-link px-2 text-muted">Acerca de</a></li>
+                className="nav-link px-2 greytext">Acerca de</a></li>
             </ul>
           </footer>
         </div>
