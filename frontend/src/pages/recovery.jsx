@@ -96,7 +96,7 @@ const Recovery = () => {
 
   return (
     <div className="signup">
-      <h2>Recuperar contraseña</h2>
+      <h1>Recuperar contraseña</h1>
       <div>
         <header className="navbar navbar-expand-lg navbar-light fixed-top ">
           <div className="container-fluid">
@@ -112,6 +112,7 @@ const Recovery = () => {
         </header>
         <div>
           <InputLabel htmlFor="standard-adornment-password"
+            for="recoveryEmail"
             style={{ color: 'black' }}
             value="">
           Email
