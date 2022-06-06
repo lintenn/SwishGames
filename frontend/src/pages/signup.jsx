@@ -271,6 +271,7 @@ const Signup = () => {
               <IconButton
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
+                tabIndex="-1"
               >
                 {values.showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
@@ -293,6 +294,7 @@ const Signup = () => {
               <IconButton
                 onClick={handleClickShowrPassword}
                 onMouseDown={handleMouseDownrPassword}
+                tabIndex="-1"
               >
                 {values.showrPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
