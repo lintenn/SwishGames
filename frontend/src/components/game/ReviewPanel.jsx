@@ -305,8 +305,7 @@ export const ReviewPanel = ({game}) => {
 
                     <div className='d-flex justify-content-between px-3'>
                         <h3 className="fw-bold ms-0 mt-1">Escribe tu review</h3>
-                        <label htmlFor="textarea" className="d-none">Redacta tu opinión acerca del juego</label>
-                        <p className='me-1 mt-1'>Caracteres restantes: {250 - count}</p>
+                        <label htmlFor="textarea" className='me-1 mt-1'>Caracteres restantes: {250 - count}</label>
                     </div>
 
                     <div className='px-3 my-1'>

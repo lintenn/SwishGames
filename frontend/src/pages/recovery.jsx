@@ -114,7 +114,7 @@ const Recovery = () => {
           <InputLabel htmlFor="standard-adornment-password"
             for="recoveryEmail"
             style={{ color: 'black' }}
-            value="">
+          >
           Email
           </InputLabel>
           <Input className="input"
@@ -122,7 +122,7 @@ const Recovery = () => {
             id="recoveryEmail"
             value={m}
             name="e"
-            required={true}
+            inputProps={{ required: true }}
             onChange={ ( e ) => setEmail( e.target.value )}/>
 
           <nav className="botones"
