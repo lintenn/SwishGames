@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose --silent",
     "dev": "nodemon app.js",
     "start": "nodemon app.js"
   },
@@ -21,6 +21,7 @@
     "cors": "^2.8.5",
     "email": "^0.2.6",
     "express": "^4.17.3",
+    "jest": "^28.1.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
     "react-maps": "^0.4.0",

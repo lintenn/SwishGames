@@ -52,3 +52,5 @@ require('./socket/socket.js')(io)
 server.listen(app.get('port'), () =>{
     console.log('server on port', app.get('port'));
 })
+
+module.exports = {app, server}
