@@ -4,9 +4,9 @@ describe( 'formatDateTest', () => {
 
   test( 'prueba', () => {
 
-    const date = new Date( '2020-01-01T00:00:00.000Z' );
+    const date = new Date( '2022-05-30T15:56:20.000Z' );
 
-    expect( formatDate( date ) ).toBe( '1-1-2020 1:00' );
+    expect( formatDate( date ) ).toBe( '30-5-2022 17:56' );
 
   });
 
