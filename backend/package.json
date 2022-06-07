@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
-    "start": "nodemon app.js"
+    "test": "NODE_ENV=test jest --verbose --silent",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
+    "jest": "^28.1.1",
     "supertest": "^6.2.3"
   }
 }
