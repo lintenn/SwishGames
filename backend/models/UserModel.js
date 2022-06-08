@@ -2,7 +2,10 @@ const db = require( '../database/mysql.js' );
 const DataTypes = require( 'sequelize' );
 
 const UserModel = db.define( 'Usuarios', {
-  nombre: { type: DataTypes.STRING },
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   email: { type: DataTypes.STRING },
   descripcion: { type: DataTypes.STRING },
   fecha_nacimiento: { type: DataTypes.DATE },

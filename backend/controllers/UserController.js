@@ -78,7 +78,7 @@ const createUser = async ( req, res ) => {
 
   } catch ( error ) {
 
-    res.json({ message: error.message });
+    res.status(400).json({ message: error.message });
 
   }
 
@@ -124,8 +124,15 @@ const deleteUser = async ( req, res ) => {
 
     await UserModel.destroy({
       where: { id: req.params.id }
+    }).then((deletedUser) => {
+      
+      if (deletedUser) {
+        res.status(204).json({ message: '¡Registro borrado correctamente!' });
+      } else {
+        res.status(400).json({ message: 'Trying to delete non existing user!' });
+      }
+
     });
-    res.json({ message: '¡Registro borrado correctamente!' });
 
   } catch ( error ) {
 
