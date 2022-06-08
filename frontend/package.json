@@ -37,12 +37,19 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start": "serve -s build",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
+    "env": {
+      "cypress/globals": true
+    },
     "extends": [
       "react-app",
       "react-app/jest"
+    ], 
+    "plugins": [
+      "cypress"
     ]
   },
   "browserslist": {
@@ -58,12 +65,13 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^10.0.3",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.29.4"
   }
-
 }

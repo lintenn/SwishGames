@@ -135,4 +135,21 @@ const deleteUser = async ( req, res ) => {
 
 };
 
-module.exports = { getAllUsers, getUser, getUserByName, getUsersByName, createUser, updateConnectionUserByName, updateUser, deleteUser };
+const deleteAllUser = async ( req, res ) => {
+
+  try {
+
+    await UserModel.destroy({
+      where: {}
+    });
+    res.json({ message: '¡Registro borrado correctamente!' });
+
+  } catch ( error ) {
+
+    res.json({ message: error.message });
+
+  }
+
+};
+
+module.exports = { getAllUsers, getUser, getUserByName, getUsersByName, createUser, updateConnectionUserByName, updateUser, deleteUser, deleteAllUser };

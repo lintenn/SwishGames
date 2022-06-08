@@ -43,6 +43,7 @@ export const UserCards = ({ users, setUsers, buscado, userAct }) => {
         ? users.filter( user => ( user.nombre !== userAct.nombre ) ).map( ( user, index ) => (
           <button
             key = {index}
+            id = {'UserCard' + user.nombre}
             onClick={() => navigate( `/user/${user.nombre}` )}
             className="botonGameTransparente col-12">
             <div className="list-group-item list-group-item-action">

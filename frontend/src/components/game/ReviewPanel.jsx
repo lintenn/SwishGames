@@ -278,7 +278,7 @@ export const ReviewPanel = ({game}) => {
             {isauthorized
                 ? ((userReview.length === 0) 
                 ? 
-                <button className="btn btn-outline-dark me-3 mb-3" onClick={writeReview}>
+                <button className="btn btn-outline-dark me-3 mb-3" onClick={writeReview} id="publicarReview">
                     <i className="fa-solid fa-message"></i> {(shown) ? "Descartar" : "Publicar"} review
                 </button> 
                 : 
