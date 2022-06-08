@@ -175,6 +175,7 @@ const Login = () => {
             onClick={() => comprobarUser()}
           >Iniciar sesión</button>
           <button style={{ marginLeft: '10px' }}
+            id="loginBtnSignup"
             type="submit"
             className="btn btn-primary btns"
             onClick={() => navigate( '/signup/' ) }

@@ -180,6 +180,7 @@ export const ChatsActivos = ({ users, mensajes, user, setReceptor, setConexion, 
               <li><button className="dropdown-item"
                 onClick={() => chatUsers( user, users, receptor, setReceptor, group, setGroup, setIniciandoChat, setConexion )}>Nuevo chat</button></li>
               <li><button className="dropdown-item"
+                id="btn-chat-grupos"
                 onClick={() => chatGroups( user, setGroup, users, group, receptor, setReceptor, setConexion, setConfigurationGroups, myGroups, setIniciandoChat )}>Nuevo grupo</button></li>
             </ul>
           </div>

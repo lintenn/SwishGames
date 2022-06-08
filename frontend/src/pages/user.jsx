@@ -230,6 +230,7 @@ const User = () => {
           <div className="row">
             <div className="col-sm-12">
               <button className="btn btn-outline-dark m-1"
+                id="enviarMensaje"
                 onClick={() => {
 
                   navigate( `/chat/${name}` );

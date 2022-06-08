@@ -307,6 +307,7 @@ const Signup = () => {
           style={{ marginTop: '10px' }}>
           <button style={{ marginRight: '10px' }}
             type="submit"
+            id="btnSubmitSignUp"
             className="btn btn-primary btns">Registrarse</button>
           <button style={{ marginLeft: '10px' }}
             type="submit"

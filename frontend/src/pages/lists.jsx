@@ -123,6 +123,7 @@ const Lists = () => {
             <div className="d-flex w-100 justify-content-between">
               <h1 className="mt-1 text-dark fw-bold px-3"> Tus listas: </h1>
               <button className="btn btn-outline-dark btn-lg mb-2 mt-1"
+                id="btn-new-list"
                 data-toggle="modal"
                 data-target="#exampleModal"
                 onClick={() => newList()}>

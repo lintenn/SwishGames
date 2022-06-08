@@ -6,7 +6,8 @@
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --silent",
     "dev": "NODE_ENV=development nodemon app.js",
-    "start": "NODE_ENV=production nodemon app.js"
+    "start": "NODE_ENV=production nodemon app.js",
+    "start:test": "NODE_ENV=test nodemon app.js"
   },
   "repository": {
     "type": "git",

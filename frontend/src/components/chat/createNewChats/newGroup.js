@@ -63,7 +63,7 @@ function showCreateNewGroup() {
       <Input type="text" id="description-create-group">
       <br/>
       <br/>
-      <button  style="border-radius: 20px" class="btn btn-primary" name="newGroup">Siguiente</button>
+      <button id="SiguienteGrupo" style="border-radius: 20px" class="btn btn-primary" name="newGroup">Siguiente</button>
     `;
 
   return ( formGroup );
@@ -179,7 +179,7 @@ function showFriends( user, users ) {
 
   });
 
-  friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes">Crear grupo con los participantes seleccionados</button>';
+  friends += '<button style="border-radius: 20px" class="btn btn-primary" name="añadirParticipantes" id="CrearGrupo">Crear grupo con los participantes seleccionados</button>';
 
   return ( friends );
 

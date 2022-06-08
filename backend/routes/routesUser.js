@@ -10,5 +10,6 @@ router.post( '/', UserController.createUser );
 router.put( '/:id', UserController.updateUser );
 router.put( '/connection/:name', UserController.updateConnectionUserByName );
 router.delete( '/:id', UserController.deleteUser );
+router.delete( '/', UserController.deleteAllUser );
 
 module.exports = router;

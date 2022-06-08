@@ -359,6 +359,7 @@ const Game = () => {
 
               {isauthorized
                 ? <button className="btn btn-outline-dark me-2 mb-3"
+                  id="addGameToList"
                   onClick={() => newGameInList()}>
                   <i className="fa fa-plus-circle"></i> Añadir a lista
                 </button>

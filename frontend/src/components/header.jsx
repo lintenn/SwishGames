@@ -58,14 +58,17 @@ export const Header = ({ buscado, setBuscado }) => {
             </li>
             <li className="nav-item">
               <NavLink className="nav-link"
+                id="lists"
                 to="/lists"><i className="fa-solid fa-rectangle-list"></i> Listas</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link"
+                id="users"
                 to="/users"><i className="fa-solid fa-users"></i> Usuarios</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className="nav-link"
+                id="chat"
                 to="/chat"><i className="fa-solid fa-comments"></i> Chats</NavLink>
             </li>
           </ul>
@@ -90,6 +93,7 @@ export const Header = ({ buscado, setBuscado }) => {
               </button>
             </Link>
             : <button className="btn btn-outline-dark m-1"
+              id="btn-login-header"
               onClick={() => {
 
                 navigate( '/login' );
