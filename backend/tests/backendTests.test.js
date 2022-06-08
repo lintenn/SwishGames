@@ -76,7 +76,6 @@ test('a valid user can be added', async () => {
         .post('/users')
         .send(newUser)
         .expect(200)
-        .expect('Content-Type', /application\/json/)
 
         const response = await api.get('/users')
         const contents = response.body.map(user => user.nombre)
