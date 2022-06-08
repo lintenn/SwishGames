@@ -16,7 +16,7 @@ describe( 'Login', () => {
 
     expect( inputNode ).toBeInTheDocument();
 
-  }); 
+  });
 
   test( 'clickingIniciarSesionButtonShouldCallComprobarUserOnce', () => {
 
@@ -27,7 +27,7 @@ describe( 'Login', () => {
         <Login comprobarUser={comprobarUser() }/>
       </BrowserRouter>
     );
-    const buttonNode = component.getByText( 'Contraseña' );
+    const buttonNode = component.getAllByText( 'Iniciar sesión' )[1];
 
     fireEvent.click( buttonNode );
 
