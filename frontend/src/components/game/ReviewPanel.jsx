@@ -133,7 +133,9 @@ export const ReviewPanel = ({game}) => {
 
     const publicReview = () => {
 
-        if(reviewText.length === 0){
+        setReviewText(reviewText.replace(/^\s+|\s+$/gm,''))
+
+        if(reviewText.replace(/^\s+|\s+$/gm,'').length === 0){
 
             setError("No puedes publicar una review vacía")
         
@@ -166,24 +168,17 @@ export const ReviewPanel = ({game}) => {
             }).then( (result) => {
 
                 if(result.value){
-
-                    if(false){
                         
-                    }else if(false){
-
-                    }else {
-                        
-                        if(userReview.length === 0){
-                            newReview(user)
-                        }else{
-                            editReview(user)
-                        }
-                        
-                        getReviews()
-                        getUserReview()
-                        setShown(false)
-                        window.location.reload()
+                    if(userReview.length === 0){
+                        newReview(user)
+                    }else{
+                        editReview(user)
                     }
+                        
+                    getReviews()
+                    getUserReview()
+                    setShown(false)
+                    
                 }
 
             })
@@ -196,7 +191,7 @@ export const ReviewPanel = ({game}) => {
         axios.post(URIreview, {
             id_usuario: user.id,
             id_juego: game.id,
-            review: `'${reviewText}'`,
+            review: `'${reviewText.replace(/^\s+|\s+$/gm,'')}'`,
             recomendado: liked
         })
         
@@ -204,14 +199,16 @@ export const ReviewPanel = ({game}) => {
             '¡Review publicada!',
             'Tu review ha sido publicada correctamente',
             'success'
-        )
+        ).then( () => {
+            window.location.reload()
+        })
 
     }
 
     const editReview = (user) => {
 
         axios.put(URIreview + '/' + game.id + '/' + user.id, {
-            review: `'${reviewText}'`,
+            review: `'${reviewText.replace(/^\s+|\s+$/gm,'')}'`,
             recomendado: liked
         })
 
@@ -219,7 +216,9 @@ export const ReviewPanel = ({game}) => {
             '¡Review editada!',
             'Tu review ha sido editada correctamente',
             'success'
-        )
+        ).then( () => {
+            window.location.reload()
+        })
 
     }
 

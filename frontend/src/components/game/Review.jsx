@@ -43,7 +43,7 @@ export const Review = ({review}) => {
                 : <p className='fst-italic'><i className="fa-solid fa-thumbs-down me-1"></i>No recomienda el juego</p>}
             </div>
 
-            <div className='d-flex justify-content-start mx-2 mb-2'>
+            <div className='d-flex justify-content-start text-break mx-2 mb-2'>
               <p>{review.review}</p>
             </div>
 
